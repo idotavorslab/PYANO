@@ -1,0 +1,112 @@
+#record_btn {
+    grid-column: 2/5;
+    grid-row: 8/15;
+    color: black;
+    background: grey;
+    border-radius: 100%;
+    /*border-width: 5px 16px 16px 5px;*/
+    /* border-width: 16px; */
+    border-color: indianred red red red;
+    font-size: 2vw;
+    border-style: solid;
+    width: 300px;
+    height: 300px;
+}
+
+#record_name {
+    grid-column: 2/6;
+    grid-row: 4/6;
+}
+
+#record_path {
+    grid-column: 2/5;
+    grid-row: 2/4;
+    font-family: "Roboto Light";
+}
+
+#truth_files_div {
+    grid-column: 9/13;
+    grid-row: 4/15;
+}
+
+#truth_files_title {
+    text-align: center;
+    margin-bottom: 4vh;
+}
+
+#video_process_div {
+    grid-column: 9/13;
+    grid-row: 11/18;
+}
+
+#video_process_title {
+    text-align: center;
+    margin-bottom: 4vh;
+}
+
+#video_file_browse_btn {
+    width: 100%;
+    height: 5vh;
+}
+
+@keyframes record_btn_clicked {
+    0% {
+        border-color: indianred red red red;
+    }
+
+    6% {
+        border-color: indianred indianred red red;
+    }
+    12% {
+        border-color: indianred indianred indianred red;
+    }
+    18% {
+        border-color: indianred indianred indianred indianred;
+    }
+
+
+    24% {
+        border-color: red indianred indianred indianred;
+
+    }
+
+    30% {
+        border-color: red red indianred indianred;
+    }
+    36% {
+        border-color: red red red indianred;
+    }
+    42% {
+        border-color: red red red red;
+    }
+
+
+    48% {
+        border-color: red red indianred red;
+    }
+
+    54% {
+        border-color: red red indianred indianred;
+    }
+    60% {
+        border-color: indianred red indianred indianred;
+    }
+    66% {
+        border-color: indianred indianred indianred indianred;
+    }
+
+
+    72% {
+        border-color: red red red indianred;
+    }
+
+    78% {
+        border-color: indianred red red indianred;
+    }
+    84% {
+        border-color: indianred indianred red indianred;
+    }
+    90% {
+        border-color: indianred indianred indianred indianred;
+    }
+}

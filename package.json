@@ -1,0 +1,69 @@
+{
+  "author": "gbete",
+  "config": {
+    "forge": {
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "electronPackagerConfig": {
+        "packageManager": "yarn"
+      },
+      "electronWinstallerConfig": {
+        "name": "pyano_01"
+      },
+      "github_repository": {
+        "name": "",
+        "owner": ""
+      },
+      "make_targets": {
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb",
+          "rpm"
+        ],
+        "win32": [
+          "squirrel"
+        ]
+      },
+      "windowsStoreConfig": {
+        "name": "pyano_01",
+        "packageName": ""
+      }
+    }
+  },
+  "dependencies": {
+    "@tonejs/midi": "1.2.0",
+    "animate.css": "3.7.0",
+    "electron": "4.0.0",
+    "electron-compile": "6.4.4",
+    "electron-debug": "2.1.0",
+    "electron-squirrel-startup": "1.0.0",
+    "electron-store": "2.0.0",
+    "jquery": "3.3.1",
+    "midiconvert": "0.4.7",
+    "path": "latest",
+    "python-shell": "1.0.7",
+    "sweetalert2": "8.2.6",
+    "tone": "13.7.4",
+    "webmidi": "2.3.2"
+  },
+  "devDependencies": {
+    "electron-forge": "5.2.4",
+    "electron-prebuilt-compile": "4.0.0"
+  },
+  "description": "My Electron application description",
+  "keywords": [],
+  "license": "MIT",
+  "main": "src/index.js",
+  "name": "pyano_01",
+  "productName": "pyano_01",
+  "scripts": {
+    "lint": "eslint src --color",
+    "make": "electron-forge make",
+    "package": "electron-forge package",
+    "publish": "electron-forge publish",
+    "start": "electron-forge start"
+  },
+  "version": "1.0.0"
+}

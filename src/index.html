@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Pyano</title>
+    <script type="text/javascript" defer>
+
+		 console.log('index.html extendPrimitivePrototypes()');
+		 Object.defineProperty(Object.prototype, "isEmpty", {
+			 enumerable: false,
+			 value() {
+				 return Object.keys(this).length == 0;
+			 }
+		 },);
+		 Object.defineProperty(Object.prototype, "items", {
+			 enumerable: false,
+			 value() {
+				 return Object.entries(this);
+			 }
+		 });
+		 Object.defineProperty(Array.prototype, "last", {
+			 enumerable: false,
+			 value() {
+				 return this[this.length - 1];
+			 }
+		 },);
+
+		 Object.defineProperty(Array.prototype, "lowerAll", {
+			 enumerable: false,
+			 value() {
+				 return this.map(s => s.lower());
+			 }
+		 },);
+		 Object.defineProperty(Array.prototype, "count", {
+			 enumerable: false,
+			 value(item, strict = false) {
+				 let _count = 0;
+				 for (let x of this) {
+					 if (strict) {
+						 if (x === item)
+							 _count++;
+
+					 } else if (x == item) {
+						 _count++;
+					 }
+				 }
+				 return _count;
+
+			 }
+
+		 },);
+		 Object.defineProperty(String.prototype, "in", {
+			 enumerable: false,
+			 value(arr) {
+				 return arr.includes(this.valueOf());
+			 }
+		 },);
+		 Object.defineProperty(String.prototype, "lower", {
+			 enumerable: false,
+			 value() {
+				 return this.toLowerCase();
+			 }
+		 },);
+		 Object.defineProperty(String.prototype, "upper", {
+			 enumerable: false,
+			 value() {
+				 return this.toUpperCase();
+			 }
+		 },);
+		 Object.defineProperty(String.prototype, "title", {
+			 enumerable: false,
+			 value() {
+
+				 if (this.includes(' '))
+					 return this.split(' ').map(str => str.title()).join(' ');
+				 else
+					 return this[0].upper() + this.slice(1, this.length).lower();
+
+			 }
+		 },);
+		 Object.defineProperty(String.prototype, "isdigit", {
+			 enumerable: false,
+			 value() {
+				 return !isNaN(Math.floor(this));
+			 }
+		 },);
+		 Object.defineProperty(String.prototype, "replaceAll", {
+			 enumerable: false,
+			 value(searchValue, replaceValue) {
+				 return this
+					 .split(searchValue)
+					 .join(replaceValue);
+			 }
+		 });
+
+    </script>
+    <script src="jquery.js" defer></script>
+    <!--<script src="sweetalert2.all.min.js"></script>-->
+	<link rel="stylesheet" href="animate.min.css">
+    <link rel="stylesheet" href="templates/css/index.css">
+    <link id="page_css" rel="stylesheet" href="templates/css/new_test.css">
+    <script src="templates/js/types.js" defer></script>
+    <script src="templates/js/init.js" defer></script>
+
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">-->
+    
+
+</head>
+<body>
+<div id="title"></div>
+<div id="sidebar"></div>
+<div id="main_content"></div>
+</body>
+</html>
