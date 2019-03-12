@@ -5,7 +5,10 @@ __pycache__/
 
 # C extensions
 *.so
-
+*.mp3
+*.ogg
+*.zip
+*.rar
 # Distribution / packaging
 .Python
 build/
