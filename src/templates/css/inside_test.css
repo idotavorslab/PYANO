@@ -46,7 +46,8 @@
     /*grid-column-gap: 2px;*/
     /*grid-row-gap: 10px;*/
     grid-column: 1/14;
-    grid-row: 12/16
+    grid-row: 12/16;
+    z-index: -1;
 }
 
 
