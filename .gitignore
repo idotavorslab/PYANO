@@ -119,7 +119,6 @@ node_modules/.bin
 node_modules/@babel
 node_modules/@octokit
 node_modules/@paulcbetts
-node_modules/@tonejs
 node_modules/@types
 node_modules/abab
 node_modules/abbrev
@@ -323,12 +322,10 @@ node_modules/dot-prop
 node_modules/eachr
 node_modules/ecc-jsbn
 node_modules/editions
-node_modules/electron
 node_modules/electron-compile
 node_modules/electron-compilers
 node_modules/electron-debug
 node_modules/electron-download
-node_modules/electron-forge
 node_modules/electron-forge-template-angular2
 node_modules/electron-forge-template-react
 node_modules/electron-forge-template-react-typescript
@@ -344,7 +341,6 @@ node_modules/electron-packager
 node_modules/electron-prebuilt-compile
 node_modules/electron-rebuild
 node_modules/electron-squirrel-startup
-node_modules/electron-store
 node_modules/electron-to-chromium
 node_modules/electron-windows-store
 node_modules/electron-winstaller
@@ -458,7 +454,6 @@ node_modules/istanbul
 node_modules/iterall
 node_modules/jade
 node_modules/jmespath
-node_modules/jquery
 node_modules/js-base64
 node_modules/js-string-escape
 node_modules/js-tokens
@@ -517,7 +512,6 @@ node_modules/mem
 node_modules/meow
 node_modules/midi-file
 node_modules/midi-file-parser
-node_modules/midiconvert
 node_modules/mime
 node_modules/mime-db
 node_modules/mime-types
@@ -631,7 +625,6 @@ node_modules/pseudomap
 node_modules/psl
 node_modules/pump
 node_modules/punycode
-node_modules/python-shell
 node_modules/q
 node_modules/qs
 node_modules/query-string
@@ -715,7 +708,6 @@ node_modules/sudo-prompt
 node_modules/sumchecker
 node_modules/supports-color
 node_modules/svgo
-node_modules/sweetalert2
 node_modules/symbol-observable
 node_modules/symbol-tree
 node_modules/synchronous-promise
@@ -731,7 +723,6 @@ node_modules/through2
 node_modules/tmp
 node_modules/tmp-promise
 node_modules/to-fast-properties
-node_modules/tone
 node_modules/touch
 node_modules/tough-cookie
 node_modules/toutsuite
@@ -771,7 +762,6 @@ node_modules/vue-template-compiler
 node_modules/vue-template-es2015-compiler
 node_modules/wcwidth
 node_modules/webidl-conversions
-node_modules/webmidi
 node_modules/whatwg-url-compat
 node_modules/whet.extend
 node_modules/which
