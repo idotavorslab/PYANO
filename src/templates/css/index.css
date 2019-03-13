@@ -217,6 +217,12 @@ body > *, button, p, input, div {
     color: #595959
 }
 
-.grn {
-    color: #1db954
+
+.onset {
+    cursor: pointer;
+    transition: all 300ms;
+}
+
+.onset:hover {
+    font-weight: bold;
 }

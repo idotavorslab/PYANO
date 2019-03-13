@@ -1,10 +1,10 @@
 import sys
 import json
 from classes import Message
-from util import prfl
+from util import prfl, Logger
 
-response = json.loads(sys.argv[1])
-file_path = response["file_path"]
+logger = Logger('normalize_txt_file')
+file_path = sys.argv[1]
 
 msgs = Message.normalize_simultaneous_hits_in_file(file_path)
-prfl(dict(messages=[msg.__dict__ for msg in msgs]))
+[prfl(msg.__dict__) for msg in msgs]

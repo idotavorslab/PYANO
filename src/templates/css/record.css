@@ -47,6 +47,12 @@
 #video_file_browse_btn {
     width: 100%;
     height: 5vh;
+    margin-bottom: 1vh;
+}
+
+#video_file_subvideos_btn {
+    width: 100%;
+    height: 5vh;
 }
 
 @keyframes record_btn_clicked {

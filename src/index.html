@@ -18,6 +18,7 @@
 				 return Object.entries(this);
 			 }
 		 });
+
 		 Object.defineProperty(Array.prototype, "last", {
 			 enumerable: false,
 			 value() {
@@ -31,6 +32,15 @@
 				 return this.map(s => s.lower());
 			 }
 		 },);
+
+		 Object.defineProperty(Array.prototype, "rsort", {
+			 enumerable: false,
+			 value() {
+				 return this.sort((n, m) => n < m);
+			 }
+		 },);
+
+
 		 Object.defineProperty(Array.prototype, "count", {
 			 enumerable: false,
 			 value(item, strict = false) {
@@ -96,14 +106,14 @@
     </script>
     <script src="jquery.js" defer></script>
     <!--<script src="sweetalert2.all.min.js"></script>-->
-	<link rel="stylesheet" href="animate.min.css">
+    <link rel="stylesheet" href="animate.min.css">
     <link rel="stylesheet" href="templates/css/index.css">
     <link id="page_css" rel="stylesheet" href="templates/css/new_test.css">
     <script src="templates/js/types.js" defer></script>
     <script src="templates/js/init.js" defer></script>
 
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">-->
-    
+
 
 </head>
 <body>
