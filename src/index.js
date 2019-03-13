@@ -1,5 +1,11 @@
 import { app, BrowserWindow, globalShortcut } from 'electron';
 
+/**
+ *
+ * @type {ElectronStore}
+ */
+const Store = require("electron-store");
+let store = new Store();
 
 // DEBUG ELECTRON WITH VS CODE:
 // https://github.com/Microsoft/vscode-recipes/tree/master/Electron
@@ -71,7 +77,7 @@ const createWindow = () => {
 	mainWindow.setBackgroundColor('#181818');
 	mainWindow.setMenuBarVisibility(false);
 	mainWindow.setAutoHideMenuBar(true);
-	mainWindow.maximize();
+	// mainWindow.maximize();
 	// mainWindow.setFullScreen(true);
 	// mainWindow.setSimpleFullScreen(true);
 	// mainWindow.setIcon()
@@ -80,7 +86,8 @@ const createWindow = () => {
 
 
 	// Open the DevTools.
-	mainWindow.webContents.openDevTools();
+	if (store.get('dev'))
+		mainWindow.webContents.openDevTools();
 	// mainWindow.webContents.addWorkSpace(path.join(__dirname, '/'));
 	globalShortcut.register('CommandOrControl+R', () => {
 
