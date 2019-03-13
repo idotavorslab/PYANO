@@ -216,3 +216,7 @@ body > *, button, p, input, div {
 #swal2-content, #swal2-content > p {
     color: #595959
 }
+
+.grn {
+    color: #1db954
+}
