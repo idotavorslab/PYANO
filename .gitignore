@@ -789,3 +789,5 @@ node_modules/yarn-or-npm
 node_modules/yauzl
 node_modules/zip-folder
 node_modules/zip-stream
+*.crdownload
+*.mp4
