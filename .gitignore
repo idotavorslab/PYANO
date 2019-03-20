@@ -791,3 +791,5 @@ node_modules/zip-folder
 node_modules/zip-stream
 *.crdownload
 *.mp4
+*.MOV
+*.mp4
