@@ -86,8 +86,8 @@ const createWindow = () => {
 
 
 	// Open the DevTools.
-	if (store.get('dev'))
-		mainWindow.webContents.openDevTools();
+	// if (store.get('dev'))
+	mainWindow.webContents.openDevTools();
 	// mainWindow.webContents.addWorkSpace(path.join(__dirname, '/'));
 	globalShortcut.register('CommandOrControl+R', () => {
 

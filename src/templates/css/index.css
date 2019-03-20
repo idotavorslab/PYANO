@@ -218,11 +218,11 @@ body > *, button, p, input, div {
 }
 
 
-.onset {
+.clickable {
     cursor: pointer;
     transition: all 300ms;
 }
 
-.onset:hover {
-    font-weight: bold;
+.clickable:hover {
+    font-weight: bolder;
 }
