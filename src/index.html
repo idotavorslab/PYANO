@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Pyano</title>
+
     <script type="text/javascript" defer>
 
 		 console.log('index.html extendPrimitivePrototypes()');
@@ -12,12 +13,7 @@
 				 return Object.keys(this).length == 0;
 			 }
 		 },);
-		 Object.defineProperty(Object.prototype, "items", {
-			 enumerable: false,
-			 value() {
-				 return Object.entries(this);
-			 }
-		 });
+
 
 		 Object.defineProperty(Array.prototype, "last", {
 			 enumerable: false,
@@ -115,6 +111,7 @@
 
 </head>
 <body>
+
 <div id="title"></div>
 <div id="sidebar"></div>
 <div id="main_content"></div>

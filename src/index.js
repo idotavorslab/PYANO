@@ -7,6 +7,7 @@ import { app, BrowserWindow, globalShortcut } from 'electron';
 const Store = require("electron-store");
 let store = new Store();
 
+
 // DEBUG ELECTRON WITH VS CODE:
 // https://github.com/Microsoft/vscode-recipes/tree/master/Electron
 
