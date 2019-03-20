@@ -42,7 +42,8 @@ silence_len = int(sys.argv[3])
 no_ext = os.path.splitext(vid)[0]
 
 logged_exp = dict(vid=vid, first_onset=first_onset,
-                  silence_len=silence_len, no_ext=no_ext)
+                  # silence_len=silence_len,
+                  no_ext=no_ext)
 try:
     to_secs = float(sys.argv[4])
     to_str = get_hhmmss(to_secs)
@@ -65,7 +66,8 @@ except IndexError:
 if os.path.exists(output):
     logger.log(logged_exp, title=f"FileExistsError - {output}. see trim_and_force_silence.log")
     raise FileExistsError(output)
-start_secs = float(first_onset - silence_len)
+# start_secs = float(first_onset - silence_len)
+start_secs = float(first_onset)
 logged_exp.update(start_secs=start_secs)
 if start_secs < 0:
     err = """First onset minus silence length is negative. 
