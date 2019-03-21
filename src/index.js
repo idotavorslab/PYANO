@@ -67,7 +67,14 @@ let mainWindow;
 const createWindow = () => {
 	// require('devtron').install();
 	// Create the browser window.
-	mainWindow = new BrowserWindow();
+	mainWindow = new BrowserWindow({
+		darkTheme: true,
+		center: true,
+		webPreferences: {
+			allowRunningInsecureContent: true,
+			experimentalFeatures: true, zoomFactor: 1
+		}
+	});
 
 	mainWindow.setSize(1919, 1080, true);
 	mainWindow.setMaximumSize(1919, 1080);

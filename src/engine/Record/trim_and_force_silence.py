@@ -17,6 +17,9 @@ from util import Logger
 def force_2_digits(num) -> str:
     if len(str(num)) == 1:
         return f'0{num}'
+    elif isinstance(num, float):
+        predec, dec, postdec = str(num).partition('.')
+        return f'{force_2_digits(predec)}.{postdec}'
     else:
         return str(num)
 
@@ -77,7 +80,7 @@ if start_secs < 0:
     raise ValueError(err)
 
 start_str = get_hhmmss(start_secs)
-
+logged_exp.update(start_str=start_str)
 ok = os.system(f'ffmpeg -ss {start_str} -i "{vid}" -c copy -t {to_str} "{output}"')
 if ok != 0:
     logger.log(logged_exp, title="ValueError - ok is not 0")

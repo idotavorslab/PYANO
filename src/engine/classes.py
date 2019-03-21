@@ -9,7 +9,7 @@ logger = Logger('classes')
 class Message:
     def __init__(self, line: str, preceding_message_time: float = None):
         # "1549189615.55545  note=72 velocity=65"
-        regexp = r'^\d{10}\.\d{0,5}[ \t]note=\d{2,3}[ \t]velocity=\d{2,3}\n?$'
+        regexp = r'^\d{10}[\.]?\d{0,5}[ \t]note=\d{2,3}[ \t]velocity=\d{2,3}\n?$'
         match = re.fullmatch(regexp, line)
         if not match:
             logger.log(
