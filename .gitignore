@@ -793,3 +793,5 @@ node_modules/zip-stream
 *.mp4
 *.MOV
 *.mp4
+*.mid
+*.txt
