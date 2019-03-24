@@ -42,27 +42,47 @@ logger = Logger('trim_and_force_silence')
 vid = sys.argv[1]
 first_onset = float(sys.argv[2])
 silence_len = int(sys.argv[3])
-no_ext = os.path.splitext(vid)[0]
+no_ext, _ = os.path.splitext(vid)
 logged_exp = dict(vid=vid, first_onset=first_onset,
                   silence_len=silence_len,
                   no_ext=no_ext)
+
+
+def update_onsets_json():
+    # Assume no_ext == 'vid.mp4' without '_trimmed.mp4'
+    try:
+        with open(f'{no_ext}_onsets.json', mode='r') as f:
+            data = json.load(f)
+            onsets_2d = [onset[:3] for onset in data["onsets"]]
+            first_onset_index = onsets_2d.index(str(first_onset))
+            logged_exp.update(data=data, onsets_2d=onsets_2d, f=f,
+                              first_onset_index=first_onset_index)
+
+        # from classes import Message
+        # messages = Message.normalize_simultaneous_hits_in_file(f'{no_ext}.txt')
+        
+        with open(f'{no_ext}_onsets.json', mode='w+') as f:
+            json.dump({**data, 'first_onset_index': first_onset_index}, f)
+
+        return True
+
+    except FileNotFoundError as e:
+        logged_exp.update(e=e)
+        logger.log(logged_exp, title=f"FileNotFoundError - no file named {no_ext}_onsets.json")
+        raise e
+    except ValueError as e:
+        logged_exp.update(e=e)
+        logger.log(logged_exp, title=f"ValueError - didn't find index of first_onset among onsets_2d")
+        raise e
+    except Exception as e:
+        logged_exp.update(e=e)
+        logger.log(logged_exp, title=f"Exception - failed writing to '{no_ext}_onsets.json'")
+        raise e
+
+
 try:
-    with open(f'{no_ext}_onsets.json', mode='r') as f:
-        data = json.load(f)
-        onsets_2d = [onset[:3] for onset in data["onsets"]]
-        first_onset_index = onsets_2d.index(str(first_onset))
-        logged_exp.update(data=data, onsets_2d=onsets_2d, f=f,
-                          first_onset_index=first_onset_index)
-
-    with open(f'{no_ext}_onsets.json', mode='w+') as f:
-        json.dump({**data, 'first_onset_index': first_onset_index}, f)
-
-except Exception as e:
-    logged_exp.update(e=e, e_args=e.args)
-    logger.log(logged_exp, title=f"Exception - failed writing to '{no_ext}_onsets.json'")
-    raise e
-
-try:
+    # **{no_ext}_{notes_num}N.mp4
+    # got [4] and [5] args, then trim to sub version and create f'{no_ext}_{notes_num}N.mp4'
     to_secs = float(sys.argv[4])
     to_str = get_hhmmss(to_secs)
     notes_num = int(sys.argv[5])
@@ -71,6 +91,8 @@ try:
     logged_exp.update(to_secs=to_secs, to_str=to_str,
                       notes_num=notes_num, output=output)
 except IndexError:
+    # **{no_ext}_trimmed.mp4
+    # no [4] and [5] args. Infer duration, no sub version, create f'{no_ext}_trimmed.mp4'
     dur = float(os.popen(f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 {vid}')
                 .read()
                 .strip())
@@ -80,6 +102,8 @@ except IndexError:
     output = f'{no_ext}_trimmed.mp4'
 
     logged_exp.update(dur=dur, to_str=to_str, output=output)
+
+    update_onsets_json()
 
 if os.path.exists(output):
     logger.log(logged_exp, title=f"FileExistsError - {output}. see trim_and_force_silence.log")
