@@ -10,7 +10,7 @@ args:
 """
 import sys
 import os
-
+import json
 from util import Logger
 
 
@@ -43,10 +43,25 @@ vid = sys.argv[1]
 first_onset = float(sys.argv[2])
 silence_len = int(sys.argv[3])
 no_ext = os.path.splitext(vid)[0]
-
 logged_exp = dict(vid=vid, first_onset=first_onset,
-                  # silence_len=silence_len,
+                  silence_len=silence_len,
                   no_ext=no_ext)
+try:
+    with open(f'{no_ext}_onsets.json', mode='r') as f:
+        data = json.load(f)
+        onsets_2d = [onset[:3] for onset in data["onsets"]]
+        first_onset_index = onsets_2d.index(str(first_onset))
+        logged_exp.update(data=data, onsets_2d=onsets_2d, f=f,
+                          first_onset_index=first_onset_index)
+
+    with open(f'{no_ext}_onsets.json', mode='w+') as f:
+        json.dump({**data, 'first_onset_index': first_onset_index}, f)
+
+except Exception as e:
+    logged_exp.update(e=e, e_args=e.args)
+    logger.log(logged_exp, title=f"Exception - failed writing to '{no_ext}_onsets.json'")
+    raise e
+
 try:
     to_secs = float(sys.argv[4])
     to_str = get_hhmmss(to_secs)
