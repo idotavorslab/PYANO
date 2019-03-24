@@ -60,7 +60,7 @@ def update_onsets_json():
 
         # from classes import Message
         # messages = Message.normalize_simultaneous_hits_in_file(f'{no_ext}.txt')
-        
+
         with open(f'{no_ext}_onsets.json', mode='w+') as f:
             json.dump({**data, 'first_onset_index': first_onset_index}, f)
 
