@@ -14,7 +14,7 @@ isfile = os.path.isfile(configfile)
 if not isfile:  # not found
     config = dict(root_abs_path=root_abs_path,
                   dev=False,
-                  vid_silence_len=2,
+                  vid_silence_len=0,
                   last_page='new_test',
                   current_test=dict(
                       truth_file_path="experiments\\truths\\fur_elise.txt",

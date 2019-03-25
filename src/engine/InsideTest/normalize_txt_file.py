@@ -1,5 +1,4 @@
 import sys
-import json
 from classes import Message
 from util import prfl, Logger
 
