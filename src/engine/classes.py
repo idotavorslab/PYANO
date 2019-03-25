@@ -80,10 +80,9 @@ class Message:
         return messages
 
     @staticmethod
-    def normalize_simultaneous_hits_in_file(file_path: str):
-        from copy import deepcopy
-        messages = Message.construct_many_from_file(file_path)
-        chords: Dict[int, List[int]] = OrderedDict()
+    def get_chords(messages) -> Dict[int, List[int]]:
+        chords = OrderedDict()
+
         for i, message in enumerate(messages):
             if message.time_delta is None:
                 continue
@@ -102,6 +101,13 @@ class Message:
                 else:
                     # last note not in chords at all. create a new chord.
                     chords[i - 1] = [i]
+        return chords
+
+    @staticmethod
+    def normalize_simultaneous_hits_in_file(file_path: str):
+        from copy import deepcopy
+        messages = Message.construct_many_from_file(file_path)
+        chords = Message.get_chords(messages)
 
         should_write_changes = False
         for root, rest in chords.items():
