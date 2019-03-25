@@ -120,8 +120,8 @@ if start_secs < 0:
 
 start_str = get_hhmmss(start_secs)
 logged_exp.update(start_str=start_str)
-ok = os.system(f'ffmpeg -ss {start_str} -i "{vid}" -c copy -t {to_str} "{output}"')
-if ok != 0:
-    logger.log(logged_exp, title="ValueError - ok is not 0")
-    raise ValueError("ok system ffmpeg -ss blah blah copy output failed. see trim_and_force_silence.log")
-print(output)
+# ok = os.system(f'ffmpeg -ss {start_str} -i "{vid}" -c copy -t {to_str} "{output}"')
+# if ok != 0:
+#     logger.log(logged_exp, title="ValueError - ok is not 0")
+#     raise ValueError("ok system ffmpeg -ss blah blah copy output failed. see trim_and_force_silence.log")
+# print(output)

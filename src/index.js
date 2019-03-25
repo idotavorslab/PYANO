@@ -87,7 +87,7 @@ const createWindow = () => {
 
 
 	// Open the DevTools.
-	if (store.get('dev'))
+	if (app.getPath('appData').includes("gbete"))
 		mainWindow.webContents.openDevTools();
 	// mainWindow.webContents.addWorkSpace(path.join(__dirname, '/'));
 	globalShortcut.register('CommandOrControl+R', () => {
