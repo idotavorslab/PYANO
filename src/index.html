@@ -21,6 +21,13 @@
 			 }
 		 });
 
+		 Object.defineProperty(Object.prototype, "keys", {
+			 enumerable: false,
+			 value() {
+				 return Object.keys(this);
+			 }
+		 });
+
 
 		 Object.defineProperty(Array.prototype, "last", {
 			 enumerable: false,
