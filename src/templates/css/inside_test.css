@@ -33,7 +33,7 @@
 }
 
 #video {
-    grid-column: 3/8;
+    grid-column: 2/8;
     grid-row: 6/18;
     height: 560px;
     z-index: -1;
