@@ -16,9 +16,6 @@ try {
 }
 
 
-// DEBUG ELECTRON WITH VS CODE:
-// https://github.com/Microsoft/vscode-recipes/tree/master/Electron
-
 // const debug = require('electron-debug');
 //
 // debug();
