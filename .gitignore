@@ -795,3 +795,4 @@ node_modules/zip-stream
 *.mp4
 *.mid
 *.txt
+node_modules/pyano_local_modules/pages/InsideTest/Gui - New.js
