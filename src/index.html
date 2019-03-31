@@ -13,12 +13,14 @@
 				 return Object.keys(this).length == 0;
 			 }
 		 },);
+
 		 Object.defineProperty(Object.prototype, "items", {
 			 enumerable: false,
 			 value() {
 				 return Object.entries(this);
 			 }
 		 });
+
 		 Object.defineProperty(Object.prototype, "keys", {
 			 enumerable: false,
 			 value() {
@@ -26,24 +28,29 @@
 			 }
 		 });
 
+
 		 Object.defineProperty(Array.prototype, "last", {
 			 enumerable: false,
 			 value() {
 				 return this[this.length - 1];
 			 }
 		 },);
+
 		 Object.defineProperty(Array.prototype, "lowerAll", {
 			 enumerable: false,
 			 value() {
 				 return this.map(s => s.lower());
 			 }
 		 },);
+
 		 Object.defineProperty(Array.prototype, "rsort", {
 			 enumerable: false,
 			 value() {
 				 return this.sort((n, m) => n < m);
 			 }
 		 },);
+
+
 		 Object.defineProperty(Array.prototype, "count", {
 			 enumerable: false,
 			 value(item, strict = false) {
@@ -62,7 +69,6 @@
 			 }
 
 		 },);
-
 		 Object.defineProperty(String.prototype, "upTo", {
 			 enumerable: false,
 			 value(searchString, fromEnd = false) {

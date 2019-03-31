@@ -52,8 +52,6 @@ class Message:
             raise FileNotFoundError(f"Not isfile(): {file_path}")
         if os.path.splitext(file_path)[1] != ".txt":
             raise ValueError(f"BAD extension, needs .txt: {file_path}")
-        # if os.path.getsize(file_path) == 0:
-        #     raise ValueError(f"File empty! file_path: {file_path}")
 
     @staticmethod
     def from_mido_to_line(mido_msg, t=None) -> str:

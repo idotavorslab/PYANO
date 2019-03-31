@@ -1,7 +1,7 @@
 import sys
 from classes import Message
 from util import prfl, Logger
-import os
+
 logger = Logger('normalize_txt_file')
 file_path = sys.argv[1]
 

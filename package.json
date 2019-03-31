@@ -8,7 +8,7 @@
         "packageManager": "yarn"
       },
       "electronWinstallerConfig": {
-        "name": "pyano-release"
+        "name": "pyano_01"
       },
       "github_repository": {
         "name": "",
@@ -27,7 +27,7 @@
         ]
       },
       "windowsStoreConfig": {
-        "name": "pyano-release",
+        "name": "pyano_01",
         "packageName": ""
       }
     }
@@ -56,8 +56,8 @@
   "keywords": [],
   "license": "MIT",
   "main": "src/index.js",
-  "name": "pyano-release",
-  "productName": "pyano-release",
+  "name": "pyano_01",
+  "productName": "pyano_01",
   "scripts": {
     "lint": "eslint src --color",
     "make": "electron-forge make",
