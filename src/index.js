@@ -70,10 +70,10 @@ const createWindow = () => {
 	mainWindow = new BrowserWindow();
 
 	mainWindow.setSize(1919, 1080, true);
-	mainWindow.setMaximumSize(1919, 1080);
+	// mainWindow.setMaximumSize(1919, 1080);
 	// and load the index.html of the app.
 	mainWindow.loadURL(`file://${__dirname}/index.html`);
-	mainWindow.setResizable(false);
+	mainWindow.setResizable(true);
 	mainWindow.setMenu(null);
 	mainWindow.setBackgroundColor('#181818');
 	mainWindow.setMenuBarVisibility(false);

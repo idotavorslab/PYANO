@@ -33,9 +33,9 @@
 }
 
 #video {
-    grid-column: 2/8;
+    grid-column: 3/8;
     grid-row: 6/18;
-    height: 560px;
+    height: 540px;
     z-index: -1;
     object-fit: cover;
 }
