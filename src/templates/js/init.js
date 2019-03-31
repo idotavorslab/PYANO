@@ -1,3 +1,4 @@
+console.log('init.js');
 const sidebar = require("pyano_local_modules/sidebar");
 sidebar.build();
 let Pages = require("pyano_local_modules/pages/pages");

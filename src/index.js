@@ -1,11 +1,19 @@
 import { app, BrowserWindow, globalShortcut } from 'electron';
 
-/**
- *
- * @type {ElectronStore}
- */
+console.log('index.js');
+
 const Store = require("electron-store");
-let store = new Store();
+const store = new Store();
+try {
+	console.log('trying to get last page from store');
+	let last_page = store.get('last_page');
+	if (last_page == 'inside_test') {
+		console.log('last page is inside_test, changing to new_test');
+		store.set('last_page', 'new_test');
+	}
+} catch (e) {
+	console.log(`FAILED getting last page from store`, e);
+}
 
 
 // DEBUG ELECTRON WITH VS CODE:
@@ -70,6 +78,7 @@ const createWindow = () => {
 	mainWindow = new BrowserWindow();
 
 	mainWindow.setSize(1919, 1080, true);
+	mainWindow.setPosition(0, 0, true);
 	// mainWindow.setMaximumSize(1919, 1080);
 	// and load the index.html of the app.
 	mainWindow.loadURL(`file://${__dirname}/index.html`);
@@ -89,14 +98,16 @@ const createWindow = () => {
 	// Open the DevTools.
 	if (app.getPath('appData').includes("gbete"))
 		mainWindow.webContents.openDevTools();
-	// mainWindow.webContents.addWorkSpace(path.join(__dirname, '/'));
 	globalShortcut.register('CommandOrControl+R', () => {
 
 		mainWindow.reload();
 	});
-	// globalShortcut.register('ctrl+shift+c', () => {mainWindow.webContents.toggleDevTools()});
 	// Emitted when the window is closed.
+	mainWindow.on('show', () => console.log('mainWindow SHOW'));
+	mainWindow.on('ready-to-show', () => console.log('mainWindow READY-TO-SHOW'));
+	mainWindow.on('sheet-begin', () => console.log('mainWindow SHEET-BEGIN'));
 	mainWindow.on('closed', () => {
+		console.log('mainWindow CLOSED');
 		// Dereference the window object, usually you would store windows
 		// in an array if your app supports multi windows, this is the time
 		// when you should delete the corresponding element.
@@ -107,7 +118,10 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+	console.log('app READY');
+	createWindow();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -121,6 +135,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
 	// On OS X it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
+	console.log('app ACTIVATE');
 	if (mainWindow === null) {
 		createWindow();
 	}
