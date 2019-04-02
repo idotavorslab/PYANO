@@ -87,7 +87,7 @@ const createWindow = () => {
 	mainWindow.setBackgroundColor('#181818');
 	mainWindow.setMenuBarVisibility(false);
 	mainWindow.setAutoHideMenuBar(true);
-	// mainWindow.maximize();
+	mainWindow.maximize();
 	// mainWindow.setFullScreen(true);
 	// mainWindow.setSimpleFullScreen(true);
 	// mainWindow.setIcon()
