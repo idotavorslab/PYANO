@@ -72,7 +72,10 @@ let mainWindow;
 const createWindow = () => {
 	// require('devtron').install();
 	// Create the browser window.
-	mainWindow = new BrowserWindow();
+	mainWindow = new BrowserWindow({
+		acceptFirstMouse: true,
+		webPreferences: { zoomFactor: 1.0 }
+	});
 
 	mainWindow.setSize(1919, 1080, true);
 	mainWindow.setPosition(0, 0, true);
@@ -80,7 +83,7 @@ const createWindow = () => {
 	// and load the index.html of the app.
 	mainWindow.loadURL(`file://${__dirname}/index.html`);
 	mainWindow.setResizable(true);
-	mainWindow.setMenu(null);
+	// mainWindow.setMenu(null);
 	mainWindow.setBackgroundColor('#181818');
 	mainWindow.setMenuBarVisibility(false);
 	mainWindow.setAutoHideMenuBar(true);
@@ -89,7 +92,6 @@ const createWindow = () => {
 	// mainWindow.setSimpleFullScreen(true);
 	// mainWindow.setIcon()
 	// mainWindow.setHasShadow(true);
-	mainWindow.setVibrancy("dark");
 
 
 	// Open the DevTools.
