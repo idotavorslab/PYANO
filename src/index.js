@@ -74,11 +74,11 @@ const createWindow = () => {
 	// Create the browser window.
 	mainWindow = new BrowserWindow({
 		acceptFirstMouse: true,
-		webPreferences: { zoomFactor: 1.0 }
 	});
 
 	mainWindow.setSize(1919, 1080, true);
 	mainWindow.setPosition(0, 0, true);
+	mainWindow.webContents.setZoomFactor(1);
 	// mainWindow.setMaximumSize(1919, 1080);
 	// and load the index.html of the app.
 	mainWindow.loadURL(`file://${__dirname}/index.html`);
