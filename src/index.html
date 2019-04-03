@@ -13,44 +13,36 @@
 				 return Object.keys(this).length == 0;
 			 }
 		 },);
-
 		 Object.defineProperty(Object.prototype, "items", {
 			 enumerable: false,
 			 value() {
 				 return Object.entries(this);
 			 }
 		 });
-
 		 Object.defineProperty(Object.prototype, "keys", {
 			 enumerable: false,
 			 value() {
 				 return Object.keys(this);
 			 }
 		 });
-
-
 		 Object.defineProperty(Array.prototype, "last", {
 			 enumerable: false,
 			 value() {
 				 return this[this.length - 1];
 			 }
 		 },);
-
 		 Object.defineProperty(Array.prototype, "lowerAll", {
 			 enumerable: false,
 			 value() {
 				 return this.map(s => s.lower());
 			 }
 		 },);
-
 		 Object.defineProperty(Array.prototype, "rsort", {
 			 enumerable: false,
 			 value() {
 				 return this.sort((n, m) => n < m);
 			 }
 		 },);
-
-
 		 Object.defineProperty(Array.prototype, "count", {
 			 enumerable: false,
 			 value(item, strict = false) {
@@ -119,6 +111,57 @@
 				 return this
 					 .split(searchValue)
 					 .join(replaceValue);
+			 }
+		 });
+		 Object.defineProperty(Number.prototype, "idx2human", {
+			 enumerable: false,
+			 value(letters = false) {
+				 switch (Math.floor(this)) {
+					 case 0:
+						 return letters
+						        ? "zeroth"
+						        : "0th";
+					 case 1:
+						 return letters
+						        ? "first"
+						        : "1st";
+					 case 2:
+						 return letters
+						        ? "second"
+						        : "2nd";
+					 case 3:
+						 return letters
+						        ? "third"
+						        : "3rd";
+					 case 4:
+						 return letters
+						        ? "fourth"
+						        : "4th";
+					 case 5:
+						 return letters
+						        ? "fifth"
+						        : "5th";
+					 case 6:
+						 return letters
+						        ? "sixth"
+						        : "6th";
+					 case 7:
+						 return letters
+						        ? "seventh"
+						        : "7th";
+					 case 8:
+						 return letters
+						        ? "eighth"
+						        : "8th";
+					 case 9:
+						 return letters
+						        ? "ninth"
+						        : "9th";
+
+					 default:
+						 return `${this}th`;
+				 }
+
 			 }
 		 });
 		 const { Alert } = require('pyano_local_modules/util/Alert');
