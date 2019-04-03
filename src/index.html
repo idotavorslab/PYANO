@@ -116,7 +116,7 @@
 		 Object.defineProperty(Number.prototype, "idx2human", {
 			 enumerable: false,
 			 value(letters = false) {
-				 switch (Math.floor(this)) {
+				 switch (Math.floor(this) + 1) {
 					 case 0:
 						 return letters
 						        ? "zeroth"
