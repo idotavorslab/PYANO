@@ -94,9 +94,8 @@ const createWindow = () => {
 	// mainWindow.setHasShadow(true);
 
 
-	// Open the DevTools.
-	if (app.getPath('appData').includes("gbete"))
-		mainWindow.webContents.openDevTools();
+	// if (app.getPath('appData').includes("gbete"))
+	mainWindow.webContents.openDevTools();
 	globalShortcut.register('CommandOrControl+R', () => {
 
 		mainWindow.reload();
