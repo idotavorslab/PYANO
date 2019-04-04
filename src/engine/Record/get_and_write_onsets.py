@@ -14,7 +14,9 @@ onset_times = librosa.frames_to_time(onsets,
                                      sr=sr,
                                      hop_length=hop_length)
 logger = Logger('get_and_write_onsets')
-logger.log_thin(dict(onsets=onsets, onset_timers=onset_times))
+logger.log_thin(dict(onsets=onsets,
+                     onset_timers=onset_times,
+                     vid=vid))
 no_ext, _ = os.path.splitext(vid)
 with open(f'{no_ext}_onsets.json', mode='w+') as f:
     json.dump(dict(onsets=[str(t) for t in onset_times]), f)
