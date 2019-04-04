@@ -1,102 +1,39 @@
-/** @callback StoreIncrease
- @param {String} K*/
-
-/** @callback StoreUpdate
- @param {String} K
- @param {Object} kv */
-
-/** @callback StoreSet
- @param {String} key
- @param {*} value */
-
-/** @callback StoreGet
- @param {String} key
- @param {*?} defaultValue */
-
-// [*TStore]
 /**
- @typedef {
- * {
- *    store: {
- *       current_subject: String,
- *       current_test: TCurrentTest,
- *       root_abs_path: String
- *    },
- *    size: Number,
- *    path: String,
- *    increase: StoreIncrease,
- *    update: StoreUpdate,
- *    set: StoreSet,
- *    get: StoreGet
- *
- * }
-	} TStore*/
-
-/** @callback PythonRunCallback
- @param {*} err
- @param {String[] | Number[] | Boolean[] | String} output*/
-
-/** @callback PythonRun
- @param {String} scriptPath
- @param {*?} options
- @param {PythonRunCallback?} callback*/
-
-// [*TPythonShell]
-/**
- @typedef {
- * {
- *    scriptPath: String,
- *    command: String[],
- *    mode: String,
- *    terminated: Boolean,
- *    run: PythonRun,
- *    end:
- *
- * }
-	} TPythonShell*/
-
-
-// [*TCurrentTest]
-/**@typedef {
- * {
- *    truth_file_path: String,
- *    finished_trials_count: Number,
- *    levels: TLevel[],
- *    learning_type: String,
- *    demo_type: String,
- *    current_subject: String,
- *    errors_playingspeed: Number,
- *    allowed_tempo_deviation_factor: Number,
- * }
-} TCurrentTest */
-
-// *TLevel
-/**@typedef {
- * {
- *    notes: Number,
- *    trials: Number
- * }
-} TLevel*/
-
-
-// [*TMessage]
-/**
- @typedef {{
-      note: Number,
-      time: Number,
-      time_delta: Number,
-      velocity: Number,
-      time: Number,
-      preceding_message_time: Number
-   }} TMessage
+ * @typedef TCurrentTest
+ * @prop {string} truth_file_path
+ * @prop {number} finished_trials_count
+ * @prop {TLevel[]} levels
+ * @prop {string} learning_type
+ * @prop {string} demo_type
+ * @prop {string} current_subject
+ * @prop {number} errors_playingspeed
+ * @prop {number} allowed_tempo_deviation_factor
  */
 
-// [*TTonejsNote]
 /**
- @typedef {{
-      note: Number,
-      time: Number,
-      ts: Number,
-      velocity: Number
-   }} TTonejsNote
+ * @typedef TLevel
+ * @prop {number} notes
+ * @prop {number} trials
+ */
+
+
+/**
+ * @typedef TMessage
+ * @prop {number} note
+ * @prop {number} time
+ * @prop {number} time_delta
+ * @prop {number} velocity
+ * @prop {number} preceding_message_time
+ * @prop {string} kind
+ */
+
+
+/**
+ @typedef playMidiFileOptions
+ @prop {string} midiFilePath
+ @prop {Piano} playbackPiano
+ @prop {Animation?} animation
+ @prop {number?} numOfNotes
+ @prop {number?} speed
+ @prop {Array<string?>?} mistakes
  */

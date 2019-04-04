@@ -8,8 +8,8 @@ logger = Logger('classes')
 
 class Message:
     def __init__(self, line: str, preceding_message_time: float = None):
-        # "1549189615.55545  note=72 velocity=65"
-        regexp = r'^\d{10}[\.]?\d{0,5}[ \t]note=\d{2,3}[ \t]velocity=\d{2,3}\n?$'
+        # "1549189615.55545  note=72 velocity=65 off"
+        regexp = r'^\d{10}[\.]?\d{0,5}[ \t]note=\d{2,3}[ \t]velocity=\d{2,3}[ \t](on|off)\n?$'
         match = re.fullmatch(regexp, line)
         if not match:
             logger.log(
@@ -18,9 +18,12 @@ class Message:
                 include_is_stringified=False)
             raise ValueError(f"`line` did not re.fullmatch. See classes.log")
 
-        # "1549189615.55545"
-        time, _, _ = line.partition('\t')
+        time, note, velocity, kind = line.split('\t')
         self.time = float(time)
+        self.note = int(note[note.index("=") + 1:])
+        self.velocity = int(velocity[velocity.index("=") + 1:])
+        self.kind = kind
+
         self.preceding_message_time = preceding_message_time
 
         if preceding_message_time:
@@ -28,17 +31,8 @@ class Message:
         else:
             self.time_delta = None
 
-        # "note=72 velocity=65"
-        line = line[line.index("note="):]
-        # "note=72", _, "velocity=65"
-        note, _, velocity = line.partition('\t')
-        # 72
-        self.note = int(note.split("=")[1])
-        # 65
-        self.velocity = int(velocity.split("=")[1])
-
     def __str__(self) -> str:
-        return f'time: {self.time} | note: {self.note} | velocity: {self.velocity} | time_delta: {self.time_delta}'
+        return f'time: {self.time} | note: {self.note} | velocity: {self.velocity} | time_delta: {self.time_delta} | kind: {self.kind}'
 
     def __repr__(self) -> str:
         return self.__str__()
