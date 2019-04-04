@@ -1,6 +1,6 @@
 from util import round5, Logger
 import re
-from typing import Dict, List
+from typing import Dict, List, Tuple, Any
 from collections import OrderedDict
 
 logger = Logger('classes')
@@ -12,10 +12,7 @@ class Message:
         regexp = r'^\d{10}[\.]?\d{0,5}[ \t]note=\d{2,3}[ \t]velocity=\d{2,3}[ \t](on|off)\n?$'
         match = re.fullmatch(regexp, line)
         if not match:
-            logger.log(
-                dict(line=line, match=match, regexp=regexp),
-                include_type=False,
-                include_is_stringified=False)
+            logger.log_thin(dict(line=line, match=match, regexp=regexp))
             raise ValueError(f"`line` did not re.fullmatch. See classes.log")
 
         time, note, velocity, kind = line.split('\t')
@@ -49,16 +46,18 @@ class Message:
         # if os.path.getsize(file_path) == 0:
         #     raise ValueError(f"File empty! file_path: {file_path}")
 
-    @staticmethod
-    def from_mido_to_line(mido_msg, t=None) -> str:
-        s = f'note={mido_msg.note}\tvelocity={mido_msg.velocity}'
-        if not t:
-            return s
-        else:
-            return f'{t}\t{s}'
+    # @staticmethod
+    # def from_mido_to_line(mido_msg, t=None) -> str:
+    #     s = f'note={mido_msg.note}\tvelocity={mido_msg.velocity}'
+    #     if not t:
+    #         return s
+    #     else:
+    #         return f'{t}\t{s}'
 
     def to_line(self):
-        return Message.from_mido_to_line(self, t=self.time)
+        s = f'{self.time}\tnote={self.note}\tvelocity={self.velocity}\t{self.kind}'
+        return s
+        # return Message.from_mido_to_line(self, t=self.time)
 
     @staticmethod
     def construct_many(lines: [str]) -> []:
@@ -69,11 +68,23 @@ class Message:
         return container
 
     @staticmethod
-    def construct_many_from_file(file_path: str):
+    def construct_many_from_file(file_path: str) -> Tuple[List[Any], List[Any]]:
         Message._raise_if_bad_file(file_path)
         with open(file_path, mode="r") as f:
-            messages = Message.construct_many(f.readlines())
-        return messages
+            lines = f.readlines()
+        on_lines = []
+        off_lines = []
+        for line in lines:
+            if line.endswith('on\n'):
+                on_lines.append(line)
+            elif line.endswith('off\n'):
+                off_lines.append(line)
+            else:
+                logger.log_thin(dict(file_path=file_path, line=line, on_lines=on_lines, off_lines=off_lines))
+                raise ValueError(f"`line` did not end with either on\\t or off\\t. See classes.log")
+        on_messages = Message.construct_many(on_lines)
+        off_messages = Message.construct_many(off_lines)
+        return on_messages, off_messages
 
     @staticmethod
     def get_chords(messages) -> Dict[int, List[int]]:
@@ -102,8 +113,8 @@ class Message:
     @staticmethod
     def normalize_simultaneous_hits_in_file(file_path: str):
         from copy import deepcopy
-        messages = Message.construct_many_from_file(file_path)
-        chords = Message.get_chords(messages)
+        on_messages, off_messages = Message.construct_many_from_file(file_path)
+        chords = Message.get_chords(on_messages)
 
         should_write_changes = False
         for root, rest in chords.items():
