@@ -415,6 +415,11 @@
 							 this.txt.base.exists(),
 							 this.txt.on.exists(),
 							 this.txt.off.exists())),
+                    anyExist: async () =>
+						 any(await asx.concurrent(
+							 this.txt.base.exists(),
+							 this.txt.on.exists(),
+							 this.txt.off.exists())),
 					 removeAll: async () => await asx.concurrent(
 						 this.txt.base.remove(),
 						 this.txt.on.remove(),
@@ -424,12 +429,13 @@
 				 this.midi = new File(`${this.pathNoExt}.mid`);
 				 this.mp4 = new File(`${this.pathNoExt}.mp4`);
 				 this.mov = new File(`${this.pathNoExt}.mov`);
+				 this.onsets = new File(`${this.pathNoExt}_onsets.json`);
 
 			 }
 
-			 /**@return {Promise<number>}*/
-			 async numOfNotes() {
-				 return await require("fs")
+			 /**@return {number}*/
+			 numOfNotes() {
+				 return require("fs")
 					 .readFileSync(this.txt.on.path, { encoding: 'utf8' })
 					 .split('\n')
 					 .filter(line => bool(line)).length;

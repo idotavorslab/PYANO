@@ -37,3 +37,20 @@
  @prop {number?} speed
  @prop {Array<string|null>?} mistakes
  */
+
+/**
+ @typedef playPreTrialDemoOptions
+ @prop {Midi} midi
+ @prop {Piano} playbackPiano
+ @prop {number} levelIndex
+ @prop {number} trialIndex
+ @prop {number} numOfNotes*/
+
+
+/**
+ @typedef showFailedTrialFeedbackOptions
+ @prop {Midi} midi
+ @prop {Piano} playbackPiano
+ @prop {number} trialIndex
+ @prop {String[]} mistakes
+ @prop {Truth} trialTruth*/
