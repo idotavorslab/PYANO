@@ -217,8 +217,26 @@
 				 let ext = path.extname(pathLike);
 				 return `${remove_ext(pathLike)}${push}${ext}`;
 			 };
-			 /** @type {{path_exists: (function((PathLike|string)): Promise<boolean>), push_before_ext: (function((PathLike|string), (string|number)): string), remove_ext: (function((PathLike|string)): string), mkdir: (function((PathLike|string), (number|string|MakeDirectoryOptions|undefined|null)): Promise<boolean>), replace_ext: (function((PathLike|string), string): string)}}*/
-			 const newVar = { mkdir, path_exists, replace_ext, remove_ext, push_before_ext };
+
+			 function basename(pathLike, ext) {
+				 return path.basename(pathLike, ext);
+			 }
+
+			 /**@param {...string} paths
+			  * @return {string[]}
+			  * */
+			 function basenames(...paths) {
+				 return [...paths.map(p => path.basename(p))];
+			 }
+
+			 /** @type {{basename:(function(string|PathLike,?string):string),
+			  * basenames:(function(...string|PathLike):string[]),
+			  * path_exists: (function((PathLike|string)): Promise<boolean>),
+			  * push_before_ext: (function((PathLike|string), (string|number)): string),
+			  * remove_ext: (function((PathLike|string)): string),
+			  * mkdir: (function((PathLike|string), (number|string|MakeDirectoryOptions|undefined|null)): Promise<boolean>),
+			  * replace_ext: (function((PathLike|string), string): string)}}*/
+			 const newVar = { basenames, basename, mkdir, path_exists, replace_ext, remove_ext, push_before_ext };
 			 return newVar;
 		 })();
 		 const asx = (() => {
@@ -261,7 +279,7 @@
 			 }
 
 			 /**@template T
-			  * @param {...function():T} fns
+			  * @param {...function():T|void} fns
 			  * @return {Promise<T[]>}*/
 			 async function concurrent(...fns) {
 				 return await Promise.all(fns);
