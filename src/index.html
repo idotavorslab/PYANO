@@ -61,7 +61,17 @@
 			 }
 
 		 },);
-		 Object.defineProperty(String.prototype, "upTo", {
+		 /**@param {string} searchString
+		  * @param {boolean} [fromEnd=false]
+		  * @return {string}*/
+		 String.prototype.upTo = (searchString, fromEnd = false) => {
+			 let end = fromEnd
+			           ? this.lastIndexOf(searchString)
+			           : this.indexOf(searchString);
+			 return this.slice(0, end);
+		 };
+
+		 /*Object.defineProperty(String.prototype, "upTo", {
 			 enumerable: false,
 			 value(searchString, fromEnd = false) {
 				 let end = fromEnd
@@ -70,6 +80,7 @@
 				 return this.slice(0, end);
 			 }
 		 },);
+		 */
 		 Object.defineProperty(String.prototype, "in", {
 			 enumerable: false,
 			 value(arr) {
@@ -167,7 +178,7 @@
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const small = (...args) => [`%c${args.join(' ')}`, `font-size:10px`];
 		 const any = (...items) => items.some(item => bool(item));
-
+		 const all = (...items) => items.every(item => bool(item));
 		 /**@param {*} val
 		  * @return {boolean}*/
 		 const bool = (val) =>
@@ -191,8 +202,10 @@
 			 const path_exists = pathLike => new Promise(resolve =>
 				 fs.access(pathLike, fs.constants.F_OK, err => resolve(!bool(err))));
 
-			 /**@param {PathLike|string} pathLike
-			  @param {string} ext
+			 /**
+			  {@link remove_ext Uses remove_ext}
+			  @param {PathLike|string} pathLike
+			  @param {string} ext - Target extension without dot
 			  @return {string}*/
 			 const replace_ext = (pathLike, ext) => {
 				 if (ext.includes('.'))
@@ -210,15 +223,20 @@
 			  * >>> fur_elise_B */
 			 const remove_ext = pathLike => path.join(path.dirname(pathLike), path.basename(pathLike, path.extname(pathLike)));
 
-			 /**@param {PathLike|string} pathLike
+			 /**
+			  * {@link remove_ext Uses remove_ext}
+			  * @param {PathLike|string} pathLike
 			  * @param {string|number} push
-			  * @return {string}*/
+			  * @return {string}
+			  * */
 			 const push_before_ext = (pathLike, push) => {
 				 let ext = path.extname(pathLike);
 				 return `${remove_ext(pathLike)}${push}${ext}`;
 			 };
 
-			 function basename(pathLike, ext) {
+			 /**@param {string|PathLike} pathLike
+			  * @param {?string} ext*/
+			 function basename(pathLike, ext = null) {
 				 return path.basename(pathLike, ext);
 			 }
 
@@ -229,7 +247,8 @@
 				 return [...paths.map(p => path.basename(p))];
 			 }
 
-			 /** @type {{basename:(function(string|PathLike,?string):string),
+			 /** @type {{
+			  * basename:(function(string|PathLike,?string):string),
 			  * basenames:(function(...string|PathLike):string[]),
 			  * path_exists: (function((PathLike|string)): Promise<boolean>),
 			  * push_before_ext: (function((PathLike|string), (string|number)): string),
