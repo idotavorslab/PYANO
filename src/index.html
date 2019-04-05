@@ -196,7 +196,7 @@
 		 const str = (val) => val ? val.toString() : "";
 
 		 /**@template T
-		  * @param {T[]} collection
+		  * @param {T[]|T} collection
 		  * @return {[string|number|T]}*/
 		 function enumerate(collection) {
 			 let entries = Object.entries(collection);
@@ -415,7 +415,7 @@
 							 this.txt.base.exists(),
 							 this.txt.on.exists(),
 							 this.txt.off.exists())),
-                    anyExist: async () =>
+					 anyExist: async () =>
 						 any(await asx.concurrent(
 							 this.txt.base.exists(),
 							 this.txt.on.exists(),

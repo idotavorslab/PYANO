@@ -42,6 +42,7 @@
  @typedef playPreTrialDemoOptions
  @prop {Midi} midi
  @prop {Piano} playbackPiano
+ @prop {Truth} truth
  @prop {number} levelIndex
  @prop {number} trialIndex
  @prop {number} numOfNotes*/
@@ -52,5 +53,5 @@
  @prop {Midi} midi
  @prop {Piano} playbackPiano
  @prop {number} trialIndex
- @prop {String[]} mistakes
- @prop {Truth} trialTruth*/
+ @prop {string[]} mistakes
+ @prop {Truth} truth*/
