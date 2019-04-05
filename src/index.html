@@ -389,9 +389,15 @@
 			 async exists() {
 				 return await fsx.path_exists(this.path);
 			 }
+
+			 /**@return {Promise<void>}*/
+			 async remove() {
+				 return await require('fs').unlinkSync(this.path);
+			 }
 		 }
 
 		 class Truth {
+			 /**@param {string} pathNoExt*/
 			 constructor(pathNoExt) {
 				 const path = require("path");
 				 if (!path.isAbsolute(pathNoExt))
@@ -408,7 +414,11 @@
 						 all(await asx.concurrent(
 							 this.txt.base.exists(),
 							 this.txt.on.exists(),
-							 this.txt.off.exists()))
+							 this.txt.off.exists())),
+					 removeAll: async () => await asx.concurrent(
+						 this.txt.base.remove(),
+						 this.txt.on.remove(),
+						 this.txt.off.remove())
 
 				 }))();
 				 this.midi = new File(`${this.pathNoExt}.mid`);
