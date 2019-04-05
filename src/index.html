@@ -237,6 +237,8 @@
 			 /**@param {string|PathLike} pathLike
 			  * @param {?string} ext*/
 			 function basename(pathLike, ext = null) {
+				 if (!ext)
+					 return path.basename(pathLike);
 				 return path.basename(pathLike, ext);
 			 }
 
