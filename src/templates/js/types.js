@@ -30,10 +30,10 @@
 
 /**
  @typedef playMidiFileOptions
- @prop {string} midiFilePath
+ @prop {Truth} truth
  @prop {Piano} playbackPiano
  @prop {Animation?} animation
  @prop {number?} numOfNotes
  @prop {number?} speed
- @prop {Array<string?>?} mistakes
+ @prop {Array<string|null>?} mistakes
  */
