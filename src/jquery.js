@@ -900,7 +900,7 @@
 
 			/**
 			 * Adds the same handler for all of the specified attrs
-			 * @param {String} attrs Pipe-separated list of attributes
+			 * @param {string} attrs Pipe-separated list of attributes
 			 * @param {Function} handler The method that will be applied
 			 */
 			function addHandle(attrs, handler) {
@@ -916,7 +916,7 @@
 			 * Checks document order of two siblings
 			 * @param {Element} a
 			 * @param {Element} b
-			 * @returns {Number} Returns less than 0 if a precedes b, greater than 0 if a follows b
+			 * @returns {number} Returns less than 0 if a precedes b, greater than 0 if a follows b
 			 */
 			function siblingCheck(a, b) {
 				var cur = b && a,
@@ -942,7 +942,7 @@
 
 			/**
 			 * Returns a function to use in pseudos for input types
-			 * @param {String} type
+			 * @param {string} type
 			 */
 			function createInputPseudo(type) {
 				return function (elem) {
@@ -953,7 +953,7 @@
 
 			/**
 			 * Returns a function to use in pseudos for buttons
-			 * @param {String} type
+			 * @param {string} type
 			 */
 			function createButtonPseudo(type) {
 				return function (elem) {
@@ -964,7 +964,7 @@
 
 			/**
 			 * Returns a function to use in pseudos for :enabled/:disabled
-			 * @param {Boolean} disabled true for :disabled; false for :enabled
+			 * @param {boolean} disabled true for :disabled; false for :enabled
 			 */
 			function createDisabledPseudo(disabled) {
 
@@ -1043,7 +1043,7 @@
 			/**
 			 * Checks a node for validity as a Sizzle context
 			 * @param {Element|Object=} context
-			 * @returns {Element|Object|Boolean} The input node if acceptable, otherwise a falsy value
+			 * @returns {Element|Object|boolean} The input node if acceptable, otherwise a falsy value
 			 */
 			function testContext(context) {
 				return context && typeof context.getElementsByTagName !== "undefined" && context;
@@ -1055,7 +1055,7 @@
 			/**
 			 * Detects XML nodes
 			 * @param {Element|Object} elem An element or a document
-			 * @returns {Boolean} True iff elem is a non-HTML XML node
+			 * @returns {boolean} True iff elem is a non-HTML XML node
 			 */
 			isXML = Sizzle.isXML = function (elem) {
 				// documentElement is verified for cases where it doesn't yet exist
@@ -2613,7 +2613,7 @@
 			/**
 			 * A low-level selection function that works with Sizzle's compiled
 			 *  selector functions
-			 * @param {String|Function} selector A selector or a pre-compiled
+			 * @param {string|Function} selector A selector or a pre-compiled
 			 *  selector function built with Sizzle.compile
 			 * @param {Element} context
 			 * @param {Array} [results]

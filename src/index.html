@@ -71,16 +71,7 @@
 			 return this.slice(0, end);
 		 };
 
-		 /*Object.defineProperty(String.prototype, "upTo", {
-			 enumerable: false,
-			 value(searchString, fromEnd = false) {
-				 let end = fromEnd
-				           ? this.lastIndexOf(searchString)
-				           : this.indexOf(searchString);
-				 return this.slice(0, end);
-			 }
-		 },);
-		 */
+
 		 Object.defineProperty(String.prototype, "in", {
 			 enumerable: false,
 			 value(arr) {
