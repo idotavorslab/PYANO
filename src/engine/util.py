@@ -146,5 +146,9 @@ def prfl(s, js=True):
     sys.stdout.flush()
 
 
+def prjs(s):
+    print(json.dumps(s))
+
+
 def round5(num: float):
     return round(num, 5)

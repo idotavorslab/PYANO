@@ -167,18 +167,66 @@
 			 }
 		 });
 		 const { Alert } = require('pyano_local_modules/util/Alert');
+		 /**
+		  @param {string|number} num
+		  @return {number}
+		  */
+		 const int = (num) => Math.floor(num);
+		 const float = (str) => parseFloat(str);
+		 const max = (...values) => Math.max(...values);
+		 const min = (...values) => Math.min(...values);
 		 const small = (...args) => [`%c${args.join(' ')}`, `font-size:10px`];
 		 const any = (...items) => items.some(item => item instanceof Array ? any(...item) : bool(item));
-
 		 const all = (...items) => items.every(item => bool(item));
+
+		 function sum(arr) {
+			 let sum = 0;
+			 let dirty = false;
+			 for (let v of arr) {
+				 let number = float(v);
+				 if (!isNaN(number)) {
+					 dirty = true;
+					 sum += number;
+				 }
+
+			 }
+			 return !dirty ? null : sum;
+		 }
+
+		 const str = (val) => val ? val.toString() : "";
+
+		 /**@template T
+		  * @param {T[]} collection
+		  * @return {[string|number|T]}*/
+		 function enumerate(collection) {
+			 let entries = Object.entries(collection);
+			 entries.map(entry => entry[0] = entry[0].isdigit()
+			                                 ? int(entry[0])
+			                                 : entry[0]);
+			 return entries;
+		 }
+
 		 /**@param {*} val
 		  * @return {boolean}*/
 		 const bool = (val) =>
-			 (val instanceof Object)
-			 ? val.isEmpty()
-			   ? typeof val == 'function'
-			   : true
-			 : !!val;
+			 (val instanceof Object) ? val.isEmpty() ? typeof val == 'function'
+			                                         : true : !!val;
+
+		 function round(n, d = 0) {
+			 let fr = 10 ** d;
+			 return Math.floor(n * fr) / fr;
+		 }
+
+		 function* range(start, stop) {
+			 for (let i = start; i <= stop; i++)
+				 yield i;
+
+		 }
+
+		 function* zip(arr1, arr2) {
+			 for (let key in arr1)
+				 yield [arr1[key], arr2[key]];
+		 }
 
 		 const fsx = (() => {
 			 const fs = require("fs");
@@ -356,6 +404,11 @@
 					 base: new File(`${this.pathNoExt}.txt`),
 					 on: new File(`${this.pathNoExt}_on.txt`),
 					 off: new File(`${this.pathNoExt}_off.txt`),
+					 allExist: async () =>
+						 all(await asx.concurrent(
+							 this.txt.base.exists(),
+							 this.txt.on.exists(),
+							 this.txt.off.exists()))
 
 				 }))();
 				 this.midi = new File(`${this.pathNoExt}.mid`);

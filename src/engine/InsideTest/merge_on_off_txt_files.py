@@ -1,6 +1,7 @@
+import json
 import sys
 from classes import Message
-from util import prfl, Logger
+from util import prjs, Logger
 import itertools as it
 
 logger = Logger('merge_on_off_txt_files')
@@ -19,4 +20,6 @@ with open(base_path, mode="w") as base, open(on_path) as on, open(off_path) as o
     sorted_msgs = sorted(chained, key=lambda m: m.time)
     base.writelines(map(lambda m: m.to_line(), sorted_msgs))
 
-[prfl(msg.__dict__) for msg in sorted_msgs]
+prjs(dict(all_msgs=[msg.__dict__ for msg in sorted_msgs],
+          on_msgs=[msg.__dict__ for msg in on_msgs],
+          off_msgs=[msg.__dict__ for msg in off_msgs]))
