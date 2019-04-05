@@ -14,12 +14,12 @@ class Message:
         if not match:
             logger.log_thin(dict(line=line, match=match, regexp=regexp))
             raise ValueError(f"`line` did not re.fullmatch. See classes.log")
-
+        kind: str
         time, note, velocity, kind = line.split('\t')
         self.time = float(time)
         self.note = int(note[note.index("=") + 1:])
         self.velocity = int(velocity[velocity.index("=") + 1:])
-        self.kind = kind
+        self.kind = kind.strip()
 
         self.preceding_message_time = preceding_message_time
 
@@ -55,12 +55,11 @@ class Message:
     #         return f'{t}\t{s}'
 
     def to_line(self):
-        s = f'{self.time}\tnote={self.note}\tvelocity={self.velocity}\t{self.kind}'
+        s = f'{self.time}\tnote={self.note}\tvelocity={self.velocity}\t{self.kind}\n'
         return s
-        # return Message.from_mido_to_line(self, t=self.time)
 
     @staticmethod
-    def construct_many(lines: [str]) -> []:
+    def construct_many(lines: List[str]) -> []:
         container = [Message(lines[0])]
         for i, line in enumerate(lines[1:]):
             preceding_message_time = container[i].time
@@ -68,23 +67,11 @@ class Message:
         return container
 
     @staticmethod
-    def construct_many_from_file(file_path: str) -> Tuple[List[Any], List[Any]]:
+    def construct_many_from_file(file_path: str) -> List:
         Message._raise_if_bad_file(file_path)
         with open(file_path, mode="r") as f:
-            lines = f.readlines()
-        on_lines = []
-        off_lines = []
-        for line in lines:
-            if line.endswith('on\n'):
-                on_lines.append(line)
-            elif line.endswith('off\n'):
-                off_lines.append(line)
-            else:
-                logger.log_thin(dict(file_path=file_path, line=line, on_lines=on_lines, off_lines=off_lines))
-                raise ValueError(f"`line` did not end with either on\\t or off\\t. See classes.log")
-        on_messages = Message.construct_many(on_lines)
-        off_messages = Message.construct_many(off_lines)
-        return on_messages, off_messages
+            messages = Message.construct_many(f.readlines())
+        return messages
 
     @staticmethod
     def get_chords(messages) -> Dict[int, List[int]]:
@@ -113,8 +100,8 @@ class Message:
     @staticmethod
     def normalize_simultaneous_hits_in_file(file_path: str):
         from copy import deepcopy
-        on_messages, off_messages = Message.construct_many_from_file(file_path)
-        chords = Message.get_chords(on_messages)
+        messages = Message.construct_many_from_file(file_path)
+        chords = Message.get_chords(messages)
 
         should_write_changes = False
         for root, rest in chords.items():
@@ -134,9 +121,12 @@ class Message:
 
         if should_write_changes:
             with open(file_path, mode="w") as f:
-                lines = [msg.to_line() for msg in messages]
-                for line in lines:
-                    f.write(f'{line}\n')
+                for msg in messages:
+                    msg_line = msg.to_line()
+                    f.write(msg_line)
+                # lines = [msg.to_line() for msg in messages]
+                # for line in lines:
+                #     f.write(f'{line}\n')
         return messages
 
 

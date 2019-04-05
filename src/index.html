@@ -166,6 +166,128 @@
 		 });
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const small = (...args) => [`%c${args.join(' ')}`, `font-size:10px`];
+		 const any = (...items) => items.some(item => bool(item));
+
+		 /**@param {*} val
+		  * @return {boolean}*/
+		 const bool = (val) =>
+			 (val instanceof Object)
+			 ? val.isEmpty()
+			   ? typeof val == 'function'
+			   : true
+			 : !!val;
+
+		 const fsx = (() => {
+			 const fs = require("fs");
+			 const path = require("path");
+			 /**@param {PathLike|string} pathLike
+			  * @param {number | string | MakeDirectoryOptions | undefined | null} options
+			  * @return {Promise<boolean>}*/
+			 const mkdir = (pathLike, options) => new Promise(resolve =>
+				 fs.mkdir(pathLike, options, err => resolve(!bool(err))));
+
+			 /**@param {PathLike|string} pathLike
+			  * @return {Promise<boolean>}*/
+			 const path_exists = pathLike => new Promise(resolve =>
+				 fs.access(pathLike, fs.constants.F_OK, err => resolve(!bool(err))));
+
+			 /**@param {PathLike|string} pathLike
+			  @param {string} ext
+			  @return {string}*/
+			 const replace_ext = (pathLike, ext) => {
+				 if (ext.includes('.'))
+					 throw new Error(`ext included dot ".", ext: ${ext}`);
+				 return `${remove_ext(pathLike)}.${ext}`;
+			 };
+
+			 /**
+			  * @param {PathLike|string} pathLike
+			  * @return {string}
+			  * @example
+			  * remove_ext("experiments/truths/fur_elise_B.txt")
+			  * >>> experiments/truths/fur_elise_B
+			  * remove_ext("fur_elise_B.txt")
+			  * >>> fur_elise_B */
+			 const remove_ext = pathLike => path.join(path.dirname(pathLike), path.basename(pathLike, path.extname(pathLike)));
+
+			 /**@param {PathLike|string} pathLike
+			  * @param {string|number} push
+			  * @return {string}*/
+			 const push_before_ext = (pathLike, push) => {
+				 let ext = path.extname(pathLike);
+				 return `${remove_ext(pathLike)}${push}${ext}`;
+			 };
+			 /** @type {{path_exists: (function((PathLike|string)): Promise<boolean>), push_before_ext: (function((PathLike|string), (string|number)): string), remove_ext: (function((PathLike|string)): string), mkdir: (function((PathLike|string), (number|string|MakeDirectoryOptions|undefined|null)): Promise<boolean>), replace_ext: (function((PathLike|string), string): string)}}*/
+			 const newVar = { mkdir, path_exists, replace_ext, remove_ext, push_before_ext };
+			 return newVar;
+		 })();
+		 const asx = (() => {
+			 /**@param {number} ms
+			  * @return {Promise}*/
+			 async function wait(ms) {
+				 return new Promise(resolve => setTimeout(resolve, ms));
+			 }
+
+			 /**@param {jQuery} jQuery
+			  @param {number} ms
+			  @return {Promise<jQuery>}*/
+			 const $fadeOut = (jQuery, ms) => new Promise(resolve => jQuery.fadeTo(ms, 0, resolve));
+
+			 /**@param {jQuery} jQuery
+			  @param {number} ms
+			  @reutrn {Promise<jQuery>}*/
+			 const $fadeIn = (jQuery, ms) => new Promise(resolve => jQuery.fadeTo(ms, 1, resolve));
+
+			 /**@param {number} ms
+			  @param {...jQuery} jQueries
+			  @return {Promise<jQuery[]>}*/
+			 async function $fadeInMany(ms, ...jQueries) {
+				 let promises = [];
+				 for (let jQ of jQueries)
+					 promises.push($fadeIn(jQ, ms));
+
+				 return await Promise.all(promises);
+			 }
+
+			 /**@param {number} ms
+			  @param {...jQuery} jQueries
+			  @return {Promise<jQuery[]>}*/
+			 async function $fadeOutMany(ms, ...jQueries) {
+				 let promises = [];
+				 for (let jQ of jQueries)
+					 promises.push($fadeOut(jQ, ms));
+
+				 return await Promise.all(promises);
+			 }
+
+			 /**@template T
+			  * @param {...function():T} fns
+			  * @return {Promise<T[]>}*/
+			 async function concurrent(...fns) {
+				 return await Promise.all(fns);
+			 }
+
+			 /**@type {
+			  *     {
+			  *         $fadeIn: (function(jQuery, number): Promise<jQuery>),
+			  *         $fadeInMany: (function(number, ...jQuery): jQuery[]),
+			  *         $fadeOut: (function(jQuery, number): Promise<jQuery>),
+			  *         $fadeOutMany: (function(number, ...jQuery): jQuery[]),
+			  *         concurrent: (function(...function(): T): T[])
+			  *         wait: (function(number): Promise<*>),
+			  *     }
+			  * }
+			  * @template T*/
+			 const newVar = {
+				 $fadeIn,
+				 $fadeOut,
+				 $fadeOutMany,
+				 $fadeInMany,
+				 concurrent,
+				 wait,
+			 };
+			 return newVar;
+		 })();
 
 
     </script>
