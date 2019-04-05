@@ -168,7 +168,8 @@
 		 });
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const small = (...args) => [`%c${args.join(' ')}`, `font-size:10px`];
-		 const any = (...items) => items.some(item => bool(item));
+		 const any = (...items) => items.some(item => item instanceof Array ? any(...item) : bool(item));
+
 		 const all = (...items) => items.every(item => bool(item));
 		 /**@param {*} val
 		  * @return {boolean}*/
@@ -291,7 +292,7 @@
 			 }
 
 			 /**@template T
-			  * @param {...function():T|void} fns
+			  * @param {...function():Promise<T>|T|void} fns
 			  * @return {Promise<T[]>}*/
 			 async function concurrent(...fns) {
 				 return await Promise.all(fns);
@@ -318,6 +319,51 @@
 			 };
 			 return newVar;
 		 })();
+
+		 class File {
+			 constructor(filepath) {
+				 const path = require("path");
+				 if (!bool(path.extname(filepath)))
+					 throw new Error(`File constructor: passed 'filepath' is extensionless: ${filepath}`);
+				 this.path = filepath;
+				 this.noExt = fsx.remove_ext(this.path);
+				 if (path.isAbsolute(this.path)) {
+					 this.name = new File(fsx.basename(this.path));
+				 }
+
+			 }
+
+			 toString() {
+				 return this.path;
+			 }
+
+			 /**@return {Promise<boolean>}*/
+			 async exists() {
+				 return await fsx.path_exists(this.path);
+			 }
+		 }
+
+		 class Truth {
+			 constructor(pathNoExt) {
+				 const path = require("path");
+				 if (!path.isAbsolute(pathNoExt))
+					 throw new Error(`Truth constructor: passed 'pathNoExt' is not absolute: ${pathNoExt}`);
+				 if (bool(path.extname(pathNoExt)))
+					 throw new Error(`Truth constructor: passed 'pathNoExt' is not extensionless: ${pathNoExt}`);
+				 this.pathNoExt = pathNoExt;
+				 this.name = fsx.basename(this.pathNoExt);
+				 this.txt = (() => ({
+					 base: new File(`${this.pathNoExt}.txt`),
+					 on: new File(`${this.pathNoExt}_on.txt`),
+					 off: new File(`${this.pathNoExt}_off.txt`),
+
+				 }))();
+				 this.midi = new File(`${this.pathNoExt}.mid`);
+				 this.mp4 = new File(`${this.pathNoExt}.mp4`);
+				 this.mov = new File(`${this.pathNoExt}.mov`);
+
+			 }
+		 }
 
 
     </script>
