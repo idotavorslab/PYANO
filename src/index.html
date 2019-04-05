@@ -426,6 +426,14 @@
 				 this.mov = new File(`${this.pathNoExt}.mov`);
 
 			 }
+
+			 /**@return {Promise<number>}*/
+			 async numOfNotes() {
+				 return await require("fs")
+					 .readFileSync(this.txt.on.path, { encoding: 'utf8' })
+					 .split('\n')
+					 .filter(line => bool(line)).length;
+			 }
 		 }
 
 
