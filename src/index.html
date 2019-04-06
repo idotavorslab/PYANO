@@ -63,16 +63,16 @@
 
 		 },);
 
-		 /**@param {string} searchString
-		  * @param {boolean} [fromEnd=false]
-		  * @return {string}*/
-		 String.prototype.upTo = (searchString, fromEnd = false) => {
-			 let end = fromEnd
-			           ? this.lastIndexOf(searchString)
-			           : this.indexOf(searchString);
-			 return this.slice(0, end);
-		 };
 
+		 Object.defineProperty(String.prototype, "upTo", {
+			 enumerable: false,
+			 value(searchString, fromEnd = false) {
+				 let end = fromEnd
+				           ? this.lastIndexOf(searchString)
+				           : this.indexOf(searchString);
+				 return this.slice(0, end);
+			 }
+		 },);
 		 Object.defineProperty(String.prototype, "in", {
 			 enumerable: false,
 			 value(arr) {
@@ -299,16 +299,30 @@
 				 return [...paths.map(p => Path.basename(p))];
 			 }
 
+			 /**@param {string} pathLike
+			  * @return {string}*/
+			 function dirname(pathLike) {
+				 return Path.dirname(pathLike);
+			 }
+
+			 /**@param {string} pathLike
+			  * @return {string}*/
+			 function extname(pathLike) {
+				 return Path.extname(pathLike);
+			 }
 
 			 /** @type {{
 			  * basename:(function(string|PathLike,?string):string),
 			  * basenames:(function(...string|PathLike):string[]),
+			  * dirname:(function(...string|PathLike):string),
+			  * extname:(function(...string|PathLike):string),
+			  * mkdir: (function((PathLike|string), (number|string|MakeDirectoryOptions|undefined|null)): Promise<boolean>),
 			  * path_exists: (function((PathLike|string)): Promise<boolean>),
 			  * push_before_ext: (function((PathLike|string), (string|number)): string),
 			  * remove_ext: (function((PathLike|string)): string),
-			  * mkdir: (function((PathLike|string), (number|string|MakeDirectoryOptions|undefined|null)): Promise<boolean>),
-			  * replace_ext: (function((PathLike|string), string): string)}}*/
-			 return { basenames, basename, mkdir, path_exists, replace_ext, remove_ext, push_before_ext };
+			  * replace_ext: (function((PathLike|string), string): string)}}
+			  * */
+			 return { basenames, basename, dirname, extname, mkdir, path_exists, replace_ext, remove_ext, push_before_ext };
 		 })();
 		 const asx = (() => {
 			 /**@param {number} ms
