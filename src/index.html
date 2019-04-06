@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <title>Pyano</title>
 
-    <script type="text/javascript" defer>
-
-		 console.log('index.html extendPrimitivePrototypes()');
+    <script id="globals" type="text/javascript" defer>
+		 console.log('index.html globals');
+		 // ***Prototypes
 		 Object.defineProperty(Object.prototype, "isEmpty", {
 			 enumerable: false,
 			 value() {
@@ -165,18 +165,51 @@
 
 			 }
 		 });
+
 		 const { Alert } = require('pyano_local_modules/util/Alert');
+		 const Path = require("path");
+
+		 const all = (...items) => items.every(item => bool(item));
+		 const any = (...items) => items.some(item => item instanceof Array ? any(...item) : bool(item));
+		 /**@param {*} val
+		  * @return {boolean}*/
+		 const bool = (val) =>
+			 (val instanceof Object) ? val.isEmpty() ? typeof val == 'function'
+			                                         : true : !!val;
+
+		 /**@template T
+		  * @param {T[]|T} collection
+		  * @return {[string|number|T]}*/
+		 function enumerate(collection) {
+			 let entries = Object.entries(collection);
+			 entries.map(entry => entry[0] = entry[0].isdigit()
+			                                 ? int(entry[0])
+			                                 : entry[0]);
+			 return entries;
+		 }
+
+		 const float = (str) => parseFloat(str);
 		 /**
 		  @param {string|number} num
 		  @return {number}
 		  */
 		 const int = (num) => Math.floor(num);
-		 const float = (str) => parseFloat(str);
 		 const max = (...values) => Math.max(...values);
 		 const min = (...values) => Math.min(...values);
+
+		 function* range(start, stop) {
+			 for (let i = start; i <= stop; i++)
+				 yield i;
+
+		 }
+
+		 function round(n, d = 0) {
+			 let fr = 10 ** d;
+			 return Math.floor(n * fr) / fr;
+		 }
+
 		 const small = (...args) => [`%c${args.join(' ')}`, `font-size:10px`];
-		 const any = (...items) => items.some(item => item instanceof Array ? any(...item) : bool(item));
-		 const all = (...items) => items.every(item => bool(item));
+		 const str = (val) => val ? val.toString() : "";
 
 		 function sum(arr) {
 			 let sum = 0;
@@ -192,44 +225,16 @@
 			 return !dirty ? null : sum;
 		 }
 
-		 const str = (val) => val ? val.toString() : "";
-
-		 /**@template T
-		  * @param {T[]|T} collection
-		  * @return {[string|number|T]}*/
-		 function enumerate(collection) {
-			 let entries = Object.entries(collection);
-			 entries.map(entry => entry[0] = entry[0].isdigit()
-			                                 ? int(entry[0])
-			                                 : entry[0]);
-			 return entries;
-		 }
-
-		 /**@param {*} val
-		  * @return {boolean}*/
-		 const bool = (val) =>
-			 (val instanceof Object) ? val.isEmpty() ? typeof val == 'function'
-			                                         : true : !!val;
-
-		 function round(n, d = 0) {
-			 let fr = 10 ** d;
-			 return Math.floor(n * fr) / fr;
-		 }
-
-		 function* range(start, stop) {
-			 for (let i = start; i <= stop; i++)
-				 yield i;
-
-		 }
 
 		 function* zip(arr1, arr2) {
 			 for (let key in arr1)
 				 yield [arr1[key], arr2[key]];
 		 }
 
+
 		 const fsx = (() => {
 			 const fs = require("fs");
-			 const path = require("path");
+			 // const path = require("path");
 			 /**@param {PathLike|string} pathLike
 			  * @param {number | string | MakeDirectoryOptions | undefined | null} options
 			  * @return {Promise<boolean>}*/
@@ -260,7 +265,7 @@
 			  * >>> experiments/truths/fur_elise_B
 			  * remove_ext("fur_elise_B.txt")
 			  * >>> fur_elise_B */
-			 const remove_ext = pathLike => path.join(path.dirname(pathLike), path.basename(pathLike, path.extname(pathLike)));
+			 const remove_ext = pathLike => Path.join(Path.dirname(pathLike), Path.basename(pathLike, Path.extname(pathLike)));
 
 			 /**
 			  * {@link remove_ext Uses remove_ext}
@@ -269,7 +274,7 @@
 			  * @return {string}
 			  * */
 			 const push_before_ext = (pathLike, push) => {
-				 let ext = path.extname(pathLike);
+				 let ext = Path.extname(pathLike);
 				 return `${remove_ext(pathLike)}${push}${ext}`;
 			 };
 
@@ -277,15 +282,15 @@
 			  * @param {?string} ext*/
 			 function basename(pathLike, ext = null) {
 				 if (!ext)
-					 return path.basename(pathLike);
-				 return path.basename(pathLike, ext);
+					 return Path.basename(pathLike);
+				 return Path.basename(pathLike, ext);
 			 }
 
 			 /**@param {...string} paths
 			  * @return {string[]}
 			  * */
 			 function basenames(...paths) {
-				 return [...paths.map(p => path.basename(p))];
+				 return [...paths.map(p => Path.basename(p))];
 			 }
 
 			 /** @type {{
@@ -296,8 +301,7 @@
 			  * remove_ext: (function((PathLike|string)): string),
 			  * mkdir: (function((PathLike|string), (number|string|MakeDirectoryOptions|undefined|null)): Promise<boolean>),
 			  * replace_ext: (function((PathLike|string), string): string)}}*/
-			 const newVar = { basenames, basename, mkdir, path_exists, replace_ext, remove_ext, push_before_ext };
-			 return newVar;
+			 return { basenames, basename, mkdir, path_exists, replace_ext, remove_ext, push_before_ext };
 		 })();
 		 const asx = (() => {
 			 /**@param {number} ms
@@ -367,16 +371,21 @@
 			 return newVar;
 		 })();
 
-		 class File {
-			 constructor(filepath) {
-				 const path = require("path");
-				 if (!bool(path.extname(filepath)))
-					 throw new Error(`File constructor: passed 'filepath' is extensionless: ${filepath}`);
-				 this.path = filepath;
-				 this.noExt = fsx.remove_ext(this.path);
-				 if (path.isAbsolute(this.path)) {
-					 this.name = new File(fsx.basename(this.path));
-				 }
+
+		 class _File {
+			 constructor(pathWithExt) {
+				 if (!bool(Path.extname(pathWithExt)))
+					 throw new Error(`File constructor: passed 'pathWithExt' is extensionless: ${pathWithExt}`);
+				 /**The path including extension. Can be either absolute or a file name.
+				  * @type {string} path*/
+				 this.path = pathWithExt;
+				 /**The path without extension. Can be either absolute or a file name.
+				  * @type {string} pathNoExt*/
+				 this.pathNoExt = fsx.remove_ext(this.path);
+				 if (Path.isAbsolute(this.path))
+					 /**If exists, a File object of the basename.
+					  * @type {_File} name*/
+					 this.name = new _File(fsx.basename(this.path));
 
 			 }
 
@@ -398,37 +407,65 @@
 		 class Truth {
 			 /**@param {string} pathNoExt*/
 			 constructor(pathNoExt) {
-				 const path = require("path");
-				 if (!path.isAbsolute(pathNoExt))
-					 throw new Error(`Truth constructor: passed 'pathNoExt' is not absolute: ${pathNoExt}`);
-				 if (bool(path.extname(pathNoExt)))
-					 throw new Error(`Truth constructor: passed 'pathNoExt' is not extensionless: ${pathNoExt}`);
+				 if (!Path.isAbsolute(pathNoExt))
+					 return new Error(`Passed path is not absolute: ${pathNoExt}`);
+				 if (bool(Path.extname(pathNoExt)))
+					 return new Error(`Passed path is not extensionless: ${pathNoExt}`);
+				 /**The absolute path without extension.
+				  * @type {string} pathNoExt*/
 				 this.pathNoExt = pathNoExt;
+				 /**The basename without extension.
+				  * @type {string} name*/
 				 this.name = fsx.basename(this.pathNoExt);
-				 this.txt = (() => ({
-					 base: new File(`${this.pathNoExt}.txt`),
-					 on: new File(`${this.pathNoExt}_on.txt`),
-					 off: new File(`${this.pathNoExt}_off.txt`),
-					 allExist: async () =>
+				 /**
+				  * @prop {_File} base - A _File object representing the absolute ``*_base.txt`` path.
+				  * @prop {_File} on - A _File object representing the absolute ``*_on.txt``  path.
+				  * @prop {_File} off - A _File object representing the absolute ``*_off.txt`` path.
+				  * */
+				 this.txt = new class {
+					 constructor() {
+						 this.base = new _File(`${this.pathNoExt}.txt`);
+						 this.on = new _File(`${this.pathNoExt}_on.txt`);
+						 this.off = new _File(`${this.pathNoExt}_off.txt`);
+					 }
+
+					 /**@return {Promise<boolean>}*/
+					 async allExist() {
 						 all(await asx.concurrent(
 							 this.txt.base.exists(),
 							 this.txt.on.exists(),
-							 this.txt.off.exists())),
-					 anyExist: async () =>
+							 this.txt.off.exists()));
+					 }
+
+					 /**@return {Promise<boolean>}*/
+					 async anyExist() {
 						 any(await asx.concurrent(
 							 this.txt.base.exists(),
 							 this.txt.on.exists(),
-							 this.txt.off.exists())),
-					 removeAll: async () => await asx.concurrent(
-						 this.txt.base.remove(),
-						 this.txt.on.remove(),
-						 this.txt.off.remove())
+							 this.txt.off.exists()));
+					 }
 
-				 }))();
-				 this.midi = new File(`${this.pathNoExt}.mid`);
-				 this.mp4 = new File(`${this.pathNoExt}.mp4`);
-				 this.mov = new File(`${this.pathNoExt}.mov`);
-				 this.onsets = new File(`${this.pathNoExt}_onsets.json`);
+					 /**@return {Promise<void>}*/
+					 async removeAll() {
+						 await asx.concurrent(
+							 this.txt.base.remove(),
+							 this.txt.on.remove(),
+							 this.txt.off.remove());
+					 }
+				 };
+
+				 /**A _File object of the midi file.
+				  * @type {_File} midi*/
+				 this.midi = new _File(`${this.pathNoExt}.mid`);
+				 /**A _File object of the mp4 file.
+				  * @type {_File} mp4*/
+				 this.mp4 = new _File(`${this.pathNoExt}.mp4`);
+				 /**A _File object of the mov file.
+				  * @type {_File} mov*/
+				 this.mov = new _File(`${this.pathNoExt}.mov`);
+				 /**A _File object of the onsets file.
+				  * @type {_File} onsets*/
+				 this.onsets = new _File(`${this.pathNoExt}_onsets.json`);
 
 			 }
 
