@@ -473,10 +473,13 @@
 
 					 /**@return {Promise<void>}*/
 					 async removeAll() {
-						 await asx.concurrent(
-							 this.base.remove(),
-							 this.on.remove(),
-							 this.off.remove());
+						 if (await this.base.exists())
+							 await this.base.remove();
+						 if (await this.on.exists())
+							 await this.on.remove();
+						 if (await this.off.exists())
+							 await this.off.remove();
+
 					 }
 				 }(this.pathNoExt);
 
