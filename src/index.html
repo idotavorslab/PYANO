@@ -171,7 +171,6 @@
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const Path = require("path");
 
-		 // const all = (...items) => items.every(item => bool(item));
 		 const any = (...items) => items.some(item => item instanceof Array ? any(...item) : bool(item));
 		 const all = (...items) => items.every(item => item instanceof Array ? all(...item) : bool(item));
 		 /**@param {*} val
@@ -242,7 +241,6 @@
 
 		 const fsx = (() => {
 			 const fs = require("fs");
-			 // const path = require("path");
 			 /**@param {PathLike|string} pathLike
 			  * @param {number | string | MakeDirectoryOptions | undefined | null} options
 			  * @return {Promise<boolean>}*/
