@@ -116,7 +116,7 @@
 					 .join(replaceValue);
 			 }
 		 });
-		 Object.defineProperty(Number.prototype, "idx2human", {
+		 Object.defineProperty(Number.prototype, "human", {
 			 enumerable: false,
 			 value(letters = false) {
 				 switch (Math.floor(this) + 1) {
@@ -196,6 +196,7 @@
 		  @return {number}
 		  */
 		 const int = (num) => Math.floor(num);
+		 /**@param {...number} values*/
 		 const max = (...values) => Math.max(...values);
 		 const min = (...values) => Math.min(...values);
 
@@ -213,6 +214,7 @@
 		 const small = (...args) => [`%c${args.join(' ')}`, `font-size:10px`];
 		 const str = (val) => val ? val.toString() : "";
 
+		 /**@param {*[]} arr*/
 		 function sum(arr) {
 			 let sum = 0;
 			 let dirty = false;
