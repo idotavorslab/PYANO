@@ -171,8 +171,9 @@
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const Path = require("path");
 
-		 const all = (...items) => items.every(item => bool(item));
+		 // const all = (...items) => items.every(item => bool(item));
 		 const any = (...items) => items.some(item => item instanceof Array ? any(...item) : bool(item));
+		 const all = (...items) => items.every(item => item instanceof Array ? all(...item) : bool(item));
 		 /**@param {*} val
 		  * @return {boolean}*/
 		 const bool = (val) =>
@@ -418,9 +419,9 @@
 			  * @param {string} pathNoExt*/
 			 constructor(pathNoExt) {
 				 if (!Path.isAbsolute(pathNoExt))
-					 return new Error(`Passed path is not absolute: ${pathNoExt}`);
+					 throw new Error(`Passed path is not absolute: ${pathNoExt}`);
 				 if (bool(Path.extname(pathNoExt)))
-					 return new Error(`Passed path is not extensionless: ${pathNoExt}`);
+					 throw new Error(`Passed path is not extensionless: ${pathNoExt}`);
 				 /**The absolute path without extension.
 				  * @type {string} pathNoExt*/
 				 this.pathNoExt = pathNoExt;
