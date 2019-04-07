@@ -16,13 +16,14 @@
 		 Object.defineProperty(Object.prototype, "items", {
 			 enumerable: false,
 			 value() {
-				 return Object.entries(this);
+				 return enumerate(this);
 			 }
 		 });
 		 Object.defineProperty(Object.prototype, "keys", {
 			 enumerable: false,
 			 value() {
-				 return Object.keys(this);
+				 return Object.keys(this).map(key => key.isdigit()
+				                                     ? int(key) : key);
 			 }
 		 });
 		 Object.defineProperty(Array.prototype, "last", {
