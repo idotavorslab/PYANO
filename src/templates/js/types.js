@@ -3,8 +3,8 @@
  * @prop {string} truth_file_path
  * @prop {number} finished_trials_count
  * @prop {TLevel[]} levels
- * @prop {string} learning_type
- * @prop {string} demo_type
+ * @prop {TLearningType} learning_type
+ * @prop {TDemoType} demo_type
  * @prop {string} current_subject
  * @prop {number} errors_playingspeed
  * @prop {number} allowed_tempo_deviation_factor
@@ -24,7 +24,7 @@
  * @prop {number} time_delta
  * @prop {number} velocity
  * @prop {number} preceding_message_time
- * @prop {string} kind
+ * @prop {'off' | 'on'} kind
  */
 
 
@@ -128,3 +128,7 @@
 }
 } SweetOptions*/
 
+
+/** @typedef {'accuracy' | 'tempo'} TLearningType*/
+/** @typedef {'video' | 'animation'} TDemoType*/
+/**@typedef {'new_test' | 'inside_test' | 'record' | 'file_tools' | 'settings'} TLastPage*/

@@ -453,7 +453,8 @@
 
 			 async renameByCTime() {
 				 const fs = require("fs");
-				 const stats = await fs.statSync(this.path);
+
+				 const stats = await fs.lstatSync(this.path);
 				 const datestr = stats.ctime.human();
 				 const newPath = fsx.push_before_ext(this.path, `__CREATED_${datestr}`);
 				 console.log('renameByCTime() to: ', newPath);
@@ -482,6 +483,12 @@
 			 /**@return {Promise<void>}*/
 			 async remove() {
 				 return await require('fs').unlinkSync(this.path);
+			 }
+
+			 /**@return {number}*/
+			 async size() {
+				 let { size } = await require("fs").lstatSync(this.path);
+				 return size;
 			 }
 		 }
 
@@ -514,6 +521,11 @@
 						 this.off = new _File(`${pathNoExt}_off.txt`);
 					 }
 
+					 /**@return {[_File,_File,_File]}*/
+					 getAll() {
+						 return [this.base, this.on, this.off];
+					 }
+
 					 /**@return {_File[]}*/
 					 async getMissing() {
 						 let missing = [];
@@ -529,7 +541,7 @@
 
 					 /**@return {Promise<boolean>}*/
 					 async allExist() {
-						 return all(await asx.concurrent(
+						 return all(...await asx.concurrent(
 							 this.base.exists(),
 							 this.on.exists(),
 							 this.off.exists()));
@@ -537,7 +549,7 @@
 
 					 /**@return {Promise<boolean>}*/
 					 async anyExist() {
-						 return any(await asx.concurrent(
+						 return any(...await asx.concurrent(
 							 this.base.exists(),
 							 this.on.exists(),
 							 this.off.exists()));
@@ -562,6 +574,8 @@
 							 fs.renameSync(this.off.path, other.off.path),
 						 );
 					 }
+
+
 				 }(this.pathNoExt);
 
 				 /**A _File object of the midi file.
