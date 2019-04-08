@@ -445,6 +445,12 @@
 				 return this.path;
 			 }
 
+			 /**@param {_File} other*/
+			 async renameByOtherFile(other) {
+				 const fs = require("fs");
+				 await fs.renameSync(this.path, other.path);
+			 }
+
 			 async renameByCTime() {
 				 const fs = require("fs");
 				 const stats = await fs.statSync(this.path);
@@ -546,6 +552,15 @@
 						 if (await this.off.exists())
 							 await this.off.remove();
 
+					 }
+
+					 async renameByOtherTxt(other) {
+						 const fs = require("fs");
+						 return await asx.concurrent(
+							 fs.renameSync(this.base.path, other.base.path),
+							 fs.renameSync(this.on.path, other.on.path),
+							 fs.renameSync(this.off.path, other.off.path),
+						 );
 					 }
 				 }(this.pathNoExt);
 
