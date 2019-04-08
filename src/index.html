@@ -168,7 +168,21 @@
 
 			 }
 		 });
-
+		 Object.defineProperty(Date.prototype, "human", {
+			 enumerable: false, value() {
+				 let d = this.getUTCDate();
+				 d = d < 10
+				     ? `0${d}`
+				     : d;
+				 let m = this.getMonth() + 1;
+				 m = m < 10
+				     ? `0${m}`
+				     : m;
+				 const y = this.getFullYear();
+				 const t = this.toTimeString().slice(0, 8).replaceAll(':', '-');
+				 return `${d}_${m}_${y}_${t}`;
+			 }
+		 });
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const Path = require("path");
 
@@ -207,6 +221,9 @@
 
 		 }
 
+		 /**@param {number} n
+		  * @param {number} d
+		  * @return {number}*/
 		 function round(n, d = 0) {
 			 let fr = 10 ** d;
 			 return Math.floor(n * fr) / fr;
@@ -245,7 +262,7 @@
 		 const fsx = (() => {
 			 const fs = require("fs");
 			 /**@param {PathLike|string} pathLike
-			  * @param {number | string | MakeDirectoryOptions | undefined | null} options
+			  * @param {{mode?:number, recursive?:boolean}} options
 			  * @return {Promise<boolean>}*/
 			 const mkdir = (pathLike, options) => new Promise(resolve =>
 				 fs.mkdir(pathLike, options, err => resolve(!bool(err))));
@@ -373,6 +390,14 @@
 				 return await Promise.all(fns);
 			 }
 
+			 /**@template T
+			  * @param {...function():Promise<T>|T|void} fns
+			  * @return {Promise<T[]>}*/
+			 async function waterfall(...fns) {
+				 for (let fn of fns)
+					 await fn();
+			 }
+
 			 /**@type {
 			  *     {
 			  *         $fadeIn: (function(jQuery, number): Promise<jQuery>),
@@ -391,6 +416,7 @@
 				 $fadeInMany,
 				 concurrent,
 				 wait,
+				 waterfall,
 			 };
 			 return newVar;
 		 })();
@@ -419,6 +445,29 @@
 				 return this.path;
 			 }
 
+			 async renameByCTime() {
+				 const fs = require("fs");
+				 const stats = await fs.statSync(this.path);
+				 const datestr = stats.ctime.human();
+				 const newPath = fsx.push_before_ext(this.path, `__CREATED_${datestr}`);
+				 console.log('renameByCTime() to: ', newPath);
+				 await fs.renameSync(this.path, newPath);
+			 }
+
+			 /**@throws {Error} error if file isn't "mp4" or "mov"
+			  * @return {Promise<[string,string]>}
+			  * */
+			 async getBitrateAndHeight() {
+				 if (!this.path.endsWith('mp4') && !this.path.endsWith('mov'))
+					 throw new Error(`_File: "${this.path}" isn't "mp4" or "mov"`);
+				 const { execSync } = require('child_process');
+				 const ffprobeCmd = `ffprobe -v quiet -print_format json -show_streams -show_format`;
+				 const probe = JSON.parse(await execSync(`${ffprobeCmd} "${this.path}"`, { encoding: 'utf8' }));
+				 const { bit_rate, height } = probe.streams.find(s => s["codec_type"] == "video");
+				 return [bit_rate, height];
+			 }
+
+
 			 /**@return {Promise<boolean>}*/
 			 async exists() {
 				 return await fsx.path_exists(this.path);
@@ -436,8 +485,10 @@
 			 constructor(pathNoExt) {
 				 if (!Path.isAbsolute(pathNoExt))
 					 throw new Error(`Passed path is not absolute: ${pathNoExt}`);
-				 if (bool(Path.extname(pathNoExt)))
+				 if (bool(fsx.extname(pathNoExt)))
 					 throw new Error(`Passed path is not extensionless: ${pathNoExt}`);
+				 if (pathNoExt.endsWith('off') || pathNoExt.endsWith('on'))
+					 throw new Error(`Passed path of "_on" or "_off" file and not base: ${pathNoExt}`);
 				 /**The absolute path without extension.
 				  * @type {string} pathNoExt*/
 				 this.pathNoExt = pathNoExt;
@@ -450,10 +501,24 @@
 				  * @prop {_File} off - A _File object representing the absolute ``*_off.txt`` path.
 				  * */
 				 this.txt = new class {
+					 /**@param {string} pathNoExt*/
 					 constructor(pathNoExt) {
 						 this.base = new _File(`${pathNoExt}.txt`);
 						 this.on = new _File(`${pathNoExt}_on.txt`);
 						 this.off = new _File(`${pathNoExt}_off.txt`);
+					 }
+
+					 /**@return {_File[]}*/
+					 async getMissing() {
+						 let missing = [];
+						 if (!(await this.base.exists()))
+							 missing.push(this.base);
+						 if (!(await this.on.exists()))
+							 missing.push(this.on);
+						 if (!(await this.off.exists()))
+							 missing.push(this.off);
+
+						 return missing;
 					 }
 
 					 /**@return {Promise<boolean>}*/

@@ -30,12 +30,12 @@
 
 /**
  @typedef playMidiFileOptions
- @prop {Truth} truth
- @prop {Piano} playbackPiano
  @prop {Animation?} animation
+ @prop {Array<string|null>?} mistakes
  @prop {number?} numOfNotes
  @prop {number?} speed
- @prop {Array<string|null>?} mistakes
+ @prop {Piano} playbackPiano
+ @prop {Truth} truth
  */
 
 /**
@@ -55,3 +55,76 @@
  @prop {number} trialIndex
  @prop {string[]} mistakes
  @prop {Truth} truth*/
+
+
+/**@typedef {{
+        allowEnterKey?: boolean | function(*):boolean,
+        allowEscapeKey?: boolean | function(*):boolean,
+        allowOutsideClick?: boolean | function(*):boolean,
+        animation?: boolean | function(*):boolean,
+        backdrop?: boolean | string,
+        background?: string,
+        buttonsStyling?: boolean,
+        cancelButtonAriaLabel?: string,
+        cancelButtonClass?: string,
+        cancelButtonColor?: string,
+        cancelButtonText?: string,
+        closeButtonAriaLabel?: string,
+        confirmButtonAriaLabel?: string,
+        confirmButtonClass?: string,
+        confirmButtonColor?: string,
+        confirmButtonText?: string,
+        currentProgressStep?: string,
+        customClass?: string,
+        customContainerClass?: string,
+        focusCancel?: boolean,
+        focusConfirm?: boolean,
+        footer?: string | jQuery,
+        grow?: 'row' | 'column' | 'fullscreen' | boolean,
+        heightAuto?: boolean,
+        html?: string | HTMLElement | jQuery,
+        imageAlt?: string,
+        imageClass?: string,
+        imageHeight?: number,
+        imageUrl?: string,
+        imageWidth?: number,
+        input?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'range' | 'textarea' | 'select' | 'radio' | 'checkbox' |
+            'file' | 'url',
+        inputAttributes?: Object,
+        inputAutoTrim?: boolean,
+        inputClass?: string,
+        inputOptions?: Object,
+        inputPlaceholder?: string,
+        inputValidator?: function (string): string | null,
+        inputValue?: string,
+        keydownListenerCapture?: boolean,
+        onAfterClose?: Function,
+        onBeforeOpen?: function (HTMLElement): void,
+        onClose?: function (HTMLElement): void,
+        onOpen?: function (HTMLElement): void,
+        padding?: number | string,
+        position?: 'top' | 'top-start' | 'top-end' | 'top-left' | 'top-right' |
+            'center' | 'center-start' | 'center-end' | 'center-left' | 'center-right' |
+            'bottom' | 'bottom-start' | 'bottom-end' | 'bottom-left' | 'bottom-right',
+        preConfirm?: Function,
+        progressSteps?: string[],
+        progressStepsDistance?: string,
+        reverseButtons?: boolean,
+        scrollbarPadding?: boolean,
+        showCancelButton?: boolean,
+        showCloseButton?: boolean,
+        showConfirmButton?: boolean,
+        showLoaderOnConfirm?: boolean,
+        stopKeydownPropagation?: boolean,
+        target?: string,
+        text?: string,
+        timer?: ?number,
+        title?: string,
+        titleText?: string,
+        toast?: boolean,
+        type?: 'success' | 'error' | 'warning' | 'info' | 'question',
+        validationMessage?: string,
+        width?: number | string,
+}
+} SweetOptions*/
+
