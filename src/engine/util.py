@@ -87,12 +87,12 @@ class Logger:
 
             f.write(f'{beginning}{middle}{end}{final}')
 
-    def log_thin(self, exp, should_pf=True, title=None):
-        self.log(exp, should_pf, include_is_stringified=False, include_type=False, title=title)
+    def log_thin(self, exp, should_pf=True, include_type=False, include_is_stringified=False, title=None):
+        self.log(exp, should_pf, include_is_stringified=include_is_stringified, include_type=include_type, title=title)
 
 
 # TODO: unused
-class TestCfg:
+"""class TestCfg:
     def __init__(self, cfg):
         self.truth_file_path: str = cfg["truth_file_path"]
         self.learning_type: str = cfg["learning_type"]
@@ -129,7 +129,7 @@ class TestCfg:
         output_file_name = f'level_{level_index}_trial_{trial_index}'
         # ...subjects/shlomo/fur_elise_tempo/level_0_trial_1
         full_file_path = os.path.join(full_test_dir_path, output_file_name)
-        return full_file_path
+        return full_file_path"""
 
 
 def msg_gen(port):

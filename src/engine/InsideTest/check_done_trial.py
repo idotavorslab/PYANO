@@ -29,7 +29,7 @@ Truths: [Message] = Message.construct_many_from_file(Full_Truth_File_Path)
 
 
 def main():
-    # TODO: SHOULD BE NORMALIZED RIGHT AFTER SUBJECT FINISH
+    # TODO: SHOULD BE NORMALIZED RIGHT AFTER SUBJECT FINISHES
     msgs: [Message] = Message.construct_many_from_file(Trial_File_Path)
     played_enough_notes = len(msgs) >= Num_Of_Notes_To_Test
 
