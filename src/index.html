@@ -112,9 +112,20 @@
 		 Object.defineProperty(String.prototype, "replaceAll", {
 			 enumerable: false,
 			 value(searchValue, replaceValue) {
-				 return this
-					 .split(searchValue)
-					 .join(replaceValue);
+				 const type = typeof searchValue;
+				 if (type == 'string' || type == 'number') {
+					 return this
+						 .split(searchValue)
+						 .join(replaceValue);
+				 } else if (type == 'object') {
+					 let temp = this;
+					 for (let [sv, rv] of searchValue.items())
+						 temp = temp.replaceAll(sv, rv);
+
+					 return temp;
+				 } else {
+					 console.error(`replaceAll got a bad type, searchValue: ${searchValue}, type: ${type}`);
+				 }
 			 }
 		 });
 		 Object.defineProperty(Number.prototype, "human", {
@@ -226,7 +237,7 @@
 		  * @return {number}*/
 		 function round(n, d = 0) {
 			 let fr = 10 ** d;
-			 return Math.floor(n * fr) / fr;
+			 return int(n * fr) / fr;
 		 }
 
 		 const small = (...args) => [`%c${args.join(' ')}`, `font-size:10px`];
