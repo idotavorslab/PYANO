@@ -1,6 +1,6 @@
 from util import round5, Logger
 import re
-from typing import Dict, List
+from typing import Dict, List, Tuple, Any
 from collections import OrderedDict
 
 logger = Logger('classes')
@@ -8,19 +8,19 @@ logger = Logger('classes')
 
 class Message:
     def __init__(self, line: str, preceding_message_time: float = None):
-        # "1549189615.55545  note=72 velocity=65"
-        regexp = r'^\d{10}[\.]?\d{0,5}[ \t]note=\d{2,3}[ \t]velocity=\d{2,3}\n?$'
+        # "1549189615.55545  note=72 velocity=65 off"
+        regexp = r'^\d{10}[\.]?\d{0,5}[ \t]note=\d{2,3}[ \t]velocity=\d{2,3}[ \t](on|off)\n?$'
         match = re.fullmatch(regexp, line)
         if not match:
-            logger.log(
-                dict(line=line, match=match, regexp=regexp),
-                include_type=False,
-                include_is_stringified=False)
+            logger.log_thin(dict(line=line, match=match, regexp=regexp))
             raise ValueError(f"`line` did not re.fullmatch. See classes.log")
-
-        # "1549189615.55545"
-        time, _, _ = line.partition('\t')
+        kind: str
+        time, note, velocity, kind = line.split('\t')
         self.time = float(time)
+        self.note = int(note[note.index("=") + 1:])
+        self.velocity = int(velocity[velocity.index("=") + 1:])
+        self.kind = kind.strip()
+
         self.preceding_message_time = preceding_message_time
 
         if preceding_message_time:
@@ -28,17 +28,8 @@ class Message:
         else:
             self.time_delta = None
 
-        # "note=72 velocity=65"
-        line = line[line.index("note="):]
-        # "note=72", _, "velocity=65"
-        note, _, velocity = line.partition('\t')
-        # 72
-        self.note = int(note.split("=")[1])
-        # 65
-        self.velocity = int(velocity.split("=")[1])
-
     def __str__(self) -> str:
-        return f'time: {self.time} | note: {self.note} | velocity: {self.velocity} | time_delta: {self.time_delta}'
+        return f'time: {self.time} | note: {self.note} | velocity: {self.velocity} | time_delta: {self.time_delta} | kind: {self.kind}'
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -55,19 +46,20 @@ class Message:
         # if os.path.getsize(file_path) == 0:
         #     raise ValueError(f"File empty! file_path: {file_path}")
 
-    @staticmethod
-    def from_mido_to_line(mido_msg, t=None) -> str:
-        s = f'note={mido_msg.note}\tvelocity={mido_msg.velocity}'
-        if not t:
-            return s
-        else:
-            return f'{t}\t{s}'
+    # @staticmethod
+    # def from_mido_to_line(mido_msg, t=None) -> str:
+    #     s = f'note={mido_msg.note}\tvelocity={mido_msg.velocity}'
+    #     if not t:
+    #         return s
+    #     else:
+    #         return f'{t}\t{s}'
 
     def to_line(self):
-        return Message.from_mido_to_line(self, t=self.time)
+        s = f'{self.time}\tnote={self.note}\tvelocity={self.velocity}\t{self.kind}\n'
+        return s
 
     @staticmethod
-    def construct_many(lines: [str]) -> []:
+    def construct_many(lines: List[str]) -> []:
         container = [Message(lines[0])]
         for i, line in enumerate(lines[1:]):
             preceding_message_time = container[i].time
@@ -75,7 +67,7 @@ class Message:
         return container
 
     @staticmethod
-    def construct_many_from_file(file_path: str):
+    def construct_many_from_file(file_path: str) -> List:
         Message._raise_if_bad_file(file_path)
         with open(file_path, mode="r") as f:
             messages = Message.construct_many(f.readlines())
@@ -129,9 +121,12 @@ class Message:
 
         if should_write_changes:
             with open(file_path, mode="w") as f:
-                lines = [msg.to_line() for msg in messages]
-                for line in lines:
-                    f.write(f'{line}\n')
+                for msg in messages:
+                    msg_line = msg.to_line()
+                    f.write(msg_line)
+                # lines = [msg.to_line() for msg in messages]
+                # for line in lines:
+                #     f.write(f'{line}\n')
         return messages
 
 

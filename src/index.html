@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <title>Pyano</title>
 
-    <script type="text/javascript" defer>
-
-		 console.log('index.html extendPrimitivePrototypes()');
+    <script id="globals" type="text/javascript" defer>
+		 console.log('index.html globals');
+		 // ***Prototypes
 		 Object.defineProperty(Object.prototype, "isEmpty", {
 			 enumerable: false,
 			 value() {
@@ -16,13 +16,14 @@
 		 Object.defineProperty(Object.prototype, "items", {
 			 enumerable: false,
 			 value() {
-				 return Object.entries(this);
+				 return enumerate(this);
 			 }
 		 });
 		 Object.defineProperty(Object.prototype, "keys", {
 			 enumerable: false,
 			 value() {
-				 return Object.keys(this);
+				 return Object.keys(this).map(key => key.isdigit()
+				                                     ? int(key) : key);
 			 }
 		 });
 		 Object.defineProperty(Array.prototype, "last", {
@@ -43,6 +44,7 @@
 				 return this.sort((n, m) => n < m);
 			 }
 		 },);
+
 		 Object.defineProperty(Array.prototype, "count", {
 			 enumerable: false,
 			 value(item, strict = false) {
@@ -61,6 +63,8 @@
 			 }
 
 		 },);
+
+
 		 Object.defineProperty(String.prototype, "upTo", {
 			 enumerable: false,
 			 value(searchString, fromEnd = false) {
@@ -108,12 +112,23 @@
 		 Object.defineProperty(String.prototype, "replaceAll", {
 			 enumerable: false,
 			 value(searchValue, replaceValue) {
-				 return this
-					 .split(searchValue)
-					 .join(replaceValue);
+				 const type = typeof searchValue;
+				 if (type == 'string' || type == 'number') {
+					 return this
+						 .split(searchValue)
+						 .join(replaceValue);
+				 } else if (type == 'object') {
+					 let temp = this;
+					 for (let [sv, rv] of searchValue.items())
+						 temp = temp.replaceAll(sv, rv);
+
+					 return temp;
+				 } else {
+					 console.error(`replaceAll got a bad type, searchValue: ${searchValue}, type: ${type}`);
+				 }
 			 }
 		 });
-		 Object.defineProperty(Number.prototype, "idx2human", {
+		 Object.defineProperty(Number.prototype, "human", {
 			 enumerable: false,
 			 value(letters = false) {
 				 switch (Math.floor(this) + 1) {
@@ -164,8 +179,439 @@
 
 			 }
 		 });
+		 Object.defineProperty(Date.prototype, "human", {
+			 enumerable: false, value() {
+				 let d = this.getUTCDate();
+				 d = d < 10
+				     ? `0${d}`
+				     : d;
+				 let m = this.getMonth() + 1;
+				 m = m < 10
+				     ? `0${m}`
+				     : m;
+				 const y = this.getFullYear();
+				 const t = this.toTimeString().slice(0, 8).replaceAll(':', '-');
+				 return `${d}_${m}_${y}_${t}`;
+			 }
+		 });
 		 const { Alert } = require('pyano_local_modules/util/Alert');
+		 const Path = require("path");
+
+		 const any = (...items) => items.some(item => item instanceof Array ? any(...item) : bool(item));
+		 const all = (...items) => items.every(item => item instanceof Array ? all(...item) : bool(item));
+		 /**@param {*} val
+		  * @return {boolean}*/
+		 const bool = (val) =>
+			 (val instanceof Object) ? val.isEmpty() ? typeof val == 'function'
+			                                         : true : !!val;
+
+		 /**@template T
+		  * @param {T[]|T} collection
+		  * @return {[string|number|T]}*/
+		 function enumerate(collection) {
+			 let entries = Object.entries(collection);
+			 entries.map(entry => entry[0] = entry[0].isdigit()
+			                                 ? int(entry[0])
+			                                 : entry[0]);
+			 return entries;
+		 }
+
+		 const float = (str) => parseFloat(str);
+		 /**
+		  @param {string|number} num
+		  @return {number}
+		  */
+		 const int = (num) => Math.floor(num);
+		 /**@param {...number} values*/
+		 const max = (...values) => Math.max(...values);
+		 const min = (...values) => Math.min(...values);
+
+		 function* range(start, stop) {
+			 for (let i = start; i <= stop; i++)
+				 yield i;
+
+		 }
+
+		 /**@param {number} n
+		  * @param {number} d
+		  * @return {number}*/
+		 function round(n, d = 0) {
+			 let fr = 10 ** d;
+			 return int(n * fr) / fr;
+		 }
+
 		 const small = (...args) => [`%c${args.join(' ')}`, `font-size:10px`];
+		 const str = (val) => val ? val.toString() : "";
+
+		 /**@param {*[]} arr*/
+		 function sum(arr) {
+			 let sum = 0;
+			 let dirty = false;
+			 for (let v of arr) {
+				 let number = float(v);
+				 if (!isNaN(number)) {
+					 dirty = true;
+					 sum += number;
+				 }
+
+			 }
+			 return !dirty ? null : sum;
+		 }
+
+
+		 function* zip(arr1, arr2) {
+			 for (let key in arr1)
+				 yield [arr1[key], arr2[key]];
+		 }
+
+		 function reloadPage() {
+			 let { remote } = require("electron");
+			 const currentWindow = remote.getCurrentWindow();
+			 currentWindow.reload();
+		 }
+
+		 const fsx = (() => {
+			 const fs = require("fs");
+			 /**@param {PathLike|string} pathLike
+			  * @param {{mode?:number, recursive?:boolean}} options
+			  * @return {Promise<boolean>}*/
+			 const mkdir = (pathLike, options) => new Promise(resolve =>
+				 fs.mkdir(pathLike, options, err => resolve(!bool(err))));
+
+			 /**@param {PathLike|string} pathLike
+			  * @return {Promise<boolean>}*/
+			 const path_exists = pathLike => new Promise(resolve =>
+				 fs.access(pathLike, fs.constants.F_OK, err => resolve(!bool(err))));
+
+			 /**
+			  {@link remove_ext Uses remove_ext}
+			  @param {PathLike|string} pathLike
+			  @param {string} ext - Target extension without dot
+			  @return {string}*/
+			 const replace_ext = (pathLike, ext) => {
+				 if (ext.includes('.'))
+					 throw new Error(`ext included dot ".", ext: ${ext}`);
+				 return `${remove_ext(pathLike)}.${ext}`;
+			 };
+
+			 /**
+			  * @param {PathLike|string} pathLike
+			  * @return {string}
+			  * @example
+			  * remove_ext("experiments/truths/fur_elise_B.txt")
+			  * >>> experiments/truths/fur_elise_B
+			  * remove_ext("fur_elise_B.txt")
+			  * >>> fur_elise_B */
+			 const remove_ext = pathLike => Path.join(Path.dirname(pathLike), Path.basename(pathLike, Path.extname(pathLike)));
+
+			 /**
+			  * {@link remove_ext Uses remove_ext}
+			  * @param {PathLike|string} pathLike
+			  * @param {string|number} push
+			  * @return {string}
+			  * */
+			 const push_before_ext = (pathLike, push) => {
+				 let ext = Path.extname(pathLike);
+				 return `${remove_ext(pathLike)}${push}${ext}`;
+			 };
+
+			 /**@param {string|PathLike} pathLike
+			  * @param {?string} ext*/
+			 function basename(pathLike, ext = null) {
+				 if (!ext)
+					 return Path.basename(pathLike);
+				 return Path.basename(pathLike, ext);
+			 }
+
+			 /**@param {...string} paths
+			  * @return {string[]}
+			  * */
+			 function basenames(...paths) {
+				 return [...paths.map(p => Path.basename(p))];
+			 }
+
+			 /**@param {string} pathLike
+			  * @return {string}*/
+			 function dirname(pathLike) {
+				 return Path.dirname(pathLike);
+			 }
+
+			 /**@param {string} pathLike
+			  * @return {string}*/
+			 function extname(pathLike) {
+				 return Path.extname(pathLike);
+			 }
+
+			 /** @type {{
+			  * basename:(function(string|PathLike,?string):string),
+			  * basenames:(function(...string|PathLike):string[]),
+			  * dirname:(function(...string|PathLike):string),
+			  * extname:(function(...string|PathLike):string),
+			  * mkdir: (function((PathLike|string), (number|string|MakeDirectoryOptions|undefined|null)): Promise<boolean>),
+			  * path_exists: (function((PathLike|string)): Promise<boolean>),
+			  * push_before_ext: (function((PathLike|string), (string|number)): string),
+			  * remove_ext: (function((PathLike|string)): string),
+			  * replace_ext: (function((PathLike|string), string): string)}}
+			  * */
+			 return { basenames, basename, dirname, extname, mkdir, path_exists, replace_ext, remove_ext, push_before_ext };
+		 })();
+		 const asx = (() => {
+			 /**@param {number} ms
+			  * @return {Promise}*/
+			 async function wait(ms) {
+				 return new Promise(resolve => setTimeout(resolve, ms));
+			 }
+
+			 /**@param {jQuery} jQuery
+			  @param {number} ms
+			  @return {Promise<jQuery>}*/
+			 const $fadeOut = (jQuery, ms) => new Promise(resolve => jQuery.fadeTo(ms, 0, resolve));
+
+			 /**@param {jQuery} jQuery
+			  @param {number} ms
+			  @reutrn {Promise<jQuery>}*/
+			 const $fadeIn = (jQuery, ms) => new Promise(resolve => jQuery.fadeTo(ms, 1, resolve));
+
+			 /**@param {number} ms
+			  @param {...jQuery} jQueries
+			  @return {Promise<jQuery[]>}*/
+			 async function $fadeInMany(ms, ...jQueries) {
+				 let promises = [];
+				 for (let jQ of jQueries)
+					 promises.push($fadeIn(jQ, ms));
+
+				 return await Promise.all(promises);
+			 }
+
+			 /**@param {number} ms
+			  @param {...jQuery} jQueries
+			  @return {Promise<jQuery[]>}*/
+			 async function $fadeOutMany(ms, ...jQueries) {
+				 let promises = [];
+				 for (let jQ of jQueries)
+					 promises.push($fadeOut(jQ, ms));
+
+				 return await Promise.all(promises);
+			 }
+
+			 /**@template T
+			  * @param {...function():Promise<T>|T|void} fns
+			  * @return {Promise<T[]>}*/
+			 async function concurrent(...fns) {
+				 return await Promise.all(fns);
+			 }
+
+			 /**@template T
+			  * @param {...function():Promise<T>|T|void} fns
+			  * @return {Promise<T[]>}*/
+			 async function waterfall(...fns) {
+				 for (let fn of fns)
+					 await fn();
+			 }
+
+			 /**@type {
+			  *     {
+			  *         $fadeIn: (function(jQuery, number): Promise<jQuery>),
+			  *         $fadeInMany: (function(number, ...jQuery): jQuery[]),
+			  *         $fadeOut: (function(jQuery, number): Promise<jQuery>),
+			  *         $fadeOutMany: (function(number, ...jQuery): jQuery[]),
+			  *         concurrent: (function(...function(): T): T[])
+			  *         wait: (function(number): Promise<*>),
+			  *     }
+			  * }
+			  * @template T*/
+			 const newVar = {
+				 $fadeIn,
+				 $fadeOut,
+				 $fadeOutMany,
+				 $fadeInMany,
+				 concurrent,
+				 wait,
+				 waterfall,
+			 };
+			 return newVar;
+		 })();
+
+		 /**An object wrapping a path with extension. Can be absolute or base.
+		  * ``toString()`` returns ``this.path``.
+		  * ``name`` property exists only if wrapping an absolute path.*/
+		 class _File {
+			 constructor(pathWithExt) {
+				 if (!bool(Path.extname(pathWithExt)))
+					 throw new Error(`File constructor: passed 'pathWithExt' is extensionless: ${pathWithExt}`);
+				 /**The path including extension. Can be either absolute or a file name.
+				  * @type {string} path*/
+				 this.path = pathWithExt;
+				 /**The path without extension. Can be either absolute or a file name.
+				  * @type {string} pathNoExt*/
+				 this.pathNoExt = fsx.remove_ext(this.path);
+				 if (Path.isAbsolute(this.path))
+					 /**If exists, a File object of the basename.
+					  * @type {_File} name*/
+					 this.name = new _File(fsx.basename(this.path));
+
+			 }
+
+			 toString() {
+				 return this.path;
+			 }
+
+			 /**@param {_File} other*/
+			 async renameByOtherFile(other) {
+				 const fs = require("fs");
+				 await fs.renameSync(this.path, other.path);
+			 }
+
+			 async renameByCTime() {
+				 const fs = require("fs");
+
+				 const stats = await fs.lstatSync(this.path);
+				 const datestr = stats.ctime.human();
+				 const newPath = fsx.push_before_ext(this.path, `__CREATED_${datestr}`);
+				 console.log('renameByCTime() to: ', newPath);
+				 await fs.renameSync(this.path, newPath);
+			 }
+
+			 /**@throws {Error} error if file isn't "mp4" or "mov"
+			  * @return {Promise<[string,string]>}
+			  * */
+			 async getBitrateAndHeight() {
+				 if (!this.path.endsWith('mp4') && !this.path.endsWith('mov'))
+					 throw new Error(`_File: "${this.path}" isn't "mp4" or "mov"`);
+				 const { execSync } = require('child_process');
+				 const ffprobeCmd = `ffprobe -v quiet -print_format json -show_streams -show_format`;
+				 const probe = JSON.parse(await execSync(`${ffprobeCmd} "${this.path}"`, { encoding: 'utf8' }));
+				 const { bit_rate, height } = probe.streams.find(s => s["codec_type"] == "video");
+				 return [bit_rate, height];
+			 }
+
+
+			 /**@return {Promise<boolean>}*/
+			 async exists() {
+				 return await fsx.path_exists(this.path);
+			 }
+
+			 /**@return {Promise<void>}*/
+			 async remove() {
+				 return await require('fs').unlinkSync(this.path);
+			 }
+
+			 /**@return {number}*/
+			 async size() {
+				 let { size } = await require("fs").lstatSync(this.path);
+				 return size;
+			 }
+		 }
+
+		 class Truth {
+			 /**An object wrapping an absolute path without extension.
+			  * @param {string} pathNoExt*/
+			 constructor(pathNoExt) {
+				 if (!Path.isAbsolute(pathNoExt))
+					 throw new Error(`Passed path is not absolute: ${pathNoExt}`);
+				 if (bool(fsx.extname(pathNoExt)))
+					 throw new Error(`Passed path is not extensionless: ${pathNoExt}`);
+				 if (pathNoExt.endsWith('off') || pathNoExt.endsWith('on'))
+					 throw new Error(`Passed path of "_on" or "_off" file and not base: ${pathNoExt}`);
+				 /**The absolute path without extension.
+				  * @type {string} pathNoExt*/
+				 this.pathNoExt = pathNoExt;
+				 /**The basename without extension.
+				  * @type {string} name*/
+				 this.name = fsx.basename(this.pathNoExt);
+				 /**
+				  * @prop {_File} base - A _File object representing the absolute ``*.txt`` path.
+				  * @prop {_File} on - A _File object representing the absolute ``*_on.txt``  path.
+				  * @prop {_File} off - A _File object representing the absolute ``*_off.txt`` path.
+				  * */
+				 this.txt = new class {
+					 /**@param {string} pathNoExt*/
+					 constructor(pathNoExt) {
+						 this.base = new _File(`${pathNoExt}.txt`);
+						 this.on = new _File(`${pathNoExt}_on.txt`);
+						 this.off = new _File(`${pathNoExt}_off.txt`);
+					 }
+
+					 /**@return {[_File,_File,_File]}*/
+					 getAll() {
+						 return [this.base, this.on, this.off];
+					 }
+
+					 /**@return {_File[]}*/
+					 async getMissing() {
+						 let missing = [];
+						 if (!(await this.base.exists()))
+							 missing.push(this.base);
+						 if (!(await this.on.exists()))
+							 missing.push(this.on);
+						 if (!(await this.off.exists()))
+							 missing.push(this.off);
+
+						 return missing;
+					 }
+
+					 /**@return {Promise<boolean>}*/
+					 async allExist() {
+						 return all(...await asx.concurrent(
+							 this.base.exists(),
+							 this.on.exists(),
+							 this.off.exists()));
+					 }
+
+					 /**@return {Promise<boolean>}*/
+					 async anyExist() {
+						 return any(...await asx.concurrent(
+							 this.base.exists(),
+							 this.on.exists(),
+							 this.off.exists()));
+					 }
+
+					 /**@return {Promise<void>}*/
+					 async removeAll() {
+						 if (await this.base.exists())
+							 await this.base.remove();
+						 if (await this.on.exists())
+							 await this.on.remove();
+						 if (await this.off.exists())
+							 await this.off.remove();
+
+					 }
+
+					 async renameByOtherTxt(other) {
+						 const fs = require("fs");
+						 return await asx.concurrent(
+							 fs.renameSync(this.base.path, other.base.path),
+							 fs.renameSync(this.on.path, other.on.path),
+							 fs.renameSync(this.off.path, other.off.path),
+						 );
+					 }
+
+
+				 }(this.pathNoExt);
+
+				 /**A _File object of the midi file.
+				  * @type {_File} midi*/
+				 this.midi = new _File(`${this.pathNoExt}.mid`);
+				 /**A _File object of the mp4 file.
+				  * @type {_File} mp4*/
+				 this.mp4 = new _File(`${this.pathNoExt}.mp4`);
+				 /**A _File object of the mov file.
+				  * @type {_File} mov*/
+				 this.mov = new _File(`${this.pathNoExt}.mov`);
+				 /**A _File object of the onsets file.
+				  * @type {_File} onsets*/
+				 this.onsets = new _File(`${this.pathNoExt}_onsets.json`);
+
+			 }
+
+			 /**@return {number}*/
+			 numOfNotes() {
+				 return require("fs")
+					 .readFileSync(this.txt.on.path, { encoding: 'utf8' })
+					 .split('\n')
+					 .filter(line => bool(line)).length;
+			 }
+		 }
 
 
     </script>

@@ -1,102 +1,134 @@
-/** @callback StoreIncrease
- @param {String} K*/
-
-/** @callback StoreUpdate
- @param {String} K
- @param {Object} kv */
-
-/** @callback StoreSet
- @param {String} key
- @param {*} value */
-
-/** @callback StoreGet
- @param {String} key
- @param {*?} defaultValue */
-
-// [*TStore]
 /**
- @typedef {
- * {
- *    store: {
- *       current_subject: String,
- *       current_test: TCurrentTest,
- *       root_abs_path: String
- *    },
- *    size: Number,
- *    path: String,
- *    increase: StoreIncrease,
- *    update: StoreUpdate,
- *    set: StoreSet,
- *    get: StoreGet
- *
- * }
-	} TStore*/
-
-/** @callback PythonRunCallback
- @param {*} err
- @param {String[] | Number[] | Boolean[] | String} output*/
-
-/** @callback PythonRun
- @param {String} scriptPath
- @param {*?} options
- @param {PythonRunCallback?} callback*/
-
-// [*TPythonShell]
-/**
- @typedef {
- * {
- *    scriptPath: String,
- *    command: String[],
- *    mode: String,
- *    terminated: Boolean,
- *    run: PythonRun,
- *    end:
- *
- * }
-	} TPythonShell*/
-
-
-// [*TCurrentTest]
-/**@typedef {
- * {
- *    truth_file_path: String,
- *    finished_trials_count: Number,
- *    levels: TLevel[],
- *    learning_type: String,
- *    demo_type: String,
- *    current_subject: String,
- *    errors_playingspeed: Number,
- *    allowed_tempo_deviation_factor: Number,
- * }
-} TCurrentTest */
-
-// *TLevel
-/**@typedef {
- * {
- *    notes: Number,
- *    trials: Number
- * }
-} TLevel*/
-
-
-// [*TMessage]
-/**
- @typedef {{
-      note: Number,
-      time: Number,
-      time_delta: Number,
-      velocity: Number,
-      time: Number,
-      preceding_message_time: Number
-   }} TMessage
+ * @typedef TCurrentTest
+ * @prop {string} truth_file_path
+ * @prop {number} finished_trials_count
+ * @prop {TLevel[]} levels
+ * @prop {TLearningType} learning_type
+ * @prop {TDemoType} demo_type
+ * @prop {string} current_subject
+ * @prop {number} errors_playingspeed
+ * @prop {number} allowed_tempo_deviation_factor
  */
 
-// [*TTonejsNote]
 /**
- @typedef {{
-      note: Number,
-      time: Number,
-      ts: Number,
-      velocity: Number
-   }} TTonejsNote
+ * @typedef TLevel
+ * @prop {number} notes
+ * @prop {number} trials
  */
+
+
+/**
+ * @typedef TMessage
+ * @prop {number} note
+ * @prop {number} time
+ * @prop {number} time_delta
+ * @prop {number} velocity
+ * @prop {number} preceding_message_time
+ * @prop {'off' | 'on'} kind
+ */
+
+
+/**
+ @typedef playMidiFileOptions
+ @prop {Animation?} animation
+ @prop {Array<string|null>?} mistakes
+ @prop {number?} numOfNotes
+ @prop {number?} speed
+ @prop {Piano} playbackPiano
+ @prop {Truth} truth
+ */
+
+/**
+ @typedef playPreTrialDemoOptions
+ @prop {Midi} midi
+ @prop {Piano} playbackPiano
+ @prop {Truth} truth
+ @prop {number} levelIndex
+ @prop {number} trialIndex
+ @prop {number} numOfNotes*/
+
+
+/**
+ @typedef showFailedTrialFeedbackOptions
+ @prop {Midi} midi
+ @prop {Piano} playbackPiano
+ @prop {number} trialIndex
+ @prop {string[]} mistakes
+ @prop {Truth} truth*/
+
+
+/**@typedef {{
+        allowEnterKey?: boolean | function(*):boolean,
+        allowEscapeKey?: boolean | function(*):boolean,
+        allowOutsideClick?: boolean | function(*):boolean,
+        animation?: boolean | function(*):boolean,
+        backdrop?: boolean | string,
+        background?: string,
+        buttonsStyling?: boolean,
+        cancelButtonAriaLabel?: string,
+        cancelButtonClass?: string,
+        cancelButtonColor?: string,
+        cancelButtonText?: string,
+        closeButtonAriaLabel?: string,
+        confirmButtonAriaLabel?: string,
+        confirmButtonClass?: string,
+        confirmButtonColor?: string,
+        confirmButtonText?: string,
+        currentProgressStep?: string,
+        customClass?: string,
+        customContainerClass?: string,
+        focusCancel?: boolean,
+        focusConfirm?: boolean,
+        footer?: string | jQuery,
+        grow?: 'row' | 'column' | 'fullscreen' | boolean,
+        heightAuto?: boolean,
+        html?: string | HTMLElement | jQuery,
+        imageAlt?: string,
+        imageClass?: string,
+        imageHeight?: number,
+        imageUrl?: string,
+        imageWidth?: number,
+        input?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'range' | 'textarea' | 'select' | 'radio' | 'checkbox' |
+            'file' | 'url',
+        inputAttributes?: Object,
+        inputAutoTrim?: boolean,
+        inputClass?: string,
+        inputOptions?: Object,
+        inputPlaceholder?: string,
+        inputValidator?: function (string): string | null,
+        inputValue?: string,
+        keydownListenerCapture?: boolean,
+        onAfterClose?: Function,
+        onBeforeOpen?: function (HTMLElement): void,
+        onClose?: function (HTMLElement): void,
+        onOpen?: function (HTMLElement): void,
+        padding?: number | string,
+        position?: 'top' | 'top-start' | 'top-end' | 'top-left' | 'top-right' |
+            'center' | 'center-start' | 'center-end' | 'center-left' | 'center-right' |
+            'bottom' | 'bottom-start' | 'bottom-end' | 'bottom-left' | 'bottom-right',
+        preConfirm?: Function,
+        progressSteps?: string[],
+        progressStepsDistance?: string,
+        reverseButtons?: boolean,
+        scrollbarPadding?: boolean,
+        showCancelButton?: boolean,
+        showCloseButton?: boolean,
+        showConfirmButton?: boolean,
+        showLoaderOnConfirm?: boolean,
+        stopKeydownPropagation?: boolean,
+        target?: string,
+        text?: string,
+        timer?: ?number,
+        title?: string,
+        titleText?: string,
+        toast?: boolean,
+        type?: 'success' | 'error' | 'warning' | 'info' | 'question',
+        validationMessage?: string,
+        width?: number | string,
+}
+} SweetOptions*/
+
+
+/** @typedef {'accuracy' | 'tempo'} TLearningType*/
+/** @typedef {'video' | 'animation'} TDemoType*/
+/**@typedef {'new_test' | 'inside_test' | 'record' | 'file_tools' | 'settings'} TLastPage*/
