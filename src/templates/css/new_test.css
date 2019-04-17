@@ -148,8 +148,20 @@
     grid-column: 6/6;
 }
 
-#levels_trials_subtitle {
+#levels_accuracy_subtitle {
     grid-column: 7/7;
+}
+
+#levels_rhythm_subtitle {
+    grid-column: 8/8;
+}
+
+#levels_tempo_subtitle {
+    grid-column: 9/9;
+}
+
+#levels_trials_subtitle {
+    grid-column: 10/10;
 }
 
 #levels_selectors_container {

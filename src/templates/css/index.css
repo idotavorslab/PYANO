@@ -65,6 +65,7 @@ body > *, button, p, input, div {
     box-shadow: unset
 }
 
+
 .radio-option-selected {
     background-color: #3d5afe;
     color: white;
@@ -75,11 +76,11 @@ body > *, button, p, input, div {
 }
 
 .radio-option-unselected {
-    background-color: rgb(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, 0);
     border-style: solid;
-    border-color: rgb(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
     border-width: 2px;
-    color: rgb(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
     font-weight: 300;
 }
@@ -91,12 +92,16 @@ body > *, button, p, input, div {
 }
 
 .toggle-btn-off {
-    background-color: rgb(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, 0);
     border-width: 2px;
     border-style: solid;
-    border-color: rgb(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
     text-align: left;
-    color: rgb(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+[class*="toggle-btn"]:after {
+    content: "·"
 }
 
 

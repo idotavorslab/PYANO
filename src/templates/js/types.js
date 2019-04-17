@@ -3,7 +3,6 @@
  * @prop {string} truth_file_path
  * @prop {number} finished_trials_count
  * @prop {TLevel[]} levels
- * @prop {TLearningType} learning_type
  * @prop {TDemoType} demo_type
  * @prop {string} current_subject
  * @prop {number} errors_playingspeed
