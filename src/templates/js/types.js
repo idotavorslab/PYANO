@@ -13,6 +13,8 @@
  * @typedef TLevel
  * @prop {number} notes
  * @prop {number} trials
+ * @prop {boolean} rhythm
+ * @prop {number} tempo
  */
 
 
