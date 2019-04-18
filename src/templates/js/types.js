@@ -38,7 +38,7 @@
  * @prop {'off' | 'on'} kind
  */
 
-
+/**@typedef {[TMessage[]]} TOnOffPairs*/
 // * gilad.playMidiFile
 /**
  @typedef playMidiFileOptions

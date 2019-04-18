@@ -6,7 +6,8 @@
 
     <script id="globals" type="text/javascript" defer>
 		 console.log('index.html globals');
-		 // ***Prototypes
+		 // *** Prototypes
+		 // ** Object
 		 Object.defineProperty(Object.prototype, "isEmpty", {
 			 enumerable: false,
 			 value() {
@@ -26,6 +27,7 @@
 				                                     ? int(key) : key);
 			 }
 		 });
+		 // ** Array
 		 Object.defineProperty(Array.prototype, "last", {
 			 enumerable: false,
 			 value() {
@@ -44,7 +46,6 @@
 				 return this.sort((n, m) => n < m);
 			 }
 		 },);
-
 		 Object.defineProperty(Array.prototype, "count", {
 			 enumerable: false,
 			 value(item, strict = false) {
@@ -63,8 +64,7 @@
 			 }
 
 		 },);
-
-
+		 // ** String
 		 Object.defineProperty(String.prototype, "upTo", {
 			 enumerable: false,
 			 value(searchString, fromEnd = false) {
@@ -128,6 +128,7 @@
 				 }
 			 }
 		 });
+		 // ** Number
 		 Object.defineProperty(Number.prototype, "human", {
 			 enumerable: false,
 			 value(letters = false) {
@@ -179,6 +180,7 @@
 
 			 }
 		 });
+		 // ** Date
 		 Object.defineProperty(Date.prototype, "human", {
 			 enumerable: false, value() {
 				 let d = this.getUTCDate();
@@ -194,16 +196,55 @@
 				 return `${d}_${m}_${y}_${t}`;
 			 }
 		 });
+
+		 // *** functions
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const Path = require("path");
 
-		 const any = (...items) => items.some(item => item instanceof Array ? any(...item) : bool(item));
-		 const all = (...items) => items.every(item => item instanceof Array ? all(...item) : bool(item));
-		 /**@param {*} val
+
+		 const any = (...items) => items.some(item => bool(item));
+		 const all = (...items) => items.every(item => bool(item));
+
+		 /**@param val
 		  * @return {boolean}*/
-		 const bool = (val) =>
-			 (val instanceof Object) ? val.isEmpty() ? typeof val == 'function'
-			                                         : true : !!val;
+		 function bool(val) {
+			 /*
+			 |               | o instanceof Object   | typeof o == 'object'  |  !!o  |
+			 |  -----------  |  ------------------   |  -------------------  | ----- |
+			 |  {}           |         true          |         true          | true  |
+			 |  []           |         true          |         true          | true  |
+			 |  ()=>{}       |         true          |         false         | true  |
+			 |  new class{}  |         true          |         true          | true  |
+			 |  (()=>{})()   |         false         |         false         | false |
+			 |  0            |         false         |         false         | false |
+			 |  ""           |         false         |         false         | false |
+			 |  null         |         false         |         true          | false |
+			 |  undefined    |         false         |         false         | false |
+			 |  "0"          |         false         |         false         | true  |
+			 |  "foo"        |         false         |         false         | true  |
+			 */
+
+			 if (val == null)
+				 return false;
+			 const valType = typeof val;
+			 if (valType != 'object') {
+				 if (valType == 'function')
+					 return true;
+				 else
+					 return !!val;
+			 }
+			 return !val.isEmpty();
+			 /*if (val instanceof Object) {
+				 if (val.isEmpty())
+					 return typeof val == 'function';
+				 else
+					 return true;
+
+			 } else {
+				 return !!val;
+			 }
+			 */
+		 }
 
 		 /**@template T
 		  * @param {T[]|T} collection
@@ -270,6 +311,25 @@
 			 currentWindow.reload();
 		 }
 
+		 function isEqual(obja, objb) {
+			 if (any(Array.isArray(obja), Array.isArray(objb)))
+				 throw new Error("At least one object is an Array. Pass dict-like objects only");
+			 const typeA = typeof obja;
+			 const typeB = typeof objb;
+			 if (typeA != 'object' || typeB != 'object')
+				 throw new Error("At least one object is not `typeof ... == 'object'`. Pass dict-like objects only");
+
+			 if (Object.keys(obja).length != Object.keys(objb).length)
+				 return false;
+			 for (let [objaK, objaV] of enumerate(obja))
+				 if (!(objaK in objb) || objaV != objb[objaK])
+					 return false;
+
+			 return true;
+
+		 }
+
+		 // *** fsx
 		 const fsx = (() => {
 			 const fs = require("fs");
 			 /**@param {PathLike|string} pathLike
@@ -355,6 +415,8 @@
 			  * */
 			 return { basenames, basename, dirname, extname, mkdir, path_exists, replace_ext, remove_ext, push_before_ext };
 		 })();
+
+		 // *** asx
 		 const asx = (() => {
 			 /**@param {number} ms
 			  * @return {Promise}*/
