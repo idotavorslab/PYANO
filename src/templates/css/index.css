@@ -11,7 +11,7 @@ body {
 
 body > *, button, p, input, div {
     color: white;
-    font-family: "Roboto";
+    font-family: "Roboto", serif;
     transition: box-shadow 500ms, background-color 500ms, background 500ms, color 500ms, font-weight 500ms;
     letter-spacing: 1px;
 }
@@ -55,8 +55,8 @@ body > *, button, p, input, div {
 }
 
 .inactive-btn {
-    background-color: rgb(255, 255, 255, 0.5);
-    color: rgb(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
     cursor: unset;
     pointer-events: none;
 }
@@ -155,8 +155,8 @@ body > *, button, p, input, div {
 }
 
 .my-select-disabled {
-    background: rgb(255, 255, 255, 0.7);
-    color: rgb(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .my-select:focus {
@@ -179,17 +179,17 @@ body > *, button, p, input, div {
     grid-column: 2/15;
     grid-row: 1/1;
     font-size: 2em;
-    color: rgb(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .subtitle, .subtitle > * {
-    font-family: "Roboto Thin";
-    color: rgb(255, 255, 255, 0.75);
+    font-family: "Roboto Thin", serif;
+    color: rgba(255, 255, 255, 0.75);
     font-size: 1.125vw;
 }
 
 .autocomplete {
-    color: rgb(255, 255, 255, 1);
+    color: rgba(255, 255, 255, 1);
 }
 
 /****<sidebar>*/
@@ -198,7 +198,7 @@ body > *, button, p, input, div {
     grid-row: 2/20;
     display: grid;
     border-width: 1px;
-    border-right-color: rgb(255, 255, 255, 0.1);
+    border-right-color: rgba(255, 255, 255, 0.1);
     border-right-style: inset;
 }
 
@@ -207,7 +207,7 @@ body > *, button, p, input, div {
     cursor: pointer;
     transition: filter 500ms, color 500ms;
     align-self: center;
-    color: rgb(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 
