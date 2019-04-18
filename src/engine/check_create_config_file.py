@@ -2,7 +2,7 @@ import sys
 import json
 import os
 
-from util import Logger
+from util import Logger, prjs
 
 logger = Logger('check_create_config_file')
 configpath = sys.argv[1]
@@ -18,18 +18,23 @@ if not isfile:  # not found
                   last_page='new_test',
                   current_test=dict(
                       truth_file_path="experiments\\truths\\fur_elise.txt",
-                      learning_type='accuracy',
-                      demo_type='animation',
+                      demo_type='video',
                       errors_playingspeed=1,
                       allowed_tempo_deviation_factor="40%",
-                      levels=[dict(notes=5, trials=2)],
+                      levels=[dict(notes=4, trials=1, rhythm=False, tempo=None),
+                              dict(notes=4, trials=1, rhythm=True, tempo=50)],
                       finished_trials_count=0,
                       current_subject=username
                       ))
 
-    with open(configfile, mode="w") as f:
-        # create config file
-        json.dump(config, f)
+    try:
+        with open(configfile, mode="w") as f:
+            # create config file
+            json.dump(config, f)
+        prjs(dict(created_ok=True))
+    except:
+        prjs(dict(created_ok=False))
+
 else:
     # config FOUND, now check contents
     with open(configfile) as f:
@@ -38,7 +43,6 @@ else:
         first_level_keys = ['root_abs_path', 'current_test', 'dev', 'last_page', 'vid_silence_len']
         first_level_ok = all([key in config for key in first_level_keys])
         current_test_keys = ['truth_file_path',
-                             'learning_type',
                              'demo_type',
                              'errors_playingspeed',
                              'allowed_tempo_deviation_factor',
@@ -46,4 +50,5 @@ else:
                              'finished_trials_count',
                              'current_subject']
         current_test_ok = all([ctestkey in config['current_test'] for ctestkey in current_test_keys])
+        prjs(dict(first_level_ok=first_level_ok, current_test_ok=current_test_ok))
         # logger.log_thin([first_level_ok, current_test_ok])

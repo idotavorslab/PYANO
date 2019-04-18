@@ -1,6 +1,6 @@
 from util import round5, Logger
 import re
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List
 from collections import OrderedDict
 
 logger = Logger('classes')
