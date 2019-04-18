@@ -395,7 +395,7 @@
 			 }
 
 			 /**@template T
-			  * @param {...function():Promise<T>|T|void} fns
+			  * @param {...function():Promise<T>|Promise<void>|T|void} fns
 			  * @return {Promise<T[]>}*/
 			 async function concurrent(...fns) {
 				 return await Promise.all(fns);
