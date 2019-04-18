@@ -24,11 +24,10 @@ Allowed_Tempo_Deviation_Factor = sys.argv[1]
 Trial_File_Path = sys.argv[2]
 Full_Truth_File_Path = sys.argv[3]
 Current_Level = json.loads(sys.argv[4])
-logger.log((Allowed_Tempo_Deviation_Factor,
-            Trial_File_Path,
-            Full_Truth_File_Path,
-            Current_Level), include_is_stringified=True)
-raise SystemExit("quit for debugging purposes")
+# logger.log((Allowed_Tempo_Deviation_Factor,
+#             Trial_File_Path,
+#             Full_Truth_File_Path,
+#             Current_Level), include_is_stringified=True)
 # TODO: SHOULD BE NORMALIZED RIGHT AFTER RECORD
 Truths: [Message] = Message.construct_many_from_file(Full_Truth_File_Path)
 
@@ -36,10 +35,10 @@ Truths: [Message] = Message.construct_many_from_file(Full_Truth_File_Path)
 def main():
     # TODO: SHOULD BE NORMALIZED RIGHT AFTER SUBJECT FINISHES
     msgs: [Message] = Message.construct_many_from_file(Trial_File_Path)
-    played_enough_notes = len(msgs) >= Num_Of_Notes_To_Test
+    played_enough_notes = len(msgs) >= Current_Level['notes']
 
     hits = []
-    for i in range(min(Num_Of_Notes_To_Test, len(msgs))):
+    for i in range(min(Current_Level['notes'], len(msgs))):
         try:
             hit = Hit(msgs[i], Truths[i])
         except IndexError as e:
@@ -47,18 +46,18 @@ def main():
                             Allowed_Tempo_Deviation_Factor=Allowed_Tempo_Deviation_Factor,
                             Trial_File_Path=Trial_File_Path,
                             Full_Truth_File_Path=Full_Truth_File_Path,
-                            Num_Of_Notes_To_Test=Num_Of_Notes_To_Test,
-                            e=e, i=i, played_enough_notes=played_enough_notes
+                            e=e, i=i, played_enough_notes=played_enough_notes,
+                            Current_Level=Current_Level
                             ), title="IndexError")
             raise e
-        if i and hit.is_correct_note and Learning_Type == "tempo":
+        if i and hit.is_correct_note and Current_Level['rhythm']:
             hit.set_is_correct_timing(Allowed_Tempo_Deviation_Factor)
         hits.append(hit)
 
     if not played_enough_notes:
         # played 3 notes but needed 4, [ null, null, null, "note" ]
         # or if made a mistake: [ null, "timing", null, "note" ]
-        mistakes = [hit.get_mistake_kind() for hit in hits] + ["note"] * (Num_Of_Notes_To_Test - len(msgs))
+        mistakes = [hit.get_mistake_kind() for hit in hits] + ["note"] * (Current_Level['notes'] - len(msgs))
         prfl(dict(passed=False, mistakes=mistakes))
 
     else:  # played all notes
@@ -70,11 +69,10 @@ def main():
             mistakes = [hit.get_mistake_kind() for hit in hits]
             logger.log(dict(msgs=msgs, Truths=Truths, hits=hits,
                             mistakes=mistakes,
-                            Learning_Type=Learning_Type,
                             Allowed_Tempo_Deviation_Factor=Allowed_Tempo_Deviation_Factor,
                             Trial_File_Path=Trial_File_Path,
                             Full_Truth_File_Path=Full_Truth_File_Path,
-                            Num_Of_Notes_To_Test=Num_Of_Notes_To_Test,
+                            Current_Level=Current_Level,
                             ), title="Didnt pass")
             prfl(dict(passed=False, mistakes=mistakes))
 
