@@ -679,9 +679,10 @@
 		 /**@class*/
 		 class Level {
 			 /**@param {TLevel} level
-			  @param {number?} index
+			  @param {number} index
 			  @param {number?} internalTrialIndex*/
 			 constructor(level, index, internalTrialIndex) {
+				 if (index == undefined) throw new Error("index is undefined");
 				 const { notes, rhythm, tempo, trials } = level;
 				 this.notes = notes;
 				 this.rhythm = rhythm;
@@ -704,9 +705,23 @@
 
 		 /**@class*/
 		 class Levels {
-			 /**@param {TLevel[]} levels*/
-			 constructor(levels) {
+			 /**@param {TLevel[]} levels
+			  @param {number?} currentLevelIndex
+			  @param {number?} currentInternalTrialIndex*/
+			 constructor(levels, currentLevelIndex, currentInternalTrialIndex) {
+
+				 /**@member {Level[]}*/
 				 this._levels = levels.map((level, index) => new Level(level, index));
+				 if (currentLevelIndex != undefined) {
+					 /**@member {Level}*/
+					 this.current = this._levels[currentLevelIndex];
+					 this.current.internalTrialIndex = currentInternalTrialIndex;
+				 }
+
+			 }
+            /**@return {Level}*/
+			 get(i) {
+				 return this._levels[i];
 			 }
 
 			 /**@return {boolean}*/
@@ -732,10 +747,6 @@
 				 this._levels.push(level);
 			 }
 
-			 /**@param {function(value:Level, index:number, obj:Level[]):boolean} predicate*/
-			 findIndex(predicate) {
-				 return this._levels.findIndex(predicate);
-			 }
 
 			 [Symbol.iterator]() { return this._levels.values(); }
 		 }
