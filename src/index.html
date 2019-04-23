@@ -676,7 +676,69 @@
 			 }
 		 }
 
+		 /**@class*/
+		 class Level {
+			 /**@param {TLevel} level
+			  @param {number?} index
+			  @param {number?} internalTrialIndex*/
+			 constructor(level, index, internalTrialIndex) {
+				 const { notes, rhythm, tempo, trials } = level;
+				 this.notes = notes;
+				 this.rhythm = rhythm;
+				 this.tempo = tempo;
+				 this.trials = trials;
+				 this.index = index;
+				 this.internalTrialIndex = internalTrialIndex;
+			 }
 
+			 isFirstTrial() {
+				 if (this.internalTrialIndex == undefined)
+					 throw new Error("internalTrialIndex is undefined");
+				 return this.internalTrialIndex == 0;
+			 }
+
+			 hasZeroes() {
+				 return !bool(this.notes) || !bool(this.trials);
+			 }
+		 }
+
+		 /**@class*/
+		 class Levels {
+			 /**@param {TLevel[]} levels*/
+			 constructor(levels) {
+				 this._levels = levels.map((level, index) => new Level(level, index));
+			 }
+
+			 /**@return {boolean}*/
+			 someHaveZeroes() {
+				 return this._levels.some(level => level.hasZeroes());
+			 }
+
+			 /**@return {Array<Levels>}*/
+			 slicesByNotes() {
+				 let byNotes = {};
+				 for (let level of this._levels) {
+					 if (level.notes in byNotes) {
+						 byNotes[level.notes].addLevel(level);
+					 } else {
+						 byNotes[level.notes] = new Levels([level]);
+					 }
+				 }
+				 return Object.values(byNotes);
+			 }
+
+			 /**@param {Level} level*/
+			 addLevel(level) {
+				 this._levels.push(level);
+			 }
+
+			 /**@param {function(value:Level, index:number, obj:Level[]):boolean} predicate*/
+			 findIndex(predicate) {
+				 return this._levels.findIndex(predicate);
+			 }
+
+			 [Symbol.iterator]() { return this._levels.values(); }
+		 }
     </script>
     <script src="jquery.js" defer></script>
     <link rel="stylesheet" href="animate.min.css">
