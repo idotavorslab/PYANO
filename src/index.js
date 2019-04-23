@@ -16,17 +16,6 @@ try {
 }
 
 
-// const debug = require('electron-debug');
-//
-// debug();
-// try {
-// 	require('electron-reloader')(module);
-// } catch (err) {
-// }
-
-// check_create_experiments_folder_structure.py
-// check_create_config_file.py
-// check_create_local_modules_symlink.py
 let pyShell = require("python-shell").PythonShell;
 let path = require("path");
 const enginePath = path.join(__dirname, "engine");

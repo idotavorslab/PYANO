@@ -457,10 +457,10 @@
 			 }
 
 			 /**@template T
-			  * @param {...function():Promise<T>|Promise<void>|T|void} fns
+			  * @param {...Promise<T>|Promise<void>|T|void} promises
 			  * @return {Promise<T[]>}*/
-			 async function concurrent(...fns) {
-				 return await Promise.all(fns);
+			 async function concurrent(...promises) {
+				 return await Promise.all(promises);
 			 }
 
 			 /**@template T
@@ -666,7 +666,8 @@
 
 			 }
 
-			 /**@return {number}*/
+			 /**Counts the number of non-empty lines in the txt on path file.
+			  @return {number}*/
 			 numOfNotes() {
 				 return require("fs")
 					 .readFileSync(this.txt.on.path, { encoding: 'utf8' })

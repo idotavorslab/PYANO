@@ -20,7 +20,7 @@ logger = Logger("check_done_trial")
 #  Trial_File_Path,
 #  Full_Truth_File_Path,
 #  Num_Of_Notes_To_Test) = unpack_response(**response)
-Allowed_Tempo_Deviation_Factor = sys.argv[1]
+Allowed_Tempo_Deviation_Factor = int(sys.argv[1][:-1])
 Trial_File_Path = sys.argv[2]
 Full_Truth_File_Path = sys.argv[3]
 Current_Level = json.loads(sys.argv[4])
