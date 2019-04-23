@@ -40,7 +40,7 @@ def main():
     hits = []
     for i in range(min(Current_Level['notes'], len(msgs))):
         try:
-            hit = Hit(msgs[i], Truths[i])
+            hit = Hit(msgs[i], Truths[i], Current_Level["tempo"])
         except IndexError as e:
             logger.log(dict(msgs=msgs, Truths=Truths, hits=hits,
                             Allowed_Tempo_Deviation_Factor=Allowed_Tempo_Deviation_Factor,

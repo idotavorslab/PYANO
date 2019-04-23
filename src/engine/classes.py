@@ -131,7 +131,7 @@ class Message:
 
 
 class Hit:
-    def __init__(self, msg: Message, truth: Message):
+    def __init__(self, msg: Message, truth: Message, tempo: int):
         self.is_correct_note = msg.note == truth.note
         if msg.time_delta and truth.time_delta:
             if truth.time_delta <= 0.02 and msg.time_delta <= 0.02:
