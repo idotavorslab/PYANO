@@ -47,7 +47,7 @@
  @prop {Animation?} animation
  @prop {Array<string|null>?} mistakes
  @prop {number?} numOfNotes
- @prop {number?} speed
+ @prop {number?} playbackRate
  @prop {Piano} animationPiano
  @prop {Truth} truth
  */
