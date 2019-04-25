@@ -50,22 +50,22 @@ def main():
                             Current_Level=Current_Level
                             ), title="IndexError")
             raise e
-        if i and hit.is_correct_note and Current_Level['rhythm']:
-            hit.set_is_correct_timing(Allowed_Rhythm_Deviation)
+        if i and hit.is_accuracy_correct and Current_Level['rhythm']:
+            hit.set_is_correct_rhythm(Allowed_Rhythm_Deviation)
         hits.append(hit)
 
     if not played_enough_notes:
-        # played 3 notes but needed 4, [ null, null, null, "note" ]
-        # or if made a mistake: [ null, "timing", null, "note" ]
-        mistakes = [hit.get_mistake_kind() for hit in hits] + ["note"] * (Current_Level['notes'] - len(msgs))
+        # played 3 notes but needed 4, [ null, null, null, "accuracy" ]
+        # or if made a mistake: [ null, "rhythm", null, "accuracy" ]
+        mistakes = [hit.get_mistake_kind() for hit in hits] + ["accuracy"] * (Current_Level['notes'] - len(msgs))
         prfl(dict(passed=False, mistakes=mistakes))
 
     else:  # played all notes
-        all_hits_correct = all([hit.note_and_timing_correct() for hit in hits])
+        all_hits_correct = all([hit.are_accuracy_and_rhythm_correct() for hit in hits])
         if all_hits_correct:
             prfl(dict(passed=True))
         else:
-            # ['note', 'timing', None, ...]
+            # ['accuracy', 'rhythm', None, ...]
             mistakes = [hit.get_mistake_kind() for hit in hits]
             logger.log(dict(msgs=msgs, Truths=Truths, hits=hits,
                             mistakes=mistakes,

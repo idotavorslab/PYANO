@@ -132,43 +132,43 @@ class Message:
 
 class Hit:
     def __init__(self, msg: Message, truth: Message, allowed_rhythm_deviation: int, tempo: int):
-        self.is_correct_note = msg.note == truth.note
+        self.is_accuracy_correct = msg.note == truth.note
         if msg.time_delta and truth.time_delta:
             if truth.time_delta <= 0.02 and msg.time_delta <= 0.02:
                 # if chord - as long as tight enough, counts as no deviation
-                self._actual_timing_deviation = 0
+                self._actual_rhythm_deviation = 0
             else:
                 # (0.3 / 0.25) x 100 = 1.2 x 100 = 120
                 ratio = round5((msg.time_delta / truth.time_delta) * 100)
                 # abs(100 - 120) = 20
-                self._actual_timing_deviation = round5(abs(100 - ratio))
+                self._actual_rhythm_deviation = round5(abs(100 - ratio))
         else:  # some time_delta is None
-            self._actual_timing_deviation = 0
-        self._is_correct_timing = self._actual_timing_deviation < allowed_rhythm_deviation
+            self._actual_rhythm_deviation = 0
+        self._is_rhythm_correct = self._actual_rhythm_deviation < allowed_rhythm_deviation
 
-    def set_is_correct_timing(self, allowed_rhythm_deviation: int):
+    def set_is_correct_rhythm(self, allowed_rhythm_deviation: int):
         try:
             # 20 < 40 = True
-            self._is_correct_timing = self._actual_timing_deviation < allowed_rhythm_deviation
+            self._is_rhythm_correct = self._actual_rhythm_deviation < allowed_rhythm_deviation
         except TypeError as e:
             logger.log(dict(allowed_rhythm_deviation=allowed_rhythm_deviation,
                             self=self,
-                            e=e), title="TypeError (Hit.set_is_correct_timing())")
+                            e=e), title="TypeError (Hit.set_is_correct_rhythm())")
             raise e
-        return self._is_correct_timing
+        return self._is_rhythm_correct
 
-    def note_and_timing_correct(self) -> bool:
-        return self.is_correct_note and self._is_correct_timing
+    def are_accuracy_and_rhythm_correct(self) -> bool:
+        return self.is_accuracy_correct and self._is_rhythm_correct
 
     def get_mistake_kind(self) -> str or None:
-        if not self.is_correct_note:
-            return "note"
-        if not self._is_correct_timing:
-            return "timing"
+        if not self.is_accuracy_correct:
+            return "accuracy"
+        if not self._is_rhythm_correct:
+            return "rhythm"
         return None
 
     def __str__(self) -> str:
-        return f'is_correct_note: {self.is_correct_note} | _actual_timing_deviation: {self._actual_timing_deviation} | _is_correct_timing: {self._is_correct_timing}'
+        return f'is_accuracy_correct: {self.is_accuracy_correct} | _actual_rhythm_deviation: {self._actual_rhythm_deviation} | _is_rhythm_correct: {self._is_rhythm_correct}'
 
     def __repr__(self) -> str:
         return self.__str__()

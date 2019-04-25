@@ -12,8 +12,7 @@
  * @prop {number} errors_playingspeed
  * @prop {number} allowed_rhythm_deviation
  */
-// * TLearningType
-/** @typedef {'accuracy' | 'tempo'} TLearningType*/
+
 // * TDemoType
 /** @typedef {'video' | 'animation'} TDemoType*/
 // * TLastPage
