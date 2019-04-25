@@ -97,7 +97,7 @@ class Logger:
         self.truth_file_path: str = cfg["truth_file_path"]
         self.learning_type: str = cfg["learning_type"]
         self.errors_playingspeed = cfg["errors_playingspeed"]
-        self.allowed_tempo_deviation_factor: int = int(cfg["allowed_tempo_deviation_factor"][:-1])
+        self.allowed_rhythm_deviation: int = int(cfg["allowed_rhythm_deviation"][:-1])
         self.demo_type: str = cfg["demo_type"]
         self.levels: [Dict] = cfg["levels"]
         self.current_subject: str = cfg["current_subject"]

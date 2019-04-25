@@ -10,7 +10,7 @@
  * @prop {TDemoType} demo_type
  * @prop {string} current_subject
  * @prop {number} errors_playingspeed
- * @prop {number} allowed_tempo_deviation_factor
+ * @prop {number} allowed_rhythm_deviation
  */
 // * TLearningType
 /** @typedef {'accuracy' | 'tempo'} TLearningType*/

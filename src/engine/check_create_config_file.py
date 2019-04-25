@@ -20,7 +20,7 @@ if not isfile:  # not found
                       truth_file_path="experiments\\truths\\fur_elise.txt",
                       demo_type='video',
                       errors_playingspeed=1,
-                      allowed_tempo_deviation_factor="40%",
+                      allowed_rhythm_deviation="40%",
                       levels=[dict(notes=4, trials=1, rhythm=False, tempo=None),
                               dict(notes=4, trials=1, rhythm=True, tempo=50)],
                       finished_trials_count=0,
@@ -45,7 +45,7 @@ else:
         current_test_keys = ['truth_file_path',
                              'demo_type',
                              'errors_playingspeed',
-                             'allowed_tempo_deviation_factor',
+                             'allowed_rhythm_deviation',
                              'levels',
                              'finished_trials_count',
                              'current_subject']

@@ -131,7 +131,7 @@ class Message:
 
 
 class Hit:
-    def __init__(self, msg: Message, truth: Message, tempo: int):
+    def __init__(self, msg: Message, truth: Message, allowed_rhythm_deviation: int, tempo: int):
         self.is_correct_note = msg.note == truth.note
         if msg.time_delta and truth.time_delta:
             if truth.time_delta <= 0.02 and msg.time_delta <= 0.02:
@@ -144,14 +144,14 @@ class Hit:
                 self._actual_timing_deviation = round5(abs(100 - ratio))
         else:  # some time_delta is None
             self._actual_timing_deviation = 0
-        self._is_correct_timing = True
+        self._is_correct_timing = self._actual_timing_deviation < allowed_rhythm_deviation
 
-    def set_is_correct_timing(self, allowed_tempo_deviation_factor: int):
+    def set_is_correct_timing(self, allowed_rhythm_deviation: int):
         try:
             # 20 < 40 = True
-            self._is_correct_timing = self._actual_timing_deviation < allowed_tempo_deviation_factor
+            self._is_correct_timing = self._actual_timing_deviation < allowed_rhythm_deviation
         except TypeError as e:
-            logger.log(dict(allowed_tempo_deviation_factor=allowed_tempo_deviation_factor,
+            logger.log(dict(allowed_rhythm_deviation=allowed_rhythm_deviation,
                             self=self,
                             e=e), title="TypeError (Hit.set_is_correct_timing())")
             raise e

@@ -65,7 +65,7 @@ def check_and_fix_current_test(val):
     if demo_type not in ['video', 'animation']:
         demo_type = 'video'
 
-    atdf = current_test.get('allowed_tempo_deviation_factor')
+    atdf = current_test.get('allowed_rhythm_deviation')
     if not isinstance(atdf, str) or not 4 >= len(atdf) >= 2 or not atdf[:-1] == '%':
         atdf = "40%"
 
@@ -78,7 +78,7 @@ def check_and_fix_current_test(val):
                 demo_type=demo_type,
                 finished_trials_count=0,
                 errors_playingspeed=err_speed,
-                allowed_tempo_deviation_factor=atdf
+                allowed_rhythm_deviation=atdf
                 )
 
 
@@ -92,7 +92,7 @@ if not isfile:  # not found
                       learning_type='accuracy',
                       demo_type='video',
                       errors_playingspeed=1,
-                      allowed_tempo_deviation_factor="40%",
+                      allowed_rhythm_deviation="40%",
                       levels=[dict(notes=5, trials=2)],
                       finished_trials_count=0,
                       current_subject=username

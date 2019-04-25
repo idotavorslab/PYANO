@@ -5,7 +5,7 @@
     "show_errors_each_trial": true,
     "play_demo_each_trial": true,
     "errors_playingspeed": 1,
-    "allowed_tempo_deviation_factor": "40%",
+    "allowed_rhythm_deviation": "40%",
     "levels": [
         {
             "notes": 6,
