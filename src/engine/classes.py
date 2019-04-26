@@ -179,7 +179,7 @@ class Hit:
             raise ValueError(
                 f"Hit constructor got bad allowed_rhythm_deviation, got: {allowed_rhythm_deviation}. see classes.log, entry: {entry}")
 
-        self._is_accuracy_correct = msg.note == truth.note
+        self.is_accuracy_correct = msg.note == truth.note
 
         self._rhythm_deviation = Hit._get_rhythm_deviation(msg.time_delta, truth.time_delta)
         """if msg.time_delta and truth.time_delta:
@@ -194,7 +194,7 @@ class Hit:
         else:  # some time_delta is None
             self._rhythm_deviation = 0"""
 
-        if self._is_accuracy_correct:  # interesting only if got accuracy right
+        if self.is_accuracy_correct:  # interesting only if got accuracy right
             self._is_rhythm_correct = self._rhythm_deviation < allowed_rhythm_deviation
         else:  # rhythm isn't checked anyway if accuracy isn't right
             self._is_rhythm_correct = True
@@ -216,17 +216,17 @@ class Hit:
         return abs(100 - deltas_ratio)
 
     def are_accuracy_and_rhythm_correct(self) -> bool:
-        return self._is_accuracy_correct and self._is_rhythm_correct
+        return self.is_accuracy_correct and self._is_rhythm_correct
 
     def get_mistake_kind(self) -> str or None:
-        if not self._is_accuracy_correct:
+        if not self.is_accuracy_correct:
             return "accuracy"
         if not self._is_rhythm_correct:
             return "rhythm"
         return None
 
     def __str__(self) -> str:
-        return f'_is_accuracy_correct: {self._is_accuracy_correct} | _rhythm_deviation: {self._rhythm_deviation} | _is_rhythm_correct: {self._is_rhythm_correct}'
+        return f'is_accuracy_correct: {self.is_accuracy_correct} | _rhythm_deviation: {self._rhythm_deviation} | _is_rhythm_correct: {self._is_rhythm_correct}'
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -253,7 +253,7 @@ class HitOLD:
             raise ValueError(
                 f"Hit constructor got tempo_floor not between 0 and 100, got: {tempo_floor}. see classes.log, entry: {entry}")
 
-        self._is_accuracy_correct = msg.note == truth.note
+        self.is_accuracy_correct = msg.note == truth.note
         self._check_rhythm_and_tempo(msg.time_delta, truth.time_delta, allowed_rhythm_deviation,
                                      tempo_floor, tempo_estimation)
 
@@ -271,7 +271,7 @@ class HitOLD:
         else:  # some time_delta is None
             self._rhythm_deviation = 0"""
 
-        if self._is_accuracy_correct:  # interesting only if got accuracy right
+        if self.is_accuracy_correct:  # interesting only if got accuracy right
             self._is_rhythm_correct = self._rhythm_deviation < allowed_rhythm_deviation
         else:  # rhythm isn't checked anyway if accuracy isn't right
             self._is_rhythm_correct = True
@@ -367,17 +367,17 @@ class HitOLD:
         return self._is_rhythm_correct"""
 
     def are_accuracy_and_rhythm_correct(self) -> bool:
-        return self._is_accuracy_correct and self._is_rhythm_correct
+        return self.is_accuracy_correct and self._is_rhythm_correct
 
     def get_mistake_kind(self) -> str or None:
-        if not self._is_accuracy_correct:
+        if not self.is_accuracy_correct:
             return "accuracy"
         if not self._is_rhythm_correct:
             return "rhythm"
         return None
 
     def __str__(self) -> str:
-        return f'_is_accuracy_correct: {self._is_accuracy_correct} | _rhythm_deviation: {self._rhythm_deviation} | _is_rhythm_correct: {self._is_rhythm_correct}'
+        return f'is_accuracy_correct: {self.is_accuracy_correct} | _rhythm_deviation: {self._rhythm_deviation} | _is_rhythm_correct: {self._is_rhythm_correct}'
 
     def __repr__(self) -> str:
         return self.__str__()

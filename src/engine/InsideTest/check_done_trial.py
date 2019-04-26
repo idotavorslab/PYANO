@@ -24,18 +24,26 @@ def estimate_tempo_percentage(msgs: List[Message], truths: List[Message], notes:
 
 
 def main():
-    allowed_rhythm_deviation = int(sys.argv[1][:-1])
-    trial_on_path = sys.argv[2]
-    truth_on_path = sys.argv[3]
-    current_level = json.loads(sys.argv[4])
+    if len(sys.argv) > 1:
+        allowed_rhythm_deviation = int(sys.argv[1][:-1])
+        trial_on_path = sys.argv[2]
+        truth_on_path = sys.argv[3]
+        current_level = json.loads(sys.argv[4])
+    else:
+        allowed_rhythm_deviation = 20
+        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\shachar\fur_elise_B\level_0_trial_0_on.txt'
+        truth_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\fur_elise_B_on.txt'
+        current_level = dict(notes=4, trials=1, rhythm=False, tempo=None)
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
     msgs: List[Message] = Message.normalize_chords_in_file(trial_on_path)
+    check_rhythm = current_level['rhythm']
     tempo_estimation = estimate_tempo_percentage(msgs, truths, current_level['notes'])
-    tempo_floor = current_level['tempo']
-    is_tempo_correct = tempo_floor <= tempo_estimation <= 100
-    if not is_tempo_correct:
-        prfl(dict(passed=False, is_tempo_correct=False))
-        return
+    if check_rhythm:
+        tempo_floor = current_level['tempo']
+        is_tempo_correct = tempo_floor <= tempo_estimation <= 100
+        if not is_tempo_correct:
+            prfl(dict(passed=False, is_tempo_correct=False))
+            return
 
     tempoed_msgs: List[Message] = Message.transform_to_tempo(msgs, tempo_estimation)
     played_enough_notes = len(msgs) >= current_level['notes']
@@ -56,7 +64,10 @@ def main():
         return
 
     # Played all notes or too many notes
-    all_hits_correct = all([hit.are_accuracy_and_rhythm_correct() for hit in hits])
+    if check_rhythm:
+        all_hits_correct = all([hit.are_accuracy_and_rhythm_correct() for hit in hits])
+    else:
+        all_hits_correct = all([hit.is_accuracy_correct for hit in hits])
     if all_hits_correct:
         prfl(dict(passed=True, played_too_many_notes=len(msgs) > current_level['notes']))
         return
