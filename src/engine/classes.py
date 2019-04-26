@@ -162,7 +162,7 @@ class Message:
             if msg.time_delta is None:
                 continue
             if msg.time_delta > 0.05:  # don't change chorded notes time delta
-                msg.time_delta = msg.time_delta / dectempo
+                msg.time_delta *= dectempo
             # TODO: maybe don't round? round only when writing to file
             msg.time = round(msgs_copy[i - 1].time + msg.time_delta, 5)
             msg.preceding_message_time = msgs_copy[i - 1].time

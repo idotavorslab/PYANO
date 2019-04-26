@@ -30,35 +30,38 @@ def main():
         truth_on_path = sys.argv[3]
         current_level = json.loads(sys.argv[4])
     else:
-        allowed_rhythm_deviation = 20
-        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\shachar\fur_elise_B\level_0_trial_0_on.txt'
+        allowed_rhythm_deviation = 40
+        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\shachar\fur_elise_B\level_1_trial_0_on.txt'
         truth_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\fur_elise_B_on.txt'
-        current_level = dict(notes=4, trials=1, rhythm=False, tempo=None)
+        current_level = dict(notes=4, trials=1, rhythm=True, tempo=50)
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
     msgs: List[Message] = Message.normalize_chords_in_file(trial_on_path)
     check_rhythm = current_level['rhythm']
     tempo_estimation = estimate_tempo_percentage(msgs, truths, current_level['notes'])
-    if check_rhythm:
-        tempo_floor = current_level['tempo']
-        is_tempo_correct = tempo_floor <= tempo_estimation <= 100
-        if not is_tempo_correct:
-            prfl(dict(passed=False, is_tempo_correct=False))
-            return
-
     tempoed_msgs: List[Message] = Message.transform_to_tempo(msgs, tempo_estimation)
-    played_enough_notes = len(msgs) >= current_level['notes']
 
     hits = []
     for i in range(min(current_level['notes'], len(msgs))):
         hit = Hit(tempoed_msgs[i], truths[i], allowed_rhythm_deviation)
-        # if i and hit._is_accuracy_correct and current_level['rhythm']:
-        #     hit.set_is_correct_rhythm(allowed_rhythm_deviation)
         hits.append(hit)
 
+    mistakes = [hit.get_mistake_kind() for hit in hits]
+    if check_rhythm:
+        tempo_floor = current_level['tempo']
+        if tempo_floor <= 90:
+            is_tempo_correct = tempo_floor <= tempo_estimation <= 100
+        else:
+            is_tempo_correct = 90 <= tempo_estimation <= 110
+        if not is_tempo_correct:
+            prfl(dict(passed=False, is_tempo_correct=False,
+                      mistakes=mistakes))
+            return
+
+    played_enough_notes = len(msgs) >= current_level['notes']
     if not played_enough_notes:
         # played 3 notes but needed 4: [ null, null, null, "accuracy" ]
         # if also made a mistake: [ null, "rhythm", null, "accuracy" ]
-        mistakes = [hit.get_mistake_kind() for hit in hits] + ["accuracy"] * (current_level['notes'] - len(msgs))
+        mistakes += ["accuracy"] * (current_level['notes'] - len(msgs))
         prfl(dict(passed=False, mistakes=mistakes,
                   played_enough_notes=False))
         return
@@ -70,12 +73,10 @@ def main():
         all_hits_correct = all([hit.is_accuracy_correct for hit in hits])
     if all_hits_correct:
         prfl(dict(passed=True, played_too_many_notes=len(msgs) > current_level['notes']))
-        return
-
-    # Had mistakes
-    # ['accuracy', 'rhythm', None, ...]
-    mistakes = [hit.get_mistake_kind() for hit in hits]
-    prfl(dict(passed=False, mistakes=mistakes))
+    else:
+        # Had mistakes
+        # ['accuracy', 'rhythm', None, ...]
+        prfl(dict(passed=False, mistakes=mistakes))
 
 
 if __name__ == '__main__':

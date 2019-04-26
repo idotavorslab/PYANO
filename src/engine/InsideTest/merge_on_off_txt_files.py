@@ -22,8 +22,9 @@ def get_on_off_pairs(on_msgs, off_msgs):
                                  if (off_msg.note == on_msg.note
                                      and off_msg.time > on_msg.time)),
                                 None)
-        off_msgs.remove(matching_off_msg)
-        pairs.append((on_msg, matching_off_msg))
+        if matching_off_msg is not None:
+            off_msgs.remove(matching_off_msg)
+            pairs.append((on_msg, matching_off_msg))
     return pairs
 
 

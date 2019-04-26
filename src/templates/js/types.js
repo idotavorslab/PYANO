@@ -61,7 +61,11 @@
  @prop {number} trialIndex
  @prop {number} numOfNotes*/
 
-
+/**@typedef {{ passed: boolean,
+                     mistakes: TMistake[],
+                     played_enough_notes: boolean,
+                     played_too_many_notes:boolean,
+                     is_tempo_correct: boolean }} TDoneTrialResult*/
 // *** Alert
 // * SweetOptions
 /**@typedef {{
