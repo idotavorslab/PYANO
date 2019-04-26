@@ -133,14 +133,14 @@ class Message:
     @staticmethod
     def is_file_chord_normalized(file_path: str) -> (List['Message'], bool):
         from copy import deepcopy
-        # not neccessarily normalied now; will be normalized by end of function
-        normalized_messages = Message.construct_many_from_file(file_path)
-        chords = Message.get_chords(normalized_messages)
+        msgs = Message.construct_many_from_file(file_path)
+        chords = Message.get_chords(msgs)
+        msgs_C = deepcopy(msgs)
         is_normalized = True
         for root, rest in chords.items():
             """Overwrite chord messages so they are sorted by note, all timed according to lowest pitch note, and share the time delta and preceding message time data of the first-played note"""
             chord_indices: List[int] = [root, *rest]
-            chord_messages = [deepcopy(normalized_messages)[i] for i in chord_indices]
+            chord_messages = [msgs_C[i] for i in chord_indices]
             sorted_chord_messages = sorted(deepcopy(chord_messages), key=lambda m: m.note)
             already_sorted = chord_messages == sorted_chord_messages
             if already_sorted:
@@ -149,9 +149,9 @@ class Message:
             # not sorted
             is_normalized = False
             for i, msg_i in enumerate(chord_indices):
-                normalized_messages[msg_i].note = sorted_chord_messages[i].note
-                normalized_messages[msg_i].velocity = sorted_chord_messages[i].velocity
-        return normalized_messages, is_normalized
+                msgs_C[msg_i].note = sorted_chord_messages[i].note
+                msgs_C[msg_i].velocity = sorted_chord_messages[i].velocity
+        return msgs_C, is_normalized
 
     @staticmethod
     def transform_to_tempo(msgs, actual_tempo: float) -> List['Message']:
