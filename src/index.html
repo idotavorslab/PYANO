@@ -457,7 +457,7 @@
 			 }
 
 			 /**@template T
-			  * @param {...Promise<T>|Promise<void>|T|void} promises
+			  * @param {Promise<T>|Promise<void>|T|void} promises
 			  * @return {Promise<T[]>}*/
 			 async function concurrent(...promises) {
 				 return await Promise.all(promises);
@@ -701,6 +701,7 @@
 			 hasZeroes() {
 				 return !bool(this.notes) || !bool(this.trials);
 			 }
+
 		 }
 
 		 /**@class*/
@@ -719,7 +720,8 @@
 				 }
 
 			 }
-            /**@return {Level}*/
+
+			 /**@return {Level}*/
 			 get(i) {
 				 return this._levels[i];
 			 }

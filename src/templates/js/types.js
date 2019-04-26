@@ -39,6 +39,8 @@
  * @prop {'off' | 'on'} kind
  */
 
+// * TMistake
+/**@typedef {'accuracy','rhythm'} TMistake*/
 /**@typedef {[TMessage[]]} TOnOffPairs*/
 // * gilad.playMidiFile
 /**
@@ -59,13 +61,6 @@
  @prop {number} trialIndex
  @prop {number} numOfNotes*/
 
-// * showFailedTrialFeedback
-/**
- @typedef showFailedTrialFeedbackOptions
- @prop {Piano} animationPiano
- @prop {number} trialIndex
- @prop {string[]} mistakes
- @prop {Truth} truth*/
 
 // *** Alert
 // * SweetOptions

@@ -17,7 +17,7 @@
 | `1` | 1.666 | 1.666   | 1.25            |
 | `2` | 3.333 | 1.666   | 1.25            |
 | `3` | 4.166 | 0.833   | 0.625           |
-    if T.Delta < Truth T.Delta: TOO FAST
+    if T.Delta (1.666) < Truth T.Delta (2): TOO FAST
 
 ## Subject 100%     GOOD
 
@@ -36,8 +36,8 @@
 | `1` | 2.5  | 2.5     | 1.875           |
 | `2` | 5    | 2.5     | 1.875           |
 | `3` | 6.25 | 1.25    | 0.9375          |
-    if T.Delta > Truth T.Delta:
-        if Tempo*(T.Delta) < T.Delta: GOOD
+    if T.Delta (2.5) > Truth T.Delta (2):
+        if Tempo*(T.Delta) (1.875) < Truth T.Delta (2): GOOD
         else: BAD
 
 ## Subject 60%     BAD: TOO SLOW
@@ -49,9 +49,9 @@
 | `2` | 6.666 | 3.333   | 2.5             |
 | `3` | 8.333 | 1.666   | 1.25            |
 
-    if T.Delta > Truth T.Delta:
-        if Tempo*(T.Delta) < T.Delta: GOOD
-        else: BAD
+    if T.Delta (3.333) > Truth T.Delta (2):
+        if Tempo*(T.Delta) (2.5) < T.Delta (2): GOOD
+        else: BAD TOO SLOW
 
 
 
