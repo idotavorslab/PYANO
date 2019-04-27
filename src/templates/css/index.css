@@ -135,7 +135,7 @@ body > *, button, p, input, div {
 }
 
 .input-missing {
-    background-color: rgb(247, 190, 190);
+    background-color: lightpink;
 }
 
 /****<my-select>*/
@@ -263,4 +263,12 @@ body > *, button, p, input, div {
 
 .clickable:hover {
     font-weight: bolder;
+}
+
+.lightpink {
+    color: #ffb6c1;
+}
+
+.lightgreen {
+    color: #caffb6
 }
