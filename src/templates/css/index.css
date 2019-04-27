@@ -12,7 +12,7 @@ body {
 body > *, button, p, input, div {
     color: white;
     font-family: "Roboto", serif;
-    transition: box-shadow 500ms, background-color 500ms, background 500ms, color 500ms, font-weight 500ms;
+    transition: box-shadow 500ms, background-color 500ms, background 500ms, color 500ms, font-weight 500ms, font-style 500ms;
     letter-spacing: 1px;
 }
 
@@ -144,6 +144,7 @@ body > *, button, p, input, div {
     border-radius: 0.5rem;
     border-width: 0;
     font-family: unset;
+    transition: box-shadow 0.2s;
 }
 
 .my-select > option {
@@ -160,10 +161,42 @@ body > *, button, p, input, div {
 }
 
 .my-select:focus {
-    outline: unset
+    outline: unset;
+    box-shadow: 0px 0px 2px 1px #aaa;
+    /*animation-name: my_select_onfocus;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-in;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    */
 }
 
-/****<vertical align>*/
+@keyframes my_select_onfocus {
+    0% {
+        box-shadow: 0px 0px 0px 0px darkgrey;
+    }
+    /*20% {
+        box-shadow: 0px 0px 0.5px 0.5px darkgrey;
+    }
+    40% {
+        box-shadow: 0px 0px 1px 1px darkgrey;
+    }
+    60% {
+        box-shadow: 0px 0px 1.5px 1.5px darkgrey;
+    }
+    80% {
+        box-shadow: 0px 0px 2px 2px darkgrey;
+    }
+    */
+    100% {
+        box-shadow: 0px 0px 15px 5px #333;
+    }
+}
+
+/* ***<vertical align>*/
 .mid-v-align-container {
     display: table;
     height: 100%;

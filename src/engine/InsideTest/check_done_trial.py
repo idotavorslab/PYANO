@@ -46,27 +46,41 @@ def main():
         hits.append(hit)
 
     mistakes = [hit.get_mistake_kind() for hit in hits]
+    tempo = "ok"
     if check_rhythm:
+        # Failed feedback msg could be "[ null, 'rhythm', null, 'accuracy' ] and too fast"
         tempo_floor = current_level['tempo']
-        if tempo_floor <= 90:
-            is_tempo_correct = tempo_floor <= tempo_estimation <= 100
+        if tempo_floor > 90:
+            tempo_floor = 90
+            tempo_ceil = 110
         else:
-            is_tempo_correct = 90 <= tempo_estimation <= 110
-        if not is_tempo_correct:
-            prfl(dict(passed=False, is_tempo_correct=False,
-                      mistakes=mistakes))
+            tempo_ceil = 100
+
+        if tempo_estimation < tempo_floor:
+            tempo = "slow"
+        elif tempo_estimation > tempo_ceil:
+            tempo = "fast"
+        else:
+            tempo = "ok"
+
+        if tempo != 'ok':
+            prfl(dict(passed=False, tempo=tempo, mistakes=mistakes))
             return
+    else:  # delete rhythm mistakes if not checking rhythm. ["rhythm", null, "accuracy"] => [null, null, "accuracy"]
+        mistakes = [None if m == "rhythm" else m for m in mistakes]
 
     played_enough_notes = len(msgs) >= current_level['notes']
     if not played_enough_notes:
-        # played 3 notes but needed 4: [ null, null, null, "accuracy" ]
+        # needed to play 4 notes but playeed 3: [ null, null, null, "accuracy" ]
         # if also made a mistake: [ null, "rhythm", null, "accuracy" ]
+        # Failed feedback msg could be "[ null, 'rhythm', null, 'accuracy' ], not enough notes and too fast"
         mistakes += ["accuracy"] * (current_level['notes'] - len(msgs))
         prfl(dict(passed=False, mistakes=mistakes,
-                  played_enough_notes=False))
+                  played_enough_notes=False, tempo=tempo))
         return
 
     # Played all notes or too many notes
+    all_hits_correct = all([hit is None for hit in hits])
     if check_rhythm:
         all_hits_correct = all([hit.are_accuracy_and_rhythm_correct() for hit in hits])
     else:
