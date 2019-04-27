@@ -698,6 +698,10 @@
 				 return this.internalTrialIndex == 0;
 			 }
 
+			 isLastTrial() {
+				 return this.internalTrialIndex == this.trials;
+			 }
+
 			 hasZeroes() {
 				 return !bool(this.notes) || !bool(this.trials);
 			 }
