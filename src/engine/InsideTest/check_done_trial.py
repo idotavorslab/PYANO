@@ -34,9 +34,9 @@ def main():
         current_level = json.loads(sys.argv[4])
     else:
         allowed_rhythm_deviation = 20
-        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\shachar\fur_elise_B\level_1_trial_0_on.txt'
+        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\shachar\fur_elise_B\level_2_trial_0_on.txt'
         truth_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\fur_elise_B_on.txt'
-        current_level = dict(notes=4, trials=2, rhythm=True, tempo=50)
+        current_level = dict(notes=8, trials=2, rhythm=True, tempo=70)
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
     msgs: List[Message] = Message.normalize_chords_in_file(trial_on_path)
     check_rhythm = current_level['rhythm']
