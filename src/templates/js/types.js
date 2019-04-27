@@ -1,22 +1,34 @@
+// *** Store Types
+// * TCurrentTest
+
+
 /**
  * @typedef TCurrentTest
  * @prop {string} truth_file_path
  * @prop {number} finished_trials_count
  * @prop {TLevel[]} levels
- * @prop {TLearningType} learning_type
  * @prop {TDemoType} demo_type
  * @prop {string} current_subject
  * @prop {number} errors_playingspeed
- * @prop {number} allowed_tempo_deviation_factor
+ * @prop {number} allowed_rhythm_deviation
  */
 
+// * TDemoType
+/** @typedef {'video' | 'animation'} TDemoType*/
+// * TLastPage
+/**@typedef {'new_test' | 'inside_test' | 'record' | 'file_tools' | 'settings'} TLastPage*/
+
+// *** InsideTest.Gui | gilad
+// * TLevel
 /**
  * @typedef TLevel
  * @prop {number} notes
  * @prop {number} trials
+ * @prop {boolean} rhythm
+ * @prop {number} tempo
  */
 
-
+// * TMessage
 /**
  * @typedef TMessage
  * @prop {number} note
@@ -27,36 +39,36 @@
  * @prop {'off' | 'on'} kind
  */
 
-
+// * TMistake
+/**@typedef {'accuracy','rhythm'} TMistake*/
+/**@typedef {[TMessage[]]} TOnOffPairs*/
+// * gilad.playMidiFile
 /**
  @typedef playMidiFileOptions
  @prop {Animation?} animation
  @prop {Array<string|null>?} mistakes
  @prop {number?} numOfNotes
- @prop {number?} speed
- @prop {Piano} playbackPiano
+ @prop {number?} playbackRate
+ @prop {Piano} animationPiano
  @prop {Truth} truth
  */
-
+// * playPreTrialDemo
 /**
  @typedef playPreTrialDemoOptions
- @prop {Midi} midi
- @prop {Piano} playbackPiano
+ @prop {Piano} animationPiano
  @prop {Truth} truth
  @prop {number} levelIndex
  @prop {number} trialIndex
  @prop {number} numOfNotes*/
 
-
-/**
- @typedef showFailedTrialFeedbackOptions
- @prop {Midi} midi
- @prop {Piano} playbackPiano
- @prop {number} trialIndex
- @prop {string[]} mistakes
- @prop {Truth} truth*/
-
-
+/**@typedef {{ passed: boolean,
+               tempo_str: 'slow' | 'fast' | 'ok',
+               mistakes: TMistake[],
+               played_enough_notes: boolean,
+               played_too_many_notes:boolean,
+               advance_trial: boolean}} TDoneTrialResult*/
+// *** Alert
+// * SweetOptions
 /**@typedef {{
         allowEnterKey?: boolean | function(*):boolean,
         allowEscapeKey?: boolean | function(*):boolean,
@@ -129,6 +141,3 @@
 } SweetOptions*/
 
 
-/** @typedef {'accuracy' | 'tempo'} TLearningType*/
-/** @typedef {'video' | 'animation'} TDemoType*/
-/**@typedef {'new_test' | 'inside_test' | 'record' | 'file_tools' | 'settings'} TLastPage*/

@@ -16,17 +16,6 @@ try {
 }
 
 
-// const debug = require('electron-debug');
-//
-// debug();
-// try {
-// 	require('electron-reloader')(module);
-// } catch (err) {
-// }
-
-// check_create_experiments_folder_structure.py
-// check_create_config_file.py
-// check_create_local_modules_symlink.py
 let pyShell = require("python-shell").PythonShell;
 let path = require("path");
 const enginePath = path.join(__dirname, "engine");
@@ -50,6 +39,7 @@ pyShell.run("check_create_config_file.py", {
 	args: [path.join(app.getPath('appData'), 'Electron'), __dirname]
 }, (err, output) => {
 	if (err) throw err;
+	console.log('check_create_config_file.py returned output: ', output[0]);
 });
 
 /*pyShell.run("check_create_local_modules_symlink.py", {
@@ -98,7 +88,11 @@ const createWindow = () => {
 	// if (app.getPath('appData').includes("gbete"))
 	mainWindow.webContents.openDevTools();
 	globalShortcut.register('CommandOrControl+R', () => {
-
+		mainWindow.reload();
+	});
+	globalShortcut.register('CommandOrControl+Q', () => {
+		console.log('Pressed ctrl+q, setting last page to new test and reloading');
+		store.set('last_page', 'new_test');
 		mainWindow.reload();
 	});
 	// Emitted when the window is closed.

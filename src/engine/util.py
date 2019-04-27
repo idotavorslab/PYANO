@@ -15,8 +15,15 @@ class Logger:
         except FileExistsError:
             pass
 
-        self.filename = f'logs/{os.path.splitext(filename)[0]}.log'
+        try:
+            os.mkdir('./counters')
+        except FileExistsError:
+            pass
+
+        self._filename = os.path.splitext(filename)[0]
+        self._logpath = f'logs/{self._filename}.log'
         self._logged_once = False
+        self._counterpath = f'counters/{self._filename}.json'
 
     @staticmethod
     def _is_stringified(s):
@@ -59,13 +66,14 @@ class Logger:
         return arg
 
     def log(self, exp, should_pf=True, include_type=True, include_is_stringified=False, title=None):
-        with open(self.filename, mode="a") as f:
+        with open(self._logpath, mode="a") as f:
             line = ''
             if not self._logged_once:
                 line = '\n-----------------------------------------------------'
                 self._logged_once = True
 
-            beginning = f'{line}\n{datetime.today().strftime("%d.%m.%y %H:%M:%S:%f")}'
+            strftime = datetime.today().strftime("%d.%m.%y %H:%M:%S:%f")
+            beginning = f'{line}\n{strftime}'
             if title:
                 beginning += f'\n## {title} ##'
             else:
@@ -86,9 +94,24 @@ class Logger:
                 final += f'(stringified: {self._is_stringified(exp)})\n'
 
             f.write(f'{beginning}{middle}{end}{final}')
+        return strftime
 
     def log_thin(self, exp, should_pf=True, include_type=False, include_is_stringified=False, title=None):
-        self.log(exp, should_pf, include_is_stringified=include_is_stringified, include_type=include_type, title=title)
+        return self.log(exp, should_pf, include_is_stringified=include_is_stringified,
+                        include_type=include_type, title=title)
+
+    def count(self, obj: list):
+        raise NotImplementedError
+        # by_dots = location.split('.')
+        # obj = {by_dots[0]: by_dots[1]}
+        # for i, level in enumerate(by_dots):
+        if os.path.isfile(self._counterpath):
+            with open(self._counterpath) as f:
+                loaded = json.load(f)
+        else:
+            loaded = obj
+        with open(self._counterpath, mode='w') as f:
+            json.dump(obj, f)
 
 
 # TODO: unused
@@ -97,7 +120,7 @@ class Logger:
         self.truth_file_path: str = cfg["truth_file_path"]
         self.learning_type: str = cfg["learning_type"]
         self.errors_playingspeed = cfg["errors_playingspeed"]
-        self.allowed_tempo_deviation_factor: int = int(cfg["allowed_tempo_deviation_factor"][:-1])
+        self.allowed_rhythm_deviation: int = int(cfg["allowed_rhythm_deviation"][:-1])
         self.demo_type: str = cfg["demo_type"]
         self.levels: [Dict] = cfg["levels"]
         self.current_subject: str = cfg["current_subject"]

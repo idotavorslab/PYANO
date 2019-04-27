@@ -11,8 +11,8 @@ body {
 
 body > *, button, p, input, div {
     color: white;
-    font-family: "Roboto";
-    transition: box-shadow 500ms, background-color 500ms, background 500ms, color 500ms, font-weight 500ms;
+    font-family: "Roboto", serif;
+    transition: box-shadow 500ms, background-color 500ms, background 500ms, color 500ms, font-weight 500ms, font-style 500ms;
     letter-spacing: 1px;
 }
 
@@ -55,8 +55,8 @@ body > *, button, p, input, div {
 }
 
 .inactive-btn {
-    background-color: rgb(255, 255, 255, 0.5);
-    color: rgb(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
     cursor: unset;
     pointer-events: none;
 }
@@ -64,6 +64,7 @@ body > *, button, p, input, div {
 .inactive-btn:hover {
     box-shadow: unset
 }
+
 
 .radio-option-selected {
     background-color: #3d5afe;
@@ -75,11 +76,11 @@ body > *, button, p, input, div {
 }
 
 .radio-option-unselected {
-    background-color: rgb(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, 0);
     border-style: solid;
-    border-color: rgb(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
     border-width: 2px;
-    color: rgb(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
     font-weight: 300;
 }
@@ -91,12 +92,16 @@ body > *, button, p, input, div {
 }
 
 .toggle-btn-off {
-    background-color: rgb(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, 0);
     border-width: 2px;
     border-style: solid;
-    border-color: rgb(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
     text-align: left;
-    color: rgb(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+[class*="toggle-btn"]:after {
+    content: "·"
 }
 
 
@@ -130,7 +135,7 @@ body > *, button, p, input, div {
 }
 
 .input-missing {
-    background-color: rgb(247, 190, 190);
+    background-color: lightpink;
 }
 
 /****<my-select>*/
@@ -139,6 +144,7 @@ body > *, button, p, input, div {
     border-radius: 0.5rem;
     border-width: 0;
     font-family: unset;
+    transition: box-shadow 0.2s;
 }
 
 .my-select > option {
@@ -150,15 +156,47 @@ body > *, button, p, input, div {
 }
 
 .my-select-disabled {
-    background: rgb(255, 255, 255, 0.7);
-    color: rgb(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .my-select:focus {
-    outline: unset
+    outline: unset;
+    box-shadow: 0px 0px 2px 3px rgb(100, 120, 150);
+    /*animation-name: my_select_onfocus;
+    animation-duration: 0.1s;
+    animation-timing-function: ease-in;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+    */
 }
 
-/****<vertical align>*/
+@keyframes my_select_onfocus {
+    0% {
+        box-shadow: 0px 0px 0px 0px darkgrey;
+    }
+    /*20% {
+        box-shadow: 0px 0px 0.5px 0.5px darkgrey;
+    }
+    40% {
+        box-shadow: 0px 0px 1px 1px darkgrey;
+    }
+    60% {
+        box-shadow: 0px 0px 1.5px 1.5px darkgrey;
+    }
+    80% {
+        box-shadow: 0px 0px 2px 2px darkgrey;
+    }
+    */
+    100% {
+        box-shadow: 0px 0px 15px 5px #333;
+    }
+}
+
+/* ***<vertical align>*/
 .mid-v-align-container {
     display: table;
     height: 100%;
@@ -174,17 +212,17 @@ body > *, button, p, input, div {
     grid-column: 2/15;
     grid-row: 1/1;
     font-size: 2em;
-    color: rgb(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .subtitle, .subtitle > * {
-    font-family: "Roboto Thin";
-    color: rgb(255, 255, 255, 0.75);
+    font-family: "Roboto Thin", serif;
+    color: rgba(255, 255, 255, 0.75);
     font-size: 1.125vw;
 }
 
 .autocomplete {
-    color: rgb(255, 255, 255, 1);
+    color: rgba(255, 255, 255, 1);
 }
 
 /****<sidebar>*/
@@ -193,7 +231,7 @@ body > *, button, p, input, div {
     grid-row: 2/20;
     display: grid;
     border-width: 1px;
-    border-right-color: rgb(255, 255, 255, 0.1);
+    border-right-color: rgba(255, 255, 255, 0.1);
     border-right-style: inset;
 }
 
@@ -202,7 +240,7 @@ body > *, button, p, input, div {
     cursor: pointer;
     transition: filter 500ms, color 500ms;
     align-self: center;
-    color: rgb(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 
@@ -225,4 +263,12 @@ body > *, button, p, input, div {
 
 .clickable:hover {
     font-weight: bolder;
+}
+
+.lightpink {
+    color: #ffcfff;
+}
+
+.lightgreen {
+    color: #cfffcf
 }
