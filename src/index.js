@@ -88,7 +88,11 @@ const createWindow = () => {
 	// if (app.getPath('appData').includes("gbete"))
 	mainWindow.webContents.openDevTools();
 	globalShortcut.register('CommandOrControl+R', () => {
-
+		mainWindow.reload();
+	});
+	globalShortcut.register('CommandOrControl+Q', () => {
+		console.log('Pressed ctrl+q, setting last page to new test and reloading');
+		store.set('last_page', 'new_test');
 		mainWindow.reload();
 	});
 	// Emitted when the window is closed.
