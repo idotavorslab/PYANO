@@ -798,3 +798,6 @@ node_modules/zip-stream
 *.txt
 node_modules/pyano_local_modules/pages/InsideTest/Gui - New.js
 node_modules/pyano_local_modules/util/__Log__
+misc/feedback msgs flowchart.md
+node_modules/pyano_local_modules/pages/NewTest/___Elements_js___
+src/engine/loggercounttestdelete.py
