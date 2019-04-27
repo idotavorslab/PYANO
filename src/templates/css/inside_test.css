@@ -7,8 +7,9 @@
     grid-column: 1/15;
     grid-row: 5/7;
     text-align: center;
-    color: rgb(255, 255, 255);
+    /*color: rgb(255, 255, 255);*/
     font-size: 4vw;
+    transition: color 0.7s;
 
 }
 
