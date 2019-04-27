@@ -721,6 +721,10 @@
 
 			 }
 
+			 get length() {
+				 return this._levels.length;
+			 }
+
 			 /**@return {Level}*/
 			 get(i) {
 				 return this._levels[i];
@@ -735,11 +739,11 @@
 			 slicesByNotes() {
 				 let byNotes = {};
 				 for (let level of this._levels) {
-					 if (level.notes in byNotes) {
+					 if (level.notes in byNotes)
 						 byNotes[level.notes].addLevel(level);
-					 } else {
+					 else
 						 byNotes[level.notes] = new Levels([level]);
-					 }
+
 				 }
 				 return Object.values(byNotes);
 			 }
@@ -749,15 +753,23 @@
 				 this._levels.push(level);
 			 }
 
+			 /**@return {number}*/
 			 getNextTempoOfThisNotes() {
+				 if (this.current.rhythm)
+					 return this.current.tempo;
 				 for (let i = this.current.index; i < this._levels.length; i++) {
 					 const lvl = this._levels[i];
 					 if (lvl.notes != this.current.notes)
-						 return null; // went over all level with same number of notes and didn't find anything
+						 return 100; // went over all level with same number of notes and didn't find anything
 					 if (lvl.tempo != null)
 						 return lvl.tempo;
 				 }
-				 return null;
+				 return 100;
+			 }
+
+			 /**@return {number}*/
+			 maxNotes() {
+				 return max(...this._levels.map(lvl => lvl.notes));
 			 }
 
 			 [Symbol.iterator]() { return this._levels.values(); }

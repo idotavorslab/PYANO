@@ -62,10 +62,11 @@
  @prop {number} numOfNotes*/
 
 /**@typedef {{ passed: boolean,
-                     mistakes: TMistake[],
-                     played_enough_notes: boolean,
-                     played_too_many_notes:boolean,
-                     is_tempo_correct: boolean }} TDoneTrialResult*/
+               tempo_str: 'slow' | 'fast' | 'ok',
+               mistakes: TMistake[],
+               played_enough_notes: boolean,
+               played_too_many_notes:boolean,
+               advance_trial: boolean}} TDoneTrialResult*/
 // *** Alert
 // * SweetOptions
 /**@typedef {{
