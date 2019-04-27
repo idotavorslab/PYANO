@@ -34,9 +34,9 @@ def main():
         current_level = json.loads(sys.argv[4])
     else:
         allowed_rhythm_deviation = 20
-        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\shachar\fur_elise_B\level_2_trial_0_on.txt'
+        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\shachar\fur_elise_B\level_0_trial_0_on.txt'
         truth_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\fur_elise_B_on.txt'
-        current_level = dict(notes=8, trials=2, rhythm=True, tempo=70)
+        current_level = dict(notes=4, trials=1, rhythm=True, tempo=100)
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
     msgs: List[Message] = Message.normalize_chords_in_file(trial_on_path)
     check_rhythm = current_level['rhythm']
@@ -49,6 +49,12 @@ def main():
         hits.append(hit)
 
     mistakes = [hit.get_mistake_kind() for hit in hits]
+    played_enough_notes = len(msgs) >= current_level['notes']
+    if not played_enough_notes:
+        # needed to play 4 notes but playeed 3: [ null, null, null, "accuracy" ]
+        # if also made a mistake: [ null, "rhythm", null, "accuracy" ]
+        # Failed feedback msg could be "[ null, 'rhythm', null, 'accuracy' ], not enough notes and too fast"
+        mistakes += ["accuracy"] * (current_level['notes'] - len(msgs))
     tempo_str = "ok"
     if check_rhythm:
         # Failed feedback msg could be "[ null, 'rhythm', null, 'accuracy' ] and too fast"
@@ -68,18 +74,14 @@ def main():
 
         if tempo_str != 'ok':
             prfl(dict(passed=False, tempo_str=tempo_str,
+                      played_enough_notes=played_enough_notes,
                       advance_trial='accuracy' not in mistakes,  # acc mistake when checking rhythm
                       mistakes=mistakes))
             return
     else:  # delete rhythm mistakes if not checking rhythm. ["rhythm", null, "accuracy"] => [null, null, "accuracy"]
         mistakes = [None if m == "rhythm" else m for m in mistakes]
 
-    played_enough_notes = len(msgs) >= current_level['notes']
     if not played_enough_notes:
-        # needed to play 4 notes but playeed 3: [ null, null, null, "accuracy" ]
-        # if also made a mistake: [ null, "rhythm", null, "accuracy" ]
-        # Failed feedback msg could be "[ null, 'rhythm', null, 'accuracy' ], not enough notes and too fast"
-        mistakes += ["accuracy"] * (current_level['notes'] - len(msgs))
         prfl(dict(passed=False, mistakes=mistakes,
                   advance_trial=not check_rhythm,  # acc mistake when checking rhythm
                   played_enough_notes=False, tempo_str=tempo_str))
@@ -87,12 +89,9 @@ def main():
 
     # Played all notes or too many notes
     all_hits_correct = all([mistake is None for mistake in mistakes])
-    # if check_rhythm:
-    #     all_hits_correct = all([hit.are_accuracy_and_rhythm_correct() for hit in hits])
-    # else:
-    #     all_hits_correct = all([hit.is_accuracy_correct for hit in hits])
     if all_hits_correct:
         prfl(dict(passed=True, played_too_many_notes=len(msgs) > current_level['notes']))
+        return
     else:
         # Had mistakes
         # Tempo ok, played all required notes
