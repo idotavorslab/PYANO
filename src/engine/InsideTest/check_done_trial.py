@@ -20,7 +20,10 @@ def estimate_tempo_percentage(msgs: List[Message], truths: List[Message], notes:
             continue
         time_delta_ratios.append((truth_time_delta / msg_time_delta) * 100)
 
-    return sum(time_delta_ratios) / len(time_delta_ratios)
+    try:
+        return sum(time_delta_ratios) / len(time_delta_ratios)
+    except ZeroDivisionError:
+        return 100
 
 
 def main():

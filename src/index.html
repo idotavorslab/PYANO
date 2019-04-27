@@ -749,6 +749,16 @@
 				 this._levels.push(level);
 			 }
 
+			 getNextTempoOfThisNotes() {
+				 for (let i = this.current.index; i < this._levels.length; i++) {
+					 const lvl = this._levels[i];
+					 if (lvl.notes != this.current.notes)
+						 return null; // went over all level with same number of notes and didn't find anything
+					 if (lvl.tempo != null)
+						 return lvl.tempo;
+				 }
+				 return null;
+			 }
 
 			 [Symbol.iterator]() { return this._levels.values(); }
 		 }
