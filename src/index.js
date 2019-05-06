@@ -64,6 +64,11 @@ const createWindow = () => {
 	// Create the browser window.
 	mainWindow = new BrowserWindow({
 		acceptFirstMouse: true,
+		webPreferences: {
+			navigateOnDragDrop: true,
+			zoomFactor: 1,
+			experimentalFeatures: true,
+		}
 	});
 
 	mainWindow.setSize(1919, 1080, true);
@@ -74,7 +79,7 @@ const createWindow = () => {
 	// and load the index.html of the app.
 	mainWindow.loadURL(`file://${__dirname}/index.html`);
 	mainWindow.setResizable(true);
-	// mainWindow.setMenu(null);
+	mainWindow.setMenu(null);
 	mainWindow.setBackgroundColor('#181818');
 	mainWindow.setMenuBarVisibility(false);
 	mainWindow.setAutoHideMenuBar(true);
@@ -87,14 +92,8 @@ const createWindow = () => {
 
 	// if (app.getPath('appData').includes("gbete"))
 	mainWindow.webContents.openDevTools();
-	globalShortcut.register('CommandOrControl+R', () => {
-		mainWindow.reload();
-	});
-	globalShortcut.register('CommandOrControl+Q', () => {
-		console.log('Pressed ctrl+q, setting last page to new test and reloading');
-		store.set('last_page', 'new_test');
-		mainWindow.reload();
-	});
+
+
 	// Emitted when the window is closed.
 	mainWindow.on('show', () => console.log('mainWindow SHOW'));
 	mainWindow.on('ready-to-show', () => console.log('mainWindow READY-TO-SHOW'));
@@ -106,6 +105,18 @@ const createWindow = () => {
 		// when you should delete the corresponding element.
 		mainWindow = null;
 	});
+	mainWindow.on('hide', () => console.log('mainWindow HIDE'));
+	mainWindow.on('blur', () => globalShortcut.unregisterAll());
+	mainWindow.on('focus', () => {
+		globalShortcut.register('CommandOrControl+R', () => {
+			mainWindow.reload();
+		});
+		globalShortcut.register('CommandOrControl+Q', () => {
+			console.log('Pressed ctrl+q, setting last page to new test and reloading');
+			store.set('last_page', 'new_test');
+			mainWindow.reload();
+		});
+	});
 };
 
 // This method will be called when Electron has finished
@@ -115,6 +126,7 @@ app.on('ready', () => {
 	console.log('app READY');
 	createWindow();
 });
+
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
