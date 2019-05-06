@@ -70,8 +70,8 @@ def main():
             raise ValueError(
                 f"check_done_trial inside rhythm checking got bad allowed_tempo_deviation, got: {allowed_tempo_deviation}. see classes.log, entry: {entry}")
 
-        tempo_floor = current_level['tempo'] * allowed_tempo_deviation / 100
-        tempo_ceil = 100  + allowed_tempo_deviation
+        tempo_floor = current_level['tempo'] - allowed_tempo_deviation
+        tempo_ceil = 100 + allowed_tempo_deviation
         if tempo_estimation < tempo_floor:
             tempo_str = "slow"
         elif tempo_estimation > tempo_ceil:
