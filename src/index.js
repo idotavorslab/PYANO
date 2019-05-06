@@ -92,7 +92,6 @@ const createWindow = () => {
 	// if (app.getPath('appData').includes("gbete"))
 	mainWindow.webContents.openDevTools();
 
-
 	// Emitted when the window is closed.
 	mainWindow.on('show', () => console.log('mainWindow SHOW'));
 	mainWindow.on('ready-to-show', () => console.log('mainWindow READY-TO-SHOW'));

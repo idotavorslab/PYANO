@@ -41,6 +41,10 @@ body > *, button, p, input, div {
     background-color: #444;
 }
 
+#nav_btns_container > button:focus {
+    outline: unset
+}
+
 #exit_btn {
     background-image: url(../exit.png);
     left: 100%;

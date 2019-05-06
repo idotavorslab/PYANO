@@ -305,10 +305,13 @@
 				 yield [arr1[key], arr2[key]];
 		 }
 
-		 function reloadPage() {
+		 function getCurrentWindow() {
 			 let { remote } = require("electron");
-			 const currentWindow = remote.getCurrentWindow();
-			 currentWindow.reload();
+			 return remote.getCurrentWindow();
+		 }
+
+		 function reloadPage() {
+			 getCurrentWindow().reload();
 		 }
 
 		 function isEqual(obja, objb) {
