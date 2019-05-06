@@ -21,6 +21,7 @@ if not isfile:  # not found
                       demo_type='video',
                       errors_playingspeed=1,
                       allowed_rhythm_deviation="40%",
+                      allowed_tempo_deviation="10%",
                       levels=[dict(notes=4, trials=1, rhythm=False, tempo=None),
                               dict(notes=4, trials=1, rhythm=True, tempo=50)],
                       finished_trials_count=0,
@@ -46,6 +47,7 @@ else:
                              'demo_type',
                              'errors_playingspeed',
                              'allowed_rhythm_deviation',
+                             'allowed_tempo_deviation',
                              'levels',
                              'finished_trials_count',
                              'current_subject']

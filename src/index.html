@@ -202,8 +202,8 @@
 		 const Path = require("path");
 
 
-		 const any = (...items) => items.some(item => bool(item));
-		 const all = (...items) => items.every(item => bool(item));
+		 const any = (collection) => collection.some(item => bool(item));
+		 const all = (collection) => collection.every(item => bool(item));
 
 		 /**@param val
 		  * @return {boolean}*/
@@ -315,7 +315,7 @@
 		 }
 
 		 function isEqual(obja, objb) {
-			 if (any(Array.isArray(obja), Array.isArray(objb)))
+			 if (any([Array.isArray(obja), Array.isArray(objb)]))
 				 throw new Error("At least one object is an Array. Pass dict-like objects only");
 			 const typeA = typeof obja;
 			 const typeB = typeof objb;

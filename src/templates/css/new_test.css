@@ -98,15 +98,24 @@
     grid-row: 5/5;
 }
 
-/* **Allowed tempo deviation factor 6/6*/
-#settings_tempo_deviation_label {
+#settings_rhythm_deviation_label {
     grid-column: 1/4;
     grid-row: 6/6;
 }
 
-#settings_tempo_deviation_select {
+#settings_rhythm_deviation_select {
     grid-column: 4/4;
     grid-row: 6/6;
+}
+
+#settings_tempo_deviation_label {
+    grid-column: 1/4;
+    grid-row: 7/7;
+}
+
+#settings_tempo_deviation_select {
+    grid-column: 4/4;
+    grid-row: 7/7;
 }
 
 
