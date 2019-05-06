@@ -625,7 +625,7 @@
 
 					 /**@return {Promise<boolean>}*/
 					 async anyExist() {
-						 return any(...await asx.concurrent(
+						 return any(await asx.concurrent(
 							 this.base.exists(),
 							 this.on.exists(),
 							 this.off.exists()));

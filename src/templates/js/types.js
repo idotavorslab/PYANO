@@ -53,14 +53,7 @@
  @prop {Piano} animationPiano
  @prop {Truth} truth
  */
-// * playPreTrialDemo
-/**
- @typedef playPreTrialDemoOptions
- @prop {Piano} animationPiano
- @prop {Truth} truth
- @prop {number} levelIndex
- @prop {number} trialIndex
- @prop {number} numOfNotes*/
+
 
 /**@typedef {{ passed: boolean,
                tempo_str: 'slow' | 'fast' | 'ok',
