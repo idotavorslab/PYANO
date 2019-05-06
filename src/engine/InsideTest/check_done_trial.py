@@ -29,11 +29,13 @@ def estimate_tempo_percentage(msgs: List[Message], truths: List[Message], notes:
 def main():
     if len(sys.argv) > 1:
         allowed_rhythm_deviation = int(sys.argv[1][:-1])
-        trial_on_path = sys.argv[2]
-        truth_on_path = sys.argv[3]
-        current_level = json.loads(sys.argv[4])
+        allowed_tempo_deviation = int(sys.argv[2][:-1])
+        trial_on_path = sys.argv[3]
+        truth_on_path = sys.argv[4]
+        current_level = json.loads(sys.argv[5])
     else:
         allowed_rhythm_deviation = 20
+        allowed_tempo_deviation = 10
         trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\shachar\fur_elise_B\level_0_trial_0_on.txt'
         truth_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\fur_elise_B_on.txt'
         current_level = dict(notes=4, trials=1, rhythm=True, tempo=100)
@@ -58,13 +60,18 @@ def main():
     tempo_str = "ok"
     if check_rhythm:
         # Failed feedback msg could be "[ null, 'rhythm', null, 'accuracy' ] and too fast"
-        tempo_floor = current_level['tempo']
-        if tempo_floor > 90:
-            tempo_floor = 90
-            tempo_ceil = 110
-        else:
-            tempo_ceil = 100
 
+        if not (0 <= allowed_tempo_deviation <= 100):
+            entry = logger.log(
+                dict(trial_on_path=trial_on_path, truth_on_path=truth_on_path,
+                     current_level=current_level,
+                     allowed_tempo_deviation=allowed_tempo_deviation),
+                title="check_done_trial ValueError bad allowed_tempo_deviation")
+            raise ValueError(
+                f"check_done_trial inside rhythm checking got bad allowed_tempo_deviation, got: {allowed_tempo_deviation}. see classes.log, entry: {entry}")
+
+        tempo_floor = current_level['tempo'] * allowed_tempo_deviation / 100
+        tempo_ceil = 100  + allowed_tempo_deviation
         if tempo_estimation < tempo_floor:
             tempo_str = "slow"
         elif tempo_estimation > tempo_ceil:

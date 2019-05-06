@@ -171,7 +171,7 @@ class Message:
 
 class Hit:
     def __init__(self, msg: Message, truth: Message, allowed_rhythm_deviation: int):
-        if allowed_rhythm_deviation < 0 or allowed_rhythm_deviation > 100:
+        if not (0 <= allowed_rhythm_deviation <= 100):
             entry = logger.log(
                 dict(self=self, msg=msg, truth=truth,
                      allowed_rhythm_deviation=allowed_rhythm_deviation),

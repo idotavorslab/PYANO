@@ -10,7 +10,8 @@
  * @prop {TDemoType} demo_type
  * @prop {string} current_subject
  * @prop {number} errors_playingspeed
- * @prop {number} allowed_rhythm_deviation
+ * @prop {string} allowed_rhythm_deviation
+ * @prop {string} allowed_tempo_deviation
  */
 
 // * TDemoType
