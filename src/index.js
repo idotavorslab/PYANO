@@ -84,8 +84,7 @@ const createWindow = () => {
 	mainWindow.setMenuBarVisibility(false);
 	mainWindow.setAutoHideMenuBar(true);
 	mainWindow.maximize();
-	// mainWindow.setFullScreen(true);
-	// mainWindow.setSimpleFullScreen(true);
+	mainWindow.setFullScreen(true);
 	// mainWindow.setIcon()
 	// mainWindow.setHasShadow(true);
 
@@ -97,7 +96,6 @@ const createWindow = () => {
 	// Emitted when the window is closed.
 	mainWindow.on('show', () => console.log('mainWindow SHOW'));
 	mainWindow.on('ready-to-show', () => console.log('mainWindow READY-TO-SHOW'));
-	mainWindow.on('sheet-begin', () => console.log('mainWindow SHEET-BEGIN'));
 	mainWindow.on('closed', () => {
 		console.log('mainWindow CLOSED');
 		// Dereference the window object, usually you would store windows
