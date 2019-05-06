@@ -20,7 +20,8 @@ body > *, button, p, input, div {
     position: sticky;
     text-align: right;
     grid-column: 13/13;
-    grid-row: 1/1
+    grid-row: 1/1;
+    z-index: 1000;
 }
 
 #nav_btns_container > button {
