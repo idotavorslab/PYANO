@@ -774,6 +774,10 @@
 				 return 100;
 			 }
 
+			 isCurrentLastLevel() {
+				 return this.current.index == this.length - 1;
+			 }
+
 			 /**@return {number}*/
 			 maxNotes() {
 				 return max(...this._levels.map(lvl => lvl.notes));
