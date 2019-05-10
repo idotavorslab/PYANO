@@ -254,7 +254,7 @@ body > *, button, p, input, div {
     color: rgba(255, 255, 255, 0.8);
 }
 
-.subtitle, .subtitle > * {
+.subtitle, .subtitle > div {
     font-family: "Roboto Thin", serif;
     color: rgba(255, 255, 255, 0.75);
     font-size: 1.125vw;
