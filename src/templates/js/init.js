@@ -7,8 +7,12 @@ let last_page = EStore.get('last_page');
 Pages.toPage(last_page, false);
 document.getElementById('exit_btn')
         .addEventListener('click', async () => {
-	        let shouldExit = await Alert.big.warning({ title: 'Are you sure you want to exit?', showCancelButton: true, animation: false });
-	        if (shouldExit.value)
+	        let { value: shouldExit } = await Alert.big.warning({
+		        title: 'Are you sure you want to exit?',
+		        showCancelButton: true,
+		        animation: false
+	        });
+	        if (shouldExit)
 		        getCurrentWindow().close();
         });
 document.getElementById('minimize_btn')

@@ -1,7 +1,6 @@
 // *** Store Types
+
 // * TCurrentTest
-
-
 /**
  * @typedef TCurrentTest
  * @prop {string} truth_file_path
@@ -42,6 +41,7 @@
 
 // * TMistake
 /**@typedef {'accuracy','rhythm'} TMistake*/
+// * TOnOffPairs
 /**@typedef {[TMessage[]]} TOnOffPairs*/
 // * gilad.playMidiFile
 /**
@@ -54,13 +54,14 @@
  @prop {Truth} truth
  */
 
-
+// * TDoneTrialResult
 /**@typedef {{ passed: boolean,
                tempo_str: 'slow' | 'fast' | 'ok',
                mistakes: TMistake[],
                played_enough_notes: boolean,
                played_too_many_notes:boolean,
                advance_trial: boolean}} TDoneTrialResult*/
+
 // *** Alert
 // * SweetOptions
 /**@typedef {{

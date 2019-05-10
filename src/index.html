@@ -201,8 +201,9 @@
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const Path = require("path");
 
-
+		 /**@return {boolean}*/
 		 const any = (collection) => collection.some(item => bool(item));
+		 /**@return {boolean}*/
 		 const all = (collection) => collection.every(item => bool(item));
 
 		 /**@param val
