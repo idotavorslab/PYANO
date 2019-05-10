@@ -38,8 +38,13 @@ pyShell.run("check_create_config_file.py", {
 	mode: "json",
 	args: [path.join(app.getPath('appData'), 'Electron'), __dirname]
 }, (err, output) => {
-	if (err) throw err;
-	console.log('check_create_config_file.py returned output: ', output[0]);
+	if (err) {
+		console.log(err);
+		throw err;
+	}
+
+	console.log('check_create_config_file.py returned output: ');
+	output.map(o => console.log(o, '\n'));
 });
 
 /*pyShell.run("check_create_local_modules_symlink.py", {
@@ -89,8 +94,8 @@ const createWindow = () => {
 	// mainWindow.setHasShadow(true);
 
 
-	// if (app.getPath('appData').includes("gbete"))
-	mainWindow.webContents.openDevTools();
+	if (app.getPath('appData').includes("gbete"))
+		mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
 	mainWindow.on('show', () => console.log('mainWindow SHOW'));
