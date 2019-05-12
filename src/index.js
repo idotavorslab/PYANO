@@ -118,6 +118,11 @@ const createWindow = () => {
 			store.set('last_page', 'new_test');
 			mainWindow.reload();
 		});
+		globalShortcut.register('CommandOrControl+Y', () => {
+			console.log('Pressed ctrl+y, opening DevTools');
+
+			mainWindow.webContents.openDevTools();
+		});
 	});
 };
 
