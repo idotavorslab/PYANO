@@ -1,6 +1,16 @@
 @font-face {
-    font-family: "Roboto", serif;
-    src: url(./Roboto/Roboto-Blackasf.ttf)
+    font-family: "Roboto";
+    src: url(./Roboto/Roboto-Regular.ttf)
+}
+
+@font-face {
+    font-family: "Roboto Thin";
+    src: url(./Roboto/Roboto-Thin.ttf)
+}
+
+@font-face {
+    font-family: "Roboto Light";
+    src: url(./Roboto/Roboto-Light.ttf)
 }
 
 body {
