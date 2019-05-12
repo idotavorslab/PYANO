@@ -10,9 +10,9 @@ if len(sys.argv) > 1:
     on_path = sys.argv[2]
     off_path = sys.argv[3]
 else:
-    base_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\tests\fur_elise_B.txt'
-    on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\tests\fur_elise_B_on.txt'
-    off_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\tests\fur_elise_B_off.txt'
+    base_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\prelude.txt'
+    on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\prelude_on.txt'
+    off_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\prelude_off.txt'
 
 
 def get_on_off_pairs(on_msgs, off_msgs):

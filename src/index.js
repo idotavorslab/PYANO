@@ -70,7 +70,7 @@ const createWindow = () => {
 	mainWindow = new BrowserWindow({
 		acceptFirstMouse: true,
 		webPreferences: {
-			navigateOnDragDrop: true,
+			navigateOnDragDrop: false,
 			zoomFactor: 1,
 			experimentalFeatures: true,
 		}
