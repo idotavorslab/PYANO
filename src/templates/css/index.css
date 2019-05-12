@@ -1,3 +1,7 @@
+@font-face {
+    font-family: "Roboto", serif;
+    src: url(./Roboto/Roboto-Blackasf.ttf)
+}
 
 body {
     background-color: #181818;
