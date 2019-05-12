@@ -36,7 +36,7 @@ def main():
     else:
         allowed_rhythm_deviation = 20
         allowed_tempo_deviation = 10
-        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\shachar\fur_elise_B\level_0_trial_0_on.txt'
+        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\tests\fur_elise_B_on.txt'
         truth_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\fur_elise_B_on.txt'
         current_level = dict(notes=4, trials=1, rhythm=True, tempo=100)
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
