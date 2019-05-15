@@ -83,75 +83,88 @@ else:
         return modified
 
 
-    def check_fix_current_test():
+    def check_fix_test_dict(dictname, *exclude):
         modified = False
-
-        current_test = config['current_test']
+        current_dict = config.get(dictname)
+        if current_dict is None:
+            current_dict = {}
         import re
 
-        if 'truth_file_path' not in current_test:
-            current_test['truth_file_path'] = "experiments\\truths\\fur_elise.txt"
-            modified = True
-        else:
-            split = re.split(r'[\\/]', current_test['truth_file_path'])
-            if (len(split) != 3
-                    or split[0] != 'experiments'
-                    or split[1] != 'truths'
-                    or not split[2].endswith('.txt')):
-                current_test['truth_file_path'] = "experiments\\truths\\fur_elise_B.txt"
+        if 'truth_file_path' not in exclude:
+            if 'truth_file_path' not in current_dict:
+                current_dict['truth_file_path'] = "experiments\\truths\\fur_elise_B.txt"
+                modified = True
+            else:
+                split = re.split(r'[\\/]', current_dict['truth_file_path'])
+                if (len(split) != 3
+                        or split[0] != 'experiments'
+                        or split[1] != 'truths'
+                        or not split[2].endswith('.txt')):
+                    current_dict['truth_file_path'] = "experiments\\truths\\fur_elise_B.txt"
+                    modified = True
+
+        if 'demo_type' not in exclude:
+            if 'demo_type' not in current_dict or current_dict['demo_type'] not in ['animation', 'video']:
+                current_dict['demo_type'] = 'video'
                 modified = True
 
-        if 'demo_type' not in current_test or current_test['demo_type'] not in ['animation', 'video']:
-            current_test['demo_type'] = 'video'
-            modified = True
+        if 'errors_playingspeed' not in exclude:
+            if 'errors_playingspeed' not in current_dict or not isinstance(current_dict['errors_playingspeed'], int):
+                current_dict['errors_playingspeed'] = 1
+                modified = True
+            elif current_dict['errors_playingspeed'] <= 0:  # exists and is an int, check for value
+                current_dict['errors_playingspeed'] = 1
+                modified = True
 
-        if 'errors_playingspeed' not in current_test or not isinstance(current_test['errors_playingspeed'], int):
-            current_test['errors_playingspeed'] = 1
-            modified = True
-        elif current_test['errors_playingspeed'] <= 0:  # exists and is an int, check for value
-            current_test['errors_playingspeed'] = 1
-            modified = True
+        if 'allowed_rhythm_deviation' not in exclude:
+            if ('allowed_rhythm_deviation' not in current_dict
+                    or not isinstance(current_dict['allowed_rhythm_deviation'], str)):
+                current_dict['allowed_rhythm_deviation'] = '40%'
+                modified = True
+            elif len(current_dict['allowed_rhythm_deviation']) != 3 or current_dict['allowed_rhythm_deviation'][
+                -1] != '%':
+                current_dict['allowed_rhythm_deviation'] = '40%'
+                modified = True
 
-        if ('allowed_rhythm_deviation' not in current_test
-                or not isinstance(current_test['allowed_rhythm_deviation'], str)):
-            current_test['allowed_rhythm_deviation'] = '40%'
-            modified = True
-        elif len(current_test['allowed_rhythm_deviation']) != 3 or current_test['allowed_rhythm_deviation'][-1] != '%':
-            current_test['allowed_rhythm_deviation'] = '40%'
-            modified = True
+        if 'allowed_tempo_deviation' not in exclude:
+            if ('allowed_tempo_deviation' not in current_dict
+                    or not isinstance(current_dict['allowed_tempo_deviation'], str)):
+                current_dict['allowed_tempo_deviation'] = '10%'
+                modified = True
+            elif len(current_dict['allowed_tempo_deviation']) != 3 or current_dict['allowed_tempo_deviation'][
+                -1] != '%':
+                current_dict['allowed_tempo_deviation'] = '10%'
+                modified = True
 
-        if ('allowed_tempo_deviation' not in current_test
-                or not isinstance(current_test['allowed_tempo_deviation'], str)):
-            current_test['allowed_tempo_deviation'] = '10%'
-            modified = True
-        elif len(current_test['allowed_tempo_deviation']) != 3 or current_test['allowed_tempo_deviation'][-1] != '%':
-            current_test['allowed_tempo_deviation'] = '10%'
-            modified = True
+        if 'finished_trials_count' not in exclude:
+            if 'finished_trials_count' not in current_dict or not isinstance(current_dict['finished_trials_count'],
+                                                                             int):
+                current_dict['finished_trials_count'] = 0
+                modified = True
+            elif current_dict['finished_trials_count'] != 0:  # exists and is an int, check for value
+                current_dict['finished_trials_count'] = 0
+                modified = True
 
-        if 'finished_trials_count' not in current_test or not isinstance(current_test['finished_trials_count'], int):
-            current_test['finished_trials_count'] = 0
-            modified = True
-        elif current_test['finished_trials_count'] != 0:  # exists and is an int, check for value
-            current_test['finished_trials_count'] = 0
-            modified = True
+        if 'current_subject' not in exclude:
+            if 'current_subject' not in current_dict or current_dict['current_subject'] != username:
+                current_dict['current_subject'] = username
+                modified = True
 
-        if 'current_subject' not in current_test or current_test['current_subject'] != username:
-            current_test['current_subject'] = username
-            modified = True
-
-        if 'levels' not in current_test or not current_test['levels'] or not isinstance(current_test['levels'], list):
-            current_test['levels'] = [dict(notes=4, trials=1, rhythm=False, tempo=None),
-                                      dict(notes=4, trials=1, rhythm=True, tempo=50)]
-            modified = True
-        # levels key exists and is list, check if all levels adhere to ['notes', 'trials', 'rhythm', 'tempo'] structure
-        elif not all((['notes', 'trials', 'rhythm', 'tempo'] == list(level.keys())
-                      for level in current_test['levels'])):
-            current_test['levels'] = [dict(notes=4, trials=1, rhythm=False, tempo=None),
-                                      dict(notes=4, trials=1, rhythm=True, tempo=50)]
-            modified = True
+        if 'levels' not in exclude:
+            if 'levels' not in current_dict or not current_dict['levels'] or not isinstance(current_dict['levels'],
+                                                                                            list):
+                current_dict['levels'] = [dict(notes=4, trials=1, rhythm=False, tempo=None),
+                                          dict(notes=4, trials=1, rhythm=True, tempo=50)]
+                modified = True
+            # levels key exists and is list, check if all levels adhere to ['notes', 'trials', 'rhythm', 'tempo'] structure
+            elif not all((['notes', 'trials', 'rhythm', 'tempo'] == list(level.keys())
+                          for level in current_dict['levels'])):
+                current_dict['levels'] = [dict(notes=4, trials=1, rhythm=False, tempo=None),
+                                          dict(notes=4, trials=1, rhythm=True, tempo=50)]
+                modified = True
 
         if modified:
-            config['current_test'] = current_test
+            config[dictname] = current_dict
         return modified
 
 
@@ -195,9 +208,10 @@ else:
 
 
     first_level_modified = check_fix_first_level()
-    current_test_modified = check_fix_current_test()  # assume first level ok
+    current_test_modified = check_fix_test_dict('current_test')  # assume first level ok
     current_test_levels_modified = check_fix_current_test_levels()  # assume current_test ok
-    if any((first_level_modified, current_test_modified, current_test_levels_modified)):
+    current_exam_modified = check_fix_test_dict('current_exam')  # assume first level ok
+    if any((first_level_modified, current_test_modified, current_test_levels_modified, current_exam_modified)):
         try:
             with open(configfile, mode="w") as f:
                 # modify config file
@@ -209,4 +223,5 @@ else:
     raise_if_any_bad_path()
     prjs(dict(first_level_modified=first_level_modified,
               current_test_modified=current_test_modified,
-              current_test_levels_modified=current_test_levels_modified))
+              current_test_levels_modified=current_test_levels_modified,
+              current_exam_modified=current_exam_modified))

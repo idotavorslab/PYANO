@@ -44,7 +44,7 @@ pyShell.run("check_create_config_file.py", {
 	}
 
 	console.log('check_create_config_file.py returned output: ');
-	output.map(o => console.log(o, '\n'));
+	output.map(console.log);
 });
 
 /*pyShell.run("check_create_local_modules_symlink.py", {
