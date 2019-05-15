@@ -1,8 +1,8 @@
 // *** Store Types
 
-// * TCurrentTest
+// * TConfig
 /**
- * @typedef TCurrentTest
+ * @typedef TConfig
  * @prop {string} truth_file_path
  * @prop {number} finished_trials_count
  * @prop {TLevel[]} levels
