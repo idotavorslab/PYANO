@@ -16,7 +16,7 @@
 // * TDemoType
 /** @typedef {'video' | 'animation'} TDemoType*/
 // * TLastPage
-/**@typedef {'new_test' | 'inside_test' | 'record' | 'file_tools' | 'settings'} TLastPage*/
+/**@typedef {'exam' | 'new_test' | 'inside_test' | 'record' | 'file_tools' | 'settings'} TLastPage*/
 
 // *** InsideTest.Gui | gilad
 // * TLevel

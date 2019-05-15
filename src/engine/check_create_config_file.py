@@ -60,7 +60,9 @@ else:
             config['dev'] = is_in_dev
             modified = True
 
-        if 'last_page' not in config or config['last_page'] not in ['new_test', 'record', 'file_tools', 'inside_test']:
+        if 'last_page' not in config or config['last_page'] not in ['exam', 'new_test',
+                                                                    'inside_test', 'record',
+                                                                    'file_tools', 'settings']:
             config['last_page'] = 'new_test'
             modified = True
 
@@ -208,5 +210,3 @@ else:
     prjs(dict(first_level_modified=first_level_modified,
               current_test_modified=current_test_modified,
               current_test_levels_modified=current_test_levels_modified))
-
-
