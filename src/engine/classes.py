@@ -154,19 +154,19 @@ class Message:
         return msgs_C, is_normalized
 
     @staticmethod
-    def transform_to_tempo(msgs, actual_tempo: float) -> List['Message']:
+    def transform_to_tempo(on_msgs, actual_tempo: float) -> List['Message']:
         from copy import deepcopy
         dectempo = actual_tempo / 100
-        msgs_copy = deepcopy(msgs)
-        for i, msg in enumerate(msgs_copy):
+        on_msgs_C = deepcopy(on_msgs)
+        for i, msg in enumerate(on_msgs_C):
             if msg.time_delta is None:
                 continue
             if msg.time_delta > 0.05:  # don't change chorded notes time delta
                 msg.time_delta *= dectempo
             # TODO: maybe don't round? round only when writing to file
-            msg.time = round(msgs_copy[i - 1].time + msg.time_delta, 5)
-            msg.preceding_message_time = msgs_copy[i - 1].time
-        return msgs_copy
+            msg.time = round(on_msgs_C[i - 1].time + msg.time_delta, 5)
+            msg.preceding_message_time = on_msgs_C[i - 1].time
+        return on_msgs_C
 
 
 class Hit:
