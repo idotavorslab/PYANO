@@ -1,8 +1,8 @@
 // *** Store Types
 
-// * TConfig
+// * TCurrentTest
 /**
- * @typedef TConfig
+ * @typedef TCurrentTest
  * @prop {string} truth_file_path
  * @prop {number} finished_trials_count
  * @prop {TLevel[]} levels
@@ -12,13 +12,11 @@
  * @prop {string} allowed_rhythm_deviation
  * @prop {string} allowed_tempo_deviation
  */
-// * TConfigKey
-/**@typedef {'truth_file_path'|'finished_trials_count'|'levels'|'demo_type'|'current_subject'|'errors_playingspeed'|'allowed_rhythm_deviation'|'allowed_tempo_deviation'} TConfigKey*/
 
 // * TDemoType
 /** @typedef {'video' | 'animation'} TDemoType*/
 // * TLastPage
-/**@typedef {'exam' | 'new_test' | 'inside_test' | 'record' | 'file_tools' | 'settings'} TLastPage*/
+/**@typedef {'new_test' | 'inside_test' | 'record' | 'file_tools' | 'settings'} TLastPage*/
 
 // *** InsideTest.Gui | gilad
 // * TLevel
@@ -136,5 +134,4 @@
         width?: number | string,
 }
 } SweetOptions*/
-
 
