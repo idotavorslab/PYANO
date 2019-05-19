@@ -1,1 +1,0 @@
-{"truth_file_path":"experiments\\truths\\fur_elise_B.txt","demo_type":"video","errors_playingspeed":1,"allowed_rhythm_deviation":"40%","levels":[{"notes":4,"trials":2,"rhythm":true,"tempo":70},{"notes":4,"trials":5,"rhythm":true,"tempo":70}],"finished_trials_count":0,"allowed_tempo_deviation":"10%","current_subject":"gbete"}
