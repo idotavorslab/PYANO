@@ -26,6 +26,15 @@ def estimate_tempo_percentage(msgs: List[Message], truths: List[Message], notes:
         return 100
 
 
+def check_chord_accuracy(msgs: List[Message], truths: List[Message], *chord_indices: int):
+    truth_chord_notes = []
+    msgs_chord_notes = []
+    for i in chord_indices:
+        truth_chord_notes.append(truths[i].note)
+        msgs_chord_notes.append(msgs[i].note)
+    return set(truth_chord_notes) == set(msgs_chord_notes)
+
+
 def main():
     if len(sys.argv) > 1:
         allowed_rhythm_deviation = int(sys.argv[1][:-1])
@@ -35,29 +44,33 @@ def main():
         current_level = json.loads(sys.argv[5])
     else:
         allowed_rhythm_deviation = 20
-        allowed_tempo_deviation = 10
-        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\tests\fur_elise_B_on.txt'
+        allowed_tempo_deviation = 30
+        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\tests\ORIN\level_1_trial_0_on.txt'
         truth_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\fur_elise_B_on.txt'
-        current_level = dict(notes=4, trials=1, rhythm=True, tempo=100)
+        current_level = dict(notes=10, trials=1, rhythm=True, tempo=50)
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
     msgs: List[Message] = Message.normalize_chords_in_file(trial_on_path)
+
     check_rhythm = current_level['rhythm']
-    tempo_estimation = estimate_tempo_percentage(msgs, truths, current_level['notes'])
+    current_level_notes = current_level['notes']
+    tempo_estimation = estimate_tempo_percentage(msgs, truths, current_level_notes)
     tempoed_msgs: List[Message] = Message.transform_to_tempo(msgs, tempo_estimation)
 
-    hits = []
+    # hits = []
     mistakes = []
-    for i in range(min(current_level['notes'], len(msgs))):
+    truth_chords = Message.get_chords(truths[:current_level_notes])
+    Message.normalize_chords(tempoed_msgs, truth_chords)
+    for i in range(min(current_level_notes, len(msgs))):
         hit = Hit(tempoed_msgs[i], truths[i], allowed_rhythm_deviation)
         mistakes.append(hit.get_mistake_kind())
-        hits.append(hit)
+        # hits.append(hit)
 
-    played_enough_notes = len(msgs) >= current_level['notes']
+    played_enough_notes = len(msgs) >= current_level_notes
     if not played_enough_notes:
         # needed to play 4 notes but playeed 3: [ null, null, null, "accuracy" ]
         # if also made a mistake: [ null, "rhythm", null, "accuracy" ]
         # Failed feedback msg could be "[ null, 'rhythm', null, 'accuracy' ], not enough notes and too fast"
-        mistakes += ["accuracy"] * (current_level['notes'] - len(msgs))
+        mistakes += ["accuracy"] * (current_level_notes - len(msgs))
     tempo_str = "ok"
     if check_rhythm:
         # Failed feedback msg could be "[ null, 'rhythm', null, 'accuracy' ] and too fast"
@@ -100,7 +113,7 @@ def main():
     # Played all notes or too many notes
     all_hits_correct = all([mistake is None for mistake in mistakes])
     if all_hits_correct:
-        prfl(dict(passed=True, played_too_many_notes=len(msgs) > current_level['notes']))
+        prfl(dict(passed=True, played_too_many_notes=len(msgs) > current_level_notes))
         return
     else:
         # Had mistakes
