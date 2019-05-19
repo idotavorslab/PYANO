@@ -13,7 +13,7 @@
  * @prop {string} allowed_tempo_deviation
  */
 // * TConfigKey
-/**@typedef {'truth_file_path'|'finished_trials_count'|'levels'|'demo_type'|'current_subject'|'errors_playingspeed'|'allowed_rhythm_deviation'|'allowed_tempo_deviation'} TConfigKey*/
+/**@typedef {'truth_file_path'|'finished_trials_count'|'levels'|'demo_type'|'learning_type'|'current_subject'|'errors_playingspeed'|'allowed_rhythm_deviation'|'allowed_tempo_deviation'} TConfigKey*/
 
 // * TDemoType
 /** @typedef {'video' | 'animation'} TDemoType*/
