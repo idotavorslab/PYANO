@@ -56,14 +56,12 @@ def main():
     tempo_estimation = estimate_tempo_percentage(msgs, truths, current_level_notes)
     tempoed_msgs: List[Message] = Message.transform_to_tempo(msgs, tempo_estimation)
 
-    # hits = []
     mistakes = []
     truth_chords = Message.get_chords(truths[:current_level_notes])
     Message.normalize_chords(tempoed_msgs, truth_chords)
     for i in range(min(current_level_notes, len(msgs))):
         hit = Hit(tempoed_msgs[i], truths[i], allowed_rhythm_deviation)
         mistakes.append(hit.get_mistake_kind())
-        # hits.append(hit)
 
     played_enough_notes = len(msgs) >= current_level_notes
     if not played_enough_notes:
