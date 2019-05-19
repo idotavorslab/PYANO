@@ -46,11 +46,12 @@ def main():
     tempoed_msgs: List[Message] = Message.transform_to_tempo(msgs, tempo_estimation)
 
     hits = []
+    mistakes = []
     for i in range(min(current_level['notes'], len(msgs))):
         hit = Hit(tempoed_msgs[i], truths[i], allowed_rhythm_deviation)
+        mistakes.append(hit.get_mistake_kind())
         hits.append(hit)
 
-    mistakes = [hit.get_mistake_kind() for hit in hits]
     played_enough_notes = len(msgs) >= current_level['notes']
     if not played_enough_notes:
         # needed to play 4 notes but playeed 3: [ null, null, null, "accuracy" ]
