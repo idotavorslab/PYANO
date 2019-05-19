@@ -34,9 +34,10 @@ pyShell.run("check_create_experiments_folder_structure.py", {
 	if (err) throw err;
 });
 
+const configfilepath = path.join(app.getPath('appData'), 'Electron', 'config.json');
 pyShell.run("check_create_config_file.py", {
 	mode: "json",
-	args: [path.join(app.getPath('appData'), 'Electron'), __dirname]
+	args: [configfilepath, __dirname]
 }, (err, output) => {
 	if (err) {
 		console.log(err);
