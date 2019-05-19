@@ -38,7 +38,7 @@ def main():
         allowed_tempo_deviation = 10
         trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\tests\fur_elise_B_on.txt'
         truth_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\fur_elise_B_on.txt'
-        current_level = dict(notes=4, trials=1, rhythm=True, tempo=100)
+        current_level = dict(notes=10, trials=1, rhythm=True, tempo=100)
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
     msgs: List[Message] = Message.normalize_chords_in_file(trial_on_path)
     check_rhythm = current_level['rhythm']
@@ -46,8 +46,10 @@ def main():
     tempoed_msgs: List[Message] = Message.transform_to_tempo(msgs, tempo_estimation)
 
     hits = []
+    mistakes = []
     for i in range(min(current_level['notes'], len(msgs))):
         hit = Hit(tempoed_msgs[i], truths[i], allowed_rhythm_deviation)
+        mistakes.append(hit.get_mistake_kind())
         hits.append(hit)
 
     mistakes = [hit.get_mistake_kind() for hit in hits]
