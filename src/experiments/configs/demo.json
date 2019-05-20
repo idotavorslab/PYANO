@@ -1,0 +1,16 @@
+{
+    "truth_file_path": "experiments\\truths\\fur_elise_R.txt",
+    "learning_type": "accuracy",
+    "demo_type": "video",
+    "errors_playingspeed": 1,
+    "allowed_tempo_deviation": "30%",
+    "levels": [{
+        "notes": 9,
+        "trials": 1,
+        "rhythm": true,
+        "tempo": 80
+    }],
+    "finished_trials_count": 0,
+    "current_subject": "demo",
+    "allowed_rhythm_deviation": "25%"
+}

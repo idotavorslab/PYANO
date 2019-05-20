@@ -1,0 +1,45 @@
+{
+    "truth_file_path": "experiments\\truths\\fur_elise_B.txt",
+    "demo_type": "video",
+    "errors_playingspeed": 1,
+    "allowed_tempo_deviation_factor": "40%",
+    "levels": [{
+        "notes": 4,
+        "trials": 1
+    }, {
+        "notes": 10,
+        "trials": 1
+    }, {
+        "notes": 15,
+        "trials": 1
+    }, {
+        "notes": 20,
+        "trials": 1
+    }, {
+        "notes": 25,
+        "trials": 1
+    }, {
+        "notes": 31,
+        "trials": 1
+    }, {
+        "notes": 36,
+        "trials": 1
+    }, {
+        "notes": 41,
+        "trials": 1
+    }, {
+        "notes": 46,
+        "trials": 2
+    }, {
+        "notes": 51,
+        "trials": 2
+    }, {
+        "notes": 56,
+        "trials": 2
+    }, {
+        "notes": 61,
+        "trials": 2
+    }],
+    "finished_trials_count": 0,
+    "current_subject": "shachar"
+}

@@ -1,0 +1,1 @@
+{"truth_file_path":"experiments\\truths\\test_1.txt","learning_type":"accuracy","demo_type":"animation","errors_playingspeed":1,"allowed_tempo_deviation_factor":"40%","levels":[{"notes":16,"trials":3}],"finished_trials_count":0,"current_subject":"shachar"}
