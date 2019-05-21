@@ -42,12 +42,16 @@ def main():
         trial_on_path = sys.argv[3]
         truth_on_path = sys.argv[4]
         current_level = json.loads(sys.argv[5])
+        experiment_type = sys.argv[6]
     else:
         allowed_rhythm_deviation = 20
         allowed_tempo_deviation = 30
         trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\tests\ORIN\level_1_trial_0_on.txt'
         truth_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\fur_elise_B_on.txt'
         current_level = dict(notes=10, trials=1, rhythm=True, tempo=50)
+        experiment_type = 'exam'
+
+    logger.log(experiment_type)
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
     msgs: List[Message] = Message.normalize_chords_in_file(trial_on_path)
 
@@ -58,7 +62,7 @@ def main():
 
     mistakes = []
     truth_chords = Message.get_chords(truths[:current_level_notes])
-    Message.normalize_chords(tempoed_msgs, truth_chords)
+    Message.normalize_chords(tempoed_msgs, truth_chords)  # of tempoed_msgs, according to truth_chords
     for i in range(min(current_level_notes, len(msgs))):
         hit = Hit(tempoed_msgs[i], truths[i], allowed_rhythm_deviation)
         mistakes.append(hit.get_mistake_kind())
@@ -96,7 +100,8 @@ def main():
         if tempo_str != 'ok':
             prfl(dict(passed=False, tempo_str=tempo_str,
                       played_enough_notes=played_enough_notes,
-                      advance_trial='accuracy' not in mistakes,  # acc mistake when checking rhythm
+                      # acc mistake when checking rhythm. if experiemnt is exam, advance anyway
+                      advance_trial=experiment_type != 'exam' and 'accuracy' not in mistakes,
                       mistakes=mistakes))
             return
     else:  # delete rhythm mistakes if not checking rhythm. ["rhythm", null, "accuracy"] => [null, null, "accuracy"]
@@ -104,7 +109,8 @@ def main():
 
     if not played_enough_notes:
         prfl(dict(passed=False, mistakes=mistakes,
-                  advance_trial=not check_rhythm,  # acc mistake when checking rhythm
+                  # not enough notes == accuracy mistakes. dont adv if check rhythm. if experiemnt is exam, advance anyway
+                  advance_trial=experiment_type != 'exam' and not check_rhythm,
                   played_enough_notes=False, tempo_str=tempo_str))
         return
 
@@ -120,7 +126,7 @@ def main():
         # if check rhythm: has accuracy and/or rhythm mistakes
         # ['accuracy', 'rhythm', None, ...]
         prfl(dict(passed=False,
-                  advance_trial=not (check_rhythm and 'accuracy' in mistakes),
+                  advance_trial=experiment_type != 'exam' and not (check_rhythm and 'accuracy' in mistakes),
                   mistakes=mistakes))
 
 
