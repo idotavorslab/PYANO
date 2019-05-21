@@ -77,9 +77,8 @@ else:
             modified = True
 
         if ('last_page' not in config
-                or config['last_page'] not in ['exam', 'new_test',
-                                               'inside_test', 'record',
-                                               'file_tools', 'settings']):
+                or config['last_page'] not in ['new_test', 'inside_test',
+                                               'record', 'file_tools', 'settings']):
             config['last_page'] = 'new_test'
             modified = True
 
