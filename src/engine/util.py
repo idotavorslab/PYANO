@@ -114,47 +114,6 @@ class Logger:
             json.dump(obj, f)
 
 
-# TODO: unused
-"""class TestCfg:
-    def __init__(self, cfg):
-        self.truth_file_path: str = cfg["truth_file_path"]
-        self.learning_type: str = cfg["learning_type"]
-        self.errors_playingspeed = cfg["errors_playingspeed"]
-        self.allowed_rhythm_deviation: int = int(cfg["allowed_rhythm_deviation"][:-1])
-        self.demo_type: str = cfg["demo_type"]
-        self.levels: [Dict] = cfg["levels"]
-        self.current_subject: str = cfg["current_subject"]
-        self.finished_trials_count: int = cfg["finished_trials_count"]
-
-    def __repr__(self) -> str:
-        return str(self.__dict__)
-
-    def get_full_trial_file_path_no_ext(self, subjects_dir_path: str,
-                                        level_index: int, trial_index: int,
-                                        *, mkdir: bool) -> str:
-        import os
-
-        # fur_elise
-        truth_file_no_ext = os.path.basename(os.path.splitext(self.truth_file_path)[0])
-        # fur_elise_tempo
-        test_dir_name = f'{truth_file_no_ext}_{self.learning_type}'
-        # ...subjects/shlomo/fur_elise_tempo
-        full_test_dir_path = os.path.join(subjects_dir_path, self.current_subject, test_dir_name)
-        dir_exists = os.path.exists(full_test_dir_path)
-        if not dir_exists:
-            if mkdir:
-                os.mkdir(full_test_dir_path)
-                prfl(f'dir did not exist, created: {test_dir_name}')
-            else:
-                raise NotADirectoryError(full_test_dir_path)
-
-        # level_0_trial_1
-        output_file_name = f'level_{level_index}_trial_{trial_index}'
-        # ...subjects/shlomo/fur_elise_tempo/level_0_trial_1
-        full_file_path = os.path.join(full_test_dir_path, output_file_name)
-        return full_file_path"""
-
-
 def msg_gen(port):
     for msg in port:
         try:

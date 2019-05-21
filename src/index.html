@@ -7,128 +7,112 @@
     <script id="globals" type="text/javascript" defer>
 		 console.log('index.html globals');
 		 // *** Prototypes
-		 // ** Object
-		 Object.defineProperty(Object.prototype, "isEmpty", {
-			 enumerable: false,
-			 value() {
-				 return Object.keys(this).length == 0;
-			 }
-		 },);
-		 Object.defineProperty(Object.prototype, "items", {
-			 enumerable: false,
-			 value() {
-				 return enumerate(this);
-			 }
+		 Object.defineProperties(Object.prototype, {
+			 isEmpty: {
+				 value() {
+					 return Object.keys(this).length == 0;
+				 }
+			 },
+			 items: {
+				 value() {
+					 return enumerate(this);
+				 }
+			 },
+			 keys: {
+				 value() {
+					 return Object.keys(this).map(key => key.isdigit()
+					                                     ? int(key) : key);
+				 }
+			 },
 		 });
-		 Object.defineProperty(Object.prototype, "keys", {
-			 enumerable: false,
-			 value() {
-				 return Object.keys(this).map(key => key.isdigit()
-				                                     ? int(key) : key);
-			 }
-		 });
-		 // ** Array
-		 Object.defineProperty(Array.prototype, "last", {
-			 enumerable: false,
-			 value() {
-				 return this[this.length - 1];
-			 }
-		 },);
-		 Object.defineProperty(Array.prototype, "lowerAll", {
-			 enumerable: false,
-			 value() {
-				 return this.map(s => s.lower());
-			 }
-		 },);
-		 Object.defineProperty(Array.prototype, "rsort", {
-			 enumerable: false,
-			 value() {
-				 return this.sort((n, m) => n < m);
-			 }
-		 },);
-		 Object.defineProperty(Array.prototype, "count", {
-			 enumerable: false,
-			 value(item, strict = false) {
-				 let _count = 0;
-				 for (let x of this) {
-					 if (strict) {
-						 if (x === item)
-							 _count++;
 
-					 } else if (x == item) {
-						 _count++;
+		 Object.defineProperties(Array.prototype, {
+			 last: {
+				 value() {
+					 return this[this.length - 1];
+				 }
+			 },
+			 lowerAll: {
+				 value() {
+					 return this.map(s => s.lower());
+				 }
+			 },
+			 count: {
+				 value(item, strict = false) {
+					 let _count = 0;
+					 for (let x of this) {
+						 if (strict) {
+							 if (x === item)
+								 _count++;
+
+						 } else if (x == item) {
+							 _count++;
+						 }
+					 }
+					 return _count;
+
+				 }
+			 },
+		 });
+
+		 Object.defineProperties(String.prototype, {
+			 upTo: {
+				 value(searchString, fromEnd = false) {
+					 let end = fromEnd ? this.lastIndexOf(searchString)
+					                   : this.indexOf(searchString);
+					 return this.slice(0, end);
+				 }
+			 },
+			 in: {
+				 value(arr) {
+					 return arr.includes(this.valueOf());
+				 }
+			 },
+			 lower: {
+				 value() {
+					 return this.toLowerCase();
+				 }
+			 },
+			 upper: {
+				 value() {
+					 return this.toUpperCase();
+				 }
+			 },
+			 title: {
+				 value() {
+
+					 if (this.includes(' '))
+						 return this.split(' ').map(str => str.title()).join(' ');
+					 else
+						 return this[0].upper() + this.slice(1, this.length).lower();
+
+				 }
+			 },
+			 isdigit: {
+				 value() {
+					 return !isNaN(Math.floor(this));
+				 }
+			 },
+			 replaceAll: {
+				 value(searchValue, replaceValue) {
+					 const type = typeof searchValue;
+					 if (type == 'string' || type == 'number') {
+						 return this
+							 .split(searchValue)
+							 .join(replaceValue);
+					 } else if (type == 'object') {
+						 let temp = this;
+						 for (let [sv, rv] of searchValue.items())
+							 temp = temp.replaceAll(sv, rv);
+
+						 return temp;
+					 } else {
+						 console.error(`replaceAll got a bad type, searchValue: ${searchValue}, type: ${type}`);
 					 }
 				 }
-				 return _count;
-
-			 }
-
-		 },);
-		 // ** String
-		 Object.defineProperty(String.prototype, "upTo", {
-			 enumerable: false,
-			 value(searchString, fromEnd = false) {
-				 let end = fromEnd
-				           ? this.lastIndexOf(searchString)
-				           : this.indexOf(searchString);
-				 return this.slice(0, end);
-			 }
-		 },);
-		 Object.defineProperty(String.prototype, "in", {
-			 enumerable: false,
-			 value(arr) {
-				 return arr.includes(this.valueOf());
-			 }
-		 },);
-		 Object.defineProperty(String.prototype, "lower", {
-			 enumerable: false,
-			 value() {
-				 return this.toLowerCase();
-			 }
-		 },);
-		 Object.defineProperty(String.prototype, "upper", {
-			 enumerable: false,
-			 value() {
-				 return this.toUpperCase();
-			 }
-		 },);
-		 Object.defineProperty(String.prototype, "title", {
-			 enumerable: false,
-			 value() {
-
-				 if (this.includes(' '))
-					 return this.split(' ').map(str => str.title()).join(' ');
-				 else
-					 return this[0].upper() + this.slice(1, this.length).lower();
-
-			 }
-		 },);
-		 Object.defineProperty(String.prototype, "isdigit", {
-			 enumerable: false,
-			 value() {
-				 return !isNaN(Math.floor(this));
-			 }
-		 },);
-		 Object.defineProperty(String.prototype, "replaceAll", {
-			 enumerable: false,
-			 value(searchValue, replaceValue) {
-				 const type = typeof searchValue;
-				 if (type == 'string' || type == 'number') {
-					 return this
-						 .split(searchValue)
-						 .join(replaceValue);
-				 } else if (type == 'object') {
-					 let temp = this;
-					 for (let [sv, rv] of searchValue.items())
-						 temp = temp.replaceAll(sv, rv);
-
-					 return temp;
-				 } else {
-					 console.error(`replaceAll got a bad type, searchValue: ${searchValue}, type: ${type}`);
-				 }
-			 }
+			 },
 		 });
-		 // ** Number
+
 		 Object.defineProperty(Number.prototype, "human", {
 			 enumerable: false,
 			 value(letters = false) {
@@ -180,7 +164,6 @@
 
 			 }
 		 });
-		 // ** Date
 		 Object.defineProperty(Date.prototype, "human", {
 			 enumerable: false, value() {
 				 let d = this.getUTCDate();
@@ -200,6 +183,26 @@
 		 // *** functions
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const Path = require("path");
+		 const $ = require("jquery");
+		 Object.defineProperties($.prototype, {
+			 deactivate: {
+				 value() {
+					 this.toggleClass('inactive-btn', true)
+					     .toggleClass('active-btn', false);
+				 }
+			 },
+			 activate: {
+				 value() {
+					 this.toggleClass('inactive-btn', false)
+					     .toggleClass('active-btn', true);
+				 }
+			 },
+			 toggle: {
+				 value(activate) {
+					 activate ? this.activate() : this.deactivate();
+				 }
+			 },
+		 });
 
 		 /**@return {boolean}*/
 		 const any = (collection) => collection.some(item => bool(item));

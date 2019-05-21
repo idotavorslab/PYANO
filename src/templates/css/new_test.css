@@ -23,6 +23,10 @@
     grid-row: 17/19;
 }
 
+#page_subtitle_current_subject {
+    text-transform: capitalize;
+}
+
 /* **Subject 2/2 */
 #subject_div {
     display: contents;
