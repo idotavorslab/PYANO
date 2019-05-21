@@ -1,0 +1,17 @@
+{
+    "truth_file_path": "experiments\\truths\\fur_elise.txt",
+    "learning_type": "tempo",
+    "visuals": "video",
+    "show_errors_each_trial": true,
+    "play_demo_each_trial": true,
+    "errors_playingspeed": 1,
+    "allowed_rhythm_deviation": "40%",
+    "levels": [
+        {
+            "notes": 6,
+            "trials": 11
+        }
+    ],
+    "finished_trials_count": 0,
+    "current_subject": "gilad"
+}

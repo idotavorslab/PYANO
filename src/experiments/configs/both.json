@@ -1,0 +1,197 @@
+{
+    "truth_file_path": "experiments\\truths\\fur_elise_B.txt",
+    "demo_type": "video",
+    "errors_playingspeed": 1,
+    "levels": [
+        {
+            "notes": 10,
+            "trials": 3,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 10,
+            "trials": 2,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 10,
+            "trials": 2,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 15,
+            "trials": 3,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 15,
+            "trials": 2,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 15,
+            "trials": 2,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 20,
+            "trials": 3,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 20,
+            "trials": 2,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 20,
+            "trials": 2,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 31,
+            "trials": 1,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 31,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 31,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 36,
+            "trials": 1,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 36,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 36,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 41,
+            "trials": 1,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 41,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 41,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 46,
+            "trials": 1,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 46,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 46,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 51,
+            "trials": 1,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 51,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 51,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 56,
+            "trials": 1,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 56,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 56,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 61,
+            "trials": 1,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 61,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 61,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 61,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 100
+        }
+    ],
+    "finished_trials_count": 0,
+    "current_subject": "orin",
+    "allowed_rhythm_deviation": "30%",
+    "allowed_tempo_deviation": "30%"
+}
