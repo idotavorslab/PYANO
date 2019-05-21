@@ -22,6 +22,7 @@ if not isfile:  # not found
                   dev=is_in_dev,
                   vid_silence_len=0,
                   last_page='new_test',
+                  experiment_type='test',
                   subjects=[username],
                   current_test=dict(
                       truth_file_path="experiments/truths/fur_elise_B.txt",
@@ -71,9 +72,14 @@ else:
             config['dev'] = is_in_dev
             modified = True
 
-        if 'last_page' not in config or config['last_page'] not in ['exam', 'new_test',
-                                                                    'inside_test', 'record',
-                                                                    'file_tools', 'settings']:
+        if 'experiment_type' not in config or config['experiment_type'] not in ['exam', 'test']:
+            config['experiment_type'] = 'test'
+            modified = True
+
+        if ('last_page' not in config
+                or config['last_page'] not in ['exam', 'new_test',
+                                               'inside_test', 'record',
+                                               'file_tools', 'settings']):
             config['last_page'] = 'new_test'
             modified = True
 
@@ -87,6 +93,7 @@ else:
                 or not all((isinstance(s, str) for s in config['subjects']))):
             config['subjects'] = [username]
             modified = True
+
         elif username not in config['subjects']:  # subject key exists and is a list of strings
             config['subjects'].append(username)
             modified = True
