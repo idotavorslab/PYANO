@@ -17,10 +17,11 @@ body {
     background-color: #181818;
     display: grid;
     padding: 1vh 1vw 1vh 1vw;
-    grid-template-columns: repeat(14, 1fr);
+    /* grid-template-columns: repeat(14, 1fr); */
     grid-template-rows: repeat(19, 1fr);
     grid-column-gap: 0.5vw;
     grid-row-gap: 1vh;
+    grid-template-columns: 8% repeat(13,1fr);
 }
 
 body > *, button, p, input, div {
