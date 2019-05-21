@@ -51,7 +51,6 @@ def main():
         current_level = dict(notes=10, trials=1, rhythm=True, tempo=50)
         experiment_type = 'exam'
 
-    logger.log(experiment_type)
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
     msgs: List[Message] = Message.normalize_chords_in_file(trial_on_path)
 
@@ -98,19 +97,28 @@ def main():
             tempo_str = "ok"
 
         if tempo_str != 'ok':
+            # acc mistake when checking rhythm. if experiemnt is exam, advance anyway
+            if experiment_type == 'exam':
+                advance_trial = True
+            else:
+                advance_trial = 'accuracy' not in mistakes
             prfl(dict(passed=False, tempo_str=tempo_str,
                       played_enough_notes=played_enough_notes,
-                      # acc mistake when checking rhythm. if experiemnt is exam, advance anyway
-                      advance_trial=experiment_type != 'exam' and 'accuracy' not in mistakes,
+
+                      advance_trial=advance_trial,
                       mistakes=mistakes))
             return
     else:  # delete rhythm mistakes if not checking rhythm. ["rhythm", null, "accuracy"] => [null, null, "accuracy"]
         mistakes = [None if m == "rhythm" else m for m in mistakes]
 
     if not played_enough_notes:
+        # not enough notes == accuracy mistakes. dont adv if check rhythm. if experiemnt is exam, advance anyway
+        if experiment_type == 'exam':
+            advance_trial = True
+        else:
+            advance_trial = not check_rhythm
         prfl(dict(passed=False, mistakes=mistakes,
-                  # not enough notes == accuracy mistakes. dont adv if check rhythm. if experiemnt is exam, advance anyway
-                  advance_trial=experiment_type != 'exam' and not check_rhythm,
+                  advance_trial=advance_trial,
                   played_enough_notes=False, tempo_str=tempo_str))
         return
 
@@ -125,8 +133,12 @@ def main():
         # if not check rhythm: has accuracy mistakes
         # if check rhythm: has accuracy and/or rhythm mistakes
         # ['accuracy', 'rhythm', None, ...]
+        if experiment_type == 'exam':
+            advance_trial = True
+        else:
+            advance_trial = not (check_rhythm and 'accuracy' in mistakes)
         prfl(dict(passed=False,
-                  advance_trial=experiment_type != 'exam' and not (check_rhythm and 'accuracy' in mistakes),
+                  advance_trial=advance_trial,
                   mistakes=mistakes))
 
 
