@@ -61,7 +61,17 @@ def main():
 
     mistakes = []
     truth_chords = Message.get_chords(truths[:current_level_notes])
-    Message.normalize_chords(tempoed_msgs, truth_chords)  # of tempoed_msgs, according to truth_chords
+    try:
+        Message.normalize_chords(tempoed_msgs, truth_chords)  # of tempoed_msgs, according to truth_chords
+    except Exception as e:
+        entry = logger.log(dict(tempoed_msgs=tempoed_msgs,
+                                truth_chords=truth_chords,
+                                msg=msgs, current_level_notes=current_level_notes,
+                                check_rhythm=check_rhythm, tempo_estimation=tempo_estimation,
+                                truths=truths, e=e
+                                ),
+                           title=f"Exception at Message.normalize_chords(tempoed_msgs, truth_chords)")
+        raise Exception(f"check done trial normalize chords exception. see log check_done_trial, entry: {entry}")
     for i in range(min(current_level_notes, len(msgs))):
         hit = Hit(tempoed_msgs[i], truths[i], allowed_rhythm_deviation)
         mistakes.append(hit.get_mistake_kind())

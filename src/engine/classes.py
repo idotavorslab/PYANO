@@ -139,9 +139,13 @@ class Message:
     def normalize_chords(msgs: List['Message'], chords: Dict[int, List[int]]):
         from copy import deepcopy
         is_normalized = True
+        msgs_len = len(msgs)
         for root, rest in chords.items():
             """Overwrite chord messages so they are sorted by note, all timed according to lowest pitch note, and share the time delta and preceding message time data of the first-played note"""
             chord_indices: List[int] = [root, *rest]
+            if msgs_len <= chord_indices[-1]:
+                return msgs, is_normalized
+
             chord_messages = [msgs[i] for i in chord_indices]
             sorted_chord_messages = sorted(deepcopy(chord_messages), key=lambda m: m.note)
             already_sorted = chord_messages == sorted_chord_messages
