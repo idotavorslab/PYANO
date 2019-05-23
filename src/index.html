@@ -200,6 +200,26 @@
 		 // *** functions
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const Path = require("path");
+		 const $ = require("jquery");
+		 Object.defineProperties($.prototype, {
+			 deactivate: {
+				 value() {
+					 this.toggleClass('inactive-btn', true)
+					     .toggleClass('active-btn', false);
+				 }
+			 },
+			 activate: {
+				 value() {
+					 this.toggleClass('inactive-btn', false)
+					     .toggleClass('active-btn', true);
+				 }
+			 },
+			 toggle: {
+				 value(activate) {
+					 activate ? this.activate() : this.deactivate();
+				 }
+			 },
+		 });
 
 		 /**@return {boolean}*/
 		 const any = (collection) => collection.some(item => bool(item));
