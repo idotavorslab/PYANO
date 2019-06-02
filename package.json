@@ -46,7 +46,8 @@
     "python-shell": "1.0.7",
     "sweetalert2": "8.2.6",
     "tone": "13.7.4",
-    "webmidi": "2.3.2"
+    "webmidi": "2.3.2",
+    "conf": "4.1.0"
   },
   "devDependencies": {
     "electron-forge": "5.2.4",
