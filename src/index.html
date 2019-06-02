@@ -219,6 +219,11 @@
 					 activate ? this.activate() : this.deactivate();
 				 }
 			 },
+			 isActive: {
+				 value() {
+					 return this.hasClass('active-btn');
+				 }
+			 },
 		 });
 
 		 /**@return {boolean}*/
