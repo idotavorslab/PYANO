@@ -2,36 +2,36 @@
 	"current_test": {
 		"demo_type": "animation",
 		"errors_playingspeed": 2,
-		"allowed_tempo_deviation": "40%",
+		"allowed_tempo_deviation": "30%",
 		"levels": [
 			{
-				"notes": 40,
-				"trials": 4,
+				"notes": 30,
+				"trials": 3,
 				"rhythm": true,
-				"tempo": 140
+				"tempo": 130
 			}
 		],
 		"finished_trials_count": 0,
 		"current_subject": "yosi",
-		"allowed_rhythm_deviation": "40%",
+		"allowed_rhythm_deviation": "30%",
 		"truth_file_path": "experiments/truths/ode_4.txt"
 	},
 	"current_exam": {
 		"finished_trials_count": 0,
-		"truth_file_path": "experiments\\truths\\fur_elise_B.txt",
+		"truth_file_path": "experiments/truths/ode_4.txt",
 		"demo_type": "video",
-		"errors_playingspeed": 2,
-		"allowed_rhythm_deviation": "40%",
-		"allowed_tempo_deviation": "40%",
+		"errors_playingspeed": 1,
+		"allowed_rhythm_deviation": "0%",
+		"allowed_tempo_deviation": "0%",
 		"current_subject": "gbete",
 		"levels": [
 			{
-				"notes": 40,
-				"trials": 4,
+				"notes": 1,
+				"trials": 1,
 				"rhythm": false,
 				"tempo": null
 			}
 		]
 	},
-	"experiment_type": "test"
+	"experiment_type": "exam"
 }

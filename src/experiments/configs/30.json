@@ -18,7 +18,7 @@
 	},
 	"current_exam": {
 		"finished_trials_count": 0,
-		"truth_file_path": "experiments/truths/fur_elise_b_14000ms.txt",
+		"truth_file_path": "experiments/truths/ode_4.txt",
 		"demo_type": "video",
 		"errors_playingspeed": 1,
 		"allowed_rhythm_deviation": "30%",
