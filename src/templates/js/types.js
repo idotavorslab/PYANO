@@ -1,5 +1,14 @@
 // *** Store Types
 
+
+// * TSavedConfig
+/**
+ * @typedef TSavedConfig
+ * @prop {TConfig} current_test
+ * @prop {TConfig} current_exam
+ * @prop {TExperimentType} experiment_type
+ */
+
 // * TConfig
 /**
  * @typedef TConfig

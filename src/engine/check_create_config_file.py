@@ -22,6 +22,7 @@ if not isfile:  # not found
                   dev=is_in_dev,
                   vid_silence_len=0,
                   last_page='new_test',
+                  save_path='experiments/configs/pyano_config.json',
                   experiment_type='test',
                   subjects=[username],
                   current_test=dict(
@@ -71,7 +72,8 @@ else:
         if 'dev' not in config or config['dev'] != is_in_dev:
             config['dev'] = is_in_dev
             modified = True
-
+        if 'save_path' not in config:
+            config['save_path'] = 'experiments/configs/pyano_config.json'
         if 'experiment_type' not in config or config['experiment_type'] not in ['exam', 'test']:
             config['experiment_type'] = 'test'
             modified = True
