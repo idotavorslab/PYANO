@@ -2,7 +2,7 @@
     "demo_type": "video",
     "errors_playingspeed": 1,
     "allowed_tempo_deviation": "39%",
-    "finished_trials_count": 6,
+    "finished_trials_count": 0,
     "current_subject": "yosi",
     "allowed_rhythm_deviation": "7%",
     "levels": [
