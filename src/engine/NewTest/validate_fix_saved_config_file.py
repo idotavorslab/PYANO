@@ -9,7 +9,7 @@ logger = Logger('validate_fix_config_file')
 try:
     configfilepath = sys.argv[1]
 except IndexError:
-    configfilepath = r"c:\Sync\Code\Python\Pyano-release\src\experiments\configs\fur_elise_b.exam"
+    configfilepath = r"c:\Sync\Code\Python\Pyano-release\src\experiments\configs\ode_4.test"
 
 isfile = os.path.isfile(configfilepath)
 if not isfile:

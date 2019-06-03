@@ -9,7 +9,9 @@ _KEYS = ['allowed_rhythm_deviation',
          'errors_playingspeed',
          'finished_trials_count',
          'levels',
-         'save_path']
+         'save_path',# for current_{type} in config.json
+         'truth_file_path' # for saved configs
+         ]
 
 
 def how_much_diff(a, b):
