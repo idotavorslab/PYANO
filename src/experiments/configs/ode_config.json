@@ -3,14 +3,12 @@
 		"demo_type": "animation",
 		"errors_playingspeed": 2,
 		"allowed_tempo_deviation": "30%",
-		"levels": [
-			{
-				"notes": 30,
-				"trials": 3,
-				"rhythm": true,
-				"tempo": 130
-			}
-		],
+		"levels": [{
+			"notes": 30,
+			"trials": 3,
+			"rhythm": true,
+			"tempo": 130
+		}],
 		"finished_trials_count": 0,
 		"current_subject": "yosi",
 		"allowed_rhythm_deviation": "30%",
@@ -23,15 +21,13 @@
 		"errors_playingspeed": 1,
 		"allowed_rhythm_deviation": "0%",
 		"allowed_tempo_deviation": "0%",
-		"current_subject": "gbete",
-		"levels": [
-			{
-				"notes": 1,
-				"trials": 1,
-				"rhythm": false,
-				"tempo": null
-			}
-		]
+		"current_subject": "gilad",
+		"levels": [{
+			"notes": 10,
+			"trials": 10,
+			"rhythm": false,
+			"tempo": null
+		}]
 	},
 	"experiment_type": "exam"
 }

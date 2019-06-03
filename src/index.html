@@ -109,6 +109,15 @@
 				 return !isNaN(Math.floor(this));
 			 }
 		 },);
+		 Object.defineProperty(String.prototype, "removeAll", {
+			 enumerable: false,
+			 value(removeValue, ...removeValues) {
+				 let temp = this;
+				 for (let value of [removeValue, ...removeValues])
+					 temp = temp.replaceAll(value, '');
+				 return temp;
+			 }
+		 });
 		 Object.defineProperty(String.prototype, "replaceAll", {
 			 enumerable: false,
 			 value(searchValue, replaceValue) {

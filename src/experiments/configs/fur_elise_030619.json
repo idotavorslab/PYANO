@@ -1,0 +1,37 @@
+{
+	"current_test": {
+		"demo_type": "animation",
+		"errors_playingspeed": 2,
+		"allowed_tempo_deviation": "20%",
+		"levels": [
+			{
+				"notes": 2,
+				"trials": 2,
+				"rhythm": true,
+				"tempo": 100
+			}
+		],
+		"finished_trials_count": 0,
+		"current_subject": "yosi",
+		"allowed_rhythm_deviation": "20%",
+		"truth_file_path": "experiments/truths/fur_elise_B.txt"
+	},
+	"current_exam": {
+		"finished_trials_count": 0,
+		"truth_file_path": "experiments/truths/fur_elise_B.txt",
+		"demo_type": "video",
+		"errors_playingspeed": 1,
+		"allowed_rhythm_deviation": "0%",
+		"allowed_tempo_deviation": "0%",
+		"current_subject": "gilad",
+		"levels": [
+			{
+				"notes": 10,
+				"trials": 10,
+				"rhythm": false,
+				"tempo": null
+			}
+		]
+	},
+	"experiment_type": "exam"
+}
