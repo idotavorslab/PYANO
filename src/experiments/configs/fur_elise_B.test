@@ -1,6 +1,6 @@
 {
     "demo_type": "animation",
-    "errors_playingspeed": 0.7,
+    "errors_playingspeed": 1,
     "allowed_tempo_deviation": "39%",
     "finished_trials_count": 0,
     "current_subject": "yosi",
