@@ -443,6 +443,11 @@
 				 return Path.extname(pathLike);
 			 }
 
+			 /**@param {string} pathLike*/
+			 function remove(pathLike) {
+				 fs.unlinkSync(pathLike);
+			 }
+
 			 /** @type {{
 			  * basename:(function(string|PathLike,?string):string),
 			  * basenames:(function(...string|PathLike):string[]),
@@ -454,7 +459,7 @@
 			  * remove_ext: (function((PathLike|string)): string),
 			  * replace_ext: (function((PathLike|string), string): string)}}
 			  * */
-			 return { basenames, basename, dirname, extname, mkdir, path_exists, replace_ext, remove_ext, push_before_ext };
+			 return { basenames, basename, dirname, extname, mkdir, path_exists, replace_ext, remove_ext, remove, push_before_ext };
 		 })();
 
 		 // *** asx
