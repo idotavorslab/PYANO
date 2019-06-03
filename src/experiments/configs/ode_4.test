@@ -1,17 +1,17 @@
 {
     "demo_type": "animation",
-    "errors_playingspeed": 0.5,
-    "allowed_tempo_deviation": "5%",
+    "errors_playingspeed": 0.7,
+    "allowed_tempo_deviation": "7%",
     "finished_trials_count": 0,
     "current_subject": "yosi",
-    "allowed_rhythm_deviation": "5%",
+    "allowed_rhythm_deviation": "7%",
     "levels": [
         {
-            "notes": 5,
-            "trials": 5,
+            "notes": 7,
+            "trials": 7,
             "rhythm": false,
             "tempo": null
         }
     ],
-    "truth_file_path": "experiments/truths/fur_elise_R.txt"
+    "truth_file_path": "experiments/truths/ode_4.txt"
 }
