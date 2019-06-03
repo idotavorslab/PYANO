@@ -21,7 +21,7 @@ body {
     grid-template-rows: repeat(19, 1fr);
     grid-column-gap: 0.5vw;
     grid-row-gap: 1vh;
-    grid-template-columns: 8% repeat(13,1fr);
+    grid-template-columns: 8% repeat(13, 1fr);
 }
 
 body > *, button, p, input, div {
@@ -305,7 +305,7 @@ body > *, button, p, input, div {
 }
 
 /****<misc>*/
-#swal2-content, #swal2-content > p {
+#swal2-content, .swal2-input, #swal2-content > p {
     color: #595959
 }
 

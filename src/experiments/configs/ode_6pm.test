@@ -1,0 +1,23 @@
+{
+	"demo_type": "animation",
+	"errors_playingspeed": 2,
+	"allowed_tempo_deviation": "20%",
+	"finished_trials_count": 0,
+	"current_subject": "yosi",
+	"allowed_rhythm_deviation": "37%",
+	"levels": [
+		{
+			"notes": 4,
+			"trials": 1,
+			"rhythm": false,
+			"tempo": null
+		},
+		{
+			"notes": 4,
+			"trials": 1,
+			"rhythm": true,
+			"tempo": 50
+		}
+	],
+	"truth_file_path": "experiments/truths/ode_4.txt"
+}

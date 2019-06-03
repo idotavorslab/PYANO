@@ -1,5 +1,6 @@
 import os
 import difflib
+import re
 
 _KEYS = ['allowed_rhythm_deviation',
          'allowed_tempo_deviation',
@@ -8,38 +9,38 @@ _KEYS = ['allowed_rhythm_deviation',
          'errors_playingspeed',
          'finished_trials_count',
          'levels',
-         'truth_file_path']
+         'save_path']
 
 
 def how_much_diff(a, b):
     return len([d[0] for d in difflib.ndiff(a, b) if d[0] != ' '])
 
 
-def do(test_dict: dict):
+def do(test_dict: dict, *, save_path_filetype: str = None):
     modified = False
     if test_dict is None:
         test_dict = {}
-    import re
     for key in list(test_dict.keys()):
         if key not in _KEYS:
             modified = True
             keys_diff = {_K: how_much_diff(key, _K) for _K in _KEYS}
             closest_key = sorted(keys_diff, key=keys_diff.get)[0]
+            value = test_dict.pop(key)
             if keys_diff[closest_key] <= 10:
-                value = test_dict.pop(key)
                 test_dict[closest_key] = value
 
-    if 'truth_file_path' not in test_dict:
-        test_dict['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
-        modified = True
-    else:
-        split = re.split(r'[\\/]', test_dict['truth_file_path'])
-        if (len(split) != 3
-                or split[0] != 'experiments'
-                or split[1] != 'truths'
-                or not split[2].endswith('.txt')):
-            test_dict['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
+    if save_path_filetype:
+        if 'save_path' not in test_dict:
             modified = True
+            test_dict['save_path'] = f"experiments/configs/fur_elise_B.{save_path_filetype}"
+        else:
+            split = re.split(r'[\\/]', test_dict['save_path'])
+            if (len(split) != 3
+                    or split[0] != 'experiments'
+                    or split[1] != 'configs'
+                    or not split[2].endswith(f'.{save_path_filetype}')):
+                modified = True
+                test_dict['save_path'] = f"experiments/configs/fur_elise_B.{save_path_filetype}"
 
     if ('demo_type'
             not in test_dict

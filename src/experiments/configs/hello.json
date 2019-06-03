@@ -26,10 +26,16 @@
 		"current_subject": "gilad",
 		"levels": [
 			{
-				"notes": 10,
-				"trials": 10,
+				"notes": 4,
+				"trials": 1,
 				"rhythm": false,
 				"tempo": null
+			},
+			{
+				"notes": 4,
+				"trials": 1,
+				"rhythm": true,
+				"tempo": 50
 			}
 		]
 	},

@@ -376,10 +376,13 @@
 			 const mkdir = (pathLike, options) => new Promise(resolve =>
 				 fs.mkdir(pathLike, options, err => resolve(!bool(err))));
 
+
 			 /**@param {PathLike|string} pathLike
 			  * @return {Promise<boolean>}*/
-			 const path_exists = pathLike => new Promise(resolve =>
-				 fs.access(pathLike, fs.constants.F_OK, err => resolve(!bool(err))));
+			 function path_exists(pathLike) {
+				 return new Promise(resolve =>
+					 fs.access(pathLike, fs.constants.F_OK, err => resolve(!bool(err))));
+			 }
 
 			 /**
 			  {@link remove_ext Uses remove_ext}
