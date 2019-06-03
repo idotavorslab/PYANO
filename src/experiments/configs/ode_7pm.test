@@ -4,7 +4,7 @@
     "allowed_tempo_deviation": "20%",
     "finished_trials_count": 0,
     "current_subject": "yosi",
-    "allowed_rhythm_deviation": "5%",
+    "allowed_rhythm_deviation": "12%",
     "levels": [
         {
             "notes": 9,

@@ -3,7 +3,15 @@
 
 // * TSavedConfig
 /**
- * @typedef {TConfig & {truth_file_path: string}} TSavedConfig
+ * @typedef TSavedConfig
+ * @prop {number} finished_trials_count
+ * @prop {TLevel[]} levels
+ * @prop {TDemoType} demo_type
+ * @prop {string} current_subject
+ * @prop {number} errors_playingspeed
+ * @prop {string} allowed_rhythm_deviation
+ * @prop {string} allowed_tempo_deviation
+ * @prop {string} truth_file_path
  */
 
 // * TSavedConfigKey

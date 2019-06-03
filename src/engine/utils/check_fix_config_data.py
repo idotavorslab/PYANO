@@ -50,10 +50,11 @@ def do(test_dict: dict, *, save_path_filetype: str = None):
 
     if ('errors_playingspeed'
             not in test_dict
-            or not isinstance(test_dict['errors_playingspeed'], int)):
+            or (not isinstance(test_dict['errors_playingspeed'], float)
+                and not isinstance(test_dict['errors_playingspeed'], int))):
         test_dict['errors_playingspeed'] = 1
         modified = True
-    elif test_dict['errors_playingspeed'] <= 0:  # exists and is an int, check for value
+    elif test_dict['errors_playingspeed'] <= 0:  # exists and is an int or float, check for value
         test_dict['errors_playingspeed'] = 1
         modified = True
 
