@@ -1,22 +1,22 @@
 {
 	"finished_trials_count": 0,
 	"demo_type": "video",
-	"errors_playingspeed": 0.7,
-	"allowed_rhythm_deviation": "7%",
-	"allowed_tempo_deviation": "7%",
+	"errors_playingspeed": 0.8,
+	"allowed_rhythm_deviation": "8%",
+	"allowed_tempo_deviation": "8%",
 	"current_subject": "gilad",
 	"levels": [
 		{
-			"notes": 7,
-			"trials": 7,
+			"notes": 8,
+			"trials": 8,
 			"rhythm": false,
 			"tempo": null
 		},
 		{
-			"notes": 7,
-			"trials": 7,
+			"notes": 8,
+			"trials": 8,
 			"rhythm": true,
-			"tempo": 50
+			"tempo": 80
 		}
 	],
 	"truth_file_path": "experiments/truths/fur_elise_B.txt"
