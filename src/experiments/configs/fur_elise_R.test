@@ -19,5 +19,5 @@
 			"tempo": 50
 		}
 	],
-	"truth_file_path": "experiments/truths/fur_elise_b_14000ms.txt"
+	"truth_file_path": "experiments/truths/fur_elise_B.txt"
 }
