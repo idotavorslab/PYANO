@@ -116,6 +116,7 @@ else:
 
         if ('subjects' not in config
                 or not isinstance(config['subjects'], list)
+                or not all([config['subjects']])
                 or not all((isinstance(s, str) for s in config['subjects']))):
             config['subjects'] = [username]
             modified = True

@@ -79,6 +79,14 @@ class Message:
         s = f'{self.time}\tnote={self.note}\tvelocity={self.velocity}\t{self.kind}\n'
         return s
 
+    def to_dict(self) -> dict:
+        return dict(time=self.time,
+                    note=self.note,
+                    velocity=self.velocity,
+                    kind=self.kind,
+                    time_delta=self.time_delta,
+                    )
+
     @staticmethod
     def construct_many(lines: List[str]) -> List['Message']:
         container = [Message(lines[0])]
@@ -229,6 +237,12 @@ class Hit:
             self._is_rhythm_correct = self._rhythm_deviation < allowed_rhythm_deviation
         else:  # rhythm isn't checked anyway if accuracy isn't right
             self._is_rhythm_correct = True
+
+    def to_dict(self) -> dict:
+        return dict(
+            is_accuracy_correct=self.is_accuracy_correct,
+            rhythm_deviation=self._rhythm_deviation,
+            is_rhythm_correct=self._is_rhythm_correct)
 
     @staticmethod
     def _get_rhythm_deviation(msg_time_delta: float, truth_time_delta: float) -> float:
