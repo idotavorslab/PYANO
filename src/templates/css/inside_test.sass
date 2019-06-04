@@ -51,7 +51,12 @@
 
 #animation
   display: grid
-  grid-column: 1/13
+  //grid-column: 1/13
+  @media screen and (min-width: 2000px)
+    grid-column: 1/11
+
+  @media screen and (max-width: 2000px)
+    grid-column: 1/13
   grid-row: 6/11
   grid-template-columns: repeat(52, 1fr)
   grid-template-rows: repeat(1, 1fr)

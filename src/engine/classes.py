@@ -82,8 +82,6 @@ class Message:
     def to_dict(self) -> dict:
         return dict(time=self.time,
                     note=self.note,
-                    velocity=self.velocity,
-                    kind=self.kind,
                     time_delta=self.time_delta,
                     )
 

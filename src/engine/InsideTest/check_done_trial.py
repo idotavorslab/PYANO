@@ -37,32 +37,32 @@ def check_chord_accuracy(msgs: List[Message], truths: List[Message], *chord_indi
 
 def main():
     def _dump_data():
-        with open(data_dump_path, mode='w') as f:
-            json.dump(dict(
-                params=dict(
-                    allowed_rhythm_deviation=allowed_rhythm_deviation,
-                    allowed_tempo_deviation=allowed_tempo_deviation,
-                    current_level=current_level,
-                    experiment_type=experiment_type,
-                    trial_on_path=trial_on_path,
-                    truth_on_path=truth_on_path,
-                    ),
-                processing=dict(
-                    hits=[h.to_dict() for h in hits],
-                    messages=[m.to_dict() for m in msgs],
-                    tempo_ceil=tempo_ceil,
-                    tempo_estimation=tempo_estimation,
-                    tempo_floor=tempo_floor,
-                    tempo_str=tempo_str,
-                    tempo_transformed_messages=[tmsg.to_dict() for tmsg in tempoed_msgs],
-                    ),
-                results=dict(
-                    advance_trial=advance_trial,
-                    passed=passed,
-                    mistakes=mistakes,
-                    played_enough_notes=played_enough_notes,
-                    ),
-                ), f, indent=4, sort_keys=True)
+        try:
+            obj = dict(params=dict(allowed_rhythm_deviation=allowed_rhythm_deviation,
+                                   allowed_tempo_deviation=allowed_tempo_deviation,
+                                   current_level=current_level,
+                                   experiment_type=experiment_type,
+                                   trial_on_path=trial_on_path,
+                                   truth_on_path=truth_on_path, ),
+                       processing=dict(hits=[h.to_dict() for h in hits],
+                                       messages=[m.to_dict() for m in msgs],
+                                       messages_tempo_transformed=[tmsg.to_dict() for tmsg in tempoed_msgs],
+                                       tempo_estimation=tempo_estimation,
+                                       tempo_str=tempo_str,
+                                       ),
+                       results=dict(passed=passed,
+                                    mistakes=mistakes,
+                                    played_enough_notes=played_enough_notes, ), )
+            if check_rhythm:
+                obj['processing'].update(tempo_ceil=tempo_ceil,
+                                         tempo_floor=tempo_floor, )
+            if not passed:  # only time when passed is True (all_hits_correct), advance_trial isn't referenced
+                obj['results'].update(advance_trial=advance_trial)
+
+            with open(data_dump_path, mode='w') as f:
+                json.dump(obj, f, indent=4, sort_keys=True)
+        except:
+            pass
 
     if len(sys.argv) > 1:
         allowed_rhythm_deviation = int(sys.argv[1][:-1])
@@ -79,7 +79,7 @@ def main():
         current_level = dict(notes=10, trials=1, rhythm=True, tempo=50)
         experiment_type = 'exam'
 
-    data_dump_path = trial_on_path.rpartition('_on.txt')[0] + 'data.json'
+    data_dump_path = trial_on_path.rpartition('_on.txt')[0] + '_data.json'
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
     msgs: List[Message] = Message.normalize_chords_in_file(trial_on_path)
 
