@@ -127,6 +127,11 @@ const createWindow = () => {
 
 			mainWindow.webContents.openDevTools();
 		});
+		globalShortcut.register('CommandOrControl+U', () => {
+			console.log('Pressed ctrl+u, unmaximizing');
+			mainWindow.setFullScreen(!mainWindow.isFullScreen());
+			mainWindow.setMenuBarVisibility(mainWindow.isFullScreen());
+		});
 	});
 };
 
