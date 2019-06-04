@@ -1,16 +1,16 @@
 @font-face {
     font-family: "Roboto";
-    src: url(./Roboto/Roboto-Regular.ttf)
+    src: url(./Roboto/Roboto-Regular.ttf);
 }
 
 @font-face {
     font-family: "Roboto Thin";
-    src: url(./Roboto/Roboto-Thin.ttf)
+    src: url(./Roboto/Roboto-Thin.ttf);
 }
 
 @font-face {
     font-family: "Roboto Light";
-    src: url(./Roboto/Roboto-Light.ttf)
+    src: url(./Roboto/Roboto-Light.ttf);
 }
 
 body {
@@ -57,7 +57,7 @@ body > *, button, p, input, div {
 }
 
 #nav_btns_container > button:focus {
-    outline: unset
+    outline: unset;
 }
 
 #exit_btn {
@@ -91,11 +91,11 @@ body > *, button, p, input, div {
 }
 
 .my-btn:hover {
-    box-shadow: 0 0 15px 5px #333
+    box-shadow: 0 0 15px 5px #333;
 }
 
 .my-btn:focus {
-    outline: unset
+    outline: unset;
 }
 
 .active-btn {
@@ -111,7 +111,7 @@ body > *, button, p, input, div {
 }
 
 .inactive-btn:hover {
-    box-shadow: unset
+    box-shadow: unset;
 }
 
 
@@ -150,7 +150,7 @@ body > *, button, p, input, div {
 }
 
 [class*="toggle-btn"]:after {
-    content: "·"
+    content: "·";
 }
 
 
@@ -175,7 +175,7 @@ body > *, button, p, input, div {
 }
 
 .input-div-editable-span:focus, .my-input:focus {
-    outline: unset
+    outline: unset;
 }
 
 .input-div-autocomplete-span {
@@ -273,7 +273,7 @@ body > *, button, p, input, div {
 }
 
 #swal2-content, .swal2-input, #swal2-content > p {
-    color: #595959
+    color: #595959;
 }
 
 
@@ -291,5 +291,5 @@ body > *, button, p, input, div {
 }
 
 .lightgreen {
-    color: #cfffcf
+    color: #cfffcf;
 }
