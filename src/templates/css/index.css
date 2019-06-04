@@ -17,7 +17,6 @@ body {
     background-color: #181818;
     display: grid;
     padding: 1vh 1vw 1vh 1vw;
-    /* grid-template-columns: repeat(14, 1fr); */
     grid-template-rows: repeat(19, 1fr);
     grid-column-gap: 0.5vw;
     grid-row-gap: 1vh;
@@ -71,7 +70,6 @@ body > *, button, p, input, div {
     left: 95%;
 }
 
-/* ***$MainContent*/
 #main_content {
     grid-column: 2/15;
     grid-row: 2/20;
@@ -83,15 +81,12 @@ body > *, button, p, input, div {
     grid-row-gap: inherit;
 }
 
-/* ***<button>*/
 .my-btn {
     padding: 10px;
     border-width: 0;
     border-radius: 1rem;
-    /*font-size: unset;*/
     cursor: pointer;
     text-align: center;
-    /*width: 12vw;*/
 
 }
 
@@ -159,7 +154,6 @@ body > *, button, p, input, div {
 }
 
 
-/****input-div*/
 .input-div {
     display: table;
     height: 100%;
@@ -192,7 +186,6 @@ body > *, button, p, input, div {
     background-color: lightpink;
 }
 
-/****<my-select>*/
 .my-select {
     padding: 1vh 1vw 1vh 1vw;
     border-radius: 0.5rem;
@@ -217,40 +210,17 @@ body > *, button, p, input, div {
 .my-select:focus {
     outline: unset;
     box-shadow: 0px 0px 2px 3px rgb(100, 120, 150);
-    /*animation-name: my_select_onfocus;
-    animation-duration: 0.1s;
-    animation-timing-function: ease-in;
-    animation-delay: 0s;
-    animation-iteration-count: 1;
-    animation-direction: normal;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
-    */
 }
 
 @keyframes my_select_onfocus {
     0% {
         box-shadow: 0px 0px 0px 0px darkgrey;
     }
-    /*20% {
-        box-shadow: 0px 0px 0.5px 0.5px darkgrey;
-    }
-    40% {
-        box-shadow: 0px 0px 1px 1px darkgrey;
-    }
-    60% {
-        box-shadow: 0px 0px 1.5px 1.5px darkgrey;
-    }
-    80% {
-        box-shadow: 0px 0px 2px 2px darkgrey;
-    }
-    */
     100% {
         box-shadow: 0px 0px 15px 5px #333;
     }
 }
 
-/* ***<vertical align>*/
 .mid-v-align-container {
     display: table;
     height: 100%;
@@ -261,7 +231,6 @@ body > *, button, p, input, div {
     display: table-cell;
 }
 
-/****<title and subtitle>*/
 #title {
     grid-column: 2/15;
     grid-row: 1/1;
@@ -279,7 +248,6 @@ body > *, button, p, input, div {
     color: rgba(255, 255, 255, 1);
 }
 
-/****<sidebar>*/
 #sidebar {
     grid-column: 1/1;
     grid-row: 2/20;
@@ -304,7 +272,6 @@ body > *, button, p, input, div {
     pointer-events: none;
 }
 
-/****<misc>*/
 #swal2-content, .swal2-input, #swal2-content > p {
     color: #595959
 }

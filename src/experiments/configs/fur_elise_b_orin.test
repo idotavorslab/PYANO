@@ -1,0 +1,17 @@
+{
+    "demo_type": "video",
+    "errors_playingspeed": 1,
+    "allowed_tempo_deviation": "39%",
+    "finished_trials_count": 0,
+    "current_subject": "orin",
+    "allowed_rhythm_deviation": "14%",
+    "levels": [
+        {
+            "notes": 20,
+            "trials": 5,
+            "rhythm": false,
+            "tempo": null
+        }
+    ],
+    "truth_file_path": "experiments/truths/fur_elise_B.txt"
+}
