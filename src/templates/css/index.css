@@ -71,21 +71,21 @@ body > *, button, p, input, div {
 }
 
 #main_content {
-    grid-column: 2/15;
-    grid-row: 2/20;
     display: inline-grid;
-    margin: 2vh 0vw 0vh 2vw;
+    grid-column-gap: inherit;
+    grid-column: 2/15;
+    grid-row-gap: inherit;
+    grid-row: 2/20;
     grid-template-columns: repeat(13, 1fr);
     grid-template-rows: repeat(18, 1fr);
-    grid-column-gap: inherit;
-    grid-row-gap: inherit;
+    margin: 2vh 0vw 0vh 2vw;
 }
 
 .my-btn {
-    padding: 10px;
-    border-width: 0;
     border-radius: 1rem;
+    border-width: 0;
     cursor: pointer;
+    padding: 10px;
     text-align: center;
 
 }
@@ -142,11 +142,11 @@ body > *, button, p, input, div {
 
 .toggle-btn-off {
     background-color: rgba(255, 255, 255, 0);
-    border-width: 2px;
-    border-style: solid;
     border-color: rgba(255, 255, 255, 0.5);
-    text-align: left;
+    border-style: solid;
+    border-width: 2px;
     color: rgba(255, 255, 255, 0.5);
+    text-align: left;
 }
 
 [class*="toggle-btn"]:after {
@@ -155,12 +155,12 @@ body > *, button, p, input, div {
 
 
 .input-div {
-    display: table;
-    height: 100%;
-    border-radius: 4rem;
-    font-size: unset;
-    color: black;
     background-color: white;
+    border-radius: 4rem;
+    color: black;
+    display: table;
+    font-size: unset;
+    height: 100%;
     padding-left: 2vw;
 }
 
@@ -169,9 +169,9 @@ body > *, button, p, input, div {
 }
 
 .input-div-inner-container {
-    vertical-align: middle;
-    display: table-cell;
     color: black;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .input-div-editable-span:focus, .my-input:focus {
@@ -187,18 +187,18 @@ body > *, button, p, input, div {
 }
 
 .my-select {
-    padding: 1vh 1vw 1vh 1vw;
     border-radius: 0.5rem;
     border-width: 0;
     font-family: unset;
+    padding: 1vh 1vw 1vh 1vw;
     transition: box-shadow 0.2s;
 }
 
 .my-select > option {
-    padding: 0.5vw;
     border-radius: 0.5rem;
     border-width: 0;
     font-family: unset;
+    padding: 0.5vw;
 
 }
 
@@ -239,8 +239,8 @@ body > *, button, p, input, div {
 }
 
 .subtitle, .subtitle > div {
-    font-family: "Roboto Thin", serif;
     color: rgba(255, 255, 255, 0.75);
+    font-family: "Roboto Thin", serif;
     font-size: 1.125vw;
 }
 
@@ -249,20 +249,20 @@ body > *, button, p, input, div {
 }
 
 #sidebar {
-    grid-column: 1/1;
-    grid-row: 2/20;
-    display: grid;
-    border-width: 1px;
     border-right-color: rgba(255, 255, 255, 0.1);
     border-right-style: inset;
+    border-width: 1px;
+    display: grid;
+    grid-column: 1/1;
+    grid-row: 2/20;
 }
 
 
 .sidebar-item {
-    cursor: pointer;
-    transition: filter 500ms, color 500ms;
     align-self: center;
     color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: filter 500ms, color 500ms;
 }
 
 
