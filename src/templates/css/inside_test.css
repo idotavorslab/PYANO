@@ -51,11 +51,13 @@
 
 #animation {
   display: grid;
-  grid-column: 1/14;
-  grid-row: 12/16;
+  grid-column: 1/13;
+  grid-row: 6/11;
   grid-template-columns: repeat(52, 1fr);
   grid-template-rows: repeat(1, 1fr);
   z-index: -1;
+  transform: scale(1);
+  margin: 4% -4% -4% 4%;
 }
 
 #animation > svg {
@@ -65,7 +67,7 @@
 
 .piano-white-rect {
   fill: white;
-  height: 190px;
+  height: 200px;
   rx: 5px;
   ry: 5px;
   width: 31px;
@@ -77,7 +79,7 @@
 }
 
 .piano-black-right-rect {
-  width: 12px;
+  width: 13px;
   x: 20px;
 }
 
