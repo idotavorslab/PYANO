@@ -218,12 +218,16 @@
 					 const element = this[0];
 					 if (element.tagName == "BUTTON")
 						 element.classList.toggle('unclickable', to == 0);
-					 const prevOpac = element.style.opacity;
-					 let diff;
-					 if (typeof prevOpac != 'number')
-						 diff = 1;
-					 else
-						 diff = Math.abs(prevOpac - to);
+					 let prevOpac = element.style.opacity;
+					 if (typeof prevOpac != 'number'){
+						 prevOpac = to?0:1; // opposite
+						 element.style.opacity = prevOpac;
+						 if(element.style.display == 'none')
+						 	element.style.display = '';
+						
+						 }
+						 
+					const diff = Math.abs(prevOpac - to);
 					 let step;
 					 if (to)
 						 step = diff / 50;

@@ -2,21 +2,15 @@
     "demo_type": "animation",
     "errors_playingspeed": 1,
     "allowed_tempo_deviation": "39%",
-    "finished_trials_count": 1,
+    "finished_trials_count": 0,
     "current_subject": "orin",
     "allowed_rhythm_deviation": "14%",
     "levels": [
         {
-            "notes": 15,
+            "notes": 4,
             "trials": 7,
             "rhythm": false,
             "tempo": null
-        },
-        {
-            "notes": 15,
-            "trials": 7,
-            "rhythm": true,
-            "tempo": 100
         }
     ],
     "truth_file_path": "experiments/truths/fur_elise_B.txt"
