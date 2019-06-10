@@ -2,19 +2,19 @@
     "demo_type": "animation",
     "errors_playingspeed": 1,
     "allowed_tempo_deviation": "39%",
-    "finished_trials_count": 0,
+    "finished_trials_count": 1,
     "current_subject": "orin",
     "allowed_rhythm_deviation": "14%",
     "levels": [
         {
-            "notes": 1,
-            "trials": 2,
+            "notes": 15,
+            "trials": 7,
             "rhythm": false,
             "tempo": null
         },
         {
-            "notes": 1,
-            "trials": 2,
+            "notes": 15,
+            "trials": 7,
             "rhythm": true,
             "tempo": 100
         }
