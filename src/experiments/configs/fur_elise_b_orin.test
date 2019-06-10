@@ -7,8 +7,8 @@
     "allowed_rhythm_deviation": "14%",
     "levels": [
         {
-            "notes": 20,
-            "trials": 5,
+            "notes": 82,
+            "trials": 14,
             "rhythm": false,
             "tempo": null
         }
