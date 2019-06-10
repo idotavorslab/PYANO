@@ -230,12 +230,12 @@
 					const diff = Math.abs(prevOpac - to);
 					 let step;
 					 if (to)
-						 step = diff / 50;
+						 step = diff / 32;
 					 else
-						 step = -diff / 50;
-					 const everyMs = round(speed / 50);
+						 step = -diff / 32;
+					 const everyMs = round(speed / 32);
 					 console.log({ id: element.id, speed, to, prevOpac, diff, step, everyMs });
-					 for (let i of range(0, 50)) {
+					 for (let i of range(0, 31)) {
 						 if (skipFade) {
 							 console.log('got skipFade = true in loop, returning');
 							 return await this.fadeTo(0, to, callback);
@@ -245,7 +245,7 @@
 					 }
 
 
-					 // console.log(`${element.id} | display AFTER: `, element.style.display);
+					 console.log(`${element.id} | opacity AFTER: `, element.style.opacity);
 					 return await this.fadeTo(0, to, callback);
 				 }
 			 },
