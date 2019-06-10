@@ -10,7 +10,7 @@ sassfiles = []
 cssfiles = []
 for f in files:
     if f.endswith('.sass') and not f.startswith('_'):
-        cmd += '{0}:{1} '.format(f, f.replace("sass", "css"))
+        cmd += f'{f}:{f.replace("sass", "css")} '
 
 print(f"\nexecuting: \n{cmd}\n")
 os.system(cmd)
