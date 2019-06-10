@@ -193,13 +193,9 @@
 		 Object.defineProperty(Date.prototype, "human", {
 			 enumerable: false, value() {
 				 let d = this.getUTCDate();
-				 d = d < 10
-				     ? `0${d}`
-				     : d;
+				 d = d < 10 ? `0${d}` : d;
 				 let m = this.getMonth() + 1;
-				 m = m < 10
-				     ? `0${m}`
-				     : m;
+				 m = m < 10 ? `0${m}` : m;
 				 const y = this.getFullYear();
 				 const t = this.toTimeString().slice(0, 8).replaceAll(':', '-');
 				 return `${d}_${m}_${y}_${t}`;
@@ -210,7 +206,15 @@
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const Path = require("path");
 		 const $ = require("jquery");
+
 		 Object.defineProperties($.prototype, {
+			 fade: {
+				 value(speed, to, easing, callback) {
+					 if (this[0].tagName == "BUTTON")
+						 this[0].classList.toggle('unclickable', to == 0);
+					 return this.fadeTo(speed, to, easing, callback);
+				 }
+			 },
 			 deactivate: {
 				 value() {
 					 this.toggleClass('inactive-btn', true)
@@ -473,12 +477,12 @@
 			 /**@param {jQuery} jQuery
 			  @param {number} ms
 			  @return {Promise<jQuery>}*/
-			 const $fadeOut = (jQuery, ms) => new Promise(resolve => jQuery.fadeTo(ms, 0, resolve));
+			 const $fadeOut = (jQuery, ms) => new Promise(resolve => jQuery.fade(ms, 0, resolve));
 
 			 /**@param {jQuery} jQuery
 			  @param {number} ms
 			  @reutrn {Promise<jQuery>}*/
-			 const $fadeIn = (jQuery, ms) => new Promise(resolve => jQuery.fadeTo(ms, 1, resolve));
+			 const $fadeIn = (jQuery, ms) => new Promise(resolve => jQuery.fade(ms, 1, resolve));
 
 			 /**@param {number} ms
 			  @param {...jQuery} jQueries

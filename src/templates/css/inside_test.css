@@ -1,7 +1,3 @@
-* > * {
-  cursor: unset;
-}
-
 #page_subtitle {
   grid-column: 2/5;
   grid-row: 1/3;
@@ -101,7 +97,12 @@
 }
 
 rect {
-  transition: fill 50ms;
+  transition: fill 40ms;
 }
 
-/*# sourceMappingURL=inside_test.css.map */
+#skip_button {
+  opacity: 0;
+  background: #181818;
+  z-index: 5;
+  border-width: 0;
+}

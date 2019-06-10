@@ -7,10 +7,16 @@
     "allowed_rhythm_deviation": "14%",
     "levels": [
         {
-            "notes": 82,
-            "trials": 14,
+            "notes": 8,
+            "trials": 2,
             "rhythm": false,
             "tempo": null
+        },
+        {
+            "notes": 10,
+            "trials": 2,
+            "rhythm": true,
+            "tempo": 50
         }
     ],
     "truth_file_path": "experiments/truths/fur_elise_B.txt"
