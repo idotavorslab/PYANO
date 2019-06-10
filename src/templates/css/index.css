@@ -101,12 +101,12 @@ button:focus {
   box-shadow: unset;
 }
 
-.radio-option[class~=selected] {
+.radio-option[class~=on] {
   background-color: #3d5afe;
   color: white;
   font-weight: 200;
 }
-.radio-option[class~=unselected] {
+.radio-option[class~=off] {
   background-color: rgba(255, 255, 255, 0);
   border-style: solid;
   border-color: rgba(255, 255, 255, 0.5);
@@ -244,7 +244,7 @@ select[class~=disabled] {
   color: #595959;
 }
 
-.unclickable, .inactive-btn, .radio-option[class~=selected], #sidebar > span[class~=sidebar-item][class~=selected] {
+.unclickable, .inactive-btn, .radio-option[class~=on], #sidebar > span[class~=sidebar-item][class~=selected] {
   cursor: unset;
   pointer-events: none;
 }

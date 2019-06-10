@@ -115,52 +115,38 @@ button
     &:hover
         box-shadow: unset
 
-.radio-option
-    &[class~="selected"]
+@mixin boolean_control($on)
+    @if $on
         background-color: #3d5afe
         color: white
+    @else
+        background-color: rgba(255, 255, 255, 0)
+        border:
+            style: solid
+            color: rgba(255, 255, 255, 0.5)
+            width: 2px
+        color: rgba(255, 255, 255, 0.5)
+
+
+.radio-option
+    &[class~="on"]
+        @include boolean_control(true)
         font-weight: 200
         @extend .unclickable
 
-    &[class~="unselected"]
-        background-color: rgba(255, 255, 255, 0)
-        border:
-            style: solid
-            color: rgba(255, 255, 255, 0.5)
-            width: 2px
-        color: rgba(255, 255, 255, 0.5)
+    &[class~="off"]
+        @include boolean_control(false)
         cursor: pointer
         font-weight: 300
-//.radio-option-selected
-    background-color: #3d5afe
-    color: white
-    font-weight: 200
-    @extend .unclickable
 
-
-//.radio-option-unselected
-    background-color: rgba(255, 255, 255, 0)
-    border:
-        style: solid
-        color: rgba(255, 255, 255, 0.5)
-        width: 2px
-    color: rgba(255, 255, 255, 0.5)
-    cursor: pointer
-    font-weight: 300
 
 .toggle-btn
     &[class~="on"]
-        background-color: #3d5afe
-        color: white
+        @include boolean_control(true)
         text-align: right
 
     &[class~="off"]
-        background-color: rgba(255, 255, 255, 0)
-        border:
-            style: solid
-            color: rgba(255, 255, 255, 0.5)
-            width: 2px
-        color: rgba(255, 255, 255, 0.5)
+        @include boolean_control(false)
         text-align: left
 
 
