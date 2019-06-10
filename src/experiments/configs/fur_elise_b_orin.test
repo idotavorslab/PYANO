@@ -1,5 +1,5 @@
 {
-    "demo_type": "video",
+    "demo_type": "animation",
     "errors_playingspeed": 1,
     "allowed_tempo_deviation": "39%",
     "finished_trials_count": 0,
@@ -7,16 +7,16 @@
     "allowed_rhythm_deviation": "14%",
     "levels": [
         {
-            "notes": 8,
+            "notes": 1,
             "trials": 2,
             "rhythm": false,
             "tempo": null
         },
         {
-            "notes": 10,
+            "notes": 1,
             "trials": 2,
             "rhythm": true,
-            "tempo": 50
+            "tempo": 100
         }
     ],
     "truth_file_path": "experiments/truths/fur_elise_B.txt"

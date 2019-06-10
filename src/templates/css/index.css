@@ -87,17 +87,15 @@ button:hover {
 button:focus {
   outline: unset;
 }
-
-.active-btn {
+button[class~=active-btn] {
   background-color: #1db954;
   color: white;
 }
-
-.inactive-btn {
+button[class~=inactive-btn] {
   background-color: rgba(255, 255, 255, 0.5);
   color: rgba(255, 255, 255, 0.5);
 }
-.inactive-btn:hover {
+button[class~=inactive-btn]:hover {
   box-shadow: unset;
 }
 
@@ -244,7 +242,7 @@ select[class~=disabled] {
   color: #595959;
 }
 
-.unclickable, .inactive-btn, .radio-option[class~=on], #sidebar > span[class~=sidebar-item][class~=selected] {
+.unclickable, button[class~=inactive-btn], .radio-option[class~=on], #sidebar > span[class~=sidebar-item][class~=selected] {
   cursor: unset;
   pointer-events: none;
 }

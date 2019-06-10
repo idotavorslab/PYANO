@@ -209,10 +209,32 @@
 
 		 Object.defineProperties($.prototype, {
 			 fade: {
-				 value(speed, to, easing, callback) {
-					 if (this[0].tagName == "BUTTON")
-						 this[0].classList.toggle('unclickable', to == 0);
-					 return this.fadeTo(speed, to, easing, callback);
+				 async value(speed, to, callback) {
+					 const element = this[0];
+					 if (element.tagName == "BUTTON")
+						 element.classList.toggle('unclickable', to == 0);
+					 // console.log(`${element.id} | display BEFORE: `, element.style.display);
+					 const prevOpac = element.style.opacity;
+					 let diff;
+					 if (typeof prevOpac != 'number')
+						 diff = 1;
+					 else
+						 diff = Math.abs(prevOpac - to);
+					 let step;
+					 if (to)
+						 step = diff / 100;
+					 else
+						 step = -diff / 100;
+					 const ms = round(speed / 100);
+					 console.log({ id: element.id, speed, to, prevOpac, diff, step, ms });
+					 for (let i of range(0, 100)) {
+						 element.style.opacity = float(element.style.opacity) + step;
+						 await asx.wait(ms);
+					 }
+
+
+					 // console.log(`${element.id} | display AFTER: `, element.style.display);
+					 return this.fadeTo(0, to, callback);
 				 }
 			 },
 			 deactivate: {
@@ -316,7 +338,7 @@
 		  * @param {number} d
 		  * @return {number}*/
 		 function round(n, d = 0) {
-			 let fr = 10 ** d;
+			 const fr = 10 ** d;
 			 return int(n * fr) / fr;
 		 }
 

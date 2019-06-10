@@ -101,19 +101,19 @@ button
         outline: unset
 
 
-.active-btn
-    background-color: #1db954
-    color: white
+    &[class~="active-btn"]
+        background-color: #1db954
+        color: white
 
 
-.inactive-btn
-    background-color: rgba(255, 255, 255, 0.5)
-    color: rgba(255, 255, 255, 0.5)
-    @extend .unclickable
+    &[class~="inactive-btn"]
+        background-color: rgba(255, 255, 255, 0.5)
+        color: rgba(255, 255, 255, 0.5)
+        @extend .unclickable
 
 
-    &:hover
-        box-shadow: unset
+        &:hover
+            box-shadow: unset
 
 @mixin boolean_control($on)
     @if $on
