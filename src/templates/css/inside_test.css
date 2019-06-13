@@ -105,3 +105,7 @@ rect {
   z-index: 5;
   border-width: 0;
 }
+
+.nocursor {
+  cursor: none;
+}
