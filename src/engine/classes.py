@@ -9,11 +9,10 @@ logger = Logger('classes')
 class Message:
     def __init__(self, line: str, preceding_message_time: float = None):
         # "1549189615.55545  note=72 velocity=65 off"
-        regexp = r'^\d{10}[\.]?\d{0,5}[ \t]note=\d{2,3}[ \t]velocity=\d{2,3}[ \t](on|off)\n?$'
+        regexp = r'^\d{10}[\.]?\d{0,5}[ \t]note=\d{1,3}[ \t]velocity=\d{1,3}[ \t](on|off)\n?$'
         match = re.fullmatch(regexp, line)
         if not match:
-            logger.log_thin(dict(line=line, match=match, regexp=regexp))
-            raise ValueError(f"`line` did not re.fullmatch. See classes.log")
+            logger.log_thin(dict(line=line, match=match, regexp=regexp), title="Message.__init__ no regex match")
         kind: str
         time, note, velocity, kind = line.split('\t')
         self.time = float(time)

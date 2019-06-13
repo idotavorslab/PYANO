@@ -219,15 +219,15 @@
 					 if (element.tagName == "BUTTON")
 						 element.classList.toggle('unclickable', to == 0);
 					 let prevOpac = element.style.opacity;
-					 if (typeof prevOpac != 'number'){
-						 prevOpac = to?0:1; // opposite
+					 if (typeof prevOpac != 'number') {
+						 prevOpac = to ? 0 : 1; // opposite
 						 element.style.opacity = prevOpac;
-						 if(element.style.display == 'none')
-						 	element.style.display = '';
-						
-						 }
-						 
-					const diff = Math.abs(prevOpac - to);
+						 if (element.style.display == 'none')
+							 element.style.display = '';
+
+					 }
+
+					 const diff = Math.abs(prevOpac - to);
 					 let step;
 					 if (to)
 						 step = diff / 32;
@@ -499,7 +499,6 @@
 			  * */
 			 return { basenames, basename, dirname, extname, mkdir, path_exists, replace_ext, remove_ext, remove, push_before_ext };
 		 })();
-
 		 // *** asx
 		 const asx = (() => {
 			 /**@param {number} ms

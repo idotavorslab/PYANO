@@ -23,7 +23,7 @@ body {
 body > *, body button, body p, body input, body div {
   color: white;
   font-family: "Roboto", serif;
-  transition: box-shadow 200ms, background-color 200ms, background 200ms, color 200ms, font-weight 200ms, font-style 200ms;
+  transition: box-shadow 200ms, background-color 200ms, background 200ms, color 200ms, font-weight 200ms;
   letter-spacing: 1px;
 }
 
@@ -257,4 +257,12 @@ select[class~=disabled] {
 
 .lightgreen {
   color: #cfffcf;
+}
+
+.opac0 {
+  opacity: 0;
+}
+
+.opac1 {
+  opacity: 1;
 }
