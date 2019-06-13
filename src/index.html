@@ -218,16 +218,6 @@
 					 const element = this[0];
 					 if (element.tagName == "BUTTON")
 						 element.classList.toggle('unclickable', to == 0);
-					 /*if (to) {
-						 element.style.removeProperty('opacity');
-						 // element.ontransitionstart = console.log;
-						 // element.ontransitionrun = console.log;
-						 // element.ontransitionend = console.log;
-						 element.classList.add('opac0-trans', 'opac1');
-						 // element.classList.add('opac1');
-						 return;
-					 }
-					 */
 					 let prevOpac = element.style.opacity;
 					 if (typeof prevOpac != 'number') {
 						 prevOpac = to ? 0 : 1; // opposite
@@ -509,7 +499,6 @@
 			  * */
 			 return { basenames, basename, dirname, extname, mkdir, path_exists, replace_ext, remove_ext, remove, push_before_ext };
 		 })();
-		 fadeCounters = {};
 		 // *** asx
 		 const asx = (() => {
 			 /**@param {number} ms
@@ -523,61 +512,12 @@
 			 /**@param {jQuery} jQuery
 			  @param {number} ms
 			  @return {Promise<jQuery>}*/
-			 const $fadeOut = (jQuery, ms) => new Promise(resolve => {
-				 // debugger;
-				 const id = jQuery[0].id;
-				 if (!fadeCounters[id]) {
-					 fadeCounters[id] = { out: 1 };
-				 } else {
-					 if (fadeCounters[id].out)
-						 fadeCounters[id].out++;
-					 else
-						 fadeCounters[id]['out'] = 1;
-				 }
-				 console.log(`\$fadeOut ${fadeCounters[id].out} | ${id}`);
-				 jQuery[0].style.display = '';
-				 const trans = jQuery.css('transition');
-				 if(!bool(trans))debugger;
-				 if ('opacity'.in(trans))
-					 trans.replace(trans.substr(trans.indexOf('opacity'), 20), `opacity ${ms}ms ease 0s`);
-				 else
-					 jQuery.css('transition', `${trans}, opacity ${ms}ms ease 0s`);
-				 // debugger;
-				 jQuery.one('transitionend', () => {
-					 console.log(`\$fadeOut resolving ${fadeCounters[id].out} | ${id}`);
-					 resolve(jQuery);
-				 });
-
-				 jQuery.toggleClass('opac0', true);
-				 jQuery.toggleClass('opac1', false);
-				 // resolve(jQuery);
-				 // return jQuery.fade(ms, 0, resolve);
-			 });
+			 const $fadeOut = (jQuery, ms) => new Promise(resolve => jQuery.fade(ms, 0, resolve));
 
 			 /**@param {jQuery} jQuery
 			  @param {number} ms
 			  @reutrn {Promise<jQuery>}*/
-			 const $fadeIn = (jQuery, ms) => new Promise(resolve => {
-				 const id = jQuery[0].id;
-				 if (!fadeCounters[id]) {
-					 fadeCounters[id] = { in: 1 };
-				 } else {
-					 if (fadeCounters[id].in)
-						 fadeCounters[id].in++;
-					 else
-						 fadeCounters[id]['in'] = 1;
-				 }
-				 console.log(`\$fadeIn ${fadeCounters[id].in} | ${id}`);
-				 jQuery.one('transitionend', () => {
-					 console.log(`\$fadeIn resolving ${fadeCounters[id].in} | ${id}`);
-					 resolve(jQuery);
-				 });
-				 jQuery[0].style.display = '';
-				 jQuery.toggleClass('opac1', true);
-				 jQuery.toggleClass('opac0', false);
-				 // resolve(jQuery);
-				 // return jQuery.fade(ms, 1, resolve);
-			 });
+			 const $fadeIn = (jQuery, ms) => new Promise(resolve => jQuery.fade(ms, 1, resolve));
 
 			 /**@param {number} ms
 			  @param {...jQuery} jQueries
