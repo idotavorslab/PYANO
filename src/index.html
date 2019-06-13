@@ -206,6 +206,7 @@
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const Path = require("path");
 		 const $ = require("jquery");
+
 		 skipFade = false;
 
 		 Object.defineProperties($.prototype, {
@@ -377,7 +378,7 @@
 		 }
 
 		 function getCurrentWindow() {
-			 let { remote } = require("electron");
+			 const { remote } = require("electron");
 			 return remote.getCurrentWindow();
 		 }
 
