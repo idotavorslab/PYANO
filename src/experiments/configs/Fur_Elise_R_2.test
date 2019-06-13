@@ -1,33 +1,11 @@
 {
-    "demo_type": "video",
-    "errors_playingspeed": 1,
-    "allowed_tempo_deviation": "39%",
     "finished_trials_count": 0,
-    "current_subject": "orin",
-    "allowed_rhythm_deviation": "14%",
     "levels": [
         {
-            "notes": 31,
-            "trials": 2,
-            "rhythm": false,
-            "tempo": null
-        },
-        {
-            "notes": 31,
-            "trials": 2,
+            "notes": 8,
+            "trials": 7,
             "rhythm": true,
-            "tempo": 60
-        },{
-            "notes": 31,
-            "trials": 2,
-            "rhythm": true,
-            "tempo": 80
-        },{
-            "notes": 35,
-            "trials": 1,
-            "rhythm": false,
-            "tempo": null
-        },
-    ],
-    "truth_file_path": "experiments\\truths\\fur_elise_R.txt"
+            "tempo": 50
+        }
+    ]
 }
