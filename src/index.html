@@ -536,10 +536,12 @@
 				 }
 				 console.log(`\$fadeOut ${fadeCounters[id].out} | ${id}`);
 				 jQuery[0].style.display = '';
-				 if ('opacity'.in(jQuery.css('transition')))
-					 debugger;
+				 const trans = jQuery.css('transition');
+				 if(!bool(trans))debugger;
+				 if ('opacity'.in(trans))
+					 trans.replace(trans.substr(trans.indexOf('opacity'), 20), `opacity ${ms}ms ease 0s`);
 				 else
-					 jQuery.css('transition', `${jQuery.css('transition')}, opacity ${ms}ms ease 0s`);
+					 jQuery.css('transition', `${trans}, opacity ${ms}ms ease 0s`);
 				 // debugger;
 				 jQuery.one('transitionend', () => {
 					 console.log(`\$fadeOut resolving ${fadeCounters[id].out} | ${id}`);
