@@ -72,6 +72,7 @@ else:
                  'vid_silence_len',
                  'subjects',
                  'devoptions',
+                 'velocities',
                  'current_test',
                  'current_exam']
         modified = False
