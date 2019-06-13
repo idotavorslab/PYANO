@@ -234,7 +234,6 @@
 					 else
 						 step = -diff / 32;
 					 const everyMs = round(speed / 32);
-					 console.log({ id: element.id, speed, to, prevOpac, diff, step, everyMs });
 					 for (let i of range(0, 31)) {
 						 if (skipFade) {
 							 console.log('got skipFade = true in loop, returning');
@@ -245,7 +244,6 @@
 					 }
 
 
-					 console.log(`${element.id} | opacity AFTER: `, element.style.opacity);
 					 return await this.fadeTo(0, to, callback);
 				 }
 			 },
