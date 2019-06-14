@@ -184,7 +184,7 @@
 						        : "9th";
 
 					 default:
-						 return `${this}th`;
+						 return `${Math.floor(this) + 1}th`;
 				 }
 
 			 }
@@ -206,6 +206,7 @@
 		 const { Alert } = require('pyano_local_modules/util/Alert');
 		 const Path = require("path");
 		 const $ = require("jquery");
+
 		 skipFade = false;
 
 		 Object.defineProperties($.prototype, {
@@ -234,7 +235,6 @@
 					 else
 						 step = -diff / 32;
 					 const everyMs = round(speed / 32);
-					 console.log({ id: element.id, speed, to, prevOpac, diff, step, everyMs });
 					 for (let i of range(0, 31)) {
 						 if (skipFade) {
 							 console.log('got skipFade = true in loop, returning');
@@ -245,7 +245,6 @@
 					 }
 
 
-					 console.log(`${element.id} | opacity AFTER: `, element.style.opacity);
 					 return await this.fadeTo(0, to, callback);
 				 }
 			 },
@@ -379,7 +378,7 @@
 		 }
 
 		 function getCurrentWindow() {
-			 let { remote } = require("electron");
+			 const { remote } = require("electron");
 			 return remote.getCurrentWindow();
 		 }
 
@@ -404,6 +403,7 @@
 			 return true;
 
 		 }
+
 
 		 // *** fsx
 		 const fsx = (() => {

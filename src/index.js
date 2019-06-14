@@ -90,10 +90,10 @@ const createWindow = () => {
 	mainWindow.setResizable(true);
 	mainWindow.setMenu(null);
 	mainWindow.setBackgroundColor('#181818');
-	mainWindow.setMenuBarVisibility(false);
 	mainWindow.setAutoHideMenuBar(true);
 	mainWindow.maximize();
-	mainWindow.setFullScreen(true);
+	mainWindow.setMenuBarVisibility(true);
+	mainWindow.setFullScreen(false);
 	// mainWindow.setIcon()
 	// mainWindow.setHasShadow(true);
 
@@ -112,7 +112,7 @@ const createWindow = () => {
 		mainWindow = null;
 	});
 	mainWindow.on('hide', () => console.log('mainWindow HIDE'));
-	mainWindow.on('blur', () => globalShortcut.unregisterAll());
+	/*mainWindow.on('blur', () => globalShortcut.unregisterAll());
 	mainWindow.on('focus', () => {
 		globalShortcut.register('CommandOrControl+R', () => {
 			mainWindow.reload();
@@ -124,15 +124,16 @@ const createWindow = () => {
 		});
 		globalShortcut.register('CommandOrControl+Y', () => {
 			console.log('Pressed ctrl+y, opening DevTools');
-
 			mainWindow.webContents.openDevTools();
 		});
+
 		globalShortcut.register('CommandOrControl+U', () => {
 			console.log('Pressed ctrl+u, unmaximizing');
 			mainWindow.setFullScreen(!mainWindow.isFullScreen());
 			mainWindow.setMenuBarVisibility(mainWindow.isFullScreen());
 		});
 	});
+	*/
 };
 
 // This method will be called when Electron has finished
