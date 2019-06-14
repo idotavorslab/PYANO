@@ -2,8 +2,9 @@ const { remote } = require('electron');
 const { EStore } = require("pyano_local_modules/ext_libs");
 
 function maybeToggleNoCursor() {
-	console.log(`Pressed Alt+C, maybe toggling nocursor`);
-	if (EStore.last_page == "inside_test")
+	const shouldToggle = EStore.last_page == "inside_test";
+	console.log(`Pressed Alt+C, ${shouldToggle ? '' : 'not '}toggling nocursor`);
+	if (shouldToggle)
 		document.getElementById('main_content').classList.toggle('nocursor');
 }
 
@@ -41,6 +42,7 @@ remote.getCurrentWindow().on("focus", () => {
 	remote.globalShortcut.register('CommandOrControl+U', toggleMaximize);
 });
 remote.getCurrentWindow().on('blur', () => remote.globalShortcut.unregisterAll());
+
 
 const sidebar = require("pyano_local_modules/sidebar");
 sidebar.build();

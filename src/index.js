@@ -90,10 +90,10 @@ const createWindow = () => {
 	mainWindow.setResizable(true);
 	mainWindow.setMenu(null);
 	mainWindow.setBackgroundColor('#181818');
-	mainWindow.setMenuBarVisibility(false);
 	mainWindow.setAutoHideMenuBar(true);
 	mainWindow.maximize();
-	mainWindow.setFullScreen(true);
+	mainWindow.setMenuBarVisibility(true);
+	mainWindow.setFullScreen(false);
 	// mainWindow.setIcon()
 	// mainWindow.setHasShadow(true);
 
