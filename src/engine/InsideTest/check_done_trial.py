@@ -72,12 +72,12 @@ def main():
         current_level = json.loads(sys.argv[5])
         experiment_type = sys.argv[6]
     else:
-        allowed_rhythm_deviation = 20
-        allowed_tempo_deviation = 30
-        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\tests\ORIN\level_1_trial_0_on.txt'
-        truth_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\fur_elise_B_on.txt'
-        current_level = dict(notes=10, trials=1, rhythm=True, tempo=50)
-        experiment_type = 'exam'
+        allowed_rhythm_deviation = 30
+        allowed_tempo_deviation = 10
+        trial_on_path = r'C:\PYANO\src\experiments\subjects\gilad\tight_chord_24_06_2019_12-00-15\level_0_trial_0_on.txt'
+        truth_on_path = r'C:\PYANO\src\experiments\truths\tight_chord_on.txt'
+        current_level = dict(notes=8, trials=4, rhythm=True, tempo=100)
+        experiment_type = 'test'
 
     data_dump_path = trial_on_path.rpartition('_on.txt')[0] + '_data.json'
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
@@ -116,7 +116,7 @@ def main():
     tempo_str = "ok"
     if check_rhythm:
         # Failed feedback msg could be "[ null, 'rhythm', null, 'accuracy' ] and too fast"
-
+        # TODO: this can never happen: Hit.__init__ checks/raises that
         if not (0 <= allowed_tempo_deviation <= 100):
             entry = logger.log(
                 dict(trial_on_path=trial_on_path, truth_on_path=truth_on_path,

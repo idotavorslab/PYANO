@@ -270,8 +270,11 @@ class Hit:
             return 0  # some time_delta is None
 
         if truth_time_delta <= 0.05 and msg_time_delta <= 0.05:
-            # if chord - as long as tight enough, counts as no deviation
+            # if truth chord - as long as subject played tight enough, counts as no deviation
             return 0
+
+        if truth_time_delta == 0:  # ZeroDivisionError
+            return 999  # Arbitrary; msg_time_delta is gt 0.05. return "lots"
 
         # (0.3 / 0.25) x 100 = 1.2 x 100 = 120
         #  OR
