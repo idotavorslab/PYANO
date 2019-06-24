@@ -100,7 +100,8 @@ else:
                 modified = True
                 config['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
 
-        if not os.path.isfile(config['truth_file_path']):  # truth_file_path key valid at this stage
+        if not os.path.isfile(
+                os.path.join(root_abs_path, config['truth_file_path'])):  # truth_file_path key valid at this stage
             modified = True
             config['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
 
