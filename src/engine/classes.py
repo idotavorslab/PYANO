@@ -130,7 +130,6 @@ class Message:
         chords = Message.get_chords(msgs)
         msgs_C = deepcopy(msgs)
         normalized_messages, is_normalized = Message.normalize_chords(msgs_C, chords)
-        # normalized_messages, is_normalized = Message.is_file_chord_normalized(file_path)
 
         if not is_normalized:
             with open(file_path, mode="w") as f:

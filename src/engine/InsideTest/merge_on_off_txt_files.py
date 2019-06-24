@@ -1,9 +1,7 @@
-import json
 import sys
 from classes import Message
 from util import prjs, Logger
 import itertools as it
-from copy import deepcopy
 
 logger = Logger('merge_on_off_txt_files')
 if len(sys.argv) > 1:
