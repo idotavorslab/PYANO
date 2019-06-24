@@ -74,7 +74,7 @@ def main():
     else:
         allowed_rhythm_deviation = 30
         allowed_tempo_deviation = 10
-        trial_on_path = r'C:\PYANO\src\experiments\subjects\gilad\tight_chord_24_06_2019_12-00-15\level_0_trial_0_on.txt'
+        trial_on_path = r'C:\PYANO\src\experiments\subjects\gilad\tight_chord_24_06_2019_14-02-00\level_0_trial_0_on.txt'
         truth_on_path = r'C:\PYANO\src\experiments\truths\tight_chord_on.txt'
         current_level = dict(notes=8, trials=4, rhythm=True, tempo=100)
         experiment_type = 'test'
@@ -105,8 +105,25 @@ def main():
     for i in range(min(current_level_notes, len(msgs))):
         hit = Hit(tempoed_msgs[i], truths[i], allowed_rhythm_deviation)
         hits.append(hit)
-        mistakes.append(hit.get_mistake_kind())
+        # mistakes.append(hit.get_mistake_kind())
 
+    current_chord_root = list(truth_chords.keys())[0]
+    current_chord_end = truth_chords[current_chord_root][-1]
+    for i, hit in enumerate(hits):
+        if i <= current_chord_root:
+            mistakes.append(hit.get_mistake_kind())
+            continue
+        if i == current_chord_end:
+            for j in truth_chords[current_chord_root]:
+                hits[j]._rhythm_deviation = 999
+                if hits[j].is_accuracy_correct:
+                    hits[j]._is_rhythm_correct = False
+                mistakes.append(hits[j].get_mistake_kind())
+        # if i > 0:
+        #     for root, rest in truth_chords.items():
+        #         if i == rest[-1]:  # current hit is the last of a chord
+        #             if any(hits[j]._rhythm_deviation == 999 for j in rest):  # a hit was sloppy (not chord)
+        #                 print()
     played_enough_notes = len(msgs) >= current_level_notes
     if not played_enough_notes:
         # needed to play 4 notes but playeed 3: [ null, null, null, "accuracy" ]
