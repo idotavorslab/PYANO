@@ -13,23 +13,9 @@ else:
     on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\magnet_prelude_7500ms_on.txt'
     off_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\magnet_prelude_7500ms_off.txt'
 
-
-def get_on_off_pairs(on_msgs, off_msgs):
-    pairs = []
-    for on_msg in on_msgs:
-        matching_off_msg = next((off_msg for off_msg in off_msgs
-                                 if (off_msg.note == on_msg.note
-                                     and off_msg.time > on_msg.time)),
-                                None)
-        if matching_off_msg is not None:
-            off_msgs.remove(matching_off_msg)
-            pairs.append((on_msg, matching_off_msg))
-    return pairs
-
-
 on_msgs = Message.normalize_chords_in_file(on_path)
 off_msgs = Message.construct_many_from_file(off_path)
-on_off_pairs = get_on_off_pairs(on_msgs, off_msgs[:])
+on_off_pairs = Message.get_on_off_pairs(on_msgs, off_msgs[:])
 for i, (on, off) in enumerate(on_off_pairs):
     for j, (next_on, _) in enumerate(on_off_pairs[i + 1:], i + 1):
         if next_on.note == on.note and next_on.time < off.time:

@@ -20,12 +20,13 @@ class Message:
         self.velocity = int(velocity[velocity.index("=") + 1:])
         self.kind = kind.strip()
 
-        self.preceding_message_time = preceding_message_time
+        self.set_time_props(preceding_message_time)
+        """self.preceding_message_time = preceding_message_time
 
         if preceding_message_time:
             self.time_delta = self.time - preceding_message_time
         else:
-            self.time_delta = None
+            self.time_delta = None"""
 
     def __str__(self) -> str:
         return f'time: {self.time} | note: {self.note} | velocity: {self.velocity} | time_delta: {self.time_delta} | kind: {self.kind}'
@@ -46,6 +47,14 @@ class Message:
                 return most_attrs_equal and round(o.time_delta, 5) == round(self.time_delta, 5)
         except AttributeError:
             return False
+
+    def set_time_props(self, preceding_message_time: float):
+        self.preceding_message_time = preceding_message_time
+
+        if preceding_message_time:
+            self.time_delta = self.time - preceding_message_time
+        else:
+            self.time_delta = None
 
     @staticmethod
     def _raise_if_bad_file(file_path: str):
@@ -164,6 +173,19 @@ class Message:
                 msgs[msg_i].note = sorted_chord_messages[i].note
                 msgs[msg_i].velocity = sorted_chord_messages[i].velocity
         return msgs, is_normalized
+
+    @staticmethod
+    def get_on_off_pairs(on_msgs, off_msgs):
+        pairs = []
+        for on_msg in on_msgs:
+            matching_off_msg = next((off_msg for off_msg in off_msgs
+                                     if (off_msg.note == on_msg.note
+                                         and off_msg.time > on_msg.time)),
+                                    None)
+            if matching_off_msg is not None:
+                off_msgs.remove(matching_off_msg)
+                pairs.append((on_msg, matching_off_msg))
+        return pairs
 
     # TODO: unused
     """@staticmethod
