@@ -274,7 +274,7 @@ class Hit:
             return 0
 
         if truth_time_delta == 0:  # ZeroDivisionError
-            return 999  # Arbitrary; msg_time_delta is gt 0.05. return "lots"
+            return 999  # Arbitrary; msg_time_delta > 0.05. return "lots"
 
         # (0.3 / 0.25) x 100 = 1.2 x 100 = 120
         #  OR
