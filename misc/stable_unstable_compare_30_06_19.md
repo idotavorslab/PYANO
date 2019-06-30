@@ -1,9 +1,9 @@
 can pull right now:
 	git checkout origin/unstable -- node_modules/pyano_local_modules/pages/InsideTest/PyFns.js
-	pulled: no
+	pulled: yes
 
 	git checkout origin/unstable -- node_modules/pyano_local_modules/pages/NewTest/StoreFns.js
-	pulled: no
+	pulled: yes
 
 filetools.js
 	async function split_base_txt_file
