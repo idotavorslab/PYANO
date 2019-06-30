@@ -63,6 +63,8 @@
         left: (1920 + 40 - ($whitekeyWidth + 1) * 52) / 2
 
     & > div
+        $backgroundColorTransition: 0ms
+        transition: background-color $backgroundColorTransition
         $blackKeysGap: 5px
         // 14
         $blackKeyWidth: ($whitekeyWidth + 1 - $blackKeysGap) / 2
@@ -108,7 +110,8 @@
             &[class~="black-key"]
                 background-color: black
                 height: 120px
-                //transition: background-color 20ms
+                transition: background-color $backgroundColorTransition
+        //transition: background-color 20ms
 
 
 //#animationOLD

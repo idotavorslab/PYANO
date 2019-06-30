@@ -61,6 +61,9 @@
     left: 122px;
   }
 }
+#animation > div {
+  transition: background-color 0ms;
+}
 #animation > div[class~=white-key] {
   width: 32px;
   margin-right: 1px;
@@ -91,6 +94,7 @@
 #animation > div > div[class~=black-key] {
   background-color: black;
   height: 120px;
+  transition: background-color 0ms;
 }
 
 #main_content {
