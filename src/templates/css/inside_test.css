@@ -91,7 +91,6 @@
 #animation > div > div[class~=black-key] {
   background-color: black;
   height: 120px;
-  transition: background-color 40ms;
 }
 
 #main_content {
