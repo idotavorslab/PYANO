@@ -5,7 +5,7 @@ cssdir = os.path.join(os.getcwd(), relcssdir)
 os.chdir(cssdir)
 print(f'\n\tchanged working directory to: {cssdir}\n')
 files = os.listdir(cssdir)
-cmd = 'sass --no-source-map --watch '
+cmd = 'sass --watch '
 sassfiles = []
 cssfiles = []
 for f in files:
