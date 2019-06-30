@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"esModuleInterop": true,
+		"removeComments": true,
+		"noErrorTruncation": true,
+		"noImplicitAny": false,
+		"strictNullChecks": false,
+		"declaration": true,
+		"keyofStringsOnly": true,
+		"sourceMap": true
+	},
+	"include": ["node_modules/pyano_local_modules/util/*.ts"]
+	
+}
