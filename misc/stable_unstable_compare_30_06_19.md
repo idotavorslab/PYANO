@@ -15,7 +15,7 @@ insidetest.js
 	try/catch around doneTrialResult = await _handleDoneTrial 
 		depends on: --
 		looks safe
-		pulled: no
+		pulled: YES
 
 newtest.js
 	trivia more random and clear
