@@ -48,6 +48,51 @@
     height: 540px
     z-index: -1
 
+#animation_nongrid
+    position: absolute
+    //width: calc(30px * 52)
+    height: 200px
+    display: -webkit-box
+    top: 40%
+    left: 160px
+
+    & > div
+        &[class~="white-key"]
+            width: 30px
+            margin-right: 1px
+            border-bottom:
+                left-radius: 3px
+                right-radius: 3px
+            background:
+                color: white
+
+        &[class~="black-single-side"]
+            & > div[class~="black-key"]
+                &[class~="right"]
+                    margin-left: 17px
+                    width: 14px
+
+                &[class~="left"]
+                    margin-left: -1px
+                    width: 14px
+
+        &[class~="black-both-sides"]
+            display: -webkit-box
+
+            & > div[class~="black-key"]
+                &[class~="right"]
+                    margin-left: 4px
+                    width: 14px
+
+                &[class~="left"]
+                    margin-left: 0px
+                    width: 13px
+
+        & > div
+            &[class~="black-key"]
+                background-color: green
+                height: 120px
+
 
 #animation
     display: grid
@@ -112,7 +157,7 @@ rect
         background-color: rgba(255, 255, 255, 0.5)
         color: rgba(255, 255, 255, 0.5)
         cursor: unset
-    //pointer-events: none
+//pointer-events: none
 
 
 .nocursor

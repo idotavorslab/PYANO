@@ -44,6 +44,44 @@
   z-index: -1;
 }
 
+#animation_nongrid {
+  position: absolute;
+  height: 200px;
+  display: -webkit-box;
+  top: 40%;
+  left: 160px;
+}
+#animation_nongrid > div[class~=white-key] {
+  width: 30px;
+  margin-right: 1px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background-color: white;
+}
+#animation_nongrid > div[class~=black-single-side] > div[class~=black-key][class~=right] {
+  margin-left: 17px;
+  width: 14px;
+}
+#animation_nongrid > div[class~=black-single-side] > div[class~=black-key][class~=left] {
+  margin-left: -1px;
+  width: 14px;
+}
+#animation_nongrid > div[class~=black-both-sides] {
+  display: -webkit-box;
+}
+#animation_nongrid > div[class~=black-both-sides] > div[class~=black-key][class~=right] {
+  margin-left: 4px;
+  width: 14px;
+}
+#animation_nongrid > div[class~=black-both-sides] > div[class~=black-key][class~=left] {
+  margin-left: 0px;
+  width: 13px;
+}
+#animation_nongrid > div > div[class~=black-key] {
+  background-color: green;
+  height: 120px;
+}
+
 #animation {
   display: grid;
   grid-row: 6/11;
@@ -115,3 +153,5 @@ rect {
 .nocursor {
   cursor: none;
 }
+
+/*# sourceMappingURL=inside_test.css.map */
