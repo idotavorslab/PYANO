@@ -1,6 +1,6 @@
 misc/truths-20190320T165552Z-001/*
 misc/17032019recordings/*
-*/experiments/subjects/
+src/experiments/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -802,3 +802,4 @@ misc/feedback msgs flowchart.md
 node_modules/pyano_local_modules/pages/NewTest/___Elements_js___
 src/engine/loggercounttestdelete.py
 misc/workhours/*
+src/experiments/configs/DEV_*

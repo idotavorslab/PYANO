@@ -36,6 +36,34 @@ def check_chord_accuracy(msgs: List[Message], truths: List[Message], *chord_indi
 
 
 def main():
+    def _dump_data():
+        try:
+            obj = dict(params=dict(allowed_rhythm_deviation=allowed_rhythm_deviation,
+                                   allowed_tempo_deviation=allowed_tempo_deviation,
+                                   current_level=current_level,
+                                   experiment_type=experiment_type,
+                                   trial_on_path=trial_on_path,
+                                   truth_on_path=truth_on_path, ),
+                       processing=dict(hits=[h.to_dict() for h in hits],
+                                       messages=[m.to_dict() for m in msgs],
+                                       messages_tempo_transformed=[tmsg.to_dict() for tmsg in tempoed_msgs],
+                                       tempo_estimation=tempo_estimation,
+                                       tempo_str=tempo_str,
+                                       ),
+                       results=dict(passed=passed,
+                                    mistakes=mistakes,
+                                    played_enough_notes=played_enough_notes, ), )
+            if check_rhythm:
+                obj['processing'].update(tempo_ceil=tempo_ceil,
+                                         tempo_floor=tempo_floor, )
+            if not passed:  # only time when passed is True (all_hits_correct), advance_trial isn't referenced
+                obj['results'].update(advance_trial=advance_trial)
+
+            with open(data_dump_path, mode='w') as f:
+                json.dump(obj, f, indent=4, sort_keys=True)
+        except:
+            pass
+
     if len(sys.argv) > 1:
         allowed_rhythm_deviation = int(sys.argv[1][:-1])
         allowed_tempo_deviation = int(sys.argv[2][:-1])
@@ -51,6 +79,7 @@ def main():
         current_level = dict(notes=10, trials=1, rhythm=True, tempo=50)
         experiment_type = 'exam'
 
+    data_dump_path = trial_on_path.rpartition('_on.txt')[0] + '_data.json'
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
     msgs: List[Message] = Message.normalize_chords_in_file(trial_on_path)
 
@@ -60,10 +89,22 @@ def main():
     tempoed_msgs: List[Message] = Message.transform_to_tempo(msgs, tempo_estimation)
 
     mistakes = []
+    hits = []  # for data dumping
     truth_chords = Message.get_chords(truths[:current_level_notes])
-    Message.normalize_chords(tempoed_msgs, truth_chords)  # of tempoed_msgs, according to truth_chords
+    try:
+        Message.normalize_chords(tempoed_msgs, truth_chords)  # of tempoed_msgs, according to truth_chords
+    except Exception as e:
+        entry = logger.log(dict(tempoed_msgs=tempoed_msgs,
+                                truth_chords=truth_chords,
+                                msg=msgs, current_level_notes=current_level_notes,
+                                check_rhythm=check_rhythm, tempo_estimation=tempo_estimation,
+                                truths=truths, e=e
+                                ),
+                           title=f"Exception at Message.normalize_chords(tempoed_msgs, truth_chords)")
+        raise Exception(f"check done trial normalize chords exception. see log check_done_trial, entry: {entry}")
     for i in range(min(current_level_notes, len(msgs))):
         hit = Hit(tempoed_msgs[i], truths[i], allowed_rhythm_deviation)
+        hits.append(hit)
         mistakes.append(hit.get_mistake_kind())
 
     played_enough_notes = len(msgs) >= current_level_notes
@@ -102,11 +143,15 @@ def main():
                 advance_trial = True
             else:
                 advance_trial = 'accuracy' not in mistakes
-            prfl(dict(passed=False, tempo_str=tempo_str,
-                      played_enough_notes=played_enough_notes,
-
-                      advance_trial=advance_trial,
-                      mistakes=mistakes))
+            passed = False
+            _dump_data()
+            prfl(dict(
+                advance_trial=advance_trial,
+                mistakes=mistakes,
+                passed=passed,
+                played_enough_notes=played_enough_notes,
+                tempo_str=tempo_str,
+                ))
             return
     else:  # delete rhythm mistakes if not checking rhythm. ["rhythm", null, "accuracy"] => [null, null, "accuracy"]
         mistakes = [None if m == "rhythm" else m for m in mistakes]
@@ -117,15 +162,23 @@ def main():
             advance_trial = True
         else:
             advance_trial = not check_rhythm
-        prfl(dict(passed=False, mistakes=mistakes,
+
+        passed = False
+        played_enough_notes = False
+        _dump_data()
+        prfl(dict(passed=passed, mistakes=mistakes,
                   advance_trial=advance_trial,
-                  played_enough_notes=False, tempo_str=tempo_str))
+                  played_enough_notes=played_enough_notes,
+                  tempo_str=tempo_str))
         return
 
     # Played all notes or too many notes
     all_hits_correct = all([mistake is None for mistake in mistakes])
     if all_hits_correct:
-        prfl(dict(passed=True, played_too_many_notes=len(msgs) > current_level_notes))
+        passed = True
+        played_too_many_notes = len(msgs) > current_level_notes
+        _dump_data()
+        prfl(dict(passed=passed, played_too_many_notes=played_too_many_notes))
         return
     else:
         # Had mistakes
@@ -137,7 +190,9 @@ def main():
             advance_trial = True
         else:
             advance_trial = not (check_rhythm and 'accuracy' in mistakes)
-        prfl(dict(passed=False,
+        passed = False
+        _dump_data()
+        prfl(dict(passed=passed,
                   advance_trial=advance_trial,
                   mistakes=mistakes))
 

@@ -11,19 +11,19 @@ class Logger:
 
     def __init__(self, filename):
         try:
-            os.mkdir('./logs')
+            os.mkdir('logs')
         except FileExistsError:
             pass
 
-        try:
-            os.mkdir('./counters')
-        except FileExistsError:
-            pass
+        # try:
+        #     os.mkdir('./counters')
+        # except FileExistsError:
+        #     pass
 
         self._filename = os.path.splitext(filename)[0]
         self._logpath = f'logs/{self._filename}.log'
         self._logged_once = False
-        self._counterpath = f'counters/{self._filename}.json'
+        # self._counterpath = f'counters/{self._filename}.json'
 
     @staticmethod
     def _is_stringified(s):

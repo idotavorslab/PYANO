@@ -1,0 +1,166 @@
+
+#page_subtitle
+    grid-column: 1/5
+    grid-row: 1/3
+
+
+#page_ready_btn
+    grid-column: 1/3
+    grid-row: 15/17
+
+
+#page_save_btn
+    grid-column: 3/5
+    grid-row: 15/17
+
+
+#page_load_config_btn
+    grid-column: 1/3
+    grid-row: 17/19
+
+
+#page_save_as_btn
+    grid-column: 3/5
+    grid-row: 17/19
+
+
+#page_subtitle_current_subject
+    text-transform: capitalize
+
+
+/** *** subject */
+#subject_div
+    display: contents
+    grid-column: 1/5
+
+
+#subject_submit_subject_btn
+    grid-column: 4/4
+    grid-row: 3/3
+
+
+#subject_id_input_div
+    grid-column: 1/4
+    grid-row: 3/3
+
+
+/** *** settings */
+#settings_div
+    display: contents
+    grid-column: 1/5
+
+
+#settings_experiment_type_label
+    grid-column: 1/3
+    grid-row: 4/4
+
+
+#settings_experiment_test_btn
+    grid-column: 3/3
+    grid-row: 4/4
+
+
+#settings_experiment_exam_btn
+    grid-column: 4/4
+    grid-row: 4/4
+
+
+#settings_video_animation_label
+    grid-column: 1/3
+    grid-row: 5/5
+
+
+#settings_video_btn
+    grid-column: 3/3
+    grid-row: 5/5
+
+
+#settings_animation_btn
+    grid-column: 4/4
+    grid-row: 5/5
+
+
+#settings_errors_playingspeed_label
+    grid-column: 1/4
+    grid-row: 6/6
+
+
+#settings_errors_playingspeed_select
+    grid-column: 4/4
+    grid-row: 6/6
+
+
+#settings_rhythm_deviation_label
+    grid-column: 1/4
+    grid-row: 7/7
+
+
+#settings_rhythm_deviation_select
+    grid-column: 4/4
+    grid-row: 7/7
+
+
+#settings_tempo_deviation_label
+    grid-column: 1/4
+    grid-row: 8/8
+
+
+#settings_tempo_deviation_select
+    grid-column: 4/4
+    grid-row: 8/8
+
+
+/** *** levels */
+#levels_div
+    display: contents
+    grid-column: 5/18
+    grid-row: 1/1
+
+
+    & > button[id="add_level"]
+        grid-column: 1/3
+        grid-row: 12/14
+
+
+    & > button[id="remove_level"]
+        grid-column: 3/5
+        grid-row: 12/14
+
+
+    #subtitles_container
+        display: contents
+
+
+        & > div
+            grid-row: 1/1
+            text-align: center
+            display: table-cell
+            vertical-align: middle
+
+
+        & > div[id="level_subtitle"]
+            grid-column: 5/5
+
+
+        & > div[id="notes_subtitle"]
+            grid-column: 6/6
+
+
+        & > div[id="rhythm_subtitle"]
+            grid-column: 7/7
+
+
+        & > div[id="tempo_subtitle"]
+            grid-column: 8/8
+
+
+        & > div[id="trials_subtitle"]
+            grid-column: 9/9
+
+
+    #selectors_container
+        display: contents
+
+        & > div[class="level"]
+            display: contents
+

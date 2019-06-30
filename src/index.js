@@ -35,18 +35,21 @@ pyShell.run("check_create_experiments_folder_structure.py", {
 });
 
 const configfilepath = path.join(app.getPath('appData'), 'Electron', 'config.json');
-pyShell.run("check_create_config_file.py", {
-	mode: "json",
-	args: [configfilepath, __dirname]
-}, (err, output) => {
-	if (err) {
-		console.log(err);
-		throw err;
-	}
-
-	console.log('check_create_config_file.py returned output: ');
-	output.map(console.log);
-});
+try {
+	pyShell.run("check_create_config_file.py", {
+		mode: "json",
+		args: [configfilepath, __dirname]
+	}, (err, output) => {
+		if (err) {
+			console.log(err);
+		} else {
+			console.log('check_create_config_file.py returned output: ');
+			output.map(console.log);
+		}
+	});
+} catch (e) {
+	console.log('ERROR!!!', e);
+}
 
 /*pyShell.run("check_create_local_modules_symlink.py", {
 	args: [__dirname]
@@ -87,10 +90,10 @@ const createWindow = () => {
 	mainWindow.setResizable(true);
 	mainWindow.setMenu(null);
 	mainWindow.setBackgroundColor('#181818');
-	mainWindow.setMenuBarVisibility(false);
 	mainWindow.setAutoHideMenuBar(true);
 	mainWindow.maximize();
-	mainWindow.setFullScreen(true);
+	mainWindow.setMenuBarVisibility(true);
+	mainWindow.setFullScreen(false);
 	// mainWindow.setIcon()
 	// mainWindow.setHasShadow(true);
 
@@ -109,7 +112,7 @@ const createWindow = () => {
 		mainWindow = null;
 	});
 	mainWindow.on('hide', () => console.log('mainWindow HIDE'));
-	mainWindow.on('blur', () => globalShortcut.unregisterAll());
+	/*mainWindow.on('blur', () => globalShortcut.unregisterAll());
 	mainWindow.on('focus', () => {
 		globalShortcut.register('CommandOrControl+R', () => {
 			mainWindow.reload();
@@ -121,10 +124,16 @@ const createWindow = () => {
 		});
 		globalShortcut.register('CommandOrControl+Y', () => {
 			console.log('Pressed ctrl+y, opening DevTools');
-
 			mainWindow.webContents.openDevTools();
 		});
+
+		globalShortcut.register('CommandOrControl+U', () => {
+			console.log('Pressed ctrl+u, unmaximizing');
+			mainWindow.setFullScreen(!mainWindow.isFullScreen());
+			mainWindow.setMenuBarVisibility(mainWindow.isFullScreen());
+		});
 	});
+	*/
 };
 
 // This method will be called when Electron has finished

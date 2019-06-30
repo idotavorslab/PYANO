@@ -1,20 +1,55 @@
 // *** Store Types
 
-// * TConfig
+
+// * TSavedConfig
 /**
- * @typedef TConfig
- * @prop {string} truth_file_path
+ * @typedef TSavedConfig
  * @prop {number} finished_trials_count
  * @prop {TLevel[]} levels
  * @prop {TDemoType} demo_type
- * @prop {TExperimentType} experiment_type
  * @prop {string} current_subject
  * @prop {number} errors_playingspeed
  * @prop {string} allowed_rhythm_deviation
  * @prop {string} allowed_tempo_deviation
+ * @prop {string} truth_file_path
+ */
+
+// * TSavedConfigKey
+/**@typedef {
+ * 'finished_trials_count'
+ * |'levels'
+ * |'demo_type'
+ * |'current_subject'
+ * |'errors_playingspeed'
+ * |'allowed_rhythm_deviation'
+ * |'allowed_tempo_deviation'
+ * |'truth_file_path'
+ * } TSavedConfigKey*/
+
+
+// * TConfig
+/**
+ * @typedef TConfig
+ * @prop {number} finished_trials_count
+ * @prop {TLevel[]} levels
+ * @prop {TDemoType} demo_type
+ * @prop {string} current_subject
+ * @prop {number} errors_playingspeed
+ * @prop {string} allowed_rhythm_deviation
+ * @prop {string} allowed_tempo_deviation
+ * @prop {string} save_path
  */
 // * TConfigKey
-/**@typedef {'truth_file_path'|'finished_trials_count'|'levels'|'demo_type'|'current_subject'|'errors_playingspeed'|'allowed_rhythm_deviation'|'allowed_tempo_deviation'} TConfigKey*/
+/**@typedef {
+ * 'finished_trials_count'
+ * |'levels'
+ * |'demo_type'
+ * |'current_subject'
+ * |'errors_playingspeed'
+ * |'allowed_rhythm_deviation'
+ * |'allowed_tempo_deviation'
+ * |'save_path'
+ * } TConfigKey*/
 
 // * TDemoType
 /** @typedef {'video' | 'animation'} TDemoType*/

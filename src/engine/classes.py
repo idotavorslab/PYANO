@@ -9,11 +9,10 @@ logger = Logger('classes')
 class Message:
     def __init__(self, line: str, preceding_message_time: float = None):
         # "1549189615.55545  note=72 velocity=65 off"
-        regexp = r'^\d{10}[\.]?\d{0,5}[ \t]note=\d{2,3}[ \t]velocity=\d{2,3}[ \t](on|off)\n?$'
+        regexp = r'^\d{10}[\.]?\d{0,5}[ \t]note=\d{1,3}[ \t]velocity=\d{1,3}[ \t](on|off)\n?$'
         match = re.fullmatch(regexp, line)
         if not match:
-            logger.log_thin(dict(line=line, match=match, regexp=regexp))
-            raise ValueError(f"`line` did not re.fullmatch. See classes.log")
+            logger.log_thin(dict(line=line, match=match, regexp=regexp), title="Message.__init__ no regex match")
         kind: str
         time, note, velocity, kind = line.split('\t')
         self.time = float(time)
@@ -79,6 +78,12 @@ class Message:
         s = f'{self.time}\tnote={self.note}\tvelocity={self.velocity}\t{self.kind}\n'
         return s
 
+    def to_dict(self) -> dict:
+        return dict(time=self.time,
+                    note=self.note,
+                    time_delta=self.time_delta,
+                    )
+
     @staticmethod
     def construct_many(lines: List[str]) -> List['Message']:
         container = [Message(lines[0])]
@@ -139,9 +144,13 @@ class Message:
     def normalize_chords(msgs: List['Message'], chords: Dict[int, List[int]]):
         from copy import deepcopy
         is_normalized = True
+        msgs_len = len(msgs)
         for root, rest in chords.items():
             """Overwrite chord messages so they are sorted by note, all timed according to lowest pitch note, and share the time delta and preceding message time data of the first-played note"""
             chord_indices: List[int] = [root, *rest]
+            if msgs_len <= chord_indices[-1]:
+                return msgs, is_normalized
+
             chord_messages = [msgs[i] for i in chord_indices]
             sorted_chord_messages = sorted(deepcopy(chord_messages), key=lambda m: m.note)
             already_sorted = chord_messages == sorted_chord_messages
@@ -225,6 +234,12 @@ class Hit:
             self._is_rhythm_correct = self._rhythm_deviation < allowed_rhythm_deviation
         else:  # rhythm isn't checked anyway if accuracy isn't right
             self._is_rhythm_correct = True
+
+    def to_dict(self) -> dict:
+        return dict(
+            is_accuracy_correct=self.is_accuracy_correct,
+            rhythm_deviation=self._rhythm_deviation,
+            is_rhythm_correct=self._is_rhythm_correct)
 
     @staticmethod
     def _get_rhythm_deviation(msg_time_delta: float, truth_time_delta: float) -> float:

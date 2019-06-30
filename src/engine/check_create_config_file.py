@@ -1,7 +1,7 @@
-import sys
 import json
 import os
-
+import re
+import sys
 from util import Logger, prjs
 from utils import check_fix_config_data
 
@@ -24,8 +24,8 @@ if not isfile:  # not found
                   last_page='new_test',
                   experiment_type='test',
                   subjects=[username],
+                  truth_file_path="experiments/truths/fur_elise_B.txt",
                   current_test=dict(
-                      truth_file_path="experiments/truths/fur_elise_B.txt",
                       demo_type='video',
                       errors_playingspeed=1,
                       allowed_rhythm_deviation="40%",
@@ -33,10 +33,10 @@ if not isfile:  # not found
                       levels=[dict(notes=4, trials=1, rhythm=False, tempo=None),
                               dict(notes=4, trials=1, rhythm=True, tempo=50)],
                       finished_trials_count=0,
-                      current_subject=username
+                      current_subject=username,
+                      save_path='experiments/configs/pyano_config.test',
                       ),
                   current_exam=dict(
-                      truth_file_path="experiments/truths/fur_elise_B.txt",
                       demo_type='animation',
                       errors_playingspeed=0.5,
                       allowed_rhythm_deviation="20%",
@@ -44,7 +44,8 @@ if not isfile:  # not found
                       levels=[dict(notes=7, trials=3, rhythm=False, tempo=None),
                               dict(notes=7, trials=3, rhythm=True, tempo=50)],
                       finished_trials_count=0,
-                      current_subject=username
+                      current_subject=username,
+                      save_path='experiments/configs/pyano_config.exam',
                       )
                   )
 
@@ -63,6 +64,17 @@ else:
 
 
     def check_fix_first_level():
+        _KEYS = ['root_abs_path',
+                 'dev',
+                 'experiment_type',
+                 'truth_file_path',
+                 'last_page',
+                 'vid_silence_len',
+                 'subjects',
+                 'devoptions',
+                 'velocities',
+                 'current_test',
+                 'current_exam']
         modified = False
         if 'root_abs_path' not in config or config['root_abs_path'] != root_abs_path:
             config['root_abs_path'] = root_abs_path
@@ -75,6 +87,23 @@ else:
         if 'experiment_type' not in config or config['experiment_type'] not in ['exam', 'test']:
             config['experiment_type'] = 'test'
             modified = True
+
+        if 'truth_file_path' not in config:
+            modified = True
+            config['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
+        else:
+            split = re.split(r'[\\/]', config['truth_file_path'])
+            if (len(split) != 3
+                    or split[0] != 'experiments'
+                    or split[1] != 'truths'
+                    or not split[2].endswith('.txt')):
+                modified = True
+                config['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
+
+        if not os.path.isfile(
+                os.path.join(root_abs_path, config['truth_file_path'])):  # truth_file_path key valid at this stage
+            modified = True
+            config['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
 
         if ('last_page' not in config
                 or config['last_page'] not in ['new_test', 'inside_test',
@@ -89,6 +118,7 @@ else:
 
         if ('subjects' not in config
                 or not isinstance(config['subjects'], list)
+                or not all([config['subjects']])
                 or not all((isinstance(s, str) for s in config['subjects']))):
             config['subjects'] = [username]
             modified = True
@@ -97,100 +127,12 @@ else:
             config['subjects'].append(username)
             modified = True
 
+        for key in list(config.keys()):
+            if key not in _KEYS:
+                modified = True
+                config.pop(key)
         return modified
 
-
-    # def check_fix_test_dict(test_dict: dict, *exclude):
-    #     modified = False
-    #     if test_dict is None:
-    #         test_dict = {}
-    #     import re
-    #
-    #     if 'truth_file_path' not in exclude:
-    #         if 'truth_file_path' not in test_dict:
-    #             test_dict['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
-    #             modified = True
-    #         else:
-    #             split = re.split(r'[\\/]', test_dict['truth_file_path'])
-    #             if (len(split) != 3
-    #                     or split[0] != 'experiments'
-    #                     or split[1] != 'truths'
-    #                     or not split[2].endswith('.txt')):
-    #                 test_dict['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
-    #                 modified = True
-    #
-    #     if 'demo_type' not in exclude:
-    #         if ('demo_type'
-    #                 not in test_dict
-    #                 or test_dict['demo_type'] not in ['animation', 'video']):
-    #             test_dict['demo_type'] = 'video'
-    #             modified = True
-    #
-    #     if 'errors_playingspeed' not in exclude:
-    #         if ('errors_playingspeed'
-    #                 not in test_dict
-    #                 or not isinstance(test_dict['errors_playingspeed'], int)):
-    #             test_dict['errors_playingspeed'] = 1
-    #             modified = True
-    #         elif test_dict['errors_playingspeed'] <= 0:  # exists and is an int, check for value
-    #             test_dict['errors_playingspeed'] = 1
-    #             modified = True
-    #
-    #     if 'allowed_rhythm_deviation' not in exclude:
-    #         if ('allowed_rhythm_deviation'
-    #                 not in test_dict
-    #                 or not isinstance(test_dict['allowed_rhythm_deviation'], str)):
-    #             test_dict['allowed_rhythm_deviation'] = '40%'
-    #             modified = True
-    #         elif (len(test_dict['allowed_rhythm_deviation']) != 3
-    #               or test_dict['allowed_rhythm_deviation'][-1] != '%'):
-    #             test_dict['allowed_rhythm_deviation'] = '40%'
-    #             modified = True
-    #
-    #     if 'allowed_tempo_deviation' not in exclude:
-    #         if ('allowed_tempo_deviation'
-    #                 not in test_dict
-    #                 or not isinstance(test_dict['allowed_tempo_deviation'], str)):
-    #             test_dict['allowed_tempo_deviation'] = '10%'
-    #             modified = True
-    #         elif (len(test_dict['allowed_tempo_deviation']) != 3
-    #               or test_dict['allowed_tempo_deviation'][-1] != '%'):
-    #             test_dict['allowed_tempo_deviation'] = '10%'
-    #             modified = True
-    #
-    #     if 'finished_trials_count' not in exclude:
-    #         if ('finished_trials_count'
-    #                 not in test_dict
-    #                 or not isinstance(test_dict['finished_trials_count'], int)):
-    #             test_dict['finished_trials_count'] = 0
-    #             modified = True
-    #         elif test_dict['finished_trials_count'] != 0:  # exists and is an int, check for value
-    #             test_dict['finished_trials_count'] = 0
-    #             modified = True
-    #
-    #     if 'current_subject' not in exclude:
-    #         if ('current_subject'
-    #                 not in test_dict
-    #                 or test_dict['current_subject'] != username):
-    #             test_dict['current_subject'] = username
-    #             modified = True
-    #
-    #     if 'levels' not in exclude:
-    #         if ('levels'
-    #                 not in test_dict
-    #                 or not test_dict['levels']
-    #                 or not isinstance(test_dict['levels'], list)):
-    #             test_dict['levels'] = [dict(notes=4, trials=1, rhythm=False, tempo=None),
-    #                                    dict(notes=4, trials=1, rhythm=True, tempo=50)]
-    #             modified = True
-    #         # levels key exists and is list, check if all levels adhere to ['notes', 'trials', 'rhythm', 'tempo'] structure
-    #         elif not all((['notes', 'trials', 'rhythm', 'tempo'] == list(level.keys())
-    #                       for level in test_dict['levels'])):
-    #             test_dict['levels'] = [dict(notes=4, trials=1, rhythm=False, tempo=None),
-    #                                    dict(notes=4, trials=1, rhythm=True, tempo=50)]
-    #             modified = True
-    #
-    #     return test_dict, modified
 
     def check_fix_test_dict_levels(levels):
         modified = False
@@ -221,32 +163,19 @@ else:
         return levels, modified
 
 
-    def raise_if_any_bad_path():
-        if not os.path.isdir(config['root_abs_path']):
-            raise NotADirectoryError(f"root_abs_path is not a dir. Received: {config['root_abs_path']}")
-
-        truth_file_path = os.path.join(config['root_abs_path'], config['current_test']['truth_file_path'])
-        if not os.path.isfile(truth_file_path):
-            raise FileNotFoundError(
-                f"config current_test truth_file_path is not a file. value tested: {truth_file_path}")
-
-        truth_file_path = os.path.join(config['root_abs_path'], config['current_exam']['truth_file_path'])
-        if not os.path.isfile(truth_file_path):
-            raise FileNotFoundError(
-                f"config current_exam truth_file_path is not a file. value tested: {truth_file_path}")
-
-
     first_level_modified = check_fix_first_level()
 
     # assume first level ok
-    config['current_test'], current_test_modified = check_fix_config_data.do(config.get('current_test'))
+    config['current_test'], current_test_modified = check_fix_config_data.do(config.get('current_test'),
+                                                                             save_path_filetype='test')
 
     # assume current_test ok
     config['current_test']['levels'], current_test_levels_modified = check_fix_test_dict_levels(
         config['current_test'].get('levels'))
 
     # assume first level ok
-    config['current_exam'], current_exam_modified = check_fix_config_data.do(config.get('current_exam'))
+    config['current_exam'], current_exam_modified = check_fix_config_data.do(config.get('current_exam'),
+                                                                             save_path_filetype='exam')
 
     # assume current_test ok
     config['current_exam']['levels'], current_exam_levels_modified = check_fix_test_dict_levels(
@@ -265,7 +194,6 @@ else:
         except:
             prjs(dict(fixed_ok=False))
 
-    raise_if_any_bad_path()
     prjs(dict(first_level_modified=first_level_modified,
               current_test_modified=current_test_modified,
               current_test_levels_modified=current_test_levels_modified,
