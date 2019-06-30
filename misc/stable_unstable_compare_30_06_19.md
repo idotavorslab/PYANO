@@ -46,16 +46,19 @@ merge_on_off_txt_files.py
 		pulled: no
 
 classes.py
+	Message.__init__ using set_time_props
+		looks kinda safe
+		pulled: now
 	Message.set_time_props(preceding_message_time)
 		looks kinda safe
-		pulled: no
+		pulled: YES
 	Message._init()
 		looks safe
-		pulled: no
+		pulled: YES
 	Message.get_on_off_pairs
-		depends on classes.py
+		depends on merge_on_off_txt_files.py
 		looks safe
-		pulled: no
+		pulled: YES
 	Hit if truth_time_delta == 0 #ZeroDivisionError
 		looks not safe
 		pulled: no
@@ -63,4 +66,4 @@ classes.py
 setup.py
 	added 'FileTools'
 	looks safe
-	pulled: no
+	pulled: YES
