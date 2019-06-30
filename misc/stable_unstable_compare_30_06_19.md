@@ -1,15 +1,15 @@
 can pull right now:
 	git checkout origin/unstable -- node_modules/pyano_local_modules/pages/InsideTest/PyFns.js
-	pulled: yes
+	pulled: YES
 
 	git checkout origin/unstable -- node_modules/pyano_local_modules/pages/NewTest/StoreFns.js
-	pulled: yes
+	pulled: YES
 
 filetools.js
 	async function split_base_txt_file
 		depends on FileTools/split_base_txt_file.py
 		looks safe
-		pulled: no
+		pulled: YES
 
 insidetest.js
 	try/catch around doneTrialResult = await _handleDoneTrial 
@@ -30,7 +30,7 @@ FileTools/split_base_txt_file.py
 	new file
 	depends on FileTools/split_base_txt_file.py
 	looks safe
-	pulled: no
+	pulled: YES
 
 check_done_trial.py
 	truth chords change
