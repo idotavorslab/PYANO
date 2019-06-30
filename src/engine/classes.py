@@ -20,13 +20,12 @@ class Message:
         self.velocity = int(velocity[velocity.index("=") + 1:])
         self.kind = kind.strip()
 
-        self.set_time_props(preceding_message_time)
-        """self.preceding_message_time = preceding_message_time
+        self.preceding_message_time = preceding_message_time
 
         if preceding_message_time:
             self.time_delta = self.time - preceding_message_time
         else:
-            self.time_delta = None"""
+            self.time_delta = None
 
     def __str__(self) -> str:
         return f'time: {self.time} | note: {self.note} | velocity: {self.velocity} | time_delta: {self.time_delta} | kind: {self.kind}'
@@ -48,14 +47,6 @@ class Message:
         except AttributeError:
             return False
 
-    def set_time_props(self, preceding_message_time: float):
-        self.preceding_message_time = preceding_message_time
-
-        if preceding_message_time:
-            self.time_delta = self.time - preceding_message_time
-        else:
-            self.time_delta = None
-
     @staticmethod
     def _raise_if_bad_file(file_path: str):
         import os
@@ -69,19 +60,18 @@ class Message:
         #     raise ValueError(f"File empty! file_path: {file_path}")
 
     @staticmethod
-    def _init(*, time, note, velocity, kind, preceding_message_time=None) -> 'Message':
+    def init(*, time, note, velocity, kind, preceding_message_time=None) -> 'Message':
         line = f'{float(time)}\tnote={note}\tvelocity={velocity}\t{kind}'
         return Message(line, preceding_message_time)
 
     @staticmethod
     def init_many(*msgs: dict) -> List['Message']:
-        """A collection of eg dict(time=1000000000, note=10, velocity=100, kind='on')"""
         constructed = []
         for i, m in enumerate(msgs):
             if 'preceding_message_time' not in m:
                 if i != 0:
                     m.update(preceding_message_time=msgs[i - 1]['time'])
-            constructed.append(Message._init(**m))
+            constructed.append(Message.init(**m))
         return constructed
 
     def to_line(self):
@@ -104,7 +94,6 @@ class Message:
 
     @staticmethod
     def construct_many_from_file(file_path: str) -> List['Message']:
-        """file_path can be an on or off file"""
         Message._raise_if_bad_file(file_path)
         with open(file_path, mode="r") as f:
             messages = Message.construct_many(f.readlines())
@@ -135,15 +124,16 @@ class Message:
         return chords
 
     @staticmethod
-    def normalize_chords_in_file(on_file_path: str) -> List['Message']:
+    def normalize_chords_in_file(file_path: str) -> List['Message']:
         from copy import deepcopy
-        msgs = Message.construct_many_from_file(on_file_path)
+        msgs = Message.construct_many_from_file(file_path)
         chords = Message.get_chords(msgs)
         msgs_C = deepcopy(msgs)
         normalized_messages, is_normalized = Message.normalize_chords(msgs_C, chords)
+        # normalized_messages, is_normalized = Message.is_file_chord_normalized(file_path)
 
         if not is_normalized:
-            with open(on_file_path, mode="w") as f:
+            with open(file_path, mode="w") as f:
                 for msg in normalized_messages:
                     msg_line = msg.to_line()
                     f.write(msg_line)
@@ -173,19 +163,6 @@ class Message:
                 msgs[msg_i].note = sorted_chord_messages[i].note
                 msgs[msg_i].velocity = sorted_chord_messages[i].velocity
         return msgs, is_normalized
-
-    @staticmethod
-    def get_on_off_pairs(on_msgs, off_msgs):
-        pairs = []
-        for on_msg in on_msgs:
-            matching_off_msg = next((off_msg for off_msg in off_msgs
-                                     if (off_msg.note == on_msg.note
-                                         and off_msg.time > on_msg.time)),
-                                    None)
-            if matching_off_msg is not None:
-                off_msgs.remove(matching_off_msg)
-                pairs.append((on_msg, matching_off_msg))
-        return pairs
 
     # TODO: unused
     """@staticmethod
@@ -270,11 +247,8 @@ class Hit:
             return 0  # some time_delta is None
 
         if truth_time_delta <= 0.05 and msg_time_delta <= 0.05:
-            # if truth chord - as long as subject played tight enough, counts as no deviation
+            # if chord - as long as tight enough, counts as no deviation
             return 0
-
-        if truth_time_delta == 0:  # ZeroDivisionError
-            return 999  # Arbitrary; msg_time_delta > 0.05. return "lots"
 
         # (0.3 / 0.25) x 100 = 1.2 x 100 = 120
         #  OR
