@@ -11,6 +11,7 @@
 		"keyofStringsOnly": true,
 		"sourceMap": true
 	},
-	"include": ["node_modules/pyano_local_modules/util/*.ts"]
-	
+	"include": [
+		"node_modules/pyano_local_modules/util/*.ts"
+	]
 }
