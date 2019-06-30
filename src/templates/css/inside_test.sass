@@ -49,18 +49,23 @@
     z-index: -1
 
 #animation
+    opacity: 0
+    $whitekeyWidth: 32px
     position: absolute
     //width: calc(30px * 52)
     height: 200px
     display: -webkit-box
     top: 40%
-    left: 160px
+    //left: 120px
+    @media screen and (min-width: 2000px)
+        left: (2160 + 40 - ($whitekeyWidth + 1) * 52) / 2
+    @media screen and (max-width: 2000px)
+        left: (1920 + 40 - ($whitekeyWidth + 1) * 52) / 2
 
     & > div
-        $whitekeyWidth: 30px
-        $blackKeysGap: 3px
+        $blackKeysGap: 5px
         // 14
-        $blackKeyWidth: ($whitekeyWidth / 2) - 1
+        $blackKeyWidth: ($whitekeyWidth + 1 - $blackKeysGap) / 2
 
 
         &[class~="white-key"]
