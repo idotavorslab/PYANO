@@ -21,7 +21,7 @@ newtest.js
 	trivia more random and clear
 		depends on: --
 		looks safe
-		pulled: no
+		pulled: YES
 
 sass_compile.py
 	added --no-source-map	!unwanted
