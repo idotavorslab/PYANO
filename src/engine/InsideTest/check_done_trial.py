@@ -72,12 +72,12 @@ def main():
         current_level = json.loads(sys.argv[5])
         experiment_type = sys.argv[6]
     else:
-        allowed_rhythm_deviation = 20
-        allowed_tempo_deviation = 30
-        trial_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\tests\ORIN\level_1_trial_0_on.txt'
-        truth_on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\fur_elise_B_on.txt'
-        current_level = dict(notes=10, trials=1, rhythm=True, tempo=50)
-        experiment_type = 'exam'
+        allowed_rhythm_deviation = 30
+        allowed_tempo_deviation = 10
+        trial_on_path = r'C:\PYANO\src\experiments\subjects\gilad\tight_chord_24_06_2019_14-02-00\level_0_trial_0_on.txt'
+        truth_on_path = r'C:\PYANO\src\experiments\truths\tight_chord_on.txt'
+        current_level = dict(notes=8, trials=4, rhythm=True, tempo=100)
+        experiment_type = 'test'
 
     data_dump_path = trial_on_path.rpartition('_on.txt')[0] + '_data.json'
     truths: List[Message] = Message.normalize_chords_in_file(truth_on_path)
@@ -105,7 +105,25 @@ def main():
     for i in range(min(current_level_notes, len(msgs))):
         hit = Hit(tempoed_msgs[i], truths[i], allowed_rhythm_deviation)
         hits.append(hit)
-        mistakes.append(hit.get_mistake_kind())
+        if not truth_chords:
+            mistakes.append(hit.get_mistake_kind())
+
+    if truth_chords:
+        current_chord_root = list(truth_chords.keys())[0]
+        current_chord_end = truth_chords[current_chord_root][-1]
+        for i, hit in enumerate(hits):
+            if i <= current_chord_root:
+                mistakes.append(hit.get_mistake_kind())
+                continue
+            if i == current_chord_end:
+                if any(hits[j]._rhythm_deviation == 999 for j in truth_chords[current_chord_root]):
+                    for k in truth_chords[current_chord_root]:
+                        hits[k]._rhythm_deviation = 999
+                        if hits[k].is_accuracy_correct:
+                            hits[k]._is_rhythm_correct = False
+                        mistakes.append(hits[k].get_mistake_kind())
+                else:
+                    [mistakes.append(hits[k].get_mistake_kind()) for k in truth_chords[current_chord_root]]
 
     played_enough_notes = len(msgs) >= current_level_notes
     if not played_enough_notes:

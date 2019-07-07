@@ -20,12 +20,13 @@ class Message:
         self.velocity = int(velocity[velocity.index("=") + 1:])
         self.kind = kind.strip()
 
-        self.preceding_message_time = preceding_message_time
+        self.set_time_props(preceding_message_time)
+        """self.preceding_message_time = preceding_message_time
 
         if preceding_message_time:
             self.time_delta = self.time - preceding_message_time
         else:
-            self.time_delta = None
+            self.time_delta = None"""
 
     def __str__(self) -> str:
         return f'time: {self.time} | note: {self.note} | velocity: {self.velocity} | time_delta: {self.time_delta} | kind: {self.kind}'
@@ -271,6 +272,9 @@ class Hit:
         if truth_time_delta <= 0.05 and msg_time_delta <= 0.05:
             # if truth chord - as long as subject played tight enough, counts as no deviation
             return 0
+
+        if truth_time_delta == 0:  # ZeroDivisionError
+            return 999  # Arbitrary; msg_time_delta > 0.05. return "lots"
 
         # (0.3 / 0.25) x 100 = 1.2 x 100 = 120
         #  OR
