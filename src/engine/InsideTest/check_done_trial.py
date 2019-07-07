@@ -116,7 +116,7 @@ def main():
     tempo_str = "ok"
     if check_rhythm:
         # Failed feedback msg could be "[ null, 'rhythm', null, 'accuracy' ] and too fast"
-
+        # TODO: this can never happen: Hit.__init__ checks/raises that
         if not (0 <= allowed_tempo_deviation <= 100):
             entry = logger.log(
                 dict(trial_on_path=trial_on_path, truth_on_path=truth_on_path,
