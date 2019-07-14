@@ -141,7 +141,7 @@ button[class~=inactive-btn]:hover {
   padding-left: 2vw;
 }
 .input-div:hover {
-  background-color: #DDD;
+  background-color: #EEE;
   cursor: text;
 }
 
@@ -266,3 +266,5 @@ select[class~=disabled] {
 .opac1 {
   opacity: 1;
 }
+
+/*# sourceMappingURL=index.css.map */
