@@ -10,6 +10,8 @@ try:
     configfilepath = sys.argv[1]
     root_abs_path = sys.argv[2]
 except IndexError:
+    print(
+        'check_create_config_file.py IndexError when trying to get configfilepath and root_abs_path from sys.argv[1] and [2]')
     configfilepath = r"c:\Sync\Code\Python\Pyano-release\src\experiments\configs\BAD_CONFIG.json"
     root_abs_path = r"c:\Sync\Code\Python\Pyano-release\src"
 
@@ -18,6 +20,8 @@ isfile = os.path.isfile(configfilepath)
 
 is_in_dev = 'gbete' in username
 if not isfile:  # not found
+    print(
+        f'check_create_config_file.py not os.path.isfile(configfilepath), configfilepath = {configfilepath}')
     config = dict(root_abs_path=root_abs_path,
                   dev=is_in_dev,
                   vid_silence_len=0,
@@ -35,7 +39,7 @@ if not isfile:  # not found
                       finished_trials_count=0,
                       current_subject=username,
                       save_path='experiments/configs/pyano_config.test',
-                      ),
+                  ),
                   current_exam=dict(
                       demo_type='animation',
                       errors_playingspeed=0.5,
@@ -46,7 +50,7 @@ if not isfile:  # not found
                       finished_trials_count=0,
                       current_subject=username,
                       save_path='experiments/configs/pyano_config.exam',
-                      )
+                  )
                   )
 
     try:
@@ -58,10 +62,11 @@ if not isfile:  # not found
         prjs(dict(created_ok=False))
 
 else:
+    logger.log_thin('configfound. checking contents...')
+    # print(f'check_create_config_file.py, configfound. checking contents...')
     # config FOUND, now check contents
     with open(configfilepath) as f:
         config = json.load(f)
-
 
     def check_fix_first_level():
         _KEYS = ['root_abs_path',
@@ -77,10 +82,13 @@ else:
                  'current_exam']
         modified = False
         if 'root_abs_path' not in config or config['root_abs_path'] != root_abs_path:
+            logger.log_thin(['modifying root_abs_path', {"config.get('root_abs_path')": config.get('root_abs_path'), 'root_abs_path': root_abs_path}],
+                            title='check_fix_first_level()')
             config['root_abs_path'] = root_abs_path
             modified = True
 
         if 'dev' not in config or config['dev'] != is_in_dev:
+            
             config['dev'] = is_in_dev
             modified = True
 
@@ -123,7 +131,8 @@ else:
             config['subjects'] = [username]
             modified = True
 
-        elif username not in config['subjects']:  # subject key exists and is a list of strings
+        # subject key exists and is a list of strings
+        elif username not in config['subjects']:
             config['subjects'].append(username)
             modified = True
 
@@ -132,7 +141,6 @@ else:
                 modified = True
                 config.pop(key)
         return modified
-
 
     def check_fix_test_dict_levels(levels):
         modified = False
@@ -161,7 +169,6 @@ else:
                     level['tempo'] = None
                     modified = True
         return levels, modified
-
 
     first_level_modified = check_fix_first_level()
 
