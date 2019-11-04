@@ -126,22 +126,37 @@ else:
                     or split[0] != 'experiments'
                     or split[1] != 'truths'
                     or not split[2].endswith('.txt')):
+                logger.log_thin(
+                    ['modifying truth_file_path - in config but bad value',
+                     'setting to experiments/truths/fur_elise_B.txt',
+                     {"config['truth_file_path']": config['truth_file_path']}],
+                    title='check_fix_first_level()')
                 modified = True
                 config['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
 
         if not os.path.isfile(
                 os.path.join(root_abs_path, config['truth_file_path'])):  # truth_file_path key valid at this stage
+            logger.log_thin(
+                ['modifying truth_file_path - not isfile', 'setting to experiments/truths/fur_elise_B.txt',
+                 {"config['truth_file_path']": config['truth_file_path']}],
+                title='check_fix_first_level()')
             modified = True
             config['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
 
         if ('last_page' not in config
-                or config['last_page'] not in ['new_test', 'inside_test',
-                                               'record', 'file_tools', 'settings']):
+                or config['last_page'] not in ['new_test', 'inside_test', 'record', 'file_tools', 'settings']):
+            logger.log_thin(
+                ['modifying last_page', 'setting to new_test', {"config.get('last_page')": config.get('last_page')}],
+                title='check_fix_first_level()')
             config['last_page'] = 'new_test'
             modified = True
 
         if ('vid_silence_len' not in config
                 or config['vid_silence_len'] < 0):
+            logger.log_thin(
+                ['modifying vid_silence_len', 'setting to 0',
+                 {"config.get('vid_silence_len')": config.get('vid_silence_len')}],
+                title='check_fix_first_level()')
             config['vid_silence_len'] = 0
             modified = True
 
@@ -149,16 +164,27 @@ else:
                 or not isinstance(config['subjects'], list)
                 or not all([config['subjects']])
                 or not all((isinstance(s, str) for s in config['subjects']))):
+            logger.log_thin(
+                ['modifying subjects', f'setting to [username] (username = {username})',
+                 {"config.get('subjects')": config.get('subjects')}],
+                title='check_fix_first_level()')
             config['subjects'] = [username]
             modified = True
 
         # subject key exists and is a list of strings
         elif username not in config['subjects']:
+            logger.log_thin(
+                ['modifying subjects', f'appending username ({username}) to config["subjects"]',
+                 {"config.get('subjects')": config.get('subjects')}],
+                title='check_fix_first_level()')
             config['subjects'].append(username)
             modified = True
 
         for key in list(config.keys()):
             if key not in _KEYS:
+                logger.log_thin(
+                    ['found a key thats not in _KEYS. popping.', f'key: {key}, _KEYS: {_KEYS}'],
+                    title='check_fix_first_level()')
                 modified = True
                 config.pop(key)
         return modified
