@@ -5,14 +5,17 @@ Main Explorer menu => view => check both "Hidden items" and "File name extension
 ## Install VSCode
 https://code.visualstudio.com/download
 
-## Install git
-https://gitforwindows.org/
-    
+## git
+### Install
+https://gitforwindows.org/    
 When asked, select "Use viaul studio code as git's default editor"
 
-Otherwise, "next"
-
-## 0. Install nvm
+Otherwise, "next".
+### Set config
+    git config --global user.email "idotavorslab@gmail.com"
+    git config --global user.name "ITLab"
+    
+## Install nvm
 https://github.com/coreybutler/nvm-windows/releases
 
 Check if installed: run
