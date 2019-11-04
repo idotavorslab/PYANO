@@ -39,7 +39,7 @@ if not isfile:  # not found
                       finished_trials_count=0,
                       current_subject=username,
                       save_path='experiments/configs/pyano_config.test',
-                  ),
+                      ),
                   current_exam=dict(
                       demo_type='animation',
                       errors_playingspeed=0.5,
@@ -50,7 +50,7 @@ if not isfile:  # not found
                       finished_trials_count=0,
                       current_subject=username,
                       save_path='experiments/configs/pyano_config.exam',
-                  )
+                      )
                   )
 
     try:
@@ -68,6 +68,7 @@ else:
     with open(configfilepath) as f:
         config = json.load(f)
 
+
     def check_fix_first_level():
         _KEYS = ['root_abs_path',
                  'dev',
@@ -82,21 +83,41 @@ else:
                  'current_exam']
         modified = False
         if 'root_abs_path' not in config or config['root_abs_path'] != root_abs_path:
-            logger.log_thin(['modifying root_abs_path', {"config.get('root_abs_path')": config.get('root_abs_path'), 'root_abs_path': root_abs_path}],
-                            title='check_fix_first_level()')
+            logger.log_thin(
+                [
+                    'modifying root_abs_path',
+                    {"config.get('root_abs_path')": config.get('root_abs_path'),
+                     'root_abs_path':               root_abs_path}
+                    ],
+                title='check_fix_first_level()')
             config['root_abs_path'] = root_abs_path
             modified = True
 
         if 'dev' not in config or config['dev'] != is_in_dev:
-            
+            logger.log_thin(
+                [
+                    'modifying dev',
+                    {"config.get('dev')": config.get('dev'),
+                     'is_in_dev':         is_in_dev}
+                    ],
+                title='check_fix_first_level()')
             config['dev'] = is_in_dev
             modified = True
 
         if 'experiment_type' not in config or config['experiment_type'] not in ['exam', 'test']:
+            logger.log_thin(
+                [
+                    'modifying experiment_type',
+                    {"config.get('experiment_type')": config.get('experiment_type')}
+                    ],
+                title='check_fix_first_level()')
             config['experiment_type'] = 'test'
             modified = True
 
         if 'truth_file_path' not in config:
+            logger.log_thin(
+                ['modifying truth_file_path - not in config', 'setting to experiments/truths/fur_elise_B.txt'],
+                title='check_fix_first_level()')
             modified = True
             config['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
         else:
@@ -142,6 +163,7 @@ else:
                 config.pop(key)
         return modified
 
+
     def check_fix_test_dict_levels(levels):
         modified = False
         if levels is None:
@@ -169,6 +191,7 @@ else:
                     level['tempo'] = None
                     modified = True
         return levels, modified
+
 
     first_level_modified = check_fix_first_level()
 
