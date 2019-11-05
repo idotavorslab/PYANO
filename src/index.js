@@ -43,7 +43,7 @@ try {
 		if (err) {
 			console.log(err);
 		} else {
-			console.log('check_create_config_file.py returned output: ');
+			console.log(`check_create_config_file.py returned output: (typeof output = ${typeof output})`);
 			output.map(console.log);
 		}
 	});
