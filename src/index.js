@@ -97,7 +97,7 @@ const createWindow = () => {
 	// mainWindow.setIcon()
 	// mainWindow.setHasShadow(true);
 
-
+	console.log(`app.getPath('appData'):`, app.getPath('appData'));
 	if (app.getPath('appData').includes("gbete"))
 		mainWindow.webContents.openDevTools();
 
