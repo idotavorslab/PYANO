@@ -1,6 +1,7 @@
+
 const { remote } = require('electron');
 const { EStore } = require("pyano_local_modules/ext_libs");
-
+debugger;
 function maybeToggleNoCursor() {
 	const shouldToggle = EStore.last_page == "inside_test";
 	console.log(`Pressed Alt+C, ${shouldToggle ? '' : 'not '}toggling nocursor`);

@@ -56,7 +56,7 @@ Should see something.
 From within PYANO root folder:
 
     npm install
-    npm install electron-forge -g
+    npm install electron-forge@5.2.4 -g
 
 ## Install Python (3.7.x)
 https://www.python.org/downloads/release/python-375/

@@ -1,7 +1,9 @@
 import { app, BrowserWindow, globalShortcut } from 'electron';
+debugger;
 
-console.log('index.js');
+console.log(`index.js`,process.platform);
 
+debugger;
 const Store = require("electron-store");
 const store = new Store();
 try {
@@ -16,10 +18,14 @@ try {
 }
 
 
-let pyShell = require("python-shell").PythonShell;
-let path = require("path");
+const pyShell = require("python-shell").PythonShell;
+const path = require("path");
 const enginePath = path.join(__dirname, "engine");
-const pyExecPath = path.join(enginePath, "env/Scripts/python.exe");
+const fs = require('fs');
+debugger;
+
+const pyExecPath = path.join(enginePath, process.platform === "linux"?"env/bin/python":"env/Scripts/python.exe");
+
 
 // noinspection JSUnresolvedVariable
 pyShell.defaultOptions = {
@@ -43,7 +49,7 @@ try {
 		if (err) {
 			console.log(err);
 		} else {
-			console.log(`check_create_config_file.py returned output: (typeof output = ${typeof output})`);
+			console.log(`check_create_config_file.py returned output: (output.first_level_modified = ${output.first_level_modified})`);
 			output.map(console.log);
 		}
 	});
@@ -98,7 +104,7 @@ const createWindow = () => {
 	// mainWindow.setHasShadow(true);
 
 	console.log(`app.getPath('appData'):`, app.getPath('appData'));
-	if (app.getPath('appData').includes("gbete"))
+	if (app.getPath('appData').includes("gilad"))
 		mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
