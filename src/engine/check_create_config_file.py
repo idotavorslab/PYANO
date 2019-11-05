@@ -183,7 +183,7 @@ else:
         for key in list(config.keys()):
             if key not in _KEYS:
                 logger.log_thin(
-                    ['found a key thats not in _KEYS. popping.', f'key: {key}, _KEYS: {_KEYS}'],
+                    ['found a key thats not in _KEYS. popping.', dict(key=key, _KEYS=_KEYS)],
                     title='check_fix_first_level()')
                 modified = True
                 config.pop(key)
@@ -197,23 +197,43 @@ else:
         # levels = config[dictname].get('levels')
         for i, level in enumerate(levels):
             if not isinstance(level['notes'], int) or level['notes'] <= 0:
+                logger.log_thin(
+                    [f'notes isnt int or <= 0 in level: {i}', 'defaulting to 4',
+                     {'level.get("notes")': level.get("notes")}],
+                    title='check_fix_test_dict_levels() | levels')
                 levels[i]['notes'] = 4
                 modified = True
 
             if not isinstance(level['trials'], int) or level['trials'] <= 0:
+                logger.log_thin(
+                    [f'trials isnt int or <= 0 in level: {i}', 'defaulting to 2',
+                     {'level.get("trials")': level.get("trials")}],
+                    title='check_fix_test_dict_levels() | levels')
                 levels[i]['trials'] = 2
                 modified = True
 
             if not isinstance(level['rhythm'], bool):
+                logger.log_thin(
+                    [f'rhythm isnt bool', 'setting to False', f'level: {i}',
+                     {'level.get("rhythm")': level.get("rhythm")}],
+                    title='check_fix_test_dict_levels() | levels')
                 levels[i]['rhythm'] = False
                 modified = True
 
             if level['rhythm']:  # rhythm: True
                 if not isinstance(level['tempo'], int) or not 0 < level['tempo'] <= 200:
+                    logger.log_thin(
+                        [f'tempo isnt int or not between 0 and 200', 'defaulting to 50', f'level: {i}',
+                         {'level.get("rhythm")': level.get("rhythm"), 'level.get("tempo")': level.get("tempo")}],
+                        title='check_fix_test_dict_levels() | levels')
                     level['tempo'] = 50
                     modified = True
             else:  # rhythm: False
                 if level['tempo'] is not None:
+                    logger.log_thin(
+                        [f'tempo isnt None, but should be because rhythm is False', 'setting to None', f'level: {i}',
+                         {'level.get("rhythm")': level.get("rhythm"), 'level.get("tempo")': level.get("tempo")}],
+                        title='check_fix_test_dict_levels() | levels')
                     level['tempo'] = None
                     modified = True
         return levels, modified
@@ -243,9 +263,12 @@ else:
             current_exam_modified,
             current_exam_levels_modified)):
         try:
+            logger.log_thin(['config was modified, overwriting to:', dict(config=config)],
+                            title='END OF FILE')
             with open(configfilepath, mode="w") as f:
                 # modify config file
                 json.dump(config, f, indent=4)
+
             prjs(dict(fixed_ok=True))
         except:
             prjs(dict(fixed_ok=False))
