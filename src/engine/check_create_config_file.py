@@ -62,7 +62,6 @@ if not isfile:  # not found
         prjs(dict(created_ok=False))
 
 else:
-    logger.log_thin('configfound. checking contents...')
     # print(f'check_create_config_file.py, configfound. checking contents...')
     # config FOUND, now check contents
     with open(configfilepath) as f:
@@ -272,7 +271,8 @@ else:
             prjs(dict(fixed_ok=True))
         except:
             prjs(dict(fixed_ok=False))
-
+    else:
+        logger.log_thin('END of file, nothing was modified')
     prjs(dict(first_level_modified=first_level_modified,
               current_test_modified=current_test_modified,
               current_test_levels_modified=current_test_levels_modified,
