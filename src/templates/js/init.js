@@ -1,11 +1,11 @@
 
 const { remote } = require('electron');
 const { EStore } = require("pyano_local_modules/ext_libs");
-debugger;
+
 function maybeToggleNoCursor() {
 	const shouldToggle = EStore.last_page == "inside_test";
 	console.log(`Pressed Alt+C, ${shouldToggle ? '' : 'not '}toggling nocursor`);
-	if (shouldToggle)
+	if(shouldToggle)
 		document.getElementById('main_content').classList.toggle('nocursor');
 }
 
@@ -53,14 +53,14 @@ const last_page = EStore.last_page;
 console.log('init.js', { last_page });
 Pages.toPage(last_page, false);
 document.getElementById('exit_btn')
-        .addEventListener('click', async () => {
-	        let { value: shouldExit } = await Alert.big.warning({
-		        title: 'Are you sure you want to exit?',
-		        confirmButtonColor: '#dc3545',
-		        animation: false
-	        });
-	        if (shouldExit)
-		        getCurrentWindow().close();
-        });
+	.addEventListener('click', async () => {
+		let { value: shouldExit } = await Alert.big.warning({
+			title: 'Are you sure you want to exit?',
+			confirmButtonColor: '#dc3545',
+			animation: false
+		});
+		if(shouldExit)
+			getCurrentWindow().close();
+	});
 document.getElementById('minimize_btn')
-        .addEventListener('click', () => getCurrentWindow().minimize());
+	.addEventListener('click', () => getCurrentWindow().minimize());
