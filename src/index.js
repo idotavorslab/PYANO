@@ -1,19 +1,18 @@
 import { app, BrowserWindow, globalShortcut } from 'electron';
-debugger;
 
-console.log(`index.js`,process.platform);
+console.log(`index.js. process.platform: ${process.platform}. __dirname: ${__dirname}`);
 
-debugger;
 const Store = require("electron-store");
 const store = new Store();
 try {
 	console.log('trying to get last page from store');
 	let last_page = store.get('last_page');
-	if (last_page == 'inside_test') {
+	console.log('last_page: ', last_page);
+	if(last_page == 'inside_test') {
 		console.log('last page is inside_test, changing to new_test');
 		store.set('last_page', 'new_test');
 	}
-} catch (e) {
+} catch(e) {
 	console.log(`FAILED getting last page from store`, e);
 }
 
@@ -21,11 +20,11 @@ try {
 const pyShell = require("python-shell").PythonShell;
 const path = require("path");
 const enginePath = path.join(__dirname, "engine");
+
 const fs = require('fs');
-debugger;
 
-const pyExecPath = path.join(enginePath, process.platform === "linux"?"env/bin/python":"env/Scripts/python.exe");
-
+const pyExecPath = path.join(enginePath, process.platform === "linux" ? "env/bin/python" : "env/Scripts/python.exe");
+console.log(`enginePath: ${enginePath}. pyExecPath: ${pyExecPath}`)
 
 // noinspection JSUnresolvedVariable
 pyShell.defaultOptions = {
@@ -37,7 +36,7 @@ pyShell.run("check_create_experiments_folder_structure.py", {
 	mode: "text",
 	args: [__dirname]
 }, (err, output) => {
-	if (err) throw err;
+	if(err) throw err;
 });
 
 const configfilepath = path.join(app.getPath('appData'), 'Electron', 'config.json');
@@ -46,15 +45,15 @@ try {
 		mode: "json",
 		args: [configfilepath, __dirname]
 	}, (err, output) => {
-		if (err) {
+		if(err) {
 			console.log(err);
 		} else {
 			console.log(`check_create_config_file.py returned output: (output.first_level_modified = ${output.first_level_modified})`);
 			output.map(console.log);
 		}
 	});
-} catch (e) {
-	console.log('ERROR!!!', e);
+} catch(e) {
+	console.error('Error running check_create_config_file:', e);
 }
 
 /*pyShell.run("check_create_local_modules_symlink.py", {
@@ -66,7 +65,7 @@ try {
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
+if(require('electron-squirrel-startup')) { // eslint-disable-line global-require
 	app.quit();
 }
 // Keep a global reference of the window object, if you don't, the window will
@@ -104,7 +103,7 @@ const createWindow = () => {
 	// mainWindow.setHasShadow(true);
 
 	console.log(`app.getPath('appData'):`, app.getPath('appData'));
-	if (app.getPath('appData').includes("gilad"))
+	if(app.getPath('appData').includes("gilad"))
 		mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
@@ -155,7 +154,7 @@ app.on('ready', () => {
 app.on('window-all-closed', () => {
 	// On OS X it is common for applications and their menu bar
 	// to stay active until the user quits explicitly with Cmd + Q
-	if (process.platform !== 'darwin') {
+	if(process.platform !== 'darwin') {
 		app.quit();
 	}
 });
@@ -164,7 +163,7 @@ app.on('activate', () => {
 	// On OS X it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
 	console.log('app ACTIVATE');
-	if (mainWindow === null) {
+	if(mainWindow === null) {
 		createWindow();
 	}
 });
