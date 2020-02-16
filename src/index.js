@@ -1,6 +1,9 @@
-import { app, BrowserWindow, globalShortcut } from 'electron';
-
-console.log(`index.js. process.platform: ${process.platform}. __dirname: ${__dirname}`);
+//import { app, BrowserWindow } from 'electron';
+const app = require('electron').app;
+const BrowserWindow = require('electron').BrowserWindow;
+console.log(`index.js. process.platform: ${process.platform}. 
+__dirname: ${__dirname}
+process.argv: ${process.argv.join(", ")}`);
 
 const Store = require("electron-store");
 const store = new Store();

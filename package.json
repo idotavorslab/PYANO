@@ -5,7 +5,7 @@
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
       "electronPackagerConfig": {
-        "packageManager": "yarn"
+        "packageManager": "npm"
       },
       "electronWinstallerConfig": {
         "name": "pyano-release"

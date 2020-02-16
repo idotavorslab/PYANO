@@ -89,7 +89,6 @@
 /**
  @typedef playMidiFileOptions
  @prop {Animation?} animation
- @prop {Array<string|null>?} mistakes
  @prop {number?} numOfNotes
  @prop {number?} playbackRate
  @prop {Piano} animationPiano
