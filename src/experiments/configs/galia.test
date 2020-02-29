@@ -1,0 +1,24 @@
+{
+	"demo_type": "animation",
+	"errors_playrate": 1,
+	"levels": [
+		{
+			"notes": 4,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 100
+		},
+		{
+			"notes": 11,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 100
+		}
+	],
+	"finished_trials_count": 0,
+	"subject": "galia",
+	"allowed_rhythm_deviation": "30%",
+	"allowed_tempo_deviation": "10%",
+	"truth_file": "galia",
+	"name": "galia.test"
+}

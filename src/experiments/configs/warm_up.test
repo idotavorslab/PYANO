@@ -1,0 +1,36 @@
+{
+	"truth_file": "warm_up",
+	"demo_type": "animation",
+	"errors_playrate": 1,
+	"levels": [
+		{
+			"notes": 3,
+			"trials": 1,
+			"rhythm": false,
+			"tempo": null
+		},
+		{
+			"notes": 6,
+			"trials": 1,
+			"rhythm": false,
+			"tempo": null
+		},
+		{
+			"notes": 9,
+			"trials": 1,
+			"rhythm": false,
+			"tempo": null
+		},
+		{
+			"notes": 12,
+			"trials": 1,
+			"rhythm": false,
+			"tempo": null
+		}
+	],
+	"finished_trials_count": 0,
+	"subject": "eilon_tabachnik",
+	"allowed_rhythm_deviation": "30%",
+	"allowed_tempo_deviation": "10%",
+	"name": "warm_up.test"
+}

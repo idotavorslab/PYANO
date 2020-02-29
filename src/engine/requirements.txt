@@ -2,8 +2,6 @@ audioread==2.1.6
 decorator==4.3.2
 joblib==0.13.2
 librosa==0.6.3
-# Editable install with no version control (pyano==1.0)
--e "C:\PYANO\src\engine"
 pymediainfo==3.1
 resampy==0.2.1
 six==1.12.0
