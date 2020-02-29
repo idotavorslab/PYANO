@@ -1,12 +1,12 @@
 node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron .
 
 # Important: Always run terminal as Administrator (right click a program's icon -> run as admin)
-You can also right click cmd icon -> Properties -> Shortcut -> Advanced -> Run As Administrator.
+You can also tick the following checkbox: right click cmd icon -> Properties -> Shortcut -> Advanced -> Run As Administrator.
 
 # Pyano Installation
 
 ## Enable viewing hidden files on Windows Explorer
-Main Explorer menu => view => check both "Hidden items" and "File name extensions"
+Main Explorer menu -> view -> check both "Hidden items" and "File name extensions"
 
 ## Install VSCode
 https://code.visualstudio.com/download
