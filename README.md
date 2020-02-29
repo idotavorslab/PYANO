@@ -69,6 +69,8 @@ From within PYANO root folder:
 	# npm install typescript -g
 	npm install sweetalert2@8.2.6 -E
 	npm install jquery@3.3.1 -E
+	npm install midiconvert@0.4.7 -E
+	npm install @tonejs/midi@1.2.0 -E
 	npm install tone@13.7.4 -E
     npm install --save-exact
 This may take awhile. Then run:
