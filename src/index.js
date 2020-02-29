@@ -62,12 +62,15 @@ try {
 } catch (e) {
     console.error('Error running check_create_config_file:', e);
 }
-pyShell.run("check_create_experiments_folder_structure.py", {
-    mode: "text",
-    args: [rootPath]
-}, (err, output) => {
-    if (err) throw err;
-});
+
+for (let d of ['configs', 'subjects', 'truths']) {
+    let subdir = path.join(rootPath, 'experiments', d);
+    if (!fs.existsSync(subdir)) {
+        fs.mkdirSync(subdir);
+        console.warn(`created subdir: ${subdir}`)
+    }
+
+}
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
