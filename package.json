@@ -1,5 +1,5 @@
 {
-  "author": "gbete",
+  "author": "Gilad Barnea",
   "config": {
     "forge": {
       "electronInstallerDebian": {},
@@ -8,7 +8,7 @@
         "packageManager": "npm"
       },
       "electronWinstallerConfig": {
-        "name": "pyano-release"
+        "name": "pyano"
       },
       "github_repository": {
         "name": "",
@@ -27,7 +27,7 @@
         ]
       },
       "windowsStoreConfig": {
-        "name": "pyano-release",
+        "name": "pyano",
         "packageName": ""
       }
     }
@@ -49,22 +49,25 @@
     "tone": "13.7.4",
     "webmidi": "2.3.2"
   },
-  "devDependencies": {
-    "electron-forge": "5.2.4",
-    "electron-prebuilt-compile": "4.0.0"
-  },
   "description": "My Electron application description",
   "keywords": [],
   "license": "MIT",
   "main": "src/index.js",
-  "name": "pyano-release",
-  "productName": "pyano-release",
+  "name": "pyano",
+  "productName": "pyano",
   "scripts": {
-    "lint": "eslint src --color",
-    "make": "electron-forge make",
-    "package": "electron-forge package",
-    "publish": "electron-forge publish",
-    "start": "electron-forge start"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron . --remote-debugging-port=9222",
+    "debug": "electron . --remote-debugging-port=9222 debug",
+    "dry": "electron . --remote-debugging-port=9222 dry-run",
+    "debug-dry": "electron . --remote-debugging-port=9222 debug dry-run",
+    "via-node": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222",
+    "via-node-debug": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 debug",
+    "via-node-dry": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 dry-run",
+    "via-node-debug-dry": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 debug dry-run",
+    "via-node-debug-dry-nopython": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 debug dry-run no-python",
+    "via-node-debug-nopython": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 debug no-python",
+    "via-node-nopython": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 no-python"
   },
   "version": "1.0.0"
 }
