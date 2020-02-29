@@ -43,7 +43,7 @@ Should see
 Check if installed correctly:
     
     nvm list    
-Should display `* 13.5.0 (Currently using 64-bit executable)`
+Should display `13.5.0`
 
 ## 2. Clone Pyano
     cd C:\
