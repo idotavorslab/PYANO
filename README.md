@@ -36,11 +36,11 @@ Should see
 
 ## 1. Install node.js
 
-    nvm install 12.13.0
+    nvm install 13.5.0
 Check if installed correctly:
     
     nvm list    
-Should display `* 12.13.0 (Currently using 64-bit executable)`
+Should display `* 13.5.0 (Currently using 64-bit executable)`
 
 ## 2. Clone Pyano
     cd C:\
@@ -50,16 +50,16 @@ Should display `* 12.13.0 (Currently using 64-bit executable)`
 ## 3. Set local node version
 From within `PYANO` root folder (that's `C:\PYANO`)
     
-    nvm use 12.13.0
-Should see `Now using node v12.13.0 (64-bit)`.
+    nvm use 13.5.0
+Should see `Now using node v13.5.0 (64-bit)`.
 
 Check versions:
 
     node -v
-Should see `v12.13.0`.
+Should see `v13.5.0`.
 
     npm -v
-Should see `6.12.0`.
+Should see `6.13.4`.
 
 ## Install Pyano
 From within PYANO root folder:
