@@ -49,6 +49,7 @@ Should display `* 13.5.0 (Currently using 64-bit executable)`
     cd C:\
     git clone https://github.com/idotavorslab/PYANO.git
     cd PYANO
+This will take a while because of the piano samples (lots of audio files).
 
 ## 3. Set local node version
 From within `PYANO` root folder (that's `C:\PYANO`)
@@ -76,7 +77,7 @@ From within PYANO root folder:
 	npm install @tonejs/midi@1.2.0 -E
 	npm install tone@13.7.4 -E
     npm install --save-exact
-This may take awhile. Then run:
+This may take a while. Then run:
 
     git checkout node_modules/pyano_local_modules
 
