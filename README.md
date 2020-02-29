@@ -149,8 +149,9 @@ Result:
 	npm start
 
 # Troubleshooting
-1. Press Win+R, input `%APPDATA%` then press `enter`.
+1. Press `Win+R`, input `%APPDATA%` then press enter.
 2. goto electron ??
 3. open `config.json`
 4. set `"dev": true`
 5. save and exit
+6. launch pyano
