@@ -71,12 +71,6 @@ Should see `6.13.4`.
 ## Install Pyano
 From within PYANO root folder:
 
-    npm install electron@4.0.0 -E
-	npm install sweetalert2@8.2.6 -E
-	npm install jquery@3.3.1 -E
-	npm install midiconvert@0.4.7 -E
-	npm install @tonejs/midi@1.2.0 -E
-	npm install tone@13.7.4 -E
     npm install --save-exact
 This may take a while. Then run:
 
@@ -149,9 +143,12 @@ Result:
 	npm start
 
 # Troubleshooting
+If Pyano seems stuck on launch, or loads only partially, quit Pyano and:
 1. Press `Win+R`, input `%APPDATA%` then press enter.
-2. goto electron ??
+2. Navigate to `Roaming/Electron`
 3. open `config.json`
 4. set `"dev": true`
 5. save and exit
 6. launch pyano
+
+This will open DevTools along which will make debugging possible.
