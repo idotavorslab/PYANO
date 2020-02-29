@@ -112,7 +112,7 @@ const createWindow = () => {
     // mainWindow.setHasShadow(true);
 
 
-    if (app.getPath('userData').includes("gilad")) {
+    if (app.getPath('userData').includes("gilad") || store.get('dev')) {
         mainWindow.webContents.openDevTools();
     }
 

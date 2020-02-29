@@ -91,7 +91,7 @@ else:
             config['root_abs_path'] = root_abs_path
             modified = True
         
-        if 'dev' not in config or config['dev'] != is_in_dev:
+        if 'dev' not in config:
             logger.log_thin(
                     [
                         'modifying dev',

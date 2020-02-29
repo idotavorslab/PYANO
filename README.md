@@ -28,6 +28,7 @@ From terminal:
     
 ## Install nvm
 https://github.com/coreybutler/nvm-windows/releases
+![](./nvm.jpg)
 Extract then install.
 
 Check if installed: run
@@ -146,6 +147,6 @@ Result:
 # Running Pyano
     cd C:\PYANO
 	npm start
-**You may get an ugly error, that's ok**. Close errors, close Pyano window, run `npm start` again.
+
 
 

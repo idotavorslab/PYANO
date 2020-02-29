@@ -1,2 +1,2 @@
 cd c:\pyano
-npm start
+.\node_modules\.bin\electron .
