@@ -1,0 +1,126 @@
+{
+	"truth_file": "experiments/truths/fur_elise_B",
+	"demo_type": "video",
+	"errors_playrate": 1,
+	"levels": [
+		{
+			"notes": 10,
+			"trials": 3,
+			"rhythm": false,
+			"tempo": null
+		},
+		{
+			"notes": 10,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 60
+		},
+		{
+			"notes": 10,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 80
+		},
+		{
+			"notes": 15,
+			"trials": 3,
+			"rhythm": false,
+			"tempo": null
+		},
+		{
+			"notes": 15,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 60
+		},
+		{
+			"notes": 15,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 80
+		},
+		{
+			"notes": 20,
+			"trials": 3,
+			"rhythm": false,
+			"tempo": null
+		},
+		{
+			"notes": 20,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 60
+		},
+		{
+			"notes": 20,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 80
+		},
+		{
+			"notes": 31,
+			"trials": 3,
+			"rhythm": false,
+			"tempo": null
+		},
+		{
+			"notes": 31,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 60
+		},
+		{
+			"notes": 31,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 80
+		},
+		{
+			"notes": 36,
+			"trials": 3,
+			"rhythm": false,
+			"tempo": null
+		},
+		{
+			"notes": 36,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 60
+		},
+		{
+			"notes": 36,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 80
+		},
+		{
+			"notes": 41,
+			"trials": 3,
+			"rhythm": false,
+			"tempo": null
+		},
+		{
+			"notes": 41,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 60
+		},
+		{
+			"notes": 41,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 80
+		},
+		{
+			"notes": 41,
+			"trials": 3,
+			"rhythm": true,
+			"tempo": 100
+		}
+	],
+	"finished_trials_count": 0,
+	"subject": "anna_rovner",
+	"allowed_rhythm_deviation": "30%",
+	"allowed_tempo_deviation": "10%",
+	"name": "fur_elise_b_1.test"
+}

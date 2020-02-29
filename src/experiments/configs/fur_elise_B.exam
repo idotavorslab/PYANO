@@ -1,0 +1,30 @@
+{
+	"allowed_rhythm_deviation": "30%",
+	"allowed_tempo_deviation": "10%",
+	"demo_type": "animation",
+	"errors_playrate": 1,
+	"finished_trials_count": 0,
+	"name": "fur_elise_B.exam",
+	"subject": "someone",
+	"truth_file": "fur_elise_B",
+	"levels": [
+	{
+			"notes": 10,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 120
+		},
+		{
+			"notes": 61,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 120
+		},
+		{
+			"notes": 61,
+			"trials": 2,
+			"rhythm": true,
+			"tempo": 140
+		}
+	]
+}

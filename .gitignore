@@ -1,6 +1,6 @@
 misc/truths-20190320T165552Z-001/*
 misc/17032019recordings/*
-src/experiments/
+src/experiments/subjects
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -794,8 +794,6 @@ node_modules/zip-stream
 *.mp4
 *.MOV
 *.mp4
-*.mid
-*.txt
 node_modules/pyano_local_modules/pages/InsideTest/Gui - New.js
 node_modules/pyano_local_modules/util/__Log__
 misc/feedback msgs flowchart.md
