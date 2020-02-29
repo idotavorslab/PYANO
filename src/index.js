@@ -7,6 +7,7 @@ process.argv: ${process.argv.join(", ")}`);
 
 const Store = require("electron-store");
 const store = new Store();
+console.log('store.path: ', store.path);
 try {
 	console.log('trying to get last page from store');
 	let last_page = store.get('last_page');

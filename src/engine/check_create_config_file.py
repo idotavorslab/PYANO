@@ -12,13 +12,15 @@ try:
 except IndexError:
     print(
         'check_create_config_file.py IndexError when trying to get configfilepath and root_abs_path from sys.argv[1] and [2]')
-    configfilepath = r"c:\Sync\Code\Python\Pyano-release\src\experiments\configs\BAD_CONFIG.json"
-    root_abs_path = r"c:\Sync\Code\Python\Pyano-release\src"
+    configfilepath = r"C:\PYANO\src\experiments\configs\BAD_CONFIG.json"
+    root_abs_path = r"C:\PYANO\src"
 
 username = os.getlogin()
 isfile = os.path.isfile(configfilepath)
-
-is_in_dev = 'gbete' in username
+print(f'\ncheck_create_config_file.py\n', f'configfilepath: {configfilepath}',
+      f'root_abs_path: {root_abs_path}', f'username: {username}', f'isfile: {isfile}',
+      sep='\n')
+is_in_dev = 'gbete' in username or 'gilad' in username
 if not isfile:  # not found
     print(
         f'check_create_config_file.py not os.path.isfile(configfilepath), configfilepath = {configfilepath}')
@@ -39,7 +41,7 @@ if not isfile:  # not found
                       finished_trials_count=0,
                       current_subject=username,
                       save_path='experiments/configs/pyano_config.test',
-                      ),
+                  ),
                   current_exam=dict(
                       demo_type='animation',
                       errors_playingspeed=0.5,
@@ -50,23 +52,20 @@ if not isfile:  # not found
                       finished_trials_count=0,
                       current_subject=username,
                       save_path='experiments/configs/pyano_config.exam',
-                      )
+                  )
                   )
 
-    try:
-        with open(configfilepath, mode="w") as f:
-            # create config file
-            json.dump(config, f)
-        prjs(dict(created_ok=True))
-    except:
-        prjs(dict(created_ok=False))
+    with open(configfilepath, mode="w") as f:
+        # create config file
+        json.dump(config, f)
+    prjs(dict(created_ok=True))
+
 
 else:
     # print(f'check_create_config_file.py, configfound. checking contents...')
     # config FOUND, now check contents
     with open(configfilepath) as f:
         config = json.load(f)
-
 
     def check_fix_first_level():
         _KEYS = ['root_abs_path',
@@ -87,7 +86,7 @@ else:
                     'modifying root_abs_path',
                     {"config.get('root_abs_path')": config.get('root_abs_path'),
                      'root_abs_path':               root_abs_path}
-                    ],
+                ],
                 title='check_fix_first_level()')
             config['root_abs_path'] = root_abs_path
             modified = True
@@ -98,7 +97,7 @@ else:
                     'modifying dev',
                     {"config.get('dev')": config.get('dev'),
                      'is_in_dev':         is_in_dev}
-                    ],
+                ],
                 title='check_fix_first_level()')
             config['dev'] = is_in_dev
             modified = True
@@ -107,15 +106,17 @@ else:
             logger.log_thin(
                 [
                     'modifying experiment_type',
-                    {"config.get('experiment_type')": config.get('experiment_type')}
-                    ],
+                    {"config.get('experiment_type')": config.get(
+                        'experiment_type')}
+                ],
                 title='check_fix_first_level()')
             config['experiment_type'] = 'test'
             modified = True
 
         if 'truth_file_path' not in config:
             logger.log_thin(
-                ['modifying truth_file_path - not in config', 'setting to experiments/truths/fur_elise_B.txt'],
+                ['modifying truth_file_path - not in config',
+                    'setting to experiments/truths/fur_elise_B.txt'],
                 title='check_fix_first_level()')
             modified = True
             config['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
@@ -145,7 +146,8 @@ else:
         if ('last_page' not in config
                 or config['last_page'] not in ['new_test', 'inside_test', 'record', 'file_tools', 'settings']):
             logger.log_thin(
-                ['modifying last_page', 'setting to new_test', {"config.get('last_page')": config.get('last_page')}],
+                ['modifying last_page', 'setting to new_test', {
+                    "config.get('last_page')": config.get('last_page')}],
                 title='check_fix_first_level()')
             config['last_page'] = 'new_test'
             modified = True
@@ -182,12 +184,12 @@ else:
         for key in list(config.keys()):
             if key not in _KEYS:
                 logger.log_thin(
-                    ['found a key thats not in _KEYS. popping.', dict(key=key, _KEYS=_KEYS)],
+                    ['found a key thats not in _KEYS. popping.',
+                        dict(key=key, _KEYS=_KEYS)],
                     title='check_fix_first_level()')
                 modified = True
                 config.pop(key)
         return modified
-
 
     def check_fix_test_dict_levels(levels):
         modified = False
@@ -237,7 +239,6 @@ else:
                     modified = True
         return levels, modified
 
-
     first_level_modified = check_fix_first_level()
 
     # assume first level ok
@@ -261,16 +262,15 @@ else:
             current_test_levels_modified,
             current_exam_modified,
             current_exam_levels_modified)):
-        try:
-            logger.log_thin(['config was modified, overwriting to:', dict(config=config)],
-                            title='END OF FILE')
-            with open(configfilepath, mode="w") as f:
-                # modify config file
-                json.dump(config, f, indent=4)
 
-            prjs(dict(fixed_ok=True))
-        except:
-            prjs(dict(fixed_ok=False))
+        logger.log_thin(['config was modified, overwriting to:', dict(config=config)],
+                        title='END OF FILE')
+        with open(configfilepath, mode="w") as f:
+            # modify config file
+            json.dump(config, f, indent=4)
+
+        prjs(dict(fixed_ok=True))
+
     else:
         logger.log_thin('END of file, nothing was modified')
     prjs(dict(first_level_modified=first_level_modified,
