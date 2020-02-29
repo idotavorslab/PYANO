@@ -14,7 +14,7 @@ Check all checkboxes during installation
 ## git
 ### Install
 https://gitforwindows.org/    
-When asked, select "Use visaul studio code as git's default editor".
+When asked, select "Use visual studio code as git's default editor".
 Otherwise, just press "next".
 
 ### Set config
