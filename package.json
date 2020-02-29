@@ -13,7 +13,7 @@
     "electron-debug": "2.1.0",
     "electron-squirrel-startup": "1.0.0",
     "electron-store": "2.0.0",
-    "jquery": "3.3.1",
+    "jquery": "3.4.0",
     "midiconvert": "0.4.7",
     "path": "0.12.7",
     "python-shell": "1.0.7",
