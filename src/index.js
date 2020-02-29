@@ -1,15 +1,16 @@
-//import { app, BrowserWindow } from 'electron';
 const app = require('electron').app;
 const BrowserWindow = require('electron').BrowserWindow;
 const path = require('path');
 const fs = require('fs');
 console.log(`index.js. process.platform: ${process.platform} 
 __dirname: ${__dirname}
-process.argv: ${process.argv.join(", ")}`);
+process.argv: ${process.argv.join(", ")}
+`);
 
 const Store = require("electron-store");
 const store = new Store();
 console.log('store.path: ', store.path);
+console.log(`app.getPath('userData'):`, app.getPath('userData'));
 if (fs.existsSync(store.path)) {
     console.log('trying to get last page from store');
     let last_page = store.get('last_page');
@@ -24,11 +25,16 @@ if (fs.existsSync(store.path)) {
 
 
 const pyShell = require("python-shell").PythonShell;
-const enginePath = path.join(__dirname, "engine");
+const rootPath = __dirname.endsWith('src') ? __dirname : path.join(__dirname, '..');
+const enginePath = path.join(rootPath, "engine");
 
 
-const pyExecPath = path.join(enginePath, process.platform.includes('win') ? "env/Scripts/python.exe" : "env/bin/python");
-console.log(`enginePath: ${enginePath}. pyExecPath: ${pyExecPath}`);
+const pyExecPath = path.join(enginePath, process.platform == 'darwin' ? "env/bin/python" : "env/Scripts/python.exe");
+console.log(`
+rootPath: ${rootPath}
+enginePath: ${enginePath}
+pyExecPath: ${pyExecPath}
+`);
 
 // noinspection JSUnresolvedVariable
 pyShell.defaultOptions = {
@@ -36,18 +42,14 @@ pyShell.defaultOptions = {
     scriptPath: enginePath,
 };
 
-pyShell.run("check_create_experiments_folder_structure.py", {
-    mode: "text",
-    args: [__dirname]
-}, (err, output) => {
-    if (err) throw err;
-});
 
-const configfilepath = path.join(app.getPath('userData'), 'Electron', 'config.json');
+const configfilepath = path.join(app.getPath('userData'), 'config.json');
+let pythonDone = false;
 try {
+    console.log(`running check_create_config_file.py, configfilepath: ${configfilepath}`);
     pyShell.run("check_create_config_file.py", {
         mode: "json",
-        args: [configfilepath, __dirname]
+        args: [configfilepath, rootPath]
     }, (err, output) => {
         if (err) {
             console.log(err);
@@ -55,17 +57,17 @@ try {
             console.log(`check_create_config_file.py returned output: (output.first_level_modified = ${output.first_level_modified})`);
             output.map(console.log);
         }
+        pythonDone = true;
     });
 } catch (e) {
     console.error('Error running check_create_config_file:', e);
 }
-
-/*pyShell.run("check_create_local_modules_symlink.py", {
-	args: [__dirname]
+pyShell.run("check_create_experiments_folder_structure.py", {
+    mode: "text",
+    args: [rootPath]
 }, (err, output) => {
-	if (err) throw err;
+    if (err) throw err;
 });
-*/
 
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -95,7 +97,7 @@ const createWindow = () => {
 
     // mainWindow.setMaximumSize(1919, 1080);
     // and load the index.html of the app.
-    mainWindow.loadURL(`file://${__dirname}/index.html`);
+    mainWindow.loadURL(`file://${rootPath}/index.html`);
     mainWindow.setResizable(true);
     mainWindow.setMenu(null);
     mainWindow.setBackgroundColor('#181818');
@@ -106,7 +108,7 @@ const createWindow = () => {
     // mainWindow.setIcon()
     // mainWindow.setHasShadow(true);
 
-    console.log(`app.getPath('userData'):`, app.getPath('userData'));
+
     if (app.getPath('userData').includes("gilad")) {
         mainWindow.webContents.openDevTools();
     }
@@ -150,7 +152,7 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-    console.log('app READY');
+    console.log(`app READY, pythonDone: ${pythonDone}`);
     createWindow();
 });
 
