@@ -1,6 +1,8 @@
 //import { app, BrowserWindow } from 'electron';
 const app = require('electron').app;
 const BrowserWindow = require('electron').BrowserWindow;
+const path = require('path');
+const fs = require('fs');
 console.log(`index.js. process.platform: ${process.platform}. 
 __dirname: ${__dirname}
 process.argv: ${process.argv.join(", ")}`);
@@ -8,6 +10,9 @@ process.argv: ${process.argv.join(", ")}`);
 const Store = require("electron-store");
 const store = new Store();
 console.log('store.path: ', store.path);
+if(!fs.existsSync(store.path)) {
+	console.error('store.path not exists!: ', store.path)
+}
 try {
 	console.log('trying to get last page from store');
 	let last_page = store.get('last_page');
@@ -43,7 +48,7 @@ pyShell.run("check_create_experiments_folder_structure.py", {
 	if(err) throw err;
 });
 
-const configfilepath = path.join(app.getPath('appData'), 'Electron', 'config.json');
+const configfilepath = path.join(app.getPath('userData'), 'Electron', 'config.json');
 try {
 	pyShell.run("check_create_config_file.py", {
 		mode: "json",
@@ -106,8 +111,8 @@ const createWindow = () => {
 	// mainWindow.setIcon()
 	// mainWindow.setHasShadow(true);
 
-	console.log(`app.getPath('appData'):`, app.getPath('appData'));
-	if(app.getPath('appData').includes("gilad"))
+	console.log(`app.getPath('userData'):`, app.getPath('userData'));
+	if(app.getPath('userData').includes("gilad"))
 		mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.

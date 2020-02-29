@@ -6,21 +6,21 @@ from util import Logger, prjs
 from utils import check_fix_config_data
 
 logger = Logger('check_create_config_file')
-try:
-    configfilepath = sys.argv[1]
-    root_abs_path = sys.argv[2]
-except IndexError:
-    print(
-        'check_create_config_file.py IndexError when trying to get configfilepath and root_abs_path from sys.argv[1] and [2]')
-    configfilepath = r"C:\PYANO\src\experiments\configs\BAD_CONFIG.json"
-    root_abs_path = r"C:\PYANO\src"
+
+configfilepath = sys.argv[1]
+root_abs_path = sys.argv[2]
+
 
 username = os.getlogin()
 isfile = os.path.isfile(configfilepath)
-print(f'\ncheck_create_config_file.py\n', f'configfilepath: {configfilepath}',
-      f'root_abs_path: {root_abs_path}', f'username: {username}', f'isfile: {isfile}',
-      sep='\n')
 is_in_dev = 'gbete' in username or 'gilad' in username
+prjs(dict(configfilepath=configfilepath,
+          root_abs_path=root_abs_path,
+          username=username,
+          isfile=isfile,
+          is_in_dev=is_in_dev))
+
+
 if not isfile:  # not found
     print(
         f'check_create_config_file.py not os.path.isfile(configfilepath), configfilepath = {configfilepath}')
