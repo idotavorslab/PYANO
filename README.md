@@ -25,6 +25,7 @@ From terminal:
     
 ## Install nvm
 https://github.com/coreybutler/nvm-windows/releases
+Extract then install.
 
 Check if installed: run
     
