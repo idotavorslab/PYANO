@@ -28,7 +28,7 @@
   "productName": "pyano",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": ".\\node_modules\\.bin\\electron .",
+    "start": "./node_modules/.bin/electron .",
     "debug": "electron . --remote-debugging-port=9222 debug",
     "dry": "electron . --remote-debugging-port=9222 dry-run",
     "debug-dry": "electron . --remote-debugging-port=9222 debug dry-run",
