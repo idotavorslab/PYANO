@@ -9,13 +9,14 @@ Main Explorer menu => view => check both "Hidden items" and "File name extension
 
 ## Install VSCode
 https://code.visualstudio.com/download
+Check all checkboxes during installation
 
 ## git
 ### Install
 https://gitforwindows.org/    
-When asked, select "Use viaul studio code as git's default editor"
+When asked, select "Use visaul studio code as git's default editor".
+Otherwise, just press "next".
 
-Otherwise, "next".
 ### Set config
 From terminal:
     
