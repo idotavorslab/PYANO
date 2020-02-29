@@ -67,10 +67,9 @@ From within PYANO root folder:
     # npm install electron-forge@5.2.4 -g
     # npm install electron-prebuilt-compile@4.0.0 -g
 	# npm install typescript -g
-	# npm install sweetalert2@8.2.6 -E
-	# npm install jquery@3.3.1 -E
-	# npm install tone@13.7.4 -E
-    # npm install --save-exact
+	npm install sweetalert2@8.2.6 -E
+	npm install jquery@3.3.1 -E
+	npm install tone@13.7.4 -E
     npm install --save-exact
 This may take awhile. Then run:
 

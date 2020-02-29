@@ -1,36 +1,7 @@
 {
   "author": "Gilad Barnea",
-  "config": {
-    "forge": {
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "electronPackagerConfig": {
-        "packageManager": "npm"
-      },
-      "electronWinstallerConfig": {
-        "name": "pyano"
-      },
-      "github_repository": {
-        "name": "",
-        "owner": ""
-      },
-      "make_targets": {
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ],
-        "win32": [
-          "squirrel"
-        ]
-      },
-      "windowsStoreConfig": {
-        "name": "pyano",
-        "packageName": ""
-      }
-    }
+  "repository": {
+    "url": "https://github.com/idotavorslab/PYANO"
   },
   "dependencies": {
     "@tonejs/midi": "1.2.0",
