@@ -100,17 +100,6 @@ Should see: `virtualenv 20.0.4 from c:\program files\python37\lib\site-packages\
 (Or something similar)
 
 ## Install the correct Pyano's python virtual environment
-### Check requirements.txt
-From within `PYANO` root folder,
-    
-    code .
-This will launch VSCode on `PYANO`'s dir.
-
-Go to `src\engine`, and edit `requirements.txt`. A line that starts with `-e` should have the correct path. Assuming you installed `PYANO` in `C:\PYANO`, then the `-e` line should be:
-    
-    -e "C:\PYANO\src\engine"
-
-
 ### Create virtualenv
 With you terminal, `cd` into `C:\PYANO\src\engine`, and run:
     
@@ -124,9 +113,14 @@ Check if ok:
 Should only see `pip`, `setuptools`, and `wheel`. Also, your shell may be starting with `(env)` now (that's good).
 
 ## Install requirements
+### 1st step
     pip install -r requirements.txt
 May take a while, get yourself a coffe. Once done:
 
+### 2nd step
+    pip install -e .
+   
+### Now check:
     pip list
 Should see a longer list of packages, including `pyano`, with `c:\pyano\src\engine` under `Location` column.
 
