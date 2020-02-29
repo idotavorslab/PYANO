@@ -1,5 +1,3 @@
-node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron .
-
 # Important: Always run terminal as Administrator (right click a program's icon -> run as admin)
 ![](./admin.jpg)
 
