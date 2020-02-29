@@ -1,4 +1,23 @@
 {
+    "demo_type": "animation",
+    "errors_playingspeed": 1,
+    "allowed_rhythm_deviation": "40%",
+    "allowed_tempo_deviation": "10%",
+    "levels": [
+        {
+            "notes": 4,
+            "trials": 1,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 4,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 50
+        }
+    ],
     "finished_trials_count": 0,
-    "current_subject": null
+    "current_subject": "gilad",
+    "truth_file_path": "experiments/truths/fur_elise_B.txt"
 }
