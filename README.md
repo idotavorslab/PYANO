@@ -73,6 +73,7 @@ From within PYANO root folder:
 This may take a while. Then run:
 
     git checkout node_modules/pyano_local_modules
+Should see `Updated <around 40> paths from the index`
 
 ## Install Python (3.7.6)
 https://www.python.org/downloads/release/python-376/
