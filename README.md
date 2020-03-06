@@ -95,13 +95,17 @@ To exit press `Ctrl+Z` then `Enter`.
 Check if installed correctly:
     
     virtualenv --version
-Should see: `virtualenv <whatver> from c:\program files\python37\lib\site-packages\virtualenv\__init__.py`
+Should see: 
+    
+    virtualenv <whatver> from c:\program files\python37\lib\site-packages\virtualenv\__init__.py
 (Or something similar)
 
 ## Install Pyano's python virtual environment
 ### Create virtualenv
     cd C:\PYANO\src\engine
     virtualenv env
+Should see something like:
+![](./venv.jpg)
 Then, run
 
     env\scripts\activate
