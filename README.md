@@ -141,12 +141,24 @@ Result:
 	npm start
 
 # Troubleshooting
-If Pyano seems stuck on launch, or loads only partially, quit Pyano and:
-1. Press `Win+R`, input `%APPDATA%` then press enter.
-2. Navigate to `Roaming/Electron`
-3. open `config.json`
-4. set `"dev": true`
-5. save and exit
-6. launch pyano
+If Pyano seems stuck on launch, or loads only partially, quit Pyano.
 
-This will open DevTools along which will make debugging possible.
+## Check for missing files
+In a new terminal, go to `C:\PYANO` and run:
+
+    git status
+If it looks like this:
+![](./git-status.png)
+run 
+
+    git checkout node_modules/pyano_local_modules
+then run `git status` again to check if the `deleted` files are back.
+
+*Note*: don't worry about other files being `modified` or even `deleted`, especially config files or subject data. Just things under `node_modules` are important. 
+## Check terminal
+![](./terminal-startup.png)
+
+## Change to dev mode
+Open DevTools via `Ctrl+Y` (if nothing happens, try alt-tabbing out and back in once to Pyano, then try `Ctrl+Y` again).
+
+Shouldn't see any reds.
