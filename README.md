@@ -73,6 +73,7 @@ From within PYANO root folder:
 This may take a while. Then run:
 
     git checkout node_modules/pyano_local_modules
+Should see `Updated <around 40> paths from the index`
 
 ## Install Python (3.7.6)
 https://www.python.org/downloads/release/python-376/
@@ -94,13 +95,17 @@ To exit press `Ctrl+Z` then `Enter`.
 Check if installed correctly:
     
     virtualenv --version
-Should see: `virtualenv <whatver> from c:\program files\python37\lib\site-packages\virtualenv\__init__.py`
+Should see: 
+    
+    virtualenv <whatver> from c:\program files\python37\lib\site-packages\virtualenv\__init__.py
 (Or something similar)
 
 ## Install Pyano's python virtual environment
 ### Create virtualenv
     cd C:\PYANO\src\engine
     virtualenv env
+Should see something like:
+![](./venv.jpg)
 Then, run
 
     env\scripts\activate
