@@ -18,6 +18,6 @@
         }
     ],
     "finished_trials_count": 0,
-    "current_subject": null,
+    "current_subject": "hi",
     "truth_file_path": "experiments/truths/fur_elise_B.txt"
 }
