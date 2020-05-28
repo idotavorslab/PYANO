@@ -296,7 +296,7 @@ Object.defineProperty(Error.prototype, "toObj", {
     }
 });
 // *** functions
-const {Alert} = require('pyano_local_modules/util/Alert');
+// const {Alert} = require('pyano_local_modules/util/Alert');
 const Path = require("path");
 const $ = require("jquery");
 
