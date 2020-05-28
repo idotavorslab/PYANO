@@ -29,7 +29,7 @@ const rootPath = __dirname.endsWith('src') ? __dirname : path.join(__dirname, '.
 const enginePath = path.join(rootPath, "engine");
 
 
-const pyExecPath = path.join(enginePath, process.platform == 'darwin' ? "env/bin/python" : "env/Scripts/python.exe");
+const pyExecPath = path.join(enginePath, process.platform === 'win32' ? "env/Scripts/python.exe" : "env/bin/python");
 console.log(`
 rootPath: ${rootPath}
 enginePath: ${enginePath}
@@ -73,10 +73,6 @@ for (let d of ['configs', 'subjects', 'truths']) {
 }
 
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
-    app.quit();
-}
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
