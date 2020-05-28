@@ -51,6 +51,7 @@ pyShell.defaultOptions = {
     scriptPath: enginePath,
 };
 const configfilepath = path.join(remote.app.getPath('userData'), 'config.json');
+let pythonDone = false;
 try {
     console.log(`running check_create_config_file.py, configfilepath: ${configfilepath}`);
     pyShell.run("check_create_config_file.py", {
