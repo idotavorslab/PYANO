@@ -1,19 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta content="default-src 'self'; script-src 'self'" http-equiv="Content-Security-Policy">
-    <meta content="default-src 'self'; script-src 'self'" http-equiv="X-Content-Security-Policy">
-    <title>Hello World!</title>
+    <meta charset="utf-8">
+    <title>Pyano</title>
+    <link href="src/animate.min.css" rel="stylesheet">
+    <link href="src/templates/css/index.css" rel="stylesheet">
+    <link href="src/templates/css/new_test.css" id="page_css" rel="stylesheet">
+    <script defer src="src/templates/js/types.js"></script>
+    <script defer src="src/templates/js/init.js"></script>
 </head>
 <body>
-<h1>Hello World!</h1>
-We are using Node.js <span id="node-version"></span>,
-Chromium <span id="chrome-version"></span>,
-and Electron <span id="electron-version"></span>.
+<div id="nav_btns_container">
+    <button id="minimize_btn"></button>
+    <button id="exit_btn"></button>
+</div>
+<div id="title"></div>
+<div id="sidebar"></div>
+<div id="main_content"></div>
 
-<!-- You can also require other files to run in this process -->
+
 <script src="./renderer.js"></script>
+<script src="./src/jquery.js"></script>
 </body>
 </html>
