@@ -49,8 +49,7 @@ export function build() {
 
     }
 
-    $Sidebar
-        .append($sidebarItems);
+    $Sidebar.append($sidebarItems);
 }
 
 

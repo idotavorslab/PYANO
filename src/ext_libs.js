@@ -1,11 +1,12 @@
-const MyStore = require("./mystore.js");
+console.group(`ext_libs.js`);
+import {MyStore} from "./mystore.js";
 
-const Path = require('path');
+const path = require('path');
 /**@type {MyStore}*/
 const EStore = new MyStore();
 const Python = require("python-shell").PythonShell;
-const enginePath = Path.join(EStore.get('root_abs_path'), "engine");
-const pyExecPath = Path.join(enginePath, "env/Scripts/python.exe");
+const enginePath = path.join(EStore.get('root_abs_path'), "engine");
+const pyExecPath = path.join(enginePath, "env/Scripts/python.exe");
 Python.defaultOptions = {
     pythonPath: pyExecPath,
     scriptPath: enginePath,
@@ -23,6 +24,8 @@ Python.runAsync =
             }));
 
 /**
- * @type {{Path: module:path, EStore: MyStore, Python: PythonShell}}
+ * @type {{path: module:path, EStore: MyStore, Python: PythonShell}}
  */
-module.exports = {EStore, Path, Python};
+module.exports = {EStore, Python};
+console.log('ext_libs.js EOF');
+console.groupEnd();

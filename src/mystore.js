@@ -1,14 +1,15 @@
 const Store = require('electron-store');
-const Path = require("path");
+const path = require("path");
 const fs = require('fs');
 
 /**@class*/
-class MyStore extends Store {
+export class MyStore extends Store {
 
     constructor(_doTruthFileCheck = true) {
         super();
-        if (_doTruthFileCheck)
+        if (_doTruthFileCheck) {
             this._doTruthFileCheck();
+        }
 
 
     }
@@ -39,8 +40,9 @@ class MyStore extends Store {
     /**@param {TLastPage} page*/
     set last_page(page) {
         const validpages = ['new_test', 'inside_test', 'record', 'file_tools', 'settings'];
-        if (!page.in(validpages))
+        if (!page.in(validpages)) {
             throw new Error(`setLastPage(page = ${page}), must be one of ${validpages.join(', ')}`);
+        }
 
         this.set('last_page', page);
     }
@@ -52,8 +54,9 @@ class MyStore extends Store {
 
     /**@param {TExperimentType} experimentType*/
     set experiment_type(experimentType) {
-        if (experimentType != 'test' && experimentType != 'exam')
+        if (experimentType != 'test' && experimentType != 'exam') {
             throw new Error(`MyStore experiment_type setter, got experimentType: '${experimentType}'. Must be either 'test' or 'exam'`);
+        }
         this.set('experiment_type', experimentType);
         // this._updateSavedFile('experiment_type', experimentType);
 
@@ -74,8 +77,9 @@ class MyStore extends Store {
         this.set('subjects', subjects);
         const config = this.config();
         const currentSubject = config.current_subject;
-        if (currentSubject && !currentSubject.in(subjects))
+        if (currentSubject && !currentSubject.in(subjects)) {
             config.current_subject = null;
+        }
     }
 
     // /**@return {string}*/
@@ -119,11 +123,12 @@ class MyStore extends Store {
                 } else {
                     const txtFilesList = this.truthFilesList('txt').map(fsx.remove_ext);
                     const filteredTxts = txtFilesList.filter(a => txtFilesList.filter(txt => txt.startsWith(a)).length >= 3);
-                    if (!bool(filteredTxts))
+                    if (!bool(filteredTxts)) {
                         return await Alert.big.warning({
                             title: 'No valid truth files found',
                             html: 'There needs to be at least one txt file with 2 "on" and "off" counterparts.'
                         });
+                    }
 
 
                     await Alert.big.blocking({
@@ -136,7 +141,7 @@ class MyStore extends Store {
                                 const config = this.config();
                                 config.finished_trials_count = 0;
                                 config.levels = [];
-                                this.truth_file_path = new Truth(Path.join(this.truthsDirPath(), $s.text()));
+                                this.truth_file_path = new Truth(path.join(this.truthsDirPath(), $s.text()));
                                 reloadPage();
                             } catch (err) {
                                 document.getElementById('swal2-title').innerText = err.message;
@@ -156,8 +161,8 @@ class MyStore extends Store {
      * @param {TExperimentType} experimentType*/
     fromSavedConfig(savedConfig, experimentType) {
         const truthsDirPath = this.truthsDirPath();
-        const truthFileName = Path.basename(savedConfig.truth_file_path, '.txt');
-        this.truth_file_path = new Truth(Path.join(truthsDirPath, truthFileName));
+        const truthFileName = path.basename(savedConfig.truth_file_path, '.txt');
+        this.truth_file_path = new Truth(path.join(truthsDirPath, truthFileName));
         this.experiment_type = experimentType;
         this.config().fromSavedConfig(savedConfig);
     }
@@ -165,10 +170,11 @@ class MyStore extends Store {
     /**@param {TExperimentType?} type
      * @return {Config}*/
     config(type = undefined) {
-        if (type)
+        if (type) {
             return new Config(type);
-        else
+        } else {
             return new Config(this.experiment_type);
+        }
     }
 
     /**@example
@@ -191,63 +197,69 @@ class MyStore extends Store {
     increase(K) {
         let V = this.get(K);
 
-        if (V === undefined)
+        if (V === undefined) {
             this.set(K, 1);
-        else if (!isNaN(Math.floor(V)))
-            this.set(K, int(V) + 1);
-        else
-            throw new TypeError("MyStore tried to increase a value that is not a number or string");
+        } else {
+            if (!isNaN(Math.floor(V))) {
+                this.set(K, int(V) + 1);
+            } else {
+                throw new TypeError("MyStore tried to increase a value that is not a number or string");
+            }
+        }
 
     }
 
     /**@return {Truth}*/
     truth() {
         const truthsDirPath = this.truthsDirPath();
-        const truthFileName = Path.basename(this.truth_file_path, '.txt');
-        return new Truth(Path.join(truthsDirPath, truthFileName));
+        const truthFileName = path.basename(this.truth_file_path, '.txt');
+        return new Truth(path.join(truthsDirPath, truthFileName));
     }
 
     /**@return {string}*/
     configsPath() {
-        return Path.join(this.root_abs_path, 'experiments', 'configs');
+        return path.join(this.root_abs_path, 'experiments', 'configs');
     }
 
     /**"C:\Sync\Code\Python\Pyano\pyano_01\src\experiments\truths"
      @return {string}*/
     truthsDirPath() {
-        return Path.join(this.root_abs_path, 'experiments', 'truths');
+        return path.join(this.root_abs_path, 'experiments', 'truths');
     }
 
     /**@param {String?} extFilter
      @return {string[]} truthFiles*/
     truthFilesList(extFilter = null) {
-        if (extFilter != null)
-            if (!extFilter.in(['txt', 'mid', 'mp4']))
+        if (extFilter != null) {
+            if (!extFilter.in(['txt', 'mid', 'mp4'])) {
                 throw new Error(`truthFilesList(extFilter = ${extFilter}), must be either ['txt','mid','mp4'] or not at all`);
+            }
+        }
 
         const truthsDirPath = this.truthsDirPath();
 
         let truthFiles = [...new Set(fs.readdirSync(truthsDirPath))];
-        if (extFilter != null)
-            return truthFiles.filter(f => Path.extname(f) == `.${extFilter}`);
+        if (extFilter != null) {
+            return truthFiles.filter(f => path.extname(f) == `.${extFilter}`);
+        }
         return truthFiles;
     }
 
     /** "C:\Sync\Code\Python\Pyano\pyano_01\src\experiments\subjects"
      @return {string} */
     subjectsDirPath() {
-        return Path.join(this.root_abs_path, 'experiments', 'subjects');
+        return path.join(this.root_abs_path, 'experiments', 'subjects');
     }
 
     salamanderDirPath() {
-        return Path.join(this.root_abs_path, 'templates', 'Salamander/');
+        return path.join(this.root_abs_path, 'templates', 'Salamander/');
     }
 
 
 }
 
 /**@class*/
-class Config extends MyStore {
+export class Config extends MyStore {
     /**@param {TExperimentType} type*/
     constructor(type) {
         super(false);
@@ -274,10 +286,12 @@ class Config extends MyStore {
 
     /**@param {string} deviation*/
     set allowed_tempo_deviation(deviation) {
-        if (typeof deviation != 'string')
+        if (typeof deviation != 'string') {
             throw new TypeError(`config set allowed_tempo_deviation, received "deviation" not of type string. deviation: ${deviation}`);
-        if (!deviation.endsWith("%"))
+        }
+        if (!deviation.endsWith("%")) {
             throw new Error(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
+        }
         this._set('allowed_tempo_deviation', deviation);
     }
 
@@ -288,10 +302,12 @@ class Config extends MyStore {
 
     /**@param {string} deviation*/
     set allowed_rhythm_deviation(deviation) {
-        if (typeof deviation != 'string')
+        if (typeof deviation != 'string') {
             throw new TypeError(`config set allowed_rhythm_deviation, received "deviation" not of type string. deviation: ${deviation}`);
-        if (!deviation.endsWith("%"))
+        }
+        if (!deviation.endsWith("%")) {
             throw new Error(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
+        }
         this._set('allowed_rhythm_deviation', deviation);
     }
 
@@ -306,7 +322,9 @@ class Config extends MyStore {
         this._set('current_subject', name);
         if (name)
             // super.set('subjects', [...new Set([...super.get('subjects'), name])]);
+        {
             super.subjects = [...super.get('subjects'), name];
+        }
     }
 
     /**@return {number} */
@@ -316,8 +334,9 @@ class Config extends MyStore {
 
     /**@param {number} speed*/
     set errors_playingspeed(speed) {
-        if (isNaN(speed))
+        if (isNaN(speed)) {
             throw new TypeError(`config set errors_playingspeed, received bad "speed" NaN: ${speed}`);
+        }
         this._set('errors_playingspeed', speed);
 
     }
@@ -339,8 +358,9 @@ class Config extends MyStore {
 
     /**@param {TDemoType} type*/
     set demo_type(type) {
-        if (!type.in(['video', 'animation']))
+        if (!type.in(['video', 'animation'])) {
             throw new Error(`Config demo_type setter, bad type = ${type}, can be either video or animation`);
+        }
         return this._set('demo_type', type);
     }
 
@@ -361,8 +381,9 @@ class Config extends MyStore {
 
     /**@param {TLevel[]} levels*/
     set levels(levels) {
-        if (!Array.isArray(levels))
+        if (!Array.isArray(levels)) {
             throw new Error(`config.set levels, received "levels" not isArray. levels: ${levels}`);
+        }
         this._set('levels', levels);
     }
 
@@ -396,8 +417,8 @@ class Config extends MyStore {
      * @param value*/
     _updateSavedFile(key, value) {
         const conf = new (require('conf'))({
-            cwd: Path.dirname(Path.join(super.root_abs_path, this.save_path)),
-            configName: fsx.remove_ext(Path.basename(this.save_path)),
+            cwd: path.dirname(path.join(super.root_abs_path, this.save_path)),
+            configName: fsx.remove_ext(path.basename(this.save_path)),
             fileExtension: this.type,
             serialize: value => JSON.stringify(value, null, 4)
         });
@@ -415,12 +436,14 @@ class Config extends MyStore {
     _set(key, value) {
         const type = typeof key;
         if (type === 'string') {
-            if (!key.in(Config._KEYS))
+            if (!key.in(Config._KEYS)) {
                 throw new Error(`Config(${this.type})._set: "keyOrObj" is string, not in this._KEYS. keyOrObj: ${key}`);
+            }
             const superkey = `current_${this.type}.${key}`;
             super.set(superkey, value);
-            if (key != "save_path")
+            if (key != "save_path") {
                 this._updateSavedFile(key, value);
+            }
             return;
         }
 
@@ -435,8 +458,9 @@ class Config extends MyStore {
 
             let trialSumSoFar = sum(flatTrialsList.slice(0, levelIndex + 1));
             const finishedTrialsCount = this.finished_trials_count;
-            if (trialSumSoFar > finishedTrialsCount)
+            if (trialSumSoFar > finishedTrialsCount) {
                 return [levelIndex, trialsNum - (trialSumSoFar - finishedTrialsCount)];
+            }
         }
         throw "currentTrialCoords: out of index error";
     }
@@ -451,7 +475,7 @@ class Config extends MyStore {
     }
 
     getSubjectDirNames() {
-        return require("fs").readdirSync(Path.join(super.get('root_abs_path'), 'experiments', 'subjects'));
+        return require("fs").readdirSync(path.join(super.get('root_abs_path'), 'experiments', 'subjects'));
     }
 
     /**@return {Level}*/
@@ -472,21 +496,18 @@ class Config extends MyStore {
      @return {Truth}*/
     trialTruth() {
         let [level_index, trial_index] = this.currentTrialCoords();
-        // return new Truth(Path.join(this.testOutPath(), `level_${level_index}_trial_${trial_index}`));
-        return new Truth(Path.join(this.testOutPath(), `level_${level_index}_trial_${trial_index}`));
+        // return new Truth(path.join(this.testOutPath(), `level_${level_index}_trial_${trial_index}`));
+        return new Truth(path.join(this.testOutPath(), `level_${level_index}_trial_${trial_index}`));
     }
 
     /**"c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\gilad\fur_elise"
      @return {string}*/
     testOutPath() {
-        const currSubjectDir = Path.join(super.subjectsDirPath(), this.current_subject); // ".../subjects/gilad"
-        return Path.join(currSubjectDir, this.truth().name);
+        const currSubjectDir = path.join(super.subjectsDirPath(), this.current_subject); // ".../subjects/gilad"
+        return path.join(currSubjectDir, this.truth().name);
     }
 
 
 }
 
-/**
- * @type {MyStore}
- */
-module.exports = MyStore;
+

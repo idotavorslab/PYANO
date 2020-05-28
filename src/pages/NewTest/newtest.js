@@ -1,6 +1,8 @@
 // ** pages/NewTest/newtest.js
 
-const {EStore} = require("pyano_local_modules/ext_libs");
+import * as EXTLIBS from "./../../ext_libs.js"
+
+const {EStore} = EXTLIBS;
 const {safeSwitchCss, $MainContent, $Sidebar} = require("pyano_local_modules/document");
 const Gui = require("./Gui");
 const {SubjectPart, LevelsPart, SettingsPart} = require("./Parts/parts");
