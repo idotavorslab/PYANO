@@ -1,4 +1,4 @@
-const MyStore = require("./store");
+const MyStore = require("./mystore.js");
 
 const Path = require('path');
 /**@type {MyStore}*/

@@ -1,6 +1,6 @@
 // ** sidebar/index.js
 import {span} from "./util.js"
-import * as Pages from "./pages/index.js"
+import * as Pages from "./pages/pages.js"
 import {$Sidebar, $Title} from "./index.js";
 
 // const Pages = require("pyano_local_modules/pages/pages");

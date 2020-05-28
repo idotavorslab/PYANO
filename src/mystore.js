@@ -13,6 +13,99 @@ class MyStore extends Store {
 
     }
 
+    /**@return {string}*/
+    get truth_file_path() {
+        return this.get('truth_file_path');
+    }
+
+    /**@param {Truth} truth*/
+    set truth_file_path(truth) {
+        truth.txt.allExist()
+            .then(exist => {
+                if (exist) {
+                    this.set(`truth_file_path`, `experiments/truths/${truth.txt.base.name}`);
+
+                } else {
+                    throw new Error(`Not all txt files of truth exist: ${truth.txt.base.name}`);
+                }
+            });
+    }
+
+    /**@return {TLastPage}*/
+    get last_page() {
+        return this.get('last_page');
+    }
+
+    /**@param {TLastPage} page*/
+    set last_page(page) {
+        const validpages = ['new_test', 'inside_test', 'record', 'file_tools', 'settings'];
+        if (!page.in(validpages))
+            throw new Error(`setLastPage(page = ${page}), must be one of ${validpages.join(', ')}`);
+
+        this.set('last_page', page);
+    }
+
+    /**@return {TExperimentType}*/
+    get experiment_type() {
+        return this.get('experiment_type');
+    }
+
+    /**@param {TExperimentType} experimentType*/
+    set experiment_type(experimentType) {
+        if (experimentType != 'test' && experimentType != 'exam')
+            throw new Error(`MyStore experiment_type setter, got experimentType: '${experimentType}'. Must be either 'test' or 'exam'`);
+        this.set('experiment_type', experimentType);
+        // this._updateSavedFile('experiment_type', experimentType);
+
+
+    }
+
+    /**@return {string}*/
+    get root_abs_path() {
+        let root_abs_path = this.get('root_abs_path');
+        console.log('root_abs_path:', root_abs_path);
+        return root_abs_path;
+    }
+
+    /**@param {string[]} subjectList*/
+    set subjects(subjectList) {
+        const subjects = [...new Set(subjectList)];
+        console.log('💾 set subjects:', subjects);
+        this.set('subjects', subjects);
+        const config = this.config();
+        const currentSubject = config.current_subject;
+        if (currentSubject && !currentSubject.in(subjects))
+            config.current_subject = null;
+    }
+
+    // /**@return {string}*/
+    // get save_path() {
+    // 	return this.get('save_path');
+    // }
+    //
+    // /**@param {string} savePath*/
+    // set save_path(savePath) {
+    // 	this.set('save_path', savePath);
+    // }
+
+    /**
+     * @return {{
+     * skip_whole_truth: (function(): boolean),
+     * skip_level_intro: (function(): boolean),
+     * skip_failed_trial_feedback: (function(): boolean),
+     * skip_passed_trial_feedback: (function(): boolean)
+     * toObj}
+     * }
+     */
+    get dev() {
+        const _dev = this.get('dev');
+        return {
+            skip_whole_truth: () => _dev && this.get('devoptions.skip_whole_truth'),
+            skip_level_intro: () => _dev && this.get('devoptions.skip_level_intro'),
+            skip_passed_trial_feedback: () => _dev && this.get('devoptions.skip_passed_trial_feedback'),
+            skip_failed_trial_feedback: () => _dev && this.get('devoptions.skip_failed_trial_feedback'),
+        };
+    }
 
     /**@private*/
     _doTruthFileCheck() {
@@ -78,7 +171,6 @@ class MyStore extends Store {
             return new Config(this.experiment_type);
     }
 
-
     /**@example
      update('subjects', [names])
      @param {string} K
@@ -115,83 +207,6 @@ class MyStore extends Store {
         return new Truth(Path.join(truthsDirPath, truthFileName));
     }
 
-    /**@param {Truth} truth*/
-    set truth_file_path(truth) {
-        truth.txt.allExist()
-            .then(exist => {
-                if (exist) {
-                    this.set(`truth_file_path`, `experiments/truths/${truth.txt.base.name}`);
-
-                } else {
-                    throw new Error(`Not all txt files of truth exist: ${truth.txt.base.name}`);
-                }
-            });
-    }
-
-    /**@return {string}*/
-    get truth_file_path() {
-        return this.get('truth_file_path');
-    }
-
-    // /**@return {string}*/
-    // get save_path() {
-    // 	return this.get('save_path');
-    // }
-    //
-    // /**@param {string} savePath*/
-    // set save_path(savePath) {
-    // 	this.set('save_path', savePath);
-    // }
-
-    /**@return {TLastPage}*/
-    get last_page() {
-        return this.get('last_page');
-    }
-
-    /**@param {TLastPage} page*/
-    set last_page(page) {
-        const validpages = ['new_test', 'inside_test', 'record', 'file_tools', 'settings'];
-        if (!page.in(validpages))
-            throw new Error(`setLastPage(page = ${page}), must be one of ${validpages.join(', ')}`);
-
-        this.set('last_page', page);
-    }
-
-
-    /**@return {TExperimentType}*/
-    get experiment_type() {
-        return this.get('experiment_type');
-    }
-
-    /**@param {TExperimentType} experimentType*/
-    set experiment_type(experimentType) {
-        if (experimentType != 'test' && experimentType != 'exam')
-            throw new Error(`MyStore experiment_type setter, got experimentType: '${experimentType}'. Must be either 'test' or 'exam'`);
-        this.set('experiment_type', experimentType);
-        // this._updateSavedFile('experiment_type', experimentType);
-
-
-    }
-
-
-    /**@return {string}*/
-    get root_abs_path() {
-        let root_abs_path = this.get('root_abs_path');
-        console.log('root_abs_path:', root_abs_path);
-        return root_abs_path;
-    }
-
-    /**@param {string[]} subjectList*/
-    set subjects(subjectList) {
-        const subjects = [...new Set(subjectList)];
-        console.log('💾 set subjects:', subjects);
-        this.set('subjects', subjects);
-        const config = this.config();
-        const currentSubject = config.current_subject;
-        if (currentSubject && !currentSubject.in(subjects))
-            config.current_subject = null;
-    }
-
     /**@return {string}*/
     configsPath() {
         return Path.join(this.root_abs_path, 'experiments', 'configs');
@@ -218,36 +233,14 @@ class MyStore extends Store {
         return truthFiles;
     }
 
-
     /** "C:\Sync\Code\Python\Pyano\pyano_01\src\experiments\subjects"
      @return {string} */
     subjectsDirPath() {
         return Path.join(this.root_abs_path, 'experiments', 'subjects');
     }
 
-
     salamanderDirPath() {
         return Path.join(this.root_abs_path, 'templates', 'Salamander/');
-    }
-
-
-    /**
-     * @return {{
-     * skip_whole_truth: (function(): boolean),
-     * skip_level_intro: (function(): boolean),
-     * skip_failed_trial_feedback: (function(): boolean),
-     * skip_passed_trial_feedback: (function(): boolean)
-     * toObj}
-     * }
-     */
-    get dev() {
-        const _dev = this.get('dev');
-        return {
-            skip_whole_truth: () => _dev && this.get('devoptions.skip_whole_truth'),
-            skip_level_intro: () => _dev && this.get('devoptions.skip_level_intro'),
-            skip_passed_trial_feedback: () => _dev && this.get('devoptions.skip_passed_trial_feedback'),
-            skip_failed_trial_feedback: () => _dev && this.get('devoptions.skip_failed_trial_feedback'),
-        };
     }
 
 
@@ -274,6 +267,104 @@ class Config extends MyStore {
             'save_path'];
     }
 
+    /**@return {string} */
+    get allowed_tempo_deviation() {
+        return this._get('allowed_tempo_deviation');
+    }
+
+    /**@param {string} deviation*/
+    set allowed_tempo_deviation(deviation) {
+        if (typeof deviation != 'string')
+            throw new TypeError(`config set allowed_tempo_deviation, received "deviation" not of type string. deviation: ${deviation}`);
+        if (!deviation.endsWith("%"))
+            throw new Error(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
+        this._set('allowed_tempo_deviation', deviation);
+    }
+
+    /**@return {string} */
+    get allowed_rhythm_deviation() {
+        return this._get('allowed_rhythm_deviation');
+    }
+
+    /**@param {string} deviation*/
+    set allowed_rhythm_deviation(deviation) {
+        if (typeof deviation != 'string')
+            throw new TypeError(`config set allowed_rhythm_deviation, received "deviation" not of type string. deviation: ${deviation}`);
+        if (!deviation.endsWith("%"))
+            throw new Error(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
+        this._set('allowed_rhythm_deviation', deviation);
+    }
+
+    /**@return {string} */
+    get current_subject() {
+        return this._get('current_subject');
+    }
+
+    /**@param {string|null} name*/
+    set current_subject(name) {
+        console.log('💾 set current_subject(', name, ')');
+        this._set('current_subject', name);
+        if (name)
+            // super.set('subjects', [...new Set([...super.get('subjects'), name])]);
+            super.subjects = [...super.get('subjects'), name];
+    }
+
+    /**@return {number} */
+    get errors_playingspeed() {
+        return this._get('errors_playingspeed');
+    }
+
+    /**@param {number} speed*/
+    set errors_playingspeed(speed) {
+        if (isNaN(speed))
+            throw new TypeError(`config set errors_playingspeed, received bad "speed" NaN: ${speed}`);
+        this._set('errors_playingspeed', speed);
+
+    }
+
+    /**@return {string}*/
+    get save_path() {
+        return this._get('save_path');
+    }
+
+    /**@param {string} savePath*/
+    set save_path(savePath) {
+        return this._set('save_path', savePath);
+    }
+
+    /**@return {TDemoType}*/
+    get demo_type() {
+        return this._get('demo_type');
+    }
+
+    /**@param {TDemoType} type*/
+    set demo_type(type) {
+        if (!type.in(['video', 'animation']))
+            throw new Error(`Config demo_type setter, bad type = ${type}, can be either video or animation`);
+        return this._set('demo_type', type);
+    }
+
+    /**@return {number} */
+    get finished_trials_count() {
+        return this._get('finished_trials_count');
+    }
+
+    /**@param {number} count*/
+    set finished_trials_count(count) {
+        this._set('finished_trials_count', count);
+    }
+
+    /**@return {TLevel[]}*/
+    get levels() {
+        return this._get('levels');
+    }
+
+    /**@param {TLevel[]} levels*/
+    set levels(levels) {
+        if (!Array.isArray(levels))
+            throw new Error(`config.set levels, received "levels" not isArray. levels: ${levels}`);
+        this._set('levels', levels);
+    }
 
     /** @return {TSavedConfig}*/
     toTSavedConfig() {
@@ -335,108 +426,6 @@ class Config extends MyStore {
 
         throw new TypeError(`Config(${this.type})._set: arg "keyOrObj" is not string. type: ${type}. keyOrObj: ${key}`);
     }
-
-    /**@return {string} */
-    get allowed_tempo_deviation() {
-        return this._get('allowed_tempo_deviation');
-    }
-
-    /**@param {string} deviation*/
-    set allowed_tempo_deviation(deviation) {
-        if (typeof deviation != 'string')
-            throw new TypeError(`config set allowed_tempo_deviation, received "deviation" not of type string. deviation: ${deviation}`);
-        if (!deviation.endsWith("%"))
-            throw new Error(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
-        this._set('allowed_tempo_deviation', deviation);
-    }
-
-    /**@return {string} */
-    get allowed_rhythm_deviation() {
-        return this._get('allowed_rhythm_deviation');
-    }
-
-    /**@param {string} deviation*/
-    set allowed_rhythm_deviation(deviation) {
-        if (typeof deviation != 'string')
-            throw new TypeError(`config set allowed_rhythm_deviation, received "deviation" not of type string. deviation: ${deviation}`);
-        if (!deviation.endsWith("%"))
-            throw new Error(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
-        this._set('allowed_rhythm_deviation', deviation);
-    }
-
-
-    /**@return {string} */
-    get current_subject() {
-        return this._get('current_subject');
-    }
-
-    /**@param {string|null} name*/
-    set current_subject(name) {
-        console.log('💾 set current_subject(', name, ')');
-        this._set('current_subject', name);
-        if (name)
-        // super.set('subjects', [...new Set([...super.get('subjects'), name])]);
-            super.subjects = [...super.get('subjects'), name];
-    }
-
-
-    /**@return {number} */
-    get errors_playingspeed() {
-        return this._get('errors_playingspeed');
-    }
-
-    /**@param {number} speed*/
-    set errors_playingspeed(speed) {
-        if (isNaN(speed))
-            throw new TypeError(`config set errors_playingspeed, received bad "speed" NaN: ${speed}`);
-        this._set('errors_playingspeed', speed);
-
-    }
-
-    /**@return {string}*/
-    get save_path() {
-        return this._get('save_path');
-    }
-
-    /**@param {string} savePath*/
-    set save_path(savePath) {
-        return this._set('save_path', savePath);
-    }
-
-    /**@return {TDemoType}*/
-    get demo_type() {
-        return this._get('demo_type');
-    }
-
-    /**@param {TDemoType} type*/
-    set demo_type(type) {
-        if (!type.in(['video', 'animation']))
-            throw new Error(`Config demo_type setter, bad type = ${type}, can be either video or animation`);
-        return this._set('demo_type', type);
-    }
-
-    /**@return {number} */
-    get finished_trials_count() {
-        return this._get('finished_trials_count');
-    }
-
-    /**@param {number} count*/
-    set finished_trials_count(count) {
-        this._set('finished_trials_count', count);
-    }
-
-    /**@return {TLevel[]}*/
-    get levels() {
-        return this._get('levels');
-    }
-
-    /**@param {TLevel[]} levels*/
-    set levels(levels) {
-        if (!Array.isArray(levels))
-            throw new Error(`config.set levels, received "levels" not isArray. levels: ${levels}`);
-        this._set('levels', levels);
-    }
-
 
     /**@return {number[]}*/
     currentTrialCoords() {
