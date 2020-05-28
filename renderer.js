@@ -998,4 +998,5 @@ class Levels {
     }
 }
 
+console.log('renderer.js EOF');
 console.groupEnd();
