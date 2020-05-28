@@ -1,7 +1,7 @@
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
 
-function createWindow() {
+async function createWindow() {
     // Create the browser window.
     const win = new BrowserWindow({
         width: 800,
@@ -10,14 +10,19 @@ function createWindow() {
             nodeIntegration: true,
             preload: path.join(__dirname, 'preload.js'),
             experimentalFeatures: true,
+            enableRemoteModule: true,
+            allowRunningInsecureContent: true,
+            autoplayPolicy: "no-user-gesture-required",
+
 
         },
         backgroundColor: '#181818'
+
     });
 
     // and load the index.html of the app.
-    win.loadFile('index.html');
-
+    await win.loadFile('index.html');
+    win.maximize();
     // Open the DevTools.
     win.webContents.openDevTools()
 }
