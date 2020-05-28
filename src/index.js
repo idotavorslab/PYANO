@@ -7,10 +7,10 @@ const {remote} = require('electron');
 const Store = require("electron-store");
 const store = new Store();
 
-const $PageCss = $('#page_css');
-const $Sidebar = $('#sidebar');
-const $Title = $('#title');
-const $MainContent = $('#main_content').hide();
+export const $PageCss = $('#page_css');
+export const $Sidebar = $('#sidebar');
+export const $Title = $('#title');
+export const $MainContent = $('#main_content').hide();
 $Sidebar._fadeTo = $Sidebar.fadeTo;
 $Sidebar.fadeTo = (speed, to, easing, callback) => {
     // [...$Sidebar[0].children].forEach(item=>item.classList.add('unclickable'));

@@ -1,7 +1,10 @@
 // ** sidebar/index.js
-let {span} = require("pyano_local_modules/util");
-const Pages = require("pyano_local_modules/pages/pages");
-let {$Sidebar, $Title} = require("pyano_local_modules/document");
+import {span} from "./util.js"
+import * as Pages from "./pages/index.js"
+import {$Sidebar, $Title} from "./index.js";
+
+// const Pages = require("pyano_local_modules/pages/pages");
+
 
 /**@typedef {'sidebar_inside_test' | 'sidebar_file_tools' | 'sidebar_settings' | 'sidebar_new_test' | 'sidebar_exam' | 'sidebar_record'} TSidebarId*/
 
@@ -17,8 +20,9 @@ function _selectSidebarItem(targetId, {changeTitle}) {
             $(sidebarItem).removeClass("selected");
         }
     }
-    if (changeTitle)
+    if (changeTitle) {
         $Title.html(html.title());
+    }
 
 
 }
