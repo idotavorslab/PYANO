@@ -78,7 +78,7 @@ for (let d of ['configs', 'subjects', 'truths']) {
 let mainWindow;
 
 
-const createWindow = () => {
+async function createWindow() {
     // require('devtron').install();
     // Create the browser window.
     mainWindow = new BrowserWindow({
@@ -87,6 +87,7 @@ const createWindow = () => {
             navigateOnDragDrop: false,
             zoomFactor: 1,
             experimentalFeatures: true,
+            nodeIntegration: true
         }
     });
 
@@ -96,7 +97,7 @@ const createWindow = () => {
 
     // mainWindow.setMaximumSize(1919, 1080);
     // and load the index.html of the app.
-    mainWindow.loadURL(`file://${rootPath}/index.html`);
+    await mainWindow.loadURL(`file://${rootPath}/index.html`);
     mainWindow.setResizable(true);
     mainWindow.setMenu(null);
     mainWindow.setBackgroundColor('#181818');
@@ -109,7 +110,7 @@ const createWindow = () => {
 
 
     mainWindow.webContents.openDevTools();
-    
+
 
     // Emitted when the window is closed.
     mainWindow.on('show', () => console.log('mainWindow SHOW'));
