@@ -9,6 +9,7 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             preload: path.join(__dirname, 'preload.js'),
+            experimentalFeatures: true,
 
         },
         backgroundColor: '#181818'

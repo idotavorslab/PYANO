@@ -1,4 +1,5 @@
-const BHE = require("betterhtmlelement/dist/bhe");
+import {BetterHTMLElement} from "./bhe/index.js";
 
 console.log('foo.js');
-console.log(BHE);
+console.log(BetterHTMLElement);
+

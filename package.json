@@ -17,8 +17,7 @@
         "python-shell": "2.0.1",
         "sweetalert2": "8.2.6",
         "tone": "14.7.3",
-        "webmidi": "2.5.1",
-        "betterhtmlelement": "1.1.3"
+        "webmidi": "2.5.1"
     },
     "description": "My Electron application description",
     "keywords": [],
