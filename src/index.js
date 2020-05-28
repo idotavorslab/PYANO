@@ -108,9 +108,8 @@ const createWindow = () => {
     // mainWindow.setHasShadow(true);
 
 
-    if (app.getPath('userData').includes("gilad") || store.get('dev')) {
-        mainWindow.webContents.openDevTools();
-    }
+    mainWindow.webContents.openDevTools();
+    
 
     // Emitted when the window is closed.
     mainWindow.on('show', () => console.log('mainWindow SHOW'));
