@@ -221,7 +221,7 @@
                 async value(speed, to, callback) {
                     if (skipFade) {
                         console.log('got skipFade = true start of fn, returning');
-                        return await this.fadeTo(0, to, callback);
+                        return this.fadeTo(0, to, callback);
                     }
                     const element = this[0];
                     if (element.tagName == "BUTTON") {
@@ -248,14 +248,14 @@
                     for (let i of range(0, 31)) {
                         if (skipFade) {
                             console.log('got skipFade = true in loop, returning');
-                            return await this.fadeTo(0, to, callback);
+                            return this.fadeTo(0, to, callback);
                         }
                         element.style.opacity = float(element.style.opacity) + step;
                         await asx.wait(everyMs);
                     }
 
 
-                    return await this.fadeTo(0, to, callback);
+                    return this.fadeTo(0, to, callback);
                 }
             },
             deactivate: {
@@ -664,9 +664,8 @@
                 return await fsx.path_exists(this.path);
             }
 
-            /**@return {Promise<void>}*/
             async remove() {
-                return await require('fs').unlinkSync(this.path);
+                return require('fs').unlinkSync(this.path);
             }
 
             /**@return {number}*/
@@ -729,7 +728,6 @@
                         return missing;
                     }
 
-                    /**@return {Promise<boolean>}*/
                     async allExist() {
                         return all(await asx.concurrent(
                             this.base.exists(),
@@ -737,7 +735,6 @@
                             this.off.exists()));
                     }
 
-                    /**@return {Promise<boolean>}*/
                     async anyExist() {
                         return any(await asx.concurrent(
                             this.base.exists(),
@@ -745,7 +742,6 @@
                             this.off.exists()));
                     }
 
-                    /**@return {Promise<void>}*/
                     async removeAll() {
                         if (await this.base.exists()) {
                             await this.base.remove();
