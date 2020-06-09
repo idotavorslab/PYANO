@@ -1,6 +1,6 @@
 misc/truths-20190320T165552Z-001/*
 misc/17032019recordings/*
-src/experiments/subjects
+src/experiments
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

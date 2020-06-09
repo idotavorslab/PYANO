@@ -1,12 +1,11 @@
 {
-	"truth_file": "test_2",
+	"truth_file_path": "experiments/truths/test_2.txt",
 	"demo_type": "animation",
-	"errors_playrate": 1,
+	"errors_playingspeed": 1,
 	"allowed_rhythm_deviation": "30%",
 	"allowed_tempo_deviation": "10%",
 	"finished_trials_count": 0,
-	"subject": "galia",
-	"name": "test_2.exam",
+	"current_subject": "aur akad",
 	"levels": [
 		{
 			"notes": 8,

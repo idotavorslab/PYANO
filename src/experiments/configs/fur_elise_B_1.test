@@ -1,7 +1,7 @@
 {
-	"truth_file": "experiments/truths/fur_elise_B",
+	"truth_file_path": "experiments/truths/fur_elise_B.txt",
 	"demo_type": "video",
-	"errors_playrate": 1,
+	"errors_playingspeed": 1,
 	"levels": [
 		{
 			"notes": 10,
@@ -119,8 +119,7 @@
 		}
 	],
 	"finished_trials_count": 0,
-	"subject": "anna_rovner",
+	"current_subject": "aur akad",
 	"allowed_rhythm_deviation": "30%",
-	"allowed_tempo_deviation": "10%",
-	"name": "fur_elise_b_1.test"
+	"allowed_tempo_deviation": "10%"
 }
