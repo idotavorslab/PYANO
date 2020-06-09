@@ -380,59 +380,6 @@ const any = (collection) => collection.some(item => bool(item));
 /**@return {boolean}*/
 const all = (collection) => collection.every(item => bool(item));
 
-/**@param val
- * @return {boolean}*/
-function bool(val) {
-    /*
-    |               | o instanceof Object   | typeof o == 'object'  |  !!o  |
-    |  -----------  |  ------------------   |  -------------------  | ----- |
-    |  {}           |         true          |         true          | true  |
-    |  []           |         true          |         true          | true  |
-    |  ()=>{}       |         true          |         false         | true  |
-    |  new class{}  |         true          |         true          | true  |
-    |  (()=>{})()   |         false         |         false         | false |
-    |  0            |         false         |         false         | false |
-    |  ""           |         false         |         false         | false |
-    |  null         |         false         |         true          | false |
-    |  undefined    |         false         |         false         | false |
-    |  "0"          |         false         |         false         | true  |
-    |  "foo"        |         false         |         false         | true  |
-    */
-
-    if (val == null) {
-        return false;
-    }
-    const valType = typeof val;
-    if (valType != 'object') {
-        if (valType == 'function') {
-            return true;
-        } else {
-            return !!val;
-        }
-    }
-    return !val.isEmpty();
-    /*if (val instanceof Object) {
-        if (val.isEmpty())
-            return typeof val == 'function';
-        else
-            return true;
-
-    } else {
-        return !!val;
-    }
-    */
-}
-
-/**@template T
- * @param {T[]|T} collection
- * @return {[string|number|T]}*/
-function enumerate(collection) {
-    let entries = Object.entries(collection);
-    entries.map(entry => entry[0] = entry[0].isdigit()
-        ? int(entry[0])
-        : entry[0]);
-    return entries;
-}
 
 const float = (str) => parseFloat(str);
 /**
