@@ -1,109 +1,109 @@
 {
-	"truth_file": "fur_elise_R",
-	"demo_type": "video",
-	"errors_playrate": 1,
-	"levels": [
-		{
-			"notes": 4,
-			"trials": 1,
-			"rhythm": false,
-			"tempo": null
-		},
-		{
-			"notes": 4,
-			"trials": 1,
-			"rhythm": true,
-			"tempo": 60
-		},
-		{
-			"notes": 4,
-			"trials": 1,
-			"rhythm": true,
-			"tempo": 80
-		},
-		{
-			"notes": 9,
-			"trials": 3,
-			"rhythm": false,
-			"tempo": null
-		},
-		{
-			"notes": 9,
-			"trials": 2,
-			"rhythm": true,
-			"tempo": 60
-		},
-		{
-			"notes": 9,
-			"trials": 2,
-			"rhythm": true,
-			"tempo": 80
-		},
-		{
-			"notes": 13,
-			"trials": 3,
-			"rhythm": false,
-			"tempo": null
-		},
-		{
-			"notes": 13,
-			"trials": 3,
-			"rhythm": true,
-			"tempo": 60
-		},
-		{
-			"notes": 13,
-			"trials": 3,
-			"rhythm": true,
-			"tempo": 80
-		},
-		{
-			"notes": 17,
-			"trials": 3,
-			"rhythm": false,
-			"tempo": null
-		},
-		{
-			"notes": 17,
-			"trials": 3,
-			"rhythm": true,
-			"tempo": 60
-		},
-		{
-			"notes": 17,
-			"trials": 3,
-			"rhythm": true,
-			"tempo": 80
-		},
-		{
-			"notes": 27,
-			"trials": 3,
-			"rhythm": false,
-			"tempo": null
-		},
-		{
-			"notes": 27,
-			"trials": 2,
-			"rhythm": true,
-			"tempo": 60
-		},
-		{
-			"notes": 27,
-			"trials": 2,
-			"rhythm": true,
-			"tempo": 80
-		},
-		{
-			"notes": 27,
-			"trials": 3,
-			"rhythm": true,
-			"tempo": 100
-		}
-	],
-	"finished_trials_count": 0,
-	"subject": "eilon_tabachnik",
-	"allowed_rhythm_deviation": "30%",
-	"allowed_tempo_deviation": "10%",
-	"name": "fur_elise_R_1.test"
-
+    "truth_file_path": "fur_elise_R",
+    "demo_type": "video",
+    "errors_playingspeed": 1,
+    "levels": [
+        {
+            "notes": 4,
+            "trials": 1,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 4,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 4,
+            "trials": 1,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 9,
+            "trials": 3,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 9,
+            "trials": 2,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 9,
+            "trials": 2,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 13,
+            "trials": 3,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 13,
+            "trials": 3,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 13,
+            "trials": 3,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 17,
+            "trials": 3,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 17,
+            "trials": 3,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 17,
+            "trials": 3,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 27,
+            "trials": 3,
+            "rhythm": false,
+            "tempo": null
+        },
+        {
+            "notes": 27,
+            "trials": 2,
+            "rhythm": true,
+            "tempo": 60
+        },
+        {
+            "notes": 27,
+            "trials": 2,
+            "rhythm": true,
+            "tempo": 80
+        },
+        {
+            "notes": 27,
+            "trials": 3,
+            "rhythm": true,
+            "tempo": 100
+        }
+    ],
+    "finished_trials_count": 0,
+    "subject": "eilon_tabachnik",
+    "allowed_rhythm_deviation": "30%",
+    "allowed_tempo_deviation": "10%",
+    "name": "fur_elise_R_1.test",
+    "current_subject": "gilad"
 }

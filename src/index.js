@@ -29,7 +29,7 @@ const rootPath = __dirname.endsWith('src') ? __dirname : path.join(__dirname, '.
 const enginePath = path.join(rootPath, "engine");
 
 
-const pyExecPath = path.join(enginePath, process.platform == 'darwin' ? "env/bin/python" : "env/Scripts/python.exe");
+const pyExecPath = path.join(enginePath, process.platform === 'win32' ? "env/Scripts/python.exe" : "env/bin/python");
 console.log(`
 rootPath: ${rootPath}
 enginePath: ${enginePath}
@@ -44,7 +44,7 @@ pyShell.defaultOptions = {
 
 
 const configfilepath = path.join(app.getPath('userData'), 'config.json');
-let pythonDone = false;
+/*let pythonDone = false;
 try {
     console.log(`running check_create_config_file.py, configfilepath: ${configfilepath}`);
     pyShell.run("check_create_config_file.py", {
@@ -61,8 +61,8 @@ try {
     });
 } catch (e) {
     console.error('Error running check_create_config_file:', e);
-}
-
+}*/
+let pythonDone = true;
 for (let d of ['configs', 'subjects', 'truths']) {
     let subdir = path.join(rootPath, 'experiments', d);
     if (!fs.existsSync(subdir)) {

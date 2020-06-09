@@ -1,6 +1,6 @@
 {
 	"demo_type": "animation",
-	"errors_playrate": 1,
+	"errors_playingspeed": 1,
 	"levels": [
 		{
 			"notes": 4,
@@ -19,6 +19,6 @@
 	"subject": "galia",
 	"allowed_rhythm_deviation": "30%",
 	"allowed_tempo_deviation": "10%",
-	"truth_file": "galia",
+	"truth_file_path": "galia",
 	"name": "galia.test"
 }

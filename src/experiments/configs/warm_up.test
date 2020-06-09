@@ -1,7 +1,7 @@
 {
-	"truth_file": "warm_up",
+	"truth_file_path": "warm_up",
 	"demo_type": "animation",
-	"errors_playrate": 1,
+	"errors_playingspeed": 1,
 	"levels": [
 		{
 			"notes": 3,

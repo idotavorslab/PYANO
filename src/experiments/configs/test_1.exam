@@ -1,6 +1,6 @@
 {
 	"demo_type": "animation",
-	"errors_playrate": 1,
+	"errors_playingspeed": 1,
 	"allowed_rhythm_deviation": "30%",
 	"allowed_tempo_deviation": "10%",
 	"finished_trials_count": 0,
@@ -43,6 +43,6 @@
 			"tempo": 100
 		}
 	],
-	"truth_file": "test_1",
+	"truth_file_path": "test_1",
 	"name": "test_1.exam"
 }
