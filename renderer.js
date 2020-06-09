@@ -343,7 +343,7 @@ Object.defineProperties($.prototype, {
                     console.log('got skipFade = true in loop, returning');
                     return this.fadeTo(0, to, callback);
                 }
-                element.style.opacity = float(element.style.opacity) + step;
+                element.style.opacity = parseFloat(element.style.opacity) + step;
                 await asx.wait(everyMs);
             }
 
@@ -376,12 +376,11 @@ Object.defineProperties($.prototype, {
 });
 
 /**@return {boolean}*/
-const any = (collection) => collection.some(item => bool(item));
+const any = (collection) => collection.some(item => util.bool(item));
 /**@return {boolean}*/
-const all = (collection) => collection.every(item => bool(item));
+const all = (collection) => collection.every(item => util.bool(item));
 
 
-const float = (str) => parseFloat(str);
 /**
  @param {string|number} num
  @return {number}
@@ -414,7 +413,7 @@ function sum(arr) {
     let sum = 0;
     let dirty = false;
     for (let v of arr) {
-        let number = float(v);
+        let number = parseFloat(v);
         if (!isNaN(number)) {
             dirty = true;
             sum += number;
@@ -471,14 +470,14 @@ const fsx = (() => {
      * @param {{mode?:number, recursive?:boolean}} options
      * @return {Promise<boolean>}*/
     const mkdir = (pathLike, options) => new Promise(resolve =>
-        fs.mkdir(pathLike, options, err => resolve(!bool(err))));
+        fs.mkdir(pathLike, options, err => resolve(!util.bool(err))));
 
 
     /**@param {PathLike|string} pathLike
      * @return {Promise<boolean>}*/
     function path_exists(pathLike) {
         return new Promise(resolve =>
-            fs.access(pathLike, fs.constants.F_OK, err => resolve(!bool(err))));
+            fs.access(pathLike, fs.constants.F_OK, err => resolve(!util.bool(err))));
     }
 
     /**
@@ -648,7 +647,7 @@ const asx = (() => {
  * ``name`` property exists only if wrapping an absolute path.*/
 class _File {
     constructor(pathWithExt) {
-        if (!bool(path.extname(pathWithExt))) {
+        if (!util.bool(path.extname(pathWithExt))) {
             throw new Error(`File constructor: passed 'pathWithExt' is extensionless: ${pathWithExt}`);
         }
         /**The path including extension. Can be either absolute or a file name.
@@ -724,7 +723,7 @@ class Truth {
         if (!path.isAbsolute(pathNoExt)) {
             throw new Error(`Passed path is not absolute: ${pathNoExt}`);
         }
-        if (bool(fsx.extname(pathNoExt))) {
+        if (util.bool(fsx.extname(pathNoExt))) {
             throw new Error(`Passed path is not extensionless: ${pathNoExt}`);
         }
         if (pathNoExt.endsWith('off') || pathNoExt.endsWith('on')) {
