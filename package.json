@@ -33,6 +33,7 @@
         "debug": "electron . --remote-debugging-port=9222 debug",
         "dry": "electron . --remote-debugging-port=9222 dry-run",
         "debug-dry": "electron . --remote-debugging-port=9222 debug dry-run",
+        "//": "via-node is good",
         "via-node": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222",
         "via-node-debug": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 debug",
         "via-node-dry": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 dry-run",

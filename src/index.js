@@ -2,12 +2,13 @@ console.group(`index.js`);
 import {BetterHTMLElement} from "./bhe/index.js";
 
 const path = require('path');
+
 const fs = require('fs');
 // import * as sidebar from "./sidebar.js";
+// * hi
 const {remote} = require('electron');
 const Store = require("electron-store");
 const store = new Store();
-
 console.log(`index.js. process.platform: ${process.platform} 
 __dirname: ${__dirname}
 process.argv: ${process.argv.join(", ")}
