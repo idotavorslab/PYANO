@@ -4,75 +4,79 @@ import re
 import sys
 from util import Logger, prjs
 from utils import check_fix_config_data
+from pathlib import Path
 
 logger = Logger('check_create_config_file')
 
-configfilepath = sys.argv[1]
-root_abs_path = sys.argv[2]
 
-username = os.getlogin()
-isfile = os.path.isfile(configfilepath)
-is_in_dev = 'gbete' in username or 'gilad' in username
-prjs(dict(configfilepath=configfilepath,
-          root_abs_path=root_abs_path,
-          username=username,
-          isfile=isfile,
-          is_in_dev=is_in_dev))
-
-if not isfile:  # not found
+def main():
+    configfilepath = sys.argv[1]
+    root_abs_path = sys.argv[2]
     
-    config = dict(root_abs_path=root_abs_path,
-                  dev=is_in_dev,
-                  vid_silence_len=0,
-                  last_page='new_test',
-                  experiment_type='test',
-                  subjects=[username],
-                  truth_file_path="experiments/truths/fur_elise_B.txt",
-                  current_test=dict(
-                          demo_type='video',
-                          errors_playingspeed=1,
-                          allowed_rhythm_deviation="40%",
-                          allowed_tempo_deviation="10%",
-                          levels=[dict(notes=4, trials=1, rhythm=False, tempo=None),
-                                  dict(notes=4, trials=1, rhythm=True, tempo=50)],
-                          finished_trials_count=0,
-                          current_subject=username,
-                          save_path='experiments/configs/pyano_config.test',
-                          ),
-                  current_exam=dict(
-                          demo_type='animation',
-                          errors_playingspeed=0.5,
-                          allowed_rhythm_deviation="20%",
-                          allowed_tempo_deviation="5%",
-                          levels=[dict(notes=7, trials=3, rhythm=False, tempo=None),
-                                  dict(notes=7, trials=3, rhythm=True, tempo=50)],
-                          finished_trials_count=0,
-                          current_subject=username,
-                          save_path='experiments/configs/pyano_config.exam',
-                          )
-                  )
+    username = os.getlogin()
+    isfile = os.path.isfile(configfilepath)
+    # is_in_dev = 'gbete' in username.lower() or 'gilad' in username.lower()
+    prjs(dict(configfilepath=configfilepath,
+              root_abs_path=root_abs_path,
+              username=username,
+              isfile=isfile,
+              # is_in_dev=is_in_dev
+              ))
     
-    with open(configfilepath, mode="w") as f:
-        # create config file
-        json.dump(config, f)
-    prjs(dict(created_ok=True))
-
-
-else:
+    if not isfile:  # not found
+        
+        config = dict(root_abs_path=root_abs_path,
+                      dev=False,
+                      vid_silence_len=0,
+                      last_page='new_test',
+                      experiment_type='test',
+                      skipFade=False,
+                      subjects=[username],
+                      truth_file_path="experiments/truths/fur_elise_B.txt",
+                      current_test=dict(
+                              demo_type='video',
+                              errors_playingspeed=1,
+                              allowed_rhythm_deviation="40%",
+                              allowed_tempo_deviation="10%",
+                              levels=[dict(notes=4, trials=1, rhythm=False, tempo=None),
+                                      dict(notes=4, trials=1, rhythm=True, tempo=50)],
+                              finished_trials_count=0,
+                              current_subject=username,
+                              save_path='experiments/configs/pyano_config.test',
+                              ),
+                      current_exam=dict(
+                              demo_type='animation',
+                              errors_playingspeed=0.5,
+                              allowed_rhythm_deviation="20%",
+                              allowed_tempo_deviation="5%",
+                              levels=[dict(notes=7, trials=3, rhythm=False, tempo=None),
+                                      dict(notes=7, trials=3, rhythm=True, tempo=50)],
+                              finished_trials_count=0,
+                              current_subject=username,
+                              save_path='experiments/configs/pyano_config.exam',
+                              )
+                      )
+        
+        with open(configfilepath, mode="w") as f:
+            # create config file
+            json.dump(config, f)
+        prjs(dict(created_ok=True))
+        return
+    
+    # * config FOUND, now check contents
     # print(f'check_create_config_file.py, configfound. checking contents...')
-    # config FOUND, now check contents
     with open(configfilepath) as f:
         config = json.load(f)
     
-    
     def check_fix_first_level():
         _KEYS = ['root_abs_path',
-                 'dev',
                  'experiment_type',
                  'truth_file_path',
                  'last_page',
                  'vid_silence_len',
                  'subjects',
+                 'skipFade',
+                 'dev',
                  'devoptions',
                  'velocities',
                  'current_test',
@@ -97,11 +101,11 @@ else:
                         'modifying dev',
                         {
                             "config.get('dev')": config.get('dev'),
-                            'is_in_dev':         is_in_dev
+                            # 'is_in_dev':         is_in_dev
                             }
                         ],
                     title='check_fix_first_level()')
-            config['dev'] = is_in_dev
+            # config['dev'] = is_in_dev
             modified = True
         
         if 'experiment_type' not in config or config['experiment_type'] not in ['exam', 'test']:
@@ -125,11 +129,12 @@ else:
             modified = True
             config['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
         else:
-            split = re.split(r'[\\/]', config['truth_file_path'])
-            if (len(split) != 3
-                    or split[0] != 'experiments'
-                    or split[1] != 'truths'
-                    or not split[2].endswith('.txt')):
+            parts = Path(config['truth_file_path']).parts
+            # split = re.split(r'[\\/]', config['truth_file_path'])
+            if (len(parts) != 3
+                    or parts[0] != 'experiments'
+                    or parts[1] != 'truths'
+                    or not parts[2].endswith('.txt')):
                 logger.log_thin(
                         ['modifying truth_file_path - in config but bad value',
                          'setting to experiments/truths/fur_elise_B.txt',
@@ -171,7 +176,7 @@ else:
                 or not all([config['subjects']])
                 or not all((isinstance(s, str) for s in config['subjects']))):
             logger.log_thin(
-                    ['modifying subjects', f'setting to [username] (username = {username})',
+                    ['modifying subjects', f'setting to ["{username}"]',
                      {"config.get('subjects')": config.get('subjects')}],
                     title='check_fix_first_level()')
             config['subjects'] = [username]
@@ -180,12 +185,18 @@ else:
         # subject key exists and is a list of strings
         elif username not in config['subjects']:
             logger.log_thin(
-                    ['modifying subjects', f'appending username ({username}) to config["subjects"]',
+                    ['modifying subjects', f'appending "{username}" to config["subjects"]',
                      {"config.get('subjects')": config.get('subjects')}],
                     title='check_fix_first_level()')
             config['subjects'].append(username)
             modified = True
-        
+        if 'skipFade' not in config or not isinstance(config['skipFade'], bool):
+            logger.log_thin(
+                    ['modifying skipFade', f'setting to false',
+                     {"config.get('skipFade')": config.get('skipFade')}],
+                    title='check_fix_first_level()')
+            config['skipFade'] = False
+            modified = True
         for key in list(config.keys()):
             if key not in _KEYS:
                 logger.log_thin(
@@ -195,7 +206,6 @@ else:
                 modified = True
                 config.pop(key)
         return modified
-    
     
     def check_fix_test_dict_levels(levels):
         modified = False
@@ -245,7 +255,6 @@ else:
                     modified = True
         return levels, modified
     
-    
     first_level_modified = check_fix_first_level()
     
     # assume first level ok
@@ -285,3 +294,7 @@ else:
               current_test_levels_modified=current_test_levels_modified,
               current_exam_modified=current_exam_modified,
               current_exam_levels_modified=current_exam_levels_modified))
+
+
+if __name__ == '__main__':
+    main()

@@ -1,4 +1,5 @@
-console.group(`renderer.ts`);
+console.group(`renderer.js`);
+const util = require('src/bhe/util.js');
 Object.defineProperty(Object.prototype, "keys", {
     enumerable: false,
     value() {
@@ -76,7 +77,7 @@ Object.defineProperty(String.prototype, "upTo", {
             ? this.lastIndexOf(searchString)
             : this.indexOf(searchString);
         if (end === -1) {
-            console.warn(`${this.valueOf()}.upTo(${searchString},${searchFromEnd}) index is -1`);
+            console.warn(`${this.valueOf()}.upTo(${searchString},${fromEnd}) index is -1`);
         }
         return this.slice(0, end);
     }
@@ -283,13 +284,14 @@ Object.defineProperty(Error.prototype, "toObj", {
         const where = this.stack.slice(this.stack.search(/(?<=\s)at/), this.stack.search(/(?<=at\s.*)\n/));
         const what = this.message;
         Error.captureStackTrace(this);
+        const root_abs_path = store.get('root_abs_path', '');
         const cleanstack = this.stack.split('\n')
-            .filter(s => s.includes(ROOT_PATH_ABS) && !s.includes('node_modules'))
+            .filter(s => s.includes(root_abs_path) && !s.includes('node_modules'))
             .map(s => {
                 s = s.trim();
-                let frame = s.slice(s.search(ROOT_PATH_ABS), s.length - 1);
+                let frame = s.slice(s.search(root_abs_path), s.length - 1);
                 let [file, lineno, ...rest] = frame.split(':');
-                file = path.relative(ROOT_PATH_ABS, file);
+                file = path.relative(root_abs_path, file);
                 return {file, lineno};
             });
         return {what, where, cleanstack};
@@ -297,20 +299,23 @@ Object.defineProperty(Error.prototype, "toObj", {
 });
 // *** functions
 // const {Alert} = require('pyano_local_modules/util/Alert');
-const Path = require("path");
+const path = require("path");
 const $ = require("jquery");
+const Store = require("electron-store");
+const store = new Store();
 
-skipFade = false;
+// skipFade = false;
 
 Object.defineProperties($.prototype, {
     fade: {
         async value(speed, to, callback) {
+            let skipFade = store.get('skipFade', false);
             if (skipFade) {
                 console.log('got skipFade = true start of fn, returning');
-                return await this.fadeTo(0, to, callback);
+                return this.fadeTo(0, to, callback);
             }
             const element = this[0];
-            if (element.tagName == "BUTTON") {
+            if (element.tagName.toLowerCase() == "button") {
                 element.classList.toggle('unclickable', to == 0);
             }
             let prevOpac = element.style.opacity;
@@ -334,7 +339,7 @@ Object.defineProperties($.prototype, {
             for (let i of range(0, 31)) {
                 if (skipFade) {
                     console.log('got skipFade = true in loop, returning');
-                    return await this.fadeTo(0, to, callback);
+                    return this.fadeTo(0, to, callback);
                 }
                 element.style.opacity = float(element.style.opacity) + step;
                 await asx.wait(everyMs);
@@ -547,7 +552,7 @@ const fsx = (() => {
      * >>> experiments/truths/fur_elise_B
      * remove_ext("fur_elise_B.txt")
      * >>> fur_elise_B */
-    const remove_ext = pathLike => Path.join(Path.dirname(pathLike), Path.basename(pathLike, Path.extname(pathLike)));
+    const remove_ext = pathLike => path.join(path.dirname(pathLike), path.basename(pathLike, path.extname(pathLike)));
 
     /**
      * {@link remove_ext Uses remove_ext}
@@ -556,7 +561,7 @@ const fsx = (() => {
      * @return {string}
      * */
     const push_before_ext = (pathLike, push) => {
-        let ext = Path.extname(pathLike);
+        let ext = path.extname(pathLike);
         return `${remove_ext(pathLike)}${push}${ext}`;
     };
 
@@ -564,28 +569,28 @@ const fsx = (() => {
      * @param {?string} ext*/
     function basename(pathLike, ext = null) {
         if (!ext) {
-            return Path.basename(pathLike);
+            return path.basename(pathLike);
         }
-        return Path.basename(pathLike, ext);
+        return path.basename(pathLike, ext);
     }
 
     /**@param {...string} paths
      * @return {string[]}
      * */
     function basenames(...paths) {
-        return [...paths.map(p => Path.basename(p))];
+        return [...paths.map(p => path.basename(p))];
     }
 
     /**@param {string} pathLike
      * @return {string}*/
     function dirname(pathLike) {
-        return Path.dirname(pathLike);
+        return path.dirname(pathLike);
     }
 
     /**@param {string} pathLike
      * @return {string}*/
     function extname(pathLike) {
-        return Path.extname(pathLike);
+        return path.extname(pathLike);
     }
 
     /**@param {string} pathLike*/
@@ -611,7 +616,8 @@ const asx = (() => {
     /**@param {number} ms
      * @return {Promise}*/
     async function wait(ms) {
-        if (skipFade) {
+
+        if (store.get('skipFade', false)) {
             ms = 0;
         }
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -693,7 +699,7 @@ const asx = (() => {
  * ``name`` property exists only if wrapping an absolute path.*/
 class _File {
     constructor(pathWithExt) {
-        if (!bool(Path.extname(pathWithExt))) {
+        if (!bool(path.extname(pathWithExt))) {
             throw new Error(`File constructor: passed 'pathWithExt' is extensionless: ${pathWithExt}`);
         }
         /**The path including extension. Can be either absolute or a file name.
@@ -702,7 +708,7 @@ class _File {
         /**The path without extension. Can be either absolute or a file name.
          * @type {string} pathNoExt*/
         this.pathNoExt = fsx.remove_ext(this.path);
-        if (Path.isAbsolute(this.path)) {
+        if (path.isAbsolute(this.path)) {
             /**If exists, a File object of the basename.
              * @type {_File} name*/
             this.name = new _File(fsx.basename(this.path));
@@ -766,7 +772,7 @@ class Truth {
     /**An object wrapping an absolute path without extension.
      * @param {string} pathNoExt*/
     constructor(pathNoExt) {
-        if (!Path.isAbsolute(pathNoExt)) {
+        if (!path.isAbsolute(pathNoExt)) {
             throw new Error(`Passed path is not absolute: ${pathNoExt}`);
         }
         if (bool(fsx.extname(pathNoExt))) {
