@@ -1,6 +1,7 @@
-import {anyValue, noValue, isFunction, enumerate, wait, isObject, bool} from "./util.js";
-import {MutuallyExclusiveArgs, NotEnoughArgs} from "./exceptions.js";
+import {allUndefined, anyDefined, anyTruthy, isFunction, enumerate, wait, isObject, bool} from "./util.js";
+import {summary, MutuallyExclusiveArgs, NotEnoughArgs} from "./exceptions.js";
 
+console.log(`%cbhe/index.js`, 'font-weight: 700');
 const SVG_NS_URI = 'http://www.w3.org/2000/svg';
 
 export class BetterHTMLElement {
@@ -8,31 +9,20 @@ export class BetterHTMLElement {
         this._isSvg = false;
         this._listeners = {};
         this._cachedChildren = {};
-        const {tag, cls, setid, htmlElement, byid, query, children} = elemOptions;
-        if ([byid, htmlElement, query].filter(x => Boolean(x)).length > 1) {
+        let {tag, cls, setid, htmlElement, byid, query, children} = elemOptions;
+        if ([byid, htmlElement, query, tag].filter(x => x !== undefined).length > 1) {
             throw new MutuallyExclusiveArgs({
-                byid, query, htmlElement
-            }, `Choose only one way to get an existing element; by its id, query, or actual element`);
+                byid, query, htmlElement, tag
+            }, 'Either wrap an existing element by passing one of `byid` / `query` / `htmlElement`, or create a new one by passing `tag`.');
         }
-        if (tag !== undefined && anyValue([children, byid, htmlElement, query])) {
-            throw new MutuallyExclusiveArgs({
-                tag,
-                byid,
-                htmlElement,
-                query
-            }, `Either create a new elem via "tag", or get an existing one via either "byid", "htmlElement", or "query" (and maybe cache its "children")`);
+        if (anyDefined([tag, cls, setid]) && anyDefined([children, byid, htmlElement, query])) {
+            throw new MutuallyExclusiveArgs([
+                {tag, cls, setid},
+                {children, byid, htmlElement, query}
+            ], `Can't have args from both sets`);
         }
-        if (anyValue([tag, cls, setid]) && anyValue([children, byid, htmlElement, query])) {
-            throw new MutuallyExclusiveArgs({
-                group1: {cls, setid},
-                group2: {children, byid, htmlElement, query}
-            }, `Can't have args from both groups`);
-        }
-        if (noValue([tag, cls, setid]) && noValue([children, byid, htmlElement, query])) {
-            throw new NotEnoughArgs([1], {
-                group1: {cls, setid},
-                group2: {children, byid, htmlElement, query}
-            }, `Expecting at least one arg from a given group`);
+        if (allUndefined([tag, byid, htmlElement, query])) {
+            throw new NotEnoughArgs(1, {tag, byid, htmlElement, query}, 'either');
         }
         if (tag !== undefined) {
             if (['svg', 'path'].includes(tag.toLowerCase())) {
@@ -41,16 +31,25 @@ export class BetterHTMLElement {
             } else {
                 this._htmlElement = document.createElement(tag);
             }
-        } else if (byid !== undefined) {
-            this._htmlElement = document.getElementById(byid);
         } else {
-            if (query !== undefined) {
-                this._htmlElement = document.querySelector(query);
+            if (byid !== undefined) {
+                if (byid.startsWith('#')) {
+                    console.warn(`param 'byid' starts with '#', stripping it: ${byid}`);
+                    byid = byid.substr(1);
+                }
+                this._htmlElement = document.getElementById(byid);
             } else {
-                if (htmlElement !== undefined) {
-                    this._htmlElement = htmlElement;
+                if (query !== undefined) {
+                    this._htmlElement = document.querySelector(query);
+                } else {
+                    if (htmlElement !== undefined) {
+                        this._htmlElement = htmlElement;
+                    }
                 }
             }
+        }
+        if (!bool(this._htmlElement)) {
+            throw new Error(`${this} constructor ended up with no 'this._htmlElement'. Passed options: ${summary(elemOptions)}`);
         }
         if (cls !== undefined) {
             this.class(cls);
@@ -97,7 +96,27 @@ export class BetterHTMLElement {
     }
 
     toString() {
-        return `${this.e.tagName} #${this.id()} .${this.e.classList}`;
+        var _a, _b;
+        const proto = Object.getPrototypeOf(this);
+        const protoStr = proto.constructor.toString();
+        let str = protoStr.substring(6, protoStr.indexOf('{') - 1);
+        let tag = (_a = this.e) === null || _a === void 0 ? void 0 : _a.tagName;
+        let id = this.id();
+        let classList = (_b = this.e) === null || _b === void 0 ? void 0 : _b.classList;
+        if (anyTruthy([id, classList, tag])) {
+            str += ` (`;
+            if (tag) {
+                str += `<${tag.toLowerCase()}>`;
+            }
+            if (id) {
+                str += `#${id}`;
+            }
+            if (classList) {
+                str += `.${classList}`;
+            }
+            str += `)`;
+        }
+        return str;
     }
 
     wrapSomethingElse(newHtmlElement) {
@@ -146,8 +165,9 @@ export class BetterHTMLElement {
     }
 
     id(id) {
+        var _a;
         if (id === undefined) {
-            return this.e.id;
+            return (_a = this.e) === null || _a === void 0 ? void 0 : _a.id;
         } else {
             this.e.id = id;
             return this;
@@ -574,7 +594,7 @@ export class BetterHTMLElement {
         return this;
     }
 
-    data(key, parse = true) {
+    getdata(key, parse = true) {
         const data = this.e.getAttribute(`data-${key}`);
         if (parse === true) {
             return JSON.parse(data);
@@ -586,7 +606,7 @@ export class BetterHTMLElement {
     _cache(key, child) {
         const oldchild = this._cachedChildren[key];
         if (oldchild !== undefined) {
-            console.warn(`Overwriting this._cachedChildren[${key}]!`, 'old value:', oldchild, 'new value:', child, `they're different: ${oldchild == child}`);
+            console.warn(`Overwriting this._cachedChildren[${key}]!`, `old child: ${oldchild}`, `new child: ${child}`, `are they different?: ${oldchild == child}`);
         }
         this[key] = child;
         this._cachedChildren[key] = child;
@@ -648,7 +668,8 @@ export class Span extends BetterHTMLElement {
 }
 
 export class Img extends BetterHTMLElement {
-    constructor({setid, cls, src, byid, query, htmlElement, children}) {
+    constructor(imgOpts) {
+        const {cls, setid, src, byid, query, htmlElement, children} = imgOpts;
         if (htmlElement !== undefined) {
             super({htmlElement, children});
         } else if (byid !== undefined) {
@@ -737,7 +758,7 @@ export class Form extends BetterHTMLElement {
 
     value(val) {
         if (val === undefined) {
-            return this.e.value;
+            return bool(this.e.value) ? this.e.value : undefined;
         } else {
             this.e.value = val;
             return this;
@@ -841,14 +862,10 @@ export class TextInput extends Input {
         super(opts);
         const {placeholder, type} = opts;
         if (placeholder !== undefined) {
-            if (type) {
-                if (type === "number" && typeof placeholder !== "number") {
-                    console.warn(`placeholder type is ${typeof placeholder} but input type is ${type}. ignoring`);
-                } else if (type === "text" && typeof placeholder !== "string") {
-                    console.warn(`placeholder type is ${typeof placeholder} but input type is ${type}. ignoring`);
-                } else {
-                    this.placeholder(placeholder);
-                }
+            if (type && type !== typeof placeholder && !(type === "text" && typeof placeholder !== "string")) {
+                console.warn(`placeholder type is ${typeof placeholder} but input type is ${type}. ignoring placeholder option.`);
+            } else {
+                this.placeholder(placeholder);
             }
         }
     }
@@ -925,10 +942,18 @@ export class CheckboxInput extends Changable {
     }
 
     toggleChecked(on) {
-        if (on) {
+        if (bool(on)) {
             return this.check();
         } else {
             return this.uncheck();
+        }
+    }
+
+    value(val) {
+        if (val === undefined) {
+            return this.checked;
+        } else {
+            return this.toggleChecked(val);
         }
     }
 
@@ -977,8 +1002,17 @@ export class Select extends Changable {
         return this.e.item(index);
     }
 
+    value(val) {
+        if (val === undefined) {
+            return this.selected.value;
+        } else {
+            this.selected = val;
+            return this;
+        }
+    }
+
     clear() {
-        this.selectedIndex = -1;
+        this.selectedIndex = 0;
         return this;
     }
 }
@@ -1042,3 +1076,5 @@ export function anchor(anchorOpts) {
     }
     return new Anchor(anchorOpts);
 }
+
+console.log('bhe/index.js EOF');

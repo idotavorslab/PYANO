@@ -1,3 +1,5 @@
+console.log('%cbhe/util.js', 'font-weight: 700');
+
 export function enumerate(obj) {
     let typeofObj = typeof obj;
     if (obj === undefined
@@ -74,19 +76,6 @@ export function isTMap(obj) {
     return {}.toString.call(obj) == '[object Object]';
 }
 
-export function isObject(obj) {
-    return typeof obj === 'object' && !!obj;
-}
-
-export function shallowProperty(key) {
-    return function (obj) {
-        return obj == null ? void 0 : obj[key];
-    };
-}
-
-export function getLength(collection) {
-    return shallowProperty('length')(collection);
-}
 
 const MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
 
@@ -112,7 +101,7 @@ export function extend(sup, child) {
     return proxy;
 }
 
-export function anyValue(obj) {
+export function anyDefined(obj) {
     let array;
     if (isObject(obj)) {
         array = Object.values(obj);
@@ -121,7 +110,7 @@ export function anyValue(obj) {
     } else {
         throw new TypeError(`expected array or obj, got: ${typeof obj}`);
     }
-    return array.filter(x => Boolean(x)).length > 0;
+    return array.filter(x => x !== undefined).length > 0;
 }
 
 export function equalsAny(obj, ...others) {
@@ -138,7 +127,7 @@ export function equalsAny(obj, ...others) {
     return false;
 }
 
-export function noValue(obj) {
+export function anyTruthy(obj) {
     let array;
     if (isObject(obj)) {
         array = Object.values(obj);
@@ -147,9 +136,37 @@ export function noValue(obj) {
     } else {
         throw new TypeError(`expected array or obj, got: ${typeof obj}`);
     }
-    return array.filter(x => Boolean(x)).length === 0;
+    return array.filter(x => bool(x)).length > 0;
 }
 
-export function isType(arg) {
-    return true;
+export function allUndefined(obj) {
+    let array;
+    if (isObject(obj)) {
+        array = Object.values(obj);
+    } else if (isArray(obj)) {
+        array = obj;
+    } else {
+        throw new TypeError(`expected array or obj, got: ${typeof obj}`);
+    }
+    return array.filter(x => x !== undefined).length === 0;
 }
+
+export function isBHE(bhe, bheSubType) {
+    return (bhe instanceof bheSubType);
+}
+
+export function isObject(obj) {
+    return typeof obj === 'object' && !!obj;
+}
+
+export function shallowProperty(key) {
+    return function (obj) {
+        return obj == null ? void 0 : obj[key];
+    };
+}
+
+export function getLength(collection) {
+    return shallowProperty('length')(collection);
+}
+
+console.log('bhe/util.js EOF');
