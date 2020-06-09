@@ -1,5 +1,7 @@
 console.group(`renderer.js`);
-const util = require('src/bhe/util.js');
+import * as util from "./src/bhe/util.js"
+
+
 Object.defineProperty(Object.prototype, "keys", {
     enumerable: false,
     value() {
