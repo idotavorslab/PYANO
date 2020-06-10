@@ -1,10 +1,8 @@
 // ** sidebar/index.js
 console.group(`sidebar/index.js`);
-import { span, Div } from "./bhe/index.js";
+import { Div } from "./bhe/index.js";
 // import * as Pages from "./pages/pages.js"
-import { $Title } from "./index.js";
 
-import * as util from "./util.js"
 
 export const Sidebar = new class extends Div {
     constructor() {
@@ -13,24 +11,35 @@ export const Sidebar = new class extends Div {
         });
         this.items.forEach(item => {
             item.click(() => {
-                for (let _item of Sidebar.items) {
-                    let selected = _item === item;
-                    _item.toggleClass('selected', selected);
-                    _item.toggleClass('unclickable', selected);
-                }
+                this.select(item)
             })
         });
     }
 
+    select(item) {
+        let _is_selected;
+        if (typeof item === 'string') {
+            _is_selected = (a) => a.hasClass(item);
+        } else {
+            _is_selected = (a) => a === item;
+
+        }
+        for (let _item of Sidebar.items) {
+            let is_selected = _is_selected(_item);
+            _item.toggleClass('selected', is_selected);
+            _item.toggleClass('unclickable', is_selected);
+        }
+    }
+
 };
-console.log(`Sidebar.items:`, Sidebar.items);
 
 // const Pages = require("pyano_local_modules/pages/pages");
 
-/**@typedef {'sidebar_inside_test' | 'sidebar_file_tools' | 'sidebar_settings' | 'sidebar_new_test' | 'sidebar_exam' | 'sidebar_record'} TSidebarId*/
+// /**@typedef {'sidebar_inside_test' | 'sidebar_file_tools' | 'sidebar_settings' | 'sidebar_new_test' | 'sidebar_exam' | 'sidebar_record'} TSidebarId*/
 
-/**@param {TSidebarId} targetId
- * @param {boolean} changeTitle*/
+// /**@param {TSidebarId} targetId
+//  * @param {boolean} changeTitle*/
+/*
 function _selectSidebarItem(targetId, { changeTitle }) {
     let html;
     for (let sidebarItem of Sidebar.items) {
@@ -47,8 +56,9 @@ function _selectSidebarItem(targetId, { changeTitle }) {
 
 
 }
+*/
 
-export function build() {
+/*export function build() {
     const $sidebarItems = [];
     const sidebarDict = {
         new_test: "New Experiment",
@@ -70,8 +80,8 @@ export function build() {
 
     }
 
-    // $Sidebar.append($sidebarItems);
-}
+    $Sidebar.append($sidebarItems);
+}*/
 
 
 // export function to_inside_test() {

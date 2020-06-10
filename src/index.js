@@ -5,7 +5,7 @@ const path = require('path');
 
 const fs = require('fs');
 const $ = require('jquery');
-import * as sidebar from "./sidebar.js";
+import { Sidebar } from "./sidebar.js";
 
 const { remote } = require('electron');
 const Store = require("electron-store");
@@ -98,6 +98,8 @@ $Sidebar.fadeTo = (speed, to, easing, callback) => {
     $Sidebar[0].classList.toggle('unclickable', to == 0);
     return $Sidebar._fadeTo(speed, to, easing, callback);
 };*/
+
+Sidebar.select(store.get('last_page'));
 
 function safeSwitchCss(href) {
     if ($PageCss.attr('href') != href) {
