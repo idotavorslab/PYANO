@@ -244,7 +244,7 @@ async function _maybeCreateOnsetsJson(truth) {
 const insideTestPage = {
     switch: async reload => {
         console.group(`insideTestPage.switch(${reload})`);
-        document.getElementById('main_content').classList.add('nocursor');
+        document.getElementById('main').classList.add('nocursor');
         await asx.$fadeOutMany(100, $MainContent, $Sidebar, $Title);
         EStore.last_page = 'inside_test';
         EStore.config().finished_trials_count = 0;
@@ -316,7 +316,7 @@ const insideTestPage = {
                 if ((await trialTruth.txt.on.size()) == 0 || (await trialTruth.txt.off.size()) == 0) {
                     return Alert.small.warning('Please play something');
                 }
-                document.getElementById('main_content').classList.add('nocursor');
+                document.getElementById('main').classList.add('nocursor');
                 let doneTrialResult = await _handleDoneTrial(userMidi, animationPiano, truth, trialTruth);
 
                 let config = EStore.config();

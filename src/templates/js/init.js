@@ -6,7 +6,7 @@ function maybeToggleNoCursor() {
     const shouldToggle = EStore.last_page == "inside_test";
     console.log(`Pressed Alt+C, ${shouldToggle ? '' : 'not '}toggling nocursor`);
     if (shouldToggle)
-        document.getElementById('main_content').classList.toggle('nocursor');
+        document.getElementById('main').classList.toggle('nocursor');
 }
 
 

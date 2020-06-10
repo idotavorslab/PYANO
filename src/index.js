@@ -90,7 +90,7 @@ for (let d of [ 'configs', 'subjects', 'truths' ]) {
 export const $PageCss = $('#page_css');
 // export const $Sidebar = $('#sidebar');
 export const $Title = $('#title');
-export const $MainContent = $('#main_content');
+export const $MainContent = $('#main');
 
 /*$Sidebar._fadeTo = $Sidebar.fadeTo;
 $Sidebar.fadeTo = (speed, to, easing, callback) => {

@@ -424,7 +424,7 @@ async function _show$bigMessageHideGreenPrompt() {
  */
 async function show$smallMessageAndGreenPrompt(level) {
 	console.log(...log('\tshow$smallMessageAndGreenPrompt()'));
-	document.getElementById('main_content').classList.remove('nocursor');
+	document.getElementById('main').classList.remove('nocursor');
 	let _smallmsg = `When you’re ready, please play <b>${level.notes}</b> notes.<br>`;
 	if (level.rhythm) {
 		_smallmsg += `Remember to keep rhythm`;
@@ -691,7 +691,7 @@ async function showPassedTrialFeedback(animationPiano, levels, doneTrialResult, 
 
 async function showTestCompleteMessages() {
 	console.log(...logmod('showTestCompleteMessages()'));
-	document.getElementById('main_content').classList.remove('nocursor');
+	document.getElementById('main').classList.remove('nocursor');
 	$bigMessage.text(`Thank you ${EStore.config().current_subject.title()}!`);
 
 	$smallMessage.text(`${EStore.experiment_type.title()} is over`);

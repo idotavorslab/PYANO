@@ -7,7 +7,7 @@ import { Div } from "./bhe/index.js";
 export const Sidebar = new class extends Div {
     constructor() {
         super({
-            byid: 'sidebar', children: { items: '<span>' }
+            byid: 'sidebar', children: { items: '<div>' }
         });
         this.items.forEach(item => {
             item.click(() => {
