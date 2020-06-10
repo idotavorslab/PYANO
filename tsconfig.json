@@ -1,34 +1,33 @@
 {
     "compilerOptions": {
-        "module": "none",
-        "target": "es2017",
+        //        "module": "None",
+        "target": "ES2019",
         "noImplicitAny": false,
-        "moduleResolution": "node",
+        "moduleResolution": "Classic",
         "removeComments": true,
-        //		"sourceMap": true,
-
-        "inlineSourceMap": true,
-        "inlineSources": true,
+        "sourceMap": true,
+        //        "inlineSourceMap": true,
+        //        "inlineSources": true,
         "declaration": true,
         "declarationMap": true,
         "declarationDir": "declarations",
         //		"outDir": "dist",
-        "noEmitHelpers": false,
-        "importHelpers": false,
-        "types": [
-            "./node_modules/electron",
-            "./node_modules/python-shell",
-            "./node_modules/sweetalert2",
-            "./node_modules/@types/tone",
-            "node"
-        ],
-        "keyofStringsOnly": false,
+        //        "noEmitHelpers": false,
+        //        "importHelpers": false,
+        //        "types": [
+        //            "./node_modules/electron",
+        //            "./node_modules/python-shell",
+        //            "./node_modules/sweetalert2",
+        //            "node"
+        //        ],
+
+        "keyofStringsOnly": false
         //		"outFile": "all.js",
         //		"allowJs": true,
         //		"traceResolution": true,
-        "typeRoots": [
-            "./declarations"
-        ]
+        //        "typeRoots": [
+        //            "./declarations"
+        //        ]
         //		"rootDirs": [
         //			".",
         //			"src",
@@ -54,7 +53,9 @@
         //		],
     },
     "exclude": [
-        "./src/bhe/**/*"
+        "./src/bhe/**/*",
+        "node_modules",
+        "declarations"
     ]
     //	"include": [
     //		"src/**/*"

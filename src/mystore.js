@@ -1,6 +1,7 @@
 const Store = require('electron-store');
 const path = require("path");
 const fs = require('fs');
+import Alert from "./myalert.js"
 
 /**@class*/
 export class MyStore extends Store {

@@ -1,6 +1,6 @@
-import { isArray } from "../util.js";
-
 console.group(`%cbhe/exceptions.js`, 'font-weight: 700');
+import { isObject, enumerate } from "../util.js";
+
 
 export function getArgsFullRepr(argsWithValues) {
     return Object.entries(argsWithValues)

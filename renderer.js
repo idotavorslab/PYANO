@@ -2,7 +2,7 @@ console.group(`renderer.js`);
 import * as util from "./src/util.js"
 
 
-Object.defineProperty(Object.prototype, "keys", {
+/*Object.defineProperty(Object.prototype, "keys", {
     enumerable: false,
     value() {
         return Object.keys(this).map(key => key.isdigit()
@@ -298,7 +298,7 @@ Object.defineProperty(Error.prototype, "toObj", {
             });
         return { what, where, cleanstack };
     }
-});
+});*/
 // *** functions
 // const {Alert} = require('pyano_local_modules/util/Alert');
 const path = require("path");
