@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const $ = require('jquery');
 import { Sidebar } from "./sidebar.js";
+import * as pages from "./pages/pages.js"
 
 const { remote } = require('electron');
 const Store = require("electron-store");

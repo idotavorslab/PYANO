@@ -1,5 +1,5 @@
 console.group(`ext_libs.js`);
-import {MyStore} from "./mystore.js";
+import { MyStore } from "./mystore.js";
 
 const path = require('path');
 /**@type {MyStore}*/
@@ -26,6 +26,6 @@ Python.runAsync =
 /**
  * @type {{path: module:path, EStore: MyStore, Python: PythonShell}}
  */
-module.exports = {EStore, Python};
+module.exports = { EStore, Python };
 console.log('ext_libs.js EOF');
 console.groupEnd();

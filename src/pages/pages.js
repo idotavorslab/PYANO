@@ -2,15 +2,15 @@
 console.group(`pages/pages.js`);
 import * as newTestPage from "./NewTest/newtest.js";
 
-import * as insideTestPage from "./InsideTest/insidetest.js";
-
-import * as recordPage from "./Record/record.js";
-
-import * as fileToolsPage from "./FileTools/filetools.js";
+// import * as insideTestPage from "./InsideTest/insidetest.js";
+//
+// import * as recordPage from "./Record/record.js";
+//
+// import * as fileToolsPage from "./FileTools/filetools.js";
 
 /**@param {TLastPage} page
  @param {boolean} reload*/
-function toPage(page, reload) {
+export function toPage(page, reload) {
     switch (page) {
 
         case 'new_test':
@@ -28,4 +28,4 @@ function toPage(page, reload) {
 
 console.log('pages/pages.js EOF');
 console.groupEnd();
-module.exports = { newTestPage, insideTestPage, recordPage, fileToolsPage, toPage };
+// module.exports = { newTestPage, insideTestPage, recordPage, fileToolsPage, toPage };

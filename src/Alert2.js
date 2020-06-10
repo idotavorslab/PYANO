@@ -1,11 +1,11 @@
 /**import Alert from 'MyAlert' (or any other name)*/
 
 
-console.log('util/Alert2.js');
-import Swal, {SweetAlertResult, SweetAlertOptions} from 'sweetalert2';
-import {paragraph, elem, BetterHTMLElement, button} from "../bhe";
+console.group('util/Alert2.js');
+import Swal, { SweetAlertResult, SweetAlertOptions } from 'sweetalert2';
+import { paragraph, elem, BetterHTMLElement, button } from "./bhe/index.js";
 import * as path from "path";
-import {wait, takeScreenshot} from "../util";
+import { wait, takeScreenshot } from "./util.js";
 
 const smallMixin = Swal.mixin({
     animation: false,
@@ -47,16 +47,16 @@ const blockingSwalMixin = Swal.mixin(blockingOptions);
 
 const small = {
     _question(options) {
-        return smallMixin.fire({...options, type: 'question'})
+        return smallMixin.fire({ ...options, type: 'question' })
     },
     _info(options) {
-        return smallMixin.fire({...options, type: 'info'})
+        return smallMixin.fire({ ...options, type: 'info' })
     },
     _success(options) {
-        return smallMixin.fire({...options, type: 'success'})
+        return smallMixin.fire({ ...options, type: 'success' })
     },
     _error(options) {
-        return smallMixin.fire({...options, type: 'error'})
+        return smallMixin.fire({ ...options, type: 'error' })
     },
     _warning(options) {
         return smallMixin.fire({
@@ -79,7 +79,7 @@ const small = {
             type: "info",
         };
         if (showConfirmBtns) {
-            infoOptions = {...infoOptions, ...withConfirm};
+            infoOptions = { ...infoOptions, ...withConfirm };
         }
         // @ts-ignore
         return smallMixin.fire(infoOptions);
@@ -116,12 +116,12 @@ const big = {
             const error = options.html;
 
 
-            const {what, where, cleanstack} = error.toObj();
-            console.warn('Error!', error, {cleanstack});
+            const { what, where, cleanstack } = error.toObj();
+            console.warn('Error!', error, { cleanstack });
             options.html = `${what}<p>${where}</p>`
         }
         const dirname = new Date().human();
-        const {default: Glob} = require('../Glob');
+        const { default: Glob } = require('../Glob');
         if (LOG || !Glob.BigConfig.get('dev')) {
             options.onOpen = async () => {
                 await takeScreenshot(dirname);
@@ -143,26 +143,26 @@ const big = {
     },
     warning(options) {
         if (options.animation === false) {
-            options = {customClass: null, ...options};
+            options = { customClass: null, ...options };
         }
-        return blockingSwalMixin.fire({...withConfirm, type: 'warning', ...options});
+        return blockingSwalMixin.fire({ ...withConfirm, type: 'warning', ...options });
     },
 
     blocking(options, moreOptions) {
 
         if (moreOptions && moreOptions.strings && moreOptions.clickFn) {
-            let {strings, clickFn} = moreOptions;
+            let { strings, clickFn } = moreOptions;
 
             let paragraphs = strings
                 // .map(s => $(`<p class="clickable">${s}</p>`))
-                .map(s => paragraph({cls: 'clickable', text: s}))
+                .map(s => paragraph({ cls: 'clickable', text: s }))
                 .map(pElem => pElem.click(() => clickFn(pElem)));
 
             options = {
                 ...options,
                 onBeforeOpen(modalElement) {
                     console.log('modalElement:', modalElement);
-                    return elem({id: 'swal2-content'})
+                    return elem({ id: 'swal2-content' })
                         // .show()
                         .append(...paragraphs);
                 }
@@ -176,11 +176,11 @@ const big = {
         }
         if (options.showConfirmButton || options.showCancelButton || options.onOpen) {
             // / Happens when not or bad moreOptions
-            return Swal.fire({...blockingOptions, ...options});
+            return Swal.fire({ ...blockingOptions, ...options });
         } else { // TODO: onOpen : resolve?
 
             // @ts-ignore
-            return new Promise(resolve => Swal.fire({...blockingOptions, ...options, onOpen: v => resolve(v)}));
+            return new Promise(resolve => Swal.fire({ ...blockingOptions, ...options, onOpen: v => resolve(v) }));
         }
     },
 
@@ -233,7 +233,7 @@ const big = {
     },
     async twoButtons(options) {
 
-        const {value} = await Swal.fire({
+        const { value } = await Swal.fire({
 
             showCancelButton: true,
             customClass: 'animated fadeIn',
@@ -247,19 +247,19 @@ const big = {
         // const thirdButtonText = options.thirdButtonText ?? 'Overwrite';
         let thirdButtonCss;
         if (options.thirdButtonType === "warning") {
-            thirdButtonCss = {backgroundColor: '#FFC66D', color: 'black'}
+            thirdButtonCss = { backgroundColor: '#FFC66D', color: 'black' }
         }
 
-        console.log({thirdButtonCss});
+        console.log({ thirdButtonCss });
         let action;
         const onBeforeOpen = (modal) => {
             let el = elem({
                 htmlElement: modal,
-                children: {actions: '.swal2-actions'}
-            }) as BetterHTMLElement & {actions: BetterHTMLElement};
+                children: { actions: '.swal2-actions' }
+            }) as BetterHTMLElement & { actions: BetterHTMLElement };
 
             el.actions.append(
-                button({cls: `swal2-confirm swal2-styled`, html: options.thirdButtonText})
+                button({ cls: `swal2-confirm swal2-styled`, html: options.thirdButtonText })
 
                     .css(thirdButtonCss)
                     .click((ev) => {
@@ -268,8 +268,8 @@ const big = {
                     })
             )
         };
-        options = {...options, onBeforeOpen, showCancelButton: true};
-        const {value} = await Swal.fire(options);
+        options = { ...options, onBeforeOpen, showCancelButton: true };
+        const { value } = await Swal.fire(options);
         if (value) {
             /// Either user clicked Confirm (action is undefined) or Swal.clickConfirm() (action is "third")
             if (action === undefined) {
@@ -283,4 +283,6 @@ const big = {
     }
 };
 // export default { alertFn, small, big, close : Swal.close, isVisible : Swal.isVisible };
-export default {small, big, ...Swal};
+export default { small, big, ...Swal };
+console.log('src/Alert2.js EOF');
+console.groupEnd();

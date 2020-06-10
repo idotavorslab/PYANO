@@ -223,6 +223,27 @@ export function isEqual(obja, objb) {
 
 }
 
+/**Just the basename*/
+async function takeScreenshot(dirname) {
+    const webContents = remote.getCurrentWebContents();
+    const image = await webContents.capturePage();
+    myfs.createIfNotExists(SESSION_PATH_ABS);
+    const dirnameAbs = path.join(SESSION_PATH_ABS, dirname);
+    myfs.createIfNotExists(dirnameAbs);
+    const files = { png: undefined, html: undefined };
+    if (fs.existsSync(path.join(dirnameAbs, 'page.png'))) {
+        files.png = `${dirnameAbs}/page__${new Date().human()}.png`
+    } else {
+        files.png = path.join(dirnameAbs, 'page.png');
+    }
+    fs.writeFileSync(files.png, image.toPNG());
+    if (fs.existsSync(path.join(dirnameAbs, 'screenshot.html'))) {
+        files.html = `${dirnameAbs}/screenshot__${new Date().human()}.html`
+    } else {
+        files.html = path.join(dirnameAbs, 'screenshot.html');
+    }
+    return await webContents.savePage(files.html, "HTMLComplete");
+}
 
 ///////////////
 /// OLD

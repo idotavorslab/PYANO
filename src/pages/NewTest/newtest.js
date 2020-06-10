@@ -2,10 +2,10 @@
 
 import * as EXTLIBS from "./../../ext_libs.js"
 
-const {EStore} = EXTLIBS;
-const {safeSwitchCss, $MainContent, $Sidebar} = require("pyano_local_modules/document");
+const { EStore } = EXTLIBS;
+const { safeSwitchCss, $MainContent, $Sidebar } = require("pyano_local_modules/document");
 const Gui = require("./Gui");
-const {SubjectPart, LevelsPart, SettingsPart} = require("./Parts/parts");
+const { SubjectPart, LevelsPart, SettingsPart } = require("./Parts/parts");
 
 
 const newTestPage = {
@@ -14,8 +14,9 @@ const newTestPage = {
     switch: async reload => {
         EStore.config().finished_trials_count = 0;
         EStore.last_page = 'new_test';
-        if (reload)
+        if (reload) {
             return reloadPage();
+        }
 
         await asx.$fadeOut($MainContent, 100);
         $MainContent.empty();

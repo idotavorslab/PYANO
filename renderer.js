@@ -563,7 +563,7 @@ const asx = (() => {
 /**An object wrapping a path with extension. Can be absolute or base.
  * ``toString()`` returns ``this.path``.
  * ``name`` property exists only if wrapping an absolute path.*/
-class _File {
+export class _File {
     constructor(pathWithExt) {
         if (!util.bool(path.extname(pathWithExt))) {
             throw new Error(`File constructor: passed 'pathWithExt' is extensionless: ${pathWithExt}`);
@@ -624,7 +624,7 @@ class _File {
 
     /**@return {Promise<void>}*/
     async remove() {
-        return await require('fs').unlinkSync(this.path);
+        return require('fs').unlinkSync(this.path);
     }
 
     /**@return {number}*/
@@ -634,7 +634,7 @@ class _File {
     }
 }
 
-class Truth {
+export class Truth {
     /**An object wrapping an absolute path without extension.
      * @param {string} pathNoExt*/
     constructor(pathNoExt) {
@@ -750,12 +750,12 @@ class Truth {
         return require("fs")
             .readFileSync(this.txt.on.path, { encoding: 'utf8' })
             .split('\n')
-            .filter(line => bool(line)).length;
+            .filter(line => util.bool(line)).length;
     }
 }
 
 /**@class*/
-class Level {
+export class Level {
     /**@param {TLevel} level
      @param {number} index
      @param {number?} internalTrialIndex*/
@@ -784,13 +784,13 @@ class Level {
     }
 
     hasZeroes() {
-        return !bool(this.notes) || !bool(this.trials);
+        return !util.bool(this.notes) || !util.bool(this.trials);
     }
 
 }
 
 /**@class*/
-class Levels {
+export class Levels {
     /**@param {TLevel[]} levels
      @param {number?} currentLevelIndex
      @param {number?} currentInternalTrialIndex*/

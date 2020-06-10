@@ -1,0 +1,62 @@
+{
+    "compilerOptions": {
+        "module": "none",
+        "target": "es2017",
+        "noImplicitAny": false,
+        "moduleResolution": "node",
+        "removeComments": true,
+        //		"sourceMap": true,
+
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "declaration": true,
+        "declarationMap": true,
+        "declarationDir": "declarations",
+        //		"outDir": "dist",
+        "noEmitHelpers": false,
+        "importHelpers": false,
+        "types": [
+            "./node_modules/electron",
+            "./node_modules/python-shell",
+            "./node_modules/sweetalert2",
+            "./node_modules/@types/tone",
+            "node"
+        ],
+        "keyofStringsOnly": false,
+        //		"outFile": "all.js",
+        //		"allowJs": true,
+        //		"traceResolution": true,
+        "typeRoots": [
+            "./declarations"
+        ]
+        //		"rootDirs": [
+        //			".",
+        //			"src",
+        //			"src/pages"
+        //		],
+        //		"extendedDiagnostics": true
+        //		"baseUrl": ".",
+        //		"paths": {
+        //			"*": [
+        //				"*",
+        //				"./*",
+        //				"src/*",
+        //				"pages/*",
+        //				"../pages",
+        //				"../*",
+        //				"../../*"
+        //			]
+        //		}
+        //		"lib": [
+        //			"es6",
+        //			"es5",
+        //			"dom"
+        //		],
+    },
+    "exclude": [
+        "./src/bhe/**/*"
+    ]
+    //	"include": [
+    //		"src/**/*"
+    //	]
+}
