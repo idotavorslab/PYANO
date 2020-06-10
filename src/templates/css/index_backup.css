@@ -1,0 +1,313 @@
+@charset "UTF-8";
+
+
+@font-face {
+    font-family: "Roboto";
+    src: url(./roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Roboto Thin";
+    src: url(./roboto/Roboto-Thin.ttf);
+}
+
+@font-face {
+    font-family: "Roboto Light";
+    src: url(./roboto/Roboto-Light.ttf);
+}
+
+/*body {
+    background-color: #181818;
+    display: grid;
+    padding: 1vh 1vw;
+    grid-template-rows: repeat(19, 1fr);
+    grid-column-gap: 0.5vw;
+    grid-row-gap: 1vh;
+    grid-template-columns: 8% repeat(13, 1fr);
+}*/
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    line-height: 18px;
+    margin: 30px 40px;
+    text-align: left;
+}
+
+#main {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+button, p, input, div, span {
+    color: white;
+    /*font-family: "Roboto", serif;*/
+    transition: box-shadow 200ms, background-color 200ms, background 200ms, color 200ms, font-weight 200ms;
+    /*letter-spacing: 1px;*/
+}
+
+#sidebar {
+    /*border-right-color: rgba(255, 255, 255, 0.1);*/
+    /*border-right-style: inset;*/
+    /*border-width: 1px;*/
+    /*display: grid;*/
+    /*grid-column: 1/1;*/
+    /*grid-row: 2/20;*/
+
+
+    /*display: flex;*/
+    /*flex-direction: column;*/
+
+    /*align-content: flex-start;*/
+}
+
+#sidebar > div {
+    /*align-self: center;*/
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: filter 200ms, color 200ms;
+}
+
+#sidebar > div[class~=selected] {
+    color: white;
+}
+
+#nav_btns_container {
+    position: sticky;
+    text-align: right;
+    grid-column: 13/13;
+    grid-row: 1/1;
+    z-index: 1000;
+}
+
+#nav_btns_container > button {
+    background-color: #181818;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: none;
+    height: 31px;
+    margin-left: 0.3vw;
+    opacity: 0.7;
+    position: relative;
+    transition: background-color 0s, opacity 0s;
+    width: 30px;
+}
+
+#nav_btns_container > button:hover {
+    opacity: 1;
+    background-color: #444;
+    outline: unset;
+}
+
+#nav_btns_container > button[id=exit_btn] {
+    background-image: url(../exit.png);
+    left: 100%;
+}
+
+#nav_btns_container > button[id=minimize_btn] {
+    background-image: url(../minimize.png);
+    left: 95%;
+}
+
+/*#main {*/
+/*    display: inline-grid;*/
+/*    grid-column-gap: inherit;*/
+/*    grid-column: 2/15;*/
+/*    grid-row-gap: inherit;*/
+/*    grid-row: 2/20;*/
+/*    grid-template-columns: repeat(13, 1fr);*/
+/*    grid-template-rows: repeat(18, 1fr);*/
+/*    margin-top: 2vh;*/
+/*    margin-right: 0vw;*/
+/*    margin-bottom: 0vh;*/
+/*    margin-left: 2vw;*/
+/*}*/
+
+button {
+    border-radius: 1rem;
+    border-width: 0;
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+}
+
+button:hover {
+    box-shadow: 0 0 15px 5px #333;
+}
+
+button:focus {
+    outline: unset;
+}
+
+button[class~=active-btn] {
+    background-color: #1db954;
+    color: white;
+}
+
+button[class~=inactive-btn] {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+button[class~=inactive-btn]:hover {
+    box-shadow: unset;
+}
+
+.radio-option[class~=on] {
+    background-color: #3d5afe;
+    color: white;
+    font-weight: 200;
+}
+
+.radio-option[class~=off] {
+    background-color: rgba(255, 255, 255, 0);
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.5);
+    border-width: 2px;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-weight: 300;
+}
+
+.toggle-btn[class~=on] {
+    background-color: #3d5afe;
+    color: white;
+    text-align: right;
+}
+
+.toggle-btn[class~=off] {
+    background-color: rgba(255, 255, 255, 0);
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.5);
+    border-width: 2px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: left;
+}
+
+.toggle-btn:after {
+    content: "·";
+}
+
+.input-div {
+    background-color: white;
+    border-radius: 4rem;
+    color: black;
+    display: table;
+    font-size: unset;
+    height: 100%;
+    padding-left: 2vw;
+}
+
+.input-div:hover {
+    background-color: #DDD;
+    cursor: text;
+}
+
+.input-div-inner-container {
+    color: black;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.input-div-editable-span:focus {
+    outline: unset;
+}
+
+.input-div-autocomplete-span {
+    color: gray;
+}
+
+.input-missing {
+    background-color: lightpink;
+}
+
+select {
+    border-radius: 0.5rem;
+    border-width: 0;
+    font-family: unset;
+    padding: 1vh 1vw 1vh 1vw;
+    transition: box-shadow 0.2s;
+}
+
+select > option {
+    border-radius: 0.5rem;
+    border-width: 0;
+    font-family: unset;
+    padding: 0.5vw;
+}
+
+select:focus {
+    outline: unset;
+    box-shadow: 0px 0px 2px 3px #647896;
+}
+
+select[class~=disabled] {
+    background: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 0, 0, 0.5);
+}
+
+@keyframes my_select_onfocus {
+    0% {
+        box-shadow: 0px 0px 0px 0px darkgrey;
+    }
+    100% {
+        box-shadow: 0px 0px 15px 5px #333;
+    }
+}
+
+.mid-v-align-container {
+    display: table;
+    height: 100%;
+}
+
+.mid-v-align {
+    vertical-align: middle;
+    display: table-cell;
+}
+
+#title {
+    grid-column: 2/15;
+    grid-row: 1/1;
+    font-size: 2em;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.subtitle, .subtitle > div {
+    color: rgba(255, 255, 255, 0.75);
+    font-family: "Roboto Thin", serif;
+    font-size: 1.125vw;
+}
+
+.autocomplete {
+    color: white;
+}
+
+
+#swal2-content, .swal2-input, #swal2-content > p {
+    color: #595959;
+}
+
+.unclickable, button[class~=inactive-btn], .radio-option[class~=on], #sidebar > div[class~=selected] {
+    cursor: unset;
+    pointer-events: none;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.lightpink {
+    color: #ffcfff;
+}
+
+.lightgreen {
+    color: #cfffcf;
+}
+
+.opac0 {
+    opacity: 0;
+}
+
+.opac1 {
+    opacity: 1;
+}

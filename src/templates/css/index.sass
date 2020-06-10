@@ -14,21 +14,39 @@
 
 
 body
-    background-color: #181818
-    display: grid
-    padding: 1vh 1vw
-    grid:
-        template-rows: repeat(19, 1fr)
-        column-gap: 0.5vw
-        row-gap: 1vh
-        template-columns: 8% repeat(13, 1fr)
+    font-family: 'Roboto', sans-serif
+    color: white
+    line-height: 18px
+    margin: 40px 40px
+    text-align: left
 
-    & > *, button, p, input, div
-        color: white
-        font-family: "Roboto", serif
-        transition: box-shadow 200ms, background-color 200ms, background 200ms, color 200ms, font-weight 200ms
-        letter-spacing: 1px
 
+button, p, input, div, span
+    color: white
+    /*font-family: "Roboto", serif;*/
+    transition: box-shadow 200ms, background-color 200ms, background 200ms, color 200ms, font-weight 200ms
+/*letter-spacing: 1px;*/
+
+
+
+#main
+    //display: inline-grid
+    //grid:
+    //    column-gap: inherit
+    //    column: 2/15
+    //    row-gap: inherit
+    //    row: 2/20
+    //    template:
+    //        columns: repeat(13, 1fr)
+    //        rows: repeat(18, 1fr)
+    //margin:
+    //    top: 2vh
+    //    right: 0vw
+    //    bottom: 0vh
+    //    left: 2vw
+
+    display: flex
+    flex-wrap: wrap
 
 #nav_btns_container
     position: sticky
@@ -68,25 +86,30 @@ body
             left: 95%
 
 
-#main
-    display: inline-grid
-    grid:
-        column-gap: inherit
-        column: 2/15
-        row-gap: inherit
-        row: 2/20
-        template:
-            columns: repeat(13, 1fr)
-            rows: repeat(18, 1fr)
-    margin:
-        top: 2vh
-        right: 0vw
-        bottom: 0vh
-        left: 2vw
+#sidebar
+    //border:
+    //    right:
+    //        color: rgba(255, 255, 255, 0.1)
+    //        style: inset
+    //    width: 1px
+    //
+    //display: grid
+    //grid:
+    //    column: 1/1
+    //    row: 2/20
 
-//&, & > *
-    transition: opacity 1s
+    width: 150px
 
+    & > div
+        //align-self: center
+        color: rgba(255, 255, 255, 0.5)
+        cursor: pointer
+        transition: filter 200ms, color 200ms
+        margin-bottom: 50px
+
+        &[class~="selected"]
+            color: white
+            @extend .unclickable
 
 button
     border:
@@ -248,30 +271,6 @@ select
 
 .autocomplete
     color: rgba(255, 255, 255, 1)
-
-
-#sidebar
-    border:
-        right:
-            color: rgba(255, 255, 255, 0.1)
-            style: inset
-        width: 1px
-
-    display: grid
-    grid:
-        column: 1/1
-        row: 2/20
-
-
-    & > span[class~="sidebar-item"]
-        align-self: center
-        color: rgba(255, 255, 255, 0.5)
-        cursor: pointer
-        transition: filter 200ms, color 200ms
-
-        &[class~="selected"]
-            color: white
-            @extend .unclickable
 
 
 #swal2-content, .swal2-input, #swal2-content > p
