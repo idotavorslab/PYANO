@@ -1,8 +1,8 @@
 {
-	"truth_file": "fur_elise_R",
+	"truth_file_path": "fur_elise_R",
 	"name": "fur_elise_R_2.test",
 	"demo_type": "video",
-	"errors_playrate": 1,
+	"errors_playingspeed": 1,
 	"levels": [
 		{
 			"notes": 31,

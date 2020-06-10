@@ -13,9 +13,12 @@ async function createWindow() {
             enableRemoteModule: true,
             allowRunningInsecureContent: true,
             autoplayPolicy: "no-user-gesture-required",
+            webSecurity: false,
 
 
         },
+        acceptFirstMouse: true,
+
         backgroundColor: '#181818'
 
     });

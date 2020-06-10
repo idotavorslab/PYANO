@@ -1,13 +1,13 @@
 console.group(`index.js`);
-import {BetterHTMLElement} from "./bhe/index.js";
+// import {BetterHTMLElement} from "./bhe/index.js";
 
 const path = require('path');
 
 const fs = require('fs');
 const $ = require('jquery');
-// import * as sidebar from "./sidebar.js";
+import * as sidebar from "./sidebar.js";
 
-const {remote} = require('electron');
+const { remote } = require('electron');
 const Store = require("electron-store");
 const store = new Store();
 
@@ -34,7 +34,7 @@ if (__dirname.endsWith('src')) {
 }
 const enginePath = path.join(rootPath, "engine");
 const pyExecPath = path.join(enginePath, process.platform === 'win32' ? "env/Scripts/python.exe" : "env/bin/python");
-console.table({rootPath, enginePath, pyExecPath});
+console.table({ rootPath, enginePath, pyExecPath });
 
 pyShell.defaultOptions = {
     pythonPath: pyExecPath,
@@ -47,7 +47,7 @@ if (fs.existsSync(path.join(enginePath, 'check_create_config_file.py'))) {
         console.log(`%crunning check_create_config_file.py, configfilepath: ${configfilepath}`, 'font-weight: 700');
         pyShell.run("check_create_config_file.py", {
             mode: "json",
-            args: [configfilepath, rootPath]
+            args: [ configfilepath, rootPath ]
         }, (err, output) => {
             if (err) {
                 console.error(err);
@@ -78,7 +78,7 @@ if (fs.existsSync(store.path)) {
 } else {
     alert(`store.path (${store.path}) does not exist! this shouldn't happen! see logs`)
 }
-for (let d of ['configs', 'subjects', 'truths']) {
+for (let d of [ 'configs', 'subjects', 'truths' ]) {
     let subdir = path.join(rootPath, 'experiments', d);
     if (!fs.existsSync(subdir)) {
         fs.mkdirSync(subdir);
@@ -88,15 +88,16 @@ for (let d of ['configs', 'subjects', 'truths']) {
 }
 
 export const $PageCss = $('#page_css');
-export const $Sidebar = $('#sidebar');
+// export const $Sidebar = $('#sidebar');
 export const $Title = $('#title');
-export const $MainContent = $('#main_content').hide();
-$Sidebar._fadeTo = $Sidebar.fadeTo;
+export const $MainContent = $('#main_content');
+
+/*$Sidebar._fadeTo = $Sidebar.fadeTo;
 $Sidebar.fadeTo = (speed, to, easing, callback) => {
     // [...$Sidebar[0].children].forEach(item=>item.classList.add('unclickable'));
     $Sidebar[0].classList.toggle('unclickable', to == 0);
     return $Sidebar._fadeTo(speed, to, easing, callback);
-};
+};*/
 
 function safeSwitchCss(href) {
     if ($PageCss.attr('href') != href) {
@@ -104,7 +105,7 @@ function safeSwitchCss(href) {
     }
 }
 
-console.log(BetterHTMLElement);
+// sidebar.build();
 
 console.log('index.js EOF');
 console.groupEnd();

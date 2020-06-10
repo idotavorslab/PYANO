@@ -1,3 +1,4 @@
+"""THIS FILE IS BROKEN"""
 import sys
 import json
 import os
@@ -29,7 +30,7 @@ if 'truth_file_path' not in config:
     config['truth_file_path'] = "experiments/truths/fur_elise_B.txt"
 else:
     import re
-
+    
     split = re.split(r'[\\/]', config['truth_file_path'])
     if (len(split) != 3
             or split[0] != 'experiments'

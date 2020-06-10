@@ -1,4 +1,5 @@
 // ** pages/pages.js
+console.group(`pages/pages.js`);
 import * as newTestPage from "./NewTest/newtest.js";
 
 import * as insideTestPage from "./InsideTest/insidetest.js";
@@ -25,4 +26,6 @@ function toPage(page, reload) {
     }
 }
 
-module.exports = {newTestPage, insideTestPage, recordPage, fileToolsPage, toPage};
+console.log('pages/pages.js EOF');
+console.groupEnd();
+module.exports = { newTestPage, insideTestPage, recordPage, fileToolsPage, toPage };

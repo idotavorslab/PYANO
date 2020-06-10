@@ -1,16 +1,16 @@
-import {isArray} from "./util.js";
+import { isArray } from "../util.js";
 
-console.log(`%cbhe/exceptions.js`, 'font-weight: 700');
+console.group(`%cbhe/exceptions.js`, 'font-weight: 700');
 
 export function getArgsFullRepr(argsWithValues) {
     return Object.entries(argsWithValues)
-        .flatMap(([argname, argval]) => `${argname}: ${isObject(argval) ? `{${getArgsFullRepr(argval)}}` : argval}`)
+        .flatMap(([ argname, argval ]) => `${argname}: ${isObject(argval) ? `{${getArgsFullRepr(argval)}}` : argval}`)
         .join('", "');
 }
 
 export function getArgsWithValues(passedArgs) {
     const argsWithValues = {};
-    for (let [argname, argval] of Object.entries(passedArgs)) {
+    for (let [ argname, argval ] of Object.entries(passedArgs)) {
         if (argval !== undefined) {
             argsWithValues[argname] = argval;
         }
@@ -30,7 +30,7 @@ export class MutuallyExclusiveArgs extends Error {
         let message = `Didn't receive exactly one arg`;
         if (isArray(passedArgs)) {
             message += ` from the following mutually exclusive sets of args.\n`;
-            for (let [i, argset] of enumerate(passedArgs)) {
+            for (let [ i, argset ] of enumerate(passedArgs)) {
                 message += `Out of set #${i + 1}, which consists of ${summary(argset)}`;
             }
         } else {
@@ -47,7 +47,7 @@ export class NotEnoughArgs extends Error {
     constructor(expected, passedArgs, relation) {
         let message;
         if (isArray(expected)) {
-            let [min, max] = expected;
+            let [ min, max ] = expected;
             if (max === undefined) {
                 message = `Didn't receive enough args: expected at least ${min}`;
             } else {
@@ -58,7 +58,7 @@ export class NotEnoughArgs extends Error {
         }
         if (isArray(passedArgs)) {
             message += ` from ${relation} set of arguments.\n`;
-            for (let [i, argset] of enumerate(passedArgs)) {
+            for (let [ i, argset ] of enumerate(passedArgs)) {
                 message += `Out of set #${i + 1}, which consists of ${summary(argset)}`;
             }
         } else {
@@ -69,3 +69,4 @@ export class NotEnoughArgs extends Error {
 }
 
 console.log('bhe/exceptions.js EOF');
+console.groupEnd();

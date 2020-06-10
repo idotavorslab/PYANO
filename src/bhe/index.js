@@ -1,5 +1,5 @@
-import {allUndefined, anyDefined, anyTruthy, isFunction, enumerate, wait, isObject, bool} from "./util.js";
-import {summary, MutuallyExclusiveArgs, NotEnoughArgs} from "./exceptions.js";
+import { allUndefined, anyDefined, anyTruthy, isFunction, enumerate, wait, isObject, bool } from "../util.js";
+import { summary, MutuallyExclusiveArgs, NotEnoughArgs } from "./exceptions.js";
 
 console.log(`%cbhe/index.js`, 'font-weight: 700');
 const SVG_NS_URI = 'http://www.w3.org/2000/svg';
@@ -9,23 +9,23 @@ export class BetterHTMLElement {
         this._isSvg = false;
         this._listeners = {};
         this._cachedChildren = {};
-        let {tag, cls, setid, htmlElement, byid, query, children} = elemOptions;
-        if ([byid, htmlElement, query, tag].filter(x => x !== undefined).length > 1) {
+        let { tag, cls, setid, htmlElement, byid, query, children } = elemOptions;
+        if ([ byid, htmlElement, query, tag ].filter(x => x !== undefined).length > 1) {
             throw new MutuallyExclusiveArgs({
                 byid, query, htmlElement, tag
             }, 'Either wrap an existing element by passing one of `byid` / `query` / `htmlElement`, or create a new one by passing `tag`.');
         }
-        if (anyDefined([tag, cls, setid]) && anyDefined([children, byid, htmlElement, query])) {
+        if (anyDefined([ tag, cls, setid ]) && anyDefined([ children, byid, htmlElement, query ])) {
             throw new MutuallyExclusiveArgs([
-                {tag, cls, setid},
-                {children, byid, htmlElement, query}
+                { tag, cls, setid },
+                { children, byid, htmlElement, query }
             ], `Can't have args from both sets`);
         }
-        if (allUndefined([tag, byid, htmlElement, query])) {
-            throw new NotEnoughArgs(1, {tag, byid, htmlElement, query}, 'either');
+        if (allUndefined([ tag, byid, htmlElement, query ])) {
+            throw new NotEnoughArgs(1, { tag, byid, htmlElement, query }, 'either');
         }
         if (tag !== undefined) {
-            if (['svg', 'path'].includes(tag.toLowerCase())) {
+            if ([ 'svg', 'path' ].includes(tag.toLowerCase())) {
                 this._isSvg = true;
                 this._htmlElement = document.createElementNS(SVG_NS_URI, tag);
             } else {
@@ -69,29 +69,29 @@ export class BetterHTMLElement {
     static wrapWithBHE(element) {
         const tag = element.tagName.toLowerCase();
         if (tag === 'div') {
-            return div({htmlElement: element});
+            return div({ htmlElement: element });
         } else if (tag === 'a') {
-            return anchor({htmlElement: element});
+            return anchor({ htmlElement: element });
         } else if (tag === 'p') {
-            return paragraph({htmlElement: element});
+            return paragraph({ htmlElement: element });
         } else if (tag === 'img') {
-            return img({htmlElement: element});
+            return img({ htmlElement: element });
         } else if (tag === 'input') {
             if (element.type === "text") {
-                return new TextInput({htmlElement: element});
+                return new TextInput({ htmlElement: element });
             } else if (element.type === "checkbox") {
-                return new CheckboxInput({htmlElement: element});
+                return new CheckboxInput({ htmlElement: element });
             } else {
-                return input({htmlElement: element});
+                return input({ htmlElement: element });
             }
         } else if (tag === 'button') {
-            return button({htmlElement: element});
+            return button({ htmlElement: element });
         } else if (tag === 'span') {
-            return span({htmlElement: element});
+            return span({ htmlElement: element });
         } else if (tag === 'select') {
-            return select({htmlElement: element});
+            return select({ htmlElement: element });
         } else {
-            return elem({htmlElement: element});
+            return elem({ htmlElement: element });
         }
     }
 
@@ -103,7 +103,7 @@ export class BetterHTMLElement {
         let tag = (_a = this.e) === null || _a === void 0 ? void 0 : _a.tagName;
         let id = this.id();
         let classList = (_b = this.e) === null || _b === void 0 ? void 0 : _b.classList;
-        if (anyTruthy([id, classList, tag])) {
+        if (anyTruthy([ id, classList, tag ])) {
             str += ` (`;
             if (tag) {
                 str += `<${tag.toLowerCase()}>`;
@@ -124,7 +124,7 @@ export class BetterHTMLElement {
         if (newHtmlElement instanceof BetterHTMLElement) {
             this._htmlElement.replaceWith(newHtmlElement.e);
             this._htmlElement = newHtmlElement.e;
-            for (let [_key, _cachedChild] of enumerate(newHtmlElement._cachedChildren)) {
+            for (let [ _key, _cachedChild ] of enumerate(newHtmlElement._cachedChildren)) {
                 this._cache(_key, _cachedChild);
             }
             if (Object.keys(this._cachedChildren).length
@@ -178,7 +178,7 @@ export class BetterHTMLElement {
         if (typeof css === 'string') {
             return this.e.style[css];
         } else {
-            for (let [styleAttr, styleVal] of enumerate(css)) {
+            for (let [ styleAttr, styleVal ] of enumerate(css)) {
                 this.e.style[styleAttr] = styleVal;
             }
             return this;
@@ -200,7 +200,7 @@ export class BetterHTMLElement {
             return Array.from(this.e.classList).find(cls);
         } else {
             if (this._isSvg) {
-                this.e.classList = [cls];
+                this.e.classList = [ cls ];
             } else {
                 this.e.className = cls;
             }
@@ -286,7 +286,7 @@ export class BetterHTMLElement {
                     this.e.append(node);
                 } else {
                     if (Array.isArray(node)) {
-                        this.cacheAppend([node]);
+                        this.cacheAppend([ node ]);
                     } else {
                         this.cacheAppend(node);
                     }
@@ -336,11 +336,11 @@ export class BetterHTMLElement {
             this._cache(_key, _child);
         };
         if (Array.isArray(keyChildPairs)) {
-            for (let [key, child] of keyChildPairs) {
+            for (let [ key, child ] of keyChildPairs) {
                 _cacheAppend(key, child);
             }
         } else {
-            for (let [key, child] of enumerate(keyChildPairs)) {
+            for (let [ key, child ] of enumerate(keyChildPairs)) {
                 _cacheAppend(key, child);
             }
         }
@@ -361,7 +361,7 @@ export class BetterHTMLElement {
         if (bheCls === undefined) {
             bhe = this._cls().wrapWithBHE(htmlElement);
         } else {
-            bhe = new bheCls({htmlElement});
+            bhe = new bheCls({ htmlElement });
         }
         return bhe;
     }
@@ -380,11 +380,11 @@ export class BetterHTMLElement {
 
     clone(deep) {
         console.warn(`${this}.clone() doesnt return a matching BHE subtype, but a regular BHE`);
-        return new BetterHTMLElement({htmlElement: this.e.cloneNode(deep)});
+        return new BetterHTMLElement({ htmlElement: this.e.cloneNode(deep) });
     }
 
     cacheChildren(childrenObj) {
-        for (let [key, value] of enumerate(childrenObj)) {
+        for (let [ key, value ] of enumerate(childrenObj)) {
             let type = typeof value;
             if (isObject(value)) {
                 if (value instanceof BetterHTMLElement) {
@@ -399,7 +399,7 @@ export class BetterHTMLElement {
                             this: this
                         });
                     }
-                    let [selector, obj] = entries[0];
+                    let [ selector, obj ] = entries[0];
                     if (isFunction(obj)) {
                         let bhe = this.child(selector, obj);
                         this._cache(key, bhe);
@@ -412,7 +412,7 @@ export class BetterHTMLElement {
                 let match = /<(\w+)>$/.exec(value);
                 if (match) {
                     let tagName = match[1];
-                    const htmlElements = [...this.e.getElementsByTagName(tagName)];
+                    const htmlElements = [ ...this.e.getElementsByTagName(tagName) ];
                     let bhes = [];
                     for (let htmlElement of htmlElements) {
                         bhes.push(this._cls().wrapWithBHE(htmlElement));
@@ -441,7 +441,7 @@ export class BetterHTMLElement {
     }
 
     on(evTypeFnPairs, options) {
-        for (let [evType, evFn] of enumerate(evTypeFnPairs)) {
+        for (let [ evType, evFn ] of enumerate(evTypeFnPairs)) {
             const _f = function _f(evt) {
                 evFn(evt);
             };
@@ -486,7 +486,7 @@ export class BetterHTMLElement {
             this.e.click();
             return this;
         } else {
-            return this.on({click: fn}, options);
+            return this.on({ click: fn }, options);
         }
     }
 
@@ -495,7 +495,7 @@ export class BetterHTMLElement {
             this.e.blur();
             return this;
         } else {
-            return this.on({blur: fn}, options);
+            return this.on({ blur: fn }, options);
         }
     }
 
@@ -504,16 +504,16 @@ export class BetterHTMLElement {
             this.e.focus();
             return this;
         } else {
-            return this.on({focus: fn}, options);
+            return this.on({ focus: fn }, options);
         }
     }
 
     change(fn, options) {
-        return this.on({change: fn}, options);
+        return this.on({ change: fn }, options);
     }
 
     contextmenu(fn, options) {
-        return this.on({contextmenu: fn}, options);
+        return this.on({ contextmenu: fn }, options);
     }
 
     dblclick(fn, options) {
@@ -526,7 +526,7 @@ export class BetterHTMLElement {
             this.e.dispatchEvent(dblclick);
             return this;
         } else {
-            return this.on({dblclick: fn}, options);
+            return this.on({ dblclick: fn }, options);
         }
     }
 
@@ -540,20 +540,20 @@ export class BetterHTMLElement {
             this.e.dispatchEvent(mouseenter);
             return this;
         } else {
-            return this.on({mouseenter: fn}, options);
+            return this.on({ mouseenter: fn }, options);
         }
     }
 
     keydown(fn, options) {
-        return this.on({keydown: fn}, options);
+        return this.on({ keydown: fn }, options);
     }
 
     mouseout(fn, options) {
-        return this.on({mouseout: fn}, options);
+        return this.on({ mouseout: fn }, options);
     }
 
     mouseover(fn, options) {
-        return this.on({mouseover: fn});
+        return this.on({ mouseover: fn });
     }
 
     off(event) {
@@ -573,7 +573,7 @@ export class BetterHTMLElement {
         if (typeof attrValPairs === 'string') {
             return this.e.getAttribute(attrValPairs);
         } else {
-            for (let [attr, val] of enumerate(attrValPairs)) {
+            for (let [ attr, val ] of enumerate(attrValPairs)) {
                 this.e.setAttribute(attr, val);
             }
             return this;
@@ -615,15 +615,15 @@ export class BetterHTMLElement {
 
 export class Div extends BetterHTMLElement {
     constructor(divOpts) {
-        const {setid, cls, text, byid, query, htmlElement, children} = divOpts;
+        const { setid, cls, text, byid, query, htmlElement, children } = divOpts;
         if (htmlElement !== undefined) {
-            super({htmlElement, children});
+            super({ htmlElement, children });
         } else if (byid !== undefined) {
-            super({byid, children});
+            super({ byid, children });
         } else if (query !== undefined) {
-            super({query, children});
+            super({ query, children });
         } else {
-            super({tag: "div", setid, cls});
+            super({ tag: "div", setid, cls });
         }
         if (text !== undefined) {
             this.text(text);
@@ -633,15 +633,15 @@ export class Div extends BetterHTMLElement {
 
 export class Paragraph extends BetterHTMLElement {
     constructor(pOpts) {
-        const {setid, cls, text, byid, query, htmlElement, children} = pOpts;
+        const { setid, cls, text, byid, query, htmlElement, children } = pOpts;
         if (htmlElement !== undefined) {
-            super({htmlElement, children});
+            super({ htmlElement, children });
         } else if (byid !== undefined) {
-            super({byid, children});
+            super({ byid, children });
         } else if (query !== undefined) {
-            super({query, children});
+            super({ query, children });
         } else {
-            super({tag: "p", setid, cls});
+            super({ tag: "p", setid, cls });
         }
         if (text !== undefined) {
             this.text(text);
@@ -651,15 +651,15 @@ export class Paragraph extends BetterHTMLElement {
 
 export class Span extends BetterHTMLElement {
     constructor(spanOpts) {
-        const {setid, cls, text, byid, query, htmlElement, children} = spanOpts;
+        const { setid, cls, text, byid, query, htmlElement, children } = spanOpts;
         if (htmlElement !== undefined) {
-            super({htmlElement, children});
+            super({ htmlElement, children });
         } else if (byid !== undefined) {
-            super({byid, children});
+            super({ byid, children });
         } else if (query !== undefined) {
-            super({query, children});
+            super({ query, children });
         } else {
-            super({tag: "span", setid, cls});
+            super({ tag: "span", setid, cls });
         }
         if (text !== undefined) {
             this.text(text);
@@ -669,15 +669,15 @@ export class Span extends BetterHTMLElement {
 
 export class Img extends BetterHTMLElement {
     constructor(imgOpts) {
-        const {cls, setid, src, byid, query, htmlElement, children} = imgOpts;
+        const { cls, setid, src, byid, query, htmlElement, children } = imgOpts;
         if (htmlElement !== undefined) {
-            super({htmlElement, children});
+            super({ htmlElement, children });
         } else if (byid !== undefined) {
-            super({byid, children});
+            super({ byid, children });
         } else if (query !== undefined) {
-            super({query, children});
+            super({ query, children });
         } else {
-            super({tag: "img", setid, cls});
+            super({ tag: "img", setid, cls });
         }
         if (src !== undefined) {
             this.src(src);
@@ -695,15 +695,15 @@ export class Img extends BetterHTMLElement {
 }
 
 export class Anchor extends BetterHTMLElement {
-    constructor({setid, cls, text, href, target, byid, query, htmlElement, children}) {
+    constructor({ setid, cls, text, href, target, byid, query, htmlElement, children }) {
         if (htmlElement !== undefined) {
-            super({htmlElement, children});
+            super({ htmlElement, children });
         } else if (byid !== undefined) {
-            super({byid, children});
+            super({ byid, children });
         } else if (query !== undefined) {
-            super({query, children});
+            super({ query, children });
         } else {
-            super({tag: "a", setid, cls});
+            super({ tag: "a", setid, cls });
         }
         if (text !== undefined) {
             this.text(text);
@@ -720,7 +720,7 @@ export class Anchor extends BetterHTMLElement {
         if (val === undefined) {
             return this.attr('href');
         } else {
-            return this.attr({href: val});
+            return this.attr({ href: val });
         }
     }
 
@@ -728,7 +728,7 @@ export class Anchor extends BetterHTMLElement {
         if (val === undefined) {
             return this.attr('target');
         } else {
-            return this.attr({target: val});
+            return this.attr({ target: val });
         }
     }
 }
@@ -807,15 +807,15 @@ export class Form extends BetterHTMLElement {
 
 export class Button extends Form {
     constructor(buttonOpts) {
-        const {setid, cls, text, byid, query, htmlElement, children} = buttonOpts;
+        const { setid, cls, text, byid, query, htmlElement, children } = buttonOpts;
         if (htmlElement !== undefined) {
-            super({htmlElement, children});
+            super({ htmlElement, children });
         } else if (byid !== undefined) {
-            super({byid, children});
+            super({ byid, children });
         } else if (query !== undefined) {
-            super({query, children});
+            super({ query, children });
         } else {
-            super({tag: "button", setid, cls});
+            super({ tag: "button", setid, cls });
         }
         if (text !== undefined) {
             this.text(text);
@@ -840,15 +840,15 @@ export class Button extends Form {
 
 export class Input extends Form {
     constructor(inputOpts) {
-        const {setid, cls, type, byid, query, htmlElement, children} = inputOpts;
+        const { setid, cls, type, byid, query, htmlElement, children } = inputOpts;
         if (htmlElement !== undefined) {
-            super({htmlElement, children});
+            super({ htmlElement, children });
         } else if (byid !== undefined) {
-            super({byid, children});
+            super({ byid, children });
         } else if (query !== undefined) {
-            super({query, children});
+            super({ query, children });
         } else {
-            super({tag: "input", cls, setid});
+            super({ tag: "input", cls, setid });
         }
         if (type !== undefined) {
             this._htmlElement.type = type;
@@ -860,7 +860,7 @@ export class TextInput extends Input {
     constructor(opts) {
         opts.type = 'text';
         super(opts);
-        const {placeholder, type} = opts;
+        const { placeholder, type } = opts;
         if (placeholder !== undefined) {
             if (type && type !== typeof placeholder && !(type === "text" && typeof placeholder !== "string")) {
                 console.warn(`placeholder type is ${typeof placeholder} but input type is ${type}. ignoring placeholder option.`);
@@ -995,7 +995,7 @@ export class Select extends Changable {
     }
 
     get options() {
-        return [...this.e.options];
+        return [ ...this.e.options ];
     }
 
     item(index) {

@@ -1,5 +1,5 @@
 console.group(`renderer.js`);
-import * as util from "./src/bhe/util.js"
+import * as util from "./src/util.js"
 
 
 Object.defineProperty(Object.prototype, "keys", {
@@ -127,7 +127,7 @@ Object.defineProperty(String.prototype, "removeAll", {
     enumerable: false,
     value(removeValue, ...removeValues) {
         let temp = this;
-        for (let value of [removeValue, ...removeValues]) {
+        for (let value of [ removeValue, ...removeValues ]) {
             temp = temp.replaceAll(value, '');
         }
         return temp;
@@ -152,7 +152,7 @@ Object.defineProperty(String.prototype, "replaceAll", {
                 return replaced;
             } else {
                 let temp = this;
-                for (let [sv, rv] of Object.entries(searchValue)) {
+                for (let [ sv, rv ] of Object.entries(searchValue)) {
                     temp = temp.replaceAll(sv, rv);
                 }
                 return temp;
@@ -292,11 +292,11 @@ Object.defineProperty(Error.prototype, "toObj", {
             .map(s => {
                 s = s.trim();
                 let frame = s.slice(s.search(root_abs_path), s.length - 1);
-                let [file, lineno, ...rest] = frame.split(':');
+                let [ file, lineno, ...rest ] = frame.split(':');
                 file = path.relative(root_abs_path, file);
-                return {file, lineno};
+                return { file, lineno };
             });
-        return {what, where, cleanstack};
+        return { what, where, cleanstack };
     }
 });
 // *** functions
@@ -337,8 +337,8 @@ Object.defineProperties($.prototype, {
             } else {
                 step = -diff / 32;
             }
-            const everyMs = round(speed / 32);
-            for (let i of range(0, 31)) {
+            const everyMs = util.round(speed / 32);
+            for (let i of util.range(0, 31)) {
                 if (skipFade) {
                     console.log('got skipFade = true in loop, returning');
                     return this.fadeTo(0, to, callback);
@@ -379,88 +379,6 @@ Object.defineProperties($.prototype, {
 const any = (collection) => collection.some(item => util.bool(item));
 /**@return {boolean}*/
 const all = (collection) => collection.every(item => util.bool(item));
-
-
-/**
- @param {string|number} num
- @return {number}
- */
-const int = (num) => Math.floor(num);
-/**@param {...number} values*/
-const max = (...values) => Math.max(...values);
-const min = (...values) => Math.min(...values);
-
-function* range(start, stop) {
-    for (let i = start; i <= stop; i++) {
-        yield i;
-    }
-
-}
-
-/**@param {number} n
- * @param {number} d
- * @return {number}*/
-function round(n, d = 0) {
-    const fr = 10 ** d;
-    return int(n * fr) / fr;
-}
-
-const small = (...args) => [`%c${args.join(' ')}`, `font-size:10px`];
-const str = (val) => val ? val.toString() : "";
-
-/**@param {*[]} arr*/
-function sum(arr) {
-    let sum = 0;
-    let dirty = false;
-    for (let v of arr) {
-        let number = parseFloat(v);
-        if (!isNaN(number)) {
-            dirty = true;
-            sum += number;
-        }
-
-    }
-    return !dirty ? null : sum;
-}
-
-
-function* zip(arr1, arr2) {
-    for (let key in arr1) {
-        yield [arr1[key], arr2[key]];
-    }
-}
-
-function getCurrentWindow() {
-    const {remote} = require("electron");
-    return remote.getCurrentWindow();
-}
-
-function reloadPage() {
-    getCurrentWindow().reload();
-}
-
-function isEqual(obja, objb) {
-    if (any([Array.isArray(obja), Array.isArray(objb)])) {
-        throw new Error("At least one object is an Array. Pass dict-like objects only");
-    }
-    const typeA = typeof obja;
-    const typeB = typeof objb;
-    if (typeA != 'object' || typeB != 'object') {
-        throw new Error("At least one object is not `typeof ... == 'object'`. Pass dict-like objects only");
-    }
-
-    if (Object.keys(obja).length != Object.keys(objb).length) {
-        return false;
-    }
-    for (let [objaK, objaV] of enumerate(obja)) {
-        if (!(objaK in objb) || objaV != objb[objaK]) {
-            return false;
-        }
-    }
-
-    return true;
-
-}
 
 
 // *** fsx
@@ -526,7 +444,7 @@ const fsx = (() => {
      * @return {string[]}
      * */
     function basenames(...paths) {
-        return [...paths.map(p => path.basename(p))];
+        return [ ...paths.map(p => path.basename(p)) ];
     }
 
     /**@param {string} pathLike
@@ -557,7 +475,7 @@ const fsx = (() => {
      * remove_ext: (function((PathLike|string)): string),
      * replace_ext: (function((PathLike|string), string): string)}}
      * */
-    return {basenames, basename, dirname, extname, mkdir, path_exists, replace_ext, remove_ext, remove, push_before_ext};
+    return { basenames, basename, dirname, extname, mkdir, path_exists, replace_ext, remove_ext, remove, push_before_ext };
 })();
 // *** asx
 const asx = (() => {
@@ -691,11 +609,11 @@ class _File {
         if (!this.path.endsWith('mp4') && !this.path.endsWith('mov')) {
             throw new Error(`_File: "${this.path}" isn't "mp4" or "mov"`);
         }
-        const {execSync} = require('child_process');
+        const { execSync } = require('child_process');
         const ffprobeCmd = `ffprobe -v quiet -print_format json -show_streams -show_format`;
-        const probe = JSON.parse(await execSync(`${ffprobeCmd} "${this.path}"`, {encoding: 'utf8'}));
-        const {bit_rate, height} = probe.streams.find(s => s["codec_type"] == "video");
-        return [bit_rate, height];
+        const probe = JSON.parse(await execSync(`${ffprobeCmd} "${this.path}"`, { encoding: 'utf8' }));
+        const { bit_rate, height } = probe.streams.find(s => s["codec_type"] == "video");
+        return [ bit_rate, height ];
     }
 
 
@@ -711,7 +629,7 @@ class _File {
 
     /**@return {number}*/
     async size() {
-        let {size} = await require("fs").lstatSync(this.path);
+        let { size } = await require("fs").lstatSync(this.path);
         return size;
     }
 }
@@ -750,7 +668,7 @@ class Truth {
 
             /**@return {[_File,_File,_File]}*/
             getAll() {
-                return [this.base, this.on, this.off];
+                return [ this.base, this.on, this.off ];
             }
 
             /**@return {_File[]}*/
@@ -830,7 +748,7 @@ class Truth {
      @return {number}*/
     numOfNotes() {
         return require("fs")
-            .readFileSync(this.txt.on.path, {encoding: 'utf8'})
+            .readFileSync(this.txt.on.path, { encoding: 'utf8' })
             .split('\n')
             .filter(line => bool(line)).length;
     }
@@ -845,7 +763,7 @@ class Level {
         if (index == undefined) {
             throw new Error("index is undefined");
         }
-        const {notes, rhythm, tempo, trials} = level;
+        const { notes, rhythm, tempo, trials } = level;
         this.notes = notes;
         this.rhythm = rhythm;
         this.tempo = tempo;
@@ -909,7 +827,7 @@ class Levels {
             if (level.notes in byNotes) {
                 byNotes[level.notes].addLevel(level);
             } else {
-                byNotes[level.notes] = new Levels([level]);
+                byNotes[level.notes] = new Levels([ level ]);
             }
 
         }
@@ -954,3 +872,4 @@ class Levels {
 
 console.log('renderer.js EOF');
 console.groupEnd();
+

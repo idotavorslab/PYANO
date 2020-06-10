@@ -1,3 +1,5 @@
+import { Returns, TMap, TRecMap } from "../util.js";
+
 declare function getArgsFullRepr(argsWithValues: TMap<any>): string;
 
 declare function getArgsWithValues(passedArgs: TMap<any>): TMap<any>;
@@ -21,23 +23,23 @@ declare class BetterHTMLElement<Generic extends HTMLElement = HTMLElement> {
     private _cachedChildren;
     private _cache;
 
-    constructor({tag, cls, setid}: {
+    constructor({ tag, cls, setid }: {
         tag: Element2Tag<Generic>;
         cls?: string;
         setid?: string;
     });
 
-    constructor({byid, children}: {
+    constructor({ byid, children }: {
         byid: string;
         children?: ChildrenObj;
     });
 
-    constructor({query, children}: {
+    constructor({ query, children }: {
         query: QuerySelector;
         children?: ChildrenObj;
     });
 
-    constructor({htmlElement, children}: {
+    constructor({ htmlElement, children }: {
         htmlElement: Generic;
         children?: ChildrenObj;
     });
@@ -226,40 +228,40 @@ declare class Paragraph extends BetterHTMLElement<HTMLParagraphElement> {
 }
 
 declare class Span extends BetterHTMLElement<HTMLSpanElement> {
-    constructor({cls, setid, text}: {
+    constructor({ cls, setid, text }: {
         cls?: string;
         setid?: string;
         text?: string;
     });
-    constructor({byid, children}: {
+    constructor({ byid, children }: {
         byid: string;
         children?: ChildrenObj;
     });
-    constructor({query, children}: {
+    constructor({ query, children }: {
         query: string;
         children?: ChildrenObj;
     });
-    constructor({htmlElement, children}: {
+    constructor({ htmlElement, children }: {
         htmlElement: HTMLSpanElement;
         children?: ChildrenObj;
     });
 }
 
 declare class Img<Q extends QuerySelector = QuerySelector> extends BetterHTMLElement<HTMLImageElement> {
-    constructor({cls, setid, src}: {
+    constructor({ cls, setid, src }: {
         cls?: string;
         setid?: string;
         src?: string;
     });
-    constructor({byid, children}: {
+    constructor({ byid, children }: {
         byid: string;
         children?: ChildrenObj;
     });
-    constructor({query, children}: {
+    constructor({ query, children }: {
         query: QueryOrPreciseTag<Q, "img">;
         children?: ChildrenObj;
     });
-    constructor({htmlElement, children}: {
+    constructor({ htmlElement, children }: {
         htmlElement: HTMLImageElement;
         children?: ChildrenObj;
     });
@@ -270,7 +272,7 @@ declare class Img<Q extends QuerySelector = QuerySelector> extends BetterHTMLEle
 }
 
 declare class Anchor extends BetterHTMLElement<HTMLAnchorElement> {
-    constructor({setid, cls, text, href, target, byid, query, htmlElement, children}: {
+    constructor({ setid, cls, text, href, target, byid, query, htmlElement, children }: {
         setid: any;
         cls: any;
         text: any;
@@ -326,20 +328,20 @@ declare abstract class Form<Generic extends FormishHTMLElement> extends BetterHT
 }
 
 declare class Button<Q extends QuerySelector = QuerySelector> extends Form<HTMLButtonElement> {
-    constructor({cls, setid, text}: {
+    constructor({ cls, setid, text }: {
         cls?: string;
         setid?: string;
         text?: string;
     });
-    constructor({byid, children}: {
+    constructor({ byid, children }: {
         byid: string;
         children?: ChildrenObj;
     });
-    constructor({query, children}: {
+    constructor({ query, children }: {
         query: QueryOrPreciseTag<Q, "button">;
         children?: ChildrenObj;
     });
-    constructor({htmlElement, children}: {
+    constructor({ htmlElement, children }: {
         htmlElement: HTMLButtonElement;
         children?: ChildrenObj;
     });
@@ -351,20 +353,20 @@ declare class Button<Q extends QuerySelector = QuerySelector> extends Form<HTMLB
 declare class Input<TInputType extends InputType, Generic extends FormishHTMLElement = HTMLInputElement, Q extends QuerySelector = QuerySelector> extends Form<Generic> {
     type: TInputType;
 
-    constructor({cls, setid, type}: {
+    constructor({ cls, setid, type }: {
         cls?: string;
         setid?: string;
         type?: TInputType;
     });
-    constructor({byid, children}: {
+    constructor({ byid, children }: {
         byid: string;
         children?: ChildrenObj;
     });
-    constructor({query, children}: {
+    constructor({ query, children }: {
         query: QueryOrPreciseTag<Q, "input">;
         children?: ChildrenObj;
     });
-    constructor({htmlElement, children}: {
+    constructor({ htmlElement, children }: {
         htmlElement: Generic;
         children?: ChildrenObj;
     });
@@ -372,20 +374,20 @@ declare class Input<TInputType extends InputType, Generic extends FormishHTMLEle
 }
 
 declare class TextInput<Q extends QuerySelector = QuerySelector> extends Input<"text"> {
-    constructor({cls, setid, placeholder}: {
+    constructor({ cls, setid, placeholder }: {
         cls?: string;
         setid?: string;
         placeholder?: string;
     });
-    constructor({byid, children}: {
+    constructor({ byid, children }: {
         byid: string;
         children?: ChildrenObj;
     });
-    constructor({query, children}: {
+    constructor({ query, children }: {
         query: QueryOrPreciseTag<Q, "input">;
         children?: ChildrenObj;
     });
-    constructor({htmlElement, children}: {
+    constructor({ htmlElement, children }: {
         htmlElement: HTMLInputElement;
         children?: ChildrenObj;
     });
@@ -439,96 +441,96 @@ declare class Select extends Changable<undefined, HTMLSelectElement> {
     clear(): this;
 }
 
-declare function elem<T extends Tag>({tag, cls, setid}: {
+declare function elem<T extends Tag>({ tag, cls, setid }: {
     tag: T;
     cls?: string;
     setid?: string;
 }): T extends Tag ? BetterHTMLElement<HTMLElementTagNameMap[T]> : never;
-declare function elem({byid, children}: {
+declare function elem({ byid, children }: {
     byid: string;
     children?: ChildrenObj;
 }): BetterHTMLElement;
-declare function elem<Q extends QuerySelector>({query, children}: {
+declare function elem<Q extends QuerySelector>({ query, children }: {
     query: Q;
     children?: ChildrenObj;
 }): Q extends Tag ? BetterHTMLElement<HTMLElementTagNameMap[Q]> : BetterHTMLElement;
-declare function elem<E extends HTMLElement>({htmlElement, children}: {
+declare function elem<E extends HTMLElement>({ htmlElement, children }: {
     htmlElement: E;
     children?: ChildrenObj;
 }): BetterHTMLElement<E>;
 
-declare function span({cls, setid, text}: {
+declare function span({ cls, setid, text }: {
     cls?: string;
     setid?: string;
     text?: string;
 }): Span;
-declare function span({byid, children}: {
+declare function span({ byid, children }: {
     byid: string;
     children?: ChildrenObj;
 }): Span;
-declare function span<Q extends QuerySelector>({query, children}: {
+declare function span<Q extends QuerySelector>({ query, children }: {
     query: QueryOrPreciseTag<Q, "span">;
     children?: ChildrenObj;
 }): Span;
-declare function span<E extends HTMLSpanElement>({htmlElement, children}: {
+declare function span<E extends HTMLSpanElement>({ htmlElement, children }: {
     htmlElement: E;
     children?: ChildrenObj;
 }): Span;
 declare function span(): Span;
 
-declare function div({cls, setid, text}: {
+declare function div({ cls, setid, text }: {
     cls?: string;
     setid?: string;
     text?: string;
 }): Div;
-declare function div({byid, children}: {
+declare function div({ byid, children }: {
     byid: string;
     children?: ChildrenObj;
 }): Div;
-declare function div<Q extends QuerySelector>({query, children}: {
+declare function div<Q extends QuerySelector>({ query, children }: {
     query: QueryOrPreciseTag<Q, "div">;
     children?: ChildrenObj;
 }): Div;
-declare function div({htmlElement, children}: {
+declare function div({ htmlElement, children }: {
     htmlElement: HTMLDivElement;
     children?: ChildrenObj;
 }): Div;
 declare function div(): Div;
 
-declare function button({cls, setid, text}: {
+declare function button({ cls, setid, text }: {
     cls?: string;
     setid?: string;
     text?: string;
 }): Button;
-declare function button({byid, children}: {
+declare function button({ byid, children }: {
     byid: string;
     children?: ChildrenObj;
 }): Button;
-declare function button<Q extends QuerySelector>({query, children}: {
+declare function button<Q extends QuerySelector>({ query, children }: {
     query: QueryOrPreciseTag<Q, "button">;
     children?: ChildrenObj;
 }): Button;
-declare function button({htmlElement, children}: {
+declare function button({ htmlElement, children }: {
     htmlElement: HTMLButtonElement;
     children?: ChildrenObj;
 }): Button;
 declare function button(): Button;
 
-declare function input<TInputType extends InputType, Generic extends FormishHTMLElement = HTMLInputElement>({cls, setid, type, placeholder}: {
+declare function input<TInputType extends InputType, Generic extends FormishHTMLElement = HTMLInputElement>({ cls, setid, type, placeholder }: {
     cls?: string;
     setid?: string;
     type?: TInputType;
     placeholder?: string;
 }): Input<TInputType, Generic>;
-declare function input<TInputType extends InputType = InputType, Generic extends FormishHTMLElement = HTMLInputElement>({byid, children}: {
+declare function input<TInputType extends InputType = InputType, Generic extends FormishHTMLElement = HTMLInputElement>({ byid, children }: {
     byid: string;
     children?: ChildrenObj;
 }): Input<TInputType, Generic>;
-declare function input<Q extends QuerySelector, TInputType extends InputType = InputType, Generic extends FormishHTMLElement = HTMLInputElement>({query, children}: {
+declare function input<Q extends QuerySelector, TInputType extends InputType = InputType, Generic extends FormishHTMLElement = HTMLInputElement>({ query, children }: {
     query: QueryOrPreciseTag<Q, "input">;
     children?: ChildrenObj;
 }): Input<TInputType, Generic>;
-declare function input<TInputType extends InputType = InputType, Generic extends FormishHTMLElement = HTMLInputElement>({htmlElement, children}: {
+declare function input<TInputType extends InputType = InputType, Generic extends FormishHTMLElement = HTMLInputElement>({ htmlElement, children }: {
     htmlElement: Generic;
     children?: ChildrenObj;
 }): Input<TInputType, Generic>;
@@ -536,75 +538,64 @@ declare function input<TInputType extends InputType = InputType, Generic extends
 
 declare function select(selectOpts: any): Select;
 
-declare function img({cls, setid, src}: {
+declare function img({ cls, setid, src }: {
     cls?: string;
     setid?: string;
     src?: string;
 }): Img;
-declare function img({byid, children}: {
+declare function img({ byid, children }: {
     byid: string;
     children?: ChildrenObj;
 }): Img;
-declare function img<Q extends QuerySelector>({query, children}: {
+declare function img<Q extends QuerySelector>({ query, children }: {
     query: QueryOrPreciseTag<Q, "img">;
     children?: ChildrenObj;
 }): Img;
-declare function img({htmlElement, children}: {
+declare function img({ htmlElement, children }: {
     htmlElement: HTMLImageElement;
     children?: ChildrenObj;
 }): Img;
 declare function img(): Img;
 
-declare function paragraph({cls, setid, text}: {
+declare function paragraph({ cls, setid, text }: {
     cls?: string;
     setid?: string;
     text?: string;
 }): Paragraph;
-declare function paragraph({byid, children}: {
+declare function paragraph({ byid, children }: {
     byid: string;
     children?: ChildrenObj;
 }): Paragraph;
-declare function paragraph<Q extends QuerySelector>({query, children}: {
+declare function paragraph<Q extends QuerySelector>({ query, children }: {
     query: QueryOrPreciseTag<Q, "p">;
     children?: ChildrenObj;
 }): Paragraph;
-declare function paragraph({htmlElement, children}: {
+declare function paragraph({ htmlElement, children }: {
     htmlElement: HTMLParagraphElement;
     children?: ChildrenObj;
 }): Paragraph;
 declare function paragraph(): Paragraph;
 
-declare function anchor({cls, setid, href, target}: {
+declare function anchor({ cls, setid, href, target }: {
     cls?: string;
     setid?: string;
     href?: string;
     target?: string;
 }): Anchor;
-declare function anchor({byid, children}: {
+declare function anchor({ byid, children }: {
     byid: string;
     children?: ChildrenObj;
 }): Anchor;
-declare function anchor<Q extends QuerySelector>({query, children}: {
+declare function anchor<Q extends QuerySelector>({ query, children }: {
     query: QueryOrPreciseTag<Q, "a">;
     children?: ChildrenObj;
 }): Anchor;
-declare function anchor({htmlElement, children}: {
+declare function anchor({ htmlElement, children }: {
     htmlElement: HTMLAnchorElement;
     children?: ChildrenObj;
 }): Anchor;
 declare function anchor(): Anchor;
 
-interface TMap<T> {
-    [s: string]: T;
-
-    [s: number]: T;
-}
-
-interface TRecMap<T> {
-    [s: string]: T | TRecMap<T>;
-
-    [s: number]: T | TRecMap<T>;
-}
 
 declare type EventName = keyof HTMLElementEventMap;
 declare type EventName2Function<E extends EventName = EventName> = {
@@ -618,9 +609,9 @@ declare type TagOrString = Tag | string;
 declare type QuerySelector<K extends TagOrString = TagOrString> = K extends Tag ? K : string;
 declare type Element2Tag<T> = T extends HTMLInputElement ? "input" : T extends HTMLAnchorElement ? "a" : T extends HTMLImageElement ? "img" : Tag;
 declare type ChildrenObj = TRecMap<QuerySelector | BetterHTMLElement | typeof BetterHTMLElement>;
-declare type Enumerated<T> = T extends (infer U)[] ? [number, U][] : T extends TRecMap<(infer U)> ? [keyof T, U][] : T extends boolean ? never : any;
-declare type Returns<T> = (s: string) => T;
-declare type AnyFunction = (...args: any[]) => any;
+
+
+
 declare type OmittedCssProps =
     "animationDirection"
     | "animationFillMode"
@@ -694,33 +685,4 @@ interface AnimateOptions {
     timingFunction?: AnimationTimingFunction;
 }
 
-declare function enumerate<T>(obj: T): Enumerated<T>;
 
-declare function wait(ms: number): Promise<any>;
-
-declare function bool(val: any): boolean;
-
-declare function isArray<T>(obj: any): obj is Array<T>;
-
-declare function isEmptyArr(collection: any): boolean;
-
-declare function isEmptyObj(obj: any): boolean;
-
-declare function isFunction<T>(fn: T): fn is T;
-declare function isFunction(fn: AnyFunction): fn is AnyFunction;
-
-declare function anyDefined(obj: any): boolean;
-
-declare function anyTruthy(obj: any): boolean;
-
-declare function allUndefined(obj: any): boolean;
-
-declare function isBHE<T extends BetterHTMLElement>(bhe: T, bheSubType: any): bhe is T;
-
-declare function isType<T>(arg: T): arg is T;
-
-declare function isObject(obj: any): boolean;
-
-declare function shallowProperty<T>(key: string): (obj: T) => T extends null ? undefined : T[keyof T];
-
-declare function getLength(collection: any): number;
