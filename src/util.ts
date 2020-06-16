@@ -1,5 +1,19 @@
 console.group(`util.js`);
+
 // import * as myfs from "./myfs.js"
+export interface TMap<T> {
+    [s: string]: T;
+
+    [s: number]: T;
+}
+
+export interface TRecMap<T> {
+    [s: string]: T | TRecMap<T>;
+
+    [s: number]: T | TRecMap<T>;
+}
+
+export type Returns<T> = (s: string) => T;
 
 const MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
 
@@ -72,6 +86,16 @@ export function isArrayLike(collection) {
     return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
 }
 
+/*export type Enumerated<T> = T extends (infer U)[] ?
+    [number, U][] :
+    T extends TRecMap<(infer U)> ?
+        [keyof T, U][] :
+        never*/
+export type PrimitiveVal = string | number | boolean;
+
+export function enumerate<T>(obj: Array<T>): [number, T]
+export function enumerate<T>(obj: TRecMap<T>): [keyof TRecMap<T>, T]
+export function enumerate(obj: PrimitiveVal): []
 export function enumerate(obj) {
     let typeofObj = typeof obj;
     if (obj === undefined

@@ -1,11 +1,12 @@
 /**import Alert from 'MyAlert' (or any other name)*/
 
-
 console.group('src/myalert.ts');
-import Swal, { SweetAlertResult, SweetAlertOptions } from 'sweetalert2';
-import { paragraph, elem, BetterHTMLElement, button } from "./bhe/index.js";
+import Swal from 'sweetalert2';
+
+console.log(`Swal:`, Swal);
+import { paragraph, elem, BetterHTMLElement, button } from "../bhe/index.js";
 import * as path from "path";
-import { wait } from "./util.js";
+import { wait } from "../util";
 
 const smallMixin = Swal.mixin({
     animation: false,

@@ -1,6 +1,7 @@
 console.group('src/myalert.ts');
 import Swal from 'sweetalert2';
-import { paragraph, elem, button } from "./bhe/index.js";
+console.log(`Swal:`, Swal);
+import { paragraph, elem, button } from "../bhe/index.js";
 const smallMixin = Swal.mixin({
     animation: false,
     customClass: 'animated fadeIn',
@@ -191,4 +192,3 @@ const big = {
 export default { small, big, ...Swal };
 console.log('src/myalert.ts EOF');
 console.groupEnd();
-//# sourceMappingURL=myalert.js.map

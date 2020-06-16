@@ -7,6 +7,7 @@
     "dependencies": {
         "@tonejs/midi": "2.0.23",
         "@tonejs/piano": "0.2.1",
+        "@types/node": "^14.0.13",
         "animate.css": "3.7.0",
         "conf": "6.2.3",
         "electron": "9.0.3",
@@ -14,13 +15,12 @@
         "midiconvert": "0.4.7",
         "path": "0.12.7",
         "python-shell": "2.0.1",
-        "sweetalert2": "8.2.6",
+        "sweetalert2": "9.14.4",
         "tone": "14.7.3",
         "typescript": "3.9.3",
         "webmidi": "2.5.1"
     },
-    "//comments": [
-    ],
+    "//comments": [],
     "description": "My Electron application description",
     "keywords": [],
     "license": "MIT",
@@ -33,16 +33,16 @@
         "start-local": "./node_modules/.bin/electron .",
         "dev": "./node_modules/.bin/electron . dev",
         "debug": "electron . --remote-debugging-port=9222 debug",
-        "dry": "electron . --remote-debugging-port=9222 dry-run",
-        "debug-dry": "electron . --remote-debugging-port=9222 debug dry-run",
+        "dry": "electron . dry-run",
+        "debug-dry": "electron . debug dry-run",
         "//": "via-node is good",
-        "via-node": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222",
-        "via-node-debug": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 debug",
-        "via-node-dry": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 dry-run",
-        "via-node-debug-dry": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 debug dry-run",
-        "via-node-debug-dry-nopython": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 debug dry-run no-python",
-        "via-node-debug-nopython": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 debug no-python",
-        "via-node-nopython": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . --remote-debugging-port=9222 no-python"
+        "via-node": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron .",
+        "via-node-debug": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . debug",
+        "via-node-dry": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . dry-run",
+        "via-node-debug-dry": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . debug dry-run",
+        "via-node-debug-dry-nopython": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . debug dry-run no-python",
+        "via-node-debug-nopython": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . debug no-python",
+        "via-node-nopython": "node --experimental-modules --es-module-specifier-resolution=node --enable-source-maps ./node_modules/.bin/electron . no-python"
     },
     "version": "1.5.0"
 }

@@ -3,14 +3,14 @@
         //        "module": "None",
         "target": "ES2019",
         "noImplicitAny": false,
-        "moduleResolution": "Classic",
+        "moduleResolution": "Node",
         "removeComments": true,
-        "sourceMap": true,
+        //        "sourceMap": true,
         //        "inlineSourceMap": true,
         //        "inlineSources": true,
-        "declaration": true,
-        "declarationMap": true,
-        "declarationDir": "declarations",
+        //        "declaration": true,
+        //        "declarationMap": true,
+        //        "declarationDir": "declarations",
         //		"outDir": "dist",
         //        "noEmitHelpers": false,
         //        "importHelpers": false,
@@ -21,7 +21,8 @@
         //            "node"
         //        ],
 
-        "keyofStringsOnly": false
+        "keyofStringsOnly": false,
+        //        "allowSyntheticDefaultImports": true
         //		"outFile": "all.js",
         //		"allowJs": true,
         //		"traceResolution": true,
@@ -33,7 +34,7 @@
         //			"src",
         //			"src/pages"
         //		],
-        //		"extendedDiagnostics": true
+        //        "extendedDiagnostics": true
         //		"baseUrl": ".",
         //		"paths": {
         //			"*": [
@@ -46,16 +47,17 @@
         //				"../../*"
         //			]
         //		}
-        //		"lib": [
-        //			"es6",
-        //			"es5",
-        //			"dom"
-        //		],
+        "lib": [
+            //            "es7",
+            "es6",
+            "es5",
+            "dom"
+        ]
     },
     "exclude": [
-        "./src/bhe/**/*",
-        "node_modules",
-        "declarations"
+        "./src/bhe/**/*"
+        //        "node_modules",
+        //        "declarations"
     ]
     //	"include": [
     //		"src/**/*"

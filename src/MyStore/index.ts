@@ -1,7 +1,9 @@
+import { Truth } from "../../renderer.js";
+
 const Store = require('electron-store');
 const path = require("path");
 const fs = require('fs');
-import Alert from "./myalert.js"
+import Alert from "../MyAlert/index.js"
 
 /**@class*/
 export class MyStore extends Store {
@@ -15,13 +17,11 @@ export class MyStore extends Store {
 
     }
 
-    /**@return {string}*/
-    get truth_file_path() {
+    get truth_file_path(): string {
         return this.get('truth_file_path');
     }
 
-    /**@param {Truth} truth*/
-    set truth_file_path(truth) {
+    set truth_file_path(truth: Truth) {
         truth.txt.allExist()
             .then(exist => {
                 if (exist) {
@@ -40,7 +40,7 @@ export class MyStore extends Store {
 
     /**@param {TLastPage} page*/
     set last_page(page) {
-        const validpages = [ 'new_test', 'inside_test', 'record', 'file_tools', 'settings' ];
+        const validpages = ['new_test', 'inside_test', 'record', 'file_tools', 'settings'];
         if (!page.in(validpages)) {
             throw new Error(`setLastPage(page = ${page}), must be one of ${validpages.join(', ')}`);
         }
@@ -73,7 +73,7 @@ export class MyStore extends Store {
 
     /**@param {string[]} subjectList*/
     set subjects(subjectList) {
-        const subjects = [ ...new Set(subjectList) ];
+        const subjects = [...new Set(subjectList)];
         console.log('💾 set subjects:', subjects);
         this.set('subjects', subjects);
         const config = this.config();
@@ -186,7 +186,7 @@ export class MyStore extends Store {
     update(K, kv) {
         let V = this.get(K);
         if (Array.isArray(V)) {
-            this.set(K, [ ...V, kv ]);
+            this.set(K, [...V, kv]);
         } else {
             Object.assign(V, kv);
             this.set(K, V);
@@ -232,14 +232,14 @@ export class MyStore extends Store {
      @return {string[]} truthFiles*/
     truthFilesList(extFilter = null) {
         if (extFilter != null) {
-            if (!extFilter.in([ 'txt', 'mid', 'mp4' ])) {
+            if (!extFilter.in(['txt', 'mid', 'mp4'])) {
                 throw new Error(`truthFilesList(extFilter = ${extFilter}), must be either ['txt','mid','mp4'] or not at all`);
             }
         }
 
         const truthsDirPath = this.truthsDirPath();
 
-        let truthFiles = [ ...new Set(fs.readdirSync(truthsDirPath)) ];
+        let truthFiles = [...new Set(fs.readdirSync(truthsDirPath))];
         if (extFilter != null) {
             return truthFiles.filter(f => path.extname(f) == `.${extFilter}`);
         }
@@ -270,14 +270,14 @@ export class Config extends MyStore {
     }
 
     static get _KEYS() {
-        return [ 'allowed_rhythm_deviation',
+        return ['allowed_rhythm_deviation',
             'allowed_tempo_deviation',
             'current_subject',
             'demo_type',
             'errors_playingspeed',
             'finished_trials_count',
             'levels',
-            'save_path' ];
+            'save_path'];
     }
 
     /**@return {string} */
@@ -324,7 +324,7 @@ export class Config extends MyStore {
         if (name)
             // super.set('subjects', [...new Set([...super.get('subjects'), name])]);
         {
-            super.subjects = [ ...super.get('subjects'), name ];
+            super.subjects = [...super.get('subjects'), name];
         }
     }
 
@@ -359,7 +359,7 @@ export class Config extends MyStore {
 
     /**@param {TDemoType} type*/
     set demo_type(type) {
-        if (!type.in([ 'video', 'animation' ])) {
+        if (!type.in(['video', 'animation'])) {
             throw new Error(`Config demo_type setter, bad type = ${type}, can be either video or animation`);
         }
         return this._set('demo_type', type);
@@ -455,12 +455,12 @@ export class Config extends MyStore {
     currentTrialCoords() {
         // let { levels, finished_trials_count } = this.config();
         let flatTrialsList = this.levels.map(level => level.trials);
-        for (let [ levelIndex, trialsNum ] of enumerate(flatTrialsList)) {
+        for (let [levelIndex, trialsNum] of enumerate(flatTrialsList)) {
 
             let trialSumSoFar = sum(flatTrialsList.slice(0, levelIndex + 1));
             const finishedTrialsCount = this.finished_trials_count;
             if (trialSumSoFar > finishedTrialsCount) {
-                return [ levelIndex, trialsNum - (trialSumSoFar - finishedTrialsCount) ];
+                return [levelIndex, trialsNum - (trialSumSoFar - finishedTrialsCount)];
             }
         }
         throw "currentTrialCoords: out of index error";
@@ -482,13 +482,13 @@ export class Config extends MyStore {
     /**@return {Level}*/
     getCurrentLevel() {
 
-        let [ level_index, trial_index ] = this.currentTrialCoords();
+        let [level_index, trial_index] = this.currentTrialCoords();
         return new Level(this.levels[level_index], level_index, trial_index);
     }
 
     /**@return {Levels}*/
     getLevels() {
-        let [ level_index, trial_index ] = this.currentTrialCoords();
+        let [level_index, trial_index] = this.currentTrialCoords();
         return new Levels(this.levels, level_index, trial_index);
     }
 
@@ -496,7 +496,7 @@ export class Config extends MyStore {
     /**Gets the current trial's path (join this.testOutPath() and level_${level_index}...), and returns a Truth of it
      @return {Truth}*/
     trialTruth() {
-        let [ level_index, trial_index ] = this.currentTrialCoords();
+        let [level_index, trial_index] = this.currentTrialCoords();
         // return new Truth(path.join(this.testOutPath(), `level_${level_index}_trial_${trial_index}`));
         return new Truth(path.join(this.testOutPath(), `level_${level_index}_trial_${trial_index}`));
     }
