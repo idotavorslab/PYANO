@@ -7,7 +7,8 @@
     "dependencies": {
         "@tonejs/midi": "2.0.23",
         "@tonejs/piano": "0.2.1",
-        "@types/node": "^14.0.13",
+        "@types/jquery": "^3.5.0",
+        "@types/node": "^14.0.14",
         "animate.css": "3.7.0",
         "conf": "6.2.3",
         "electron": "9.0.5",
@@ -20,11 +21,12 @@
         "typescript": "3.9.3",
         "webmidi": "2.5.1"
     },
+    "type": "module",
     "//comments": [],
     "description": "My Electron application description",
     "keywords": [],
     "license": "MIT",
-    "main": "main.js",
+    "main": "./src/main.js",
     "name": "pyano",
     "productName": "pyano",
     "scripts": {

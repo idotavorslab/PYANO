@@ -1,41 +1,41 @@
 {
     "compilerOptions": {
-        //        "module": "None",
-        "target": "ES2019",
+        "module": "none",
+        "target": "es2017",
         "noImplicitAny": false,
-        "moduleResolution": "Node",
+        "moduleResolution": "node",
         "removeComments": true,
         //        "sourceMap": true,
-        //        "inlineSourceMap": true,
-        //        "inlineSources": true,
-        //        "declaration": true,
-        //        "declarationMap": true,
-        //        "declarationDir": "declarations",
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "declaration": true,
+        "declarationMap": true,
+        "declarationDir": "declarations",
         //		"outDir": "dist",
-        //        "noEmitHelpers": false,
-        //        "importHelpers": false,
-        //        "types": [
-        //            "./node_modules/electron",
-        //            "./node_modules/python-shell",
-        //            "./node_modules/sweetalert2",
-        //            "node"
-        //        ],
-
+        "noEmitHelpers": false,
+        "importHelpers": false,
+        "types": [
+            "./node_modules/electron",
+            "./node_modules/python-shell",
+            "./node_modules/sweetalert2",
+            "jquery",
+            "node"
+        ],
         "keyofStringsOnly": false,
         //        "allowSyntheticDefaultImports": true
         //		"outFile": "all.js",
-        //		"allowJs": true,
-        //		"traceResolution": true,
-        //        "typeRoots": [
-        //            "./declarations"
-        //        ]
-        //		"rootDirs": [
-        //			".",
-        //			"src",
-        //			"src/pages"
-        //		],
+        //        "allowJs": true,
+        //        "traceResolution": true,
+        "typeRoots": [
+            "./declarations"
+        ],
+        "rootDirs": [
+            ".",
+            "src"
+            //            "src/pages"
+        ],
         //        "extendedDiagnostics": true
-        //		"baseUrl": ".",
+        "baseUrl": "src"
         //		"paths": {
         //			"*": [
         //				"*",
@@ -47,18 +47,18 @@
         //				"../../*"
         //			]
         //		}
-        "lib": [
-            //            "es7",
-            "es6",
-            "es5",
-            "dom"
-        ]
-    },
-    "exclude": [
-        "./src/bhe/**/*"
-        //        "node_modules",
-        //        "declarations"
-    ]
+        //        "lib": [
+        //            //            "es7",
+        //            "es6",
+        //            "es5",
+        //            "dom"
+        //        ]
+    }
+    //    "exclude": [
+    //        "./src/bhe/**/*"
+    //        //        "node_modules",
+    //        //        "declarations"
+    //    ]
     //	"include": [
     //		"src/**/*"
     //	]

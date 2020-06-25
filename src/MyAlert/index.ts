@@ -1,12 +1,11 @@
 /**import Alert from 'MyAlert' (or any other name)*/
 
+import { BetterHTMLElement, button, elem, paragraph } from "../bhe";
+import Swal, { SweetAlertOptions } from 'sweetalert2';
+
 console.group('src/MyAlert/index.ts');
-import Swal, { SweetAlertResult, SweetAlertOptions } from 'sweetalert2';
 
 console.log(`Swal:`, Swal);
-import { paragraph, elem, BetterHTMLElement, button } from "../bhe/index.js";
-import * as path from "path";
-import { wait } from "../util";
 
 const smallMixin = Swal.mixin({
     animation: false,
@@ -163,7 +162,7 @@ const big = {
                 ...options,
                 onBeforeOpen(modalElement) {
                     console.log('modalElement:', modalElement);
-                    return elem({ id: 'swal2-content' })
+                    return elem({ byid: 'swal2-content' })
                         // .show()
                         .append(...paragraphs);
                 }
@@ -263,7 +262,7 @@ const big = {
                 button({ cls: `swal2-confirm swal2-styled`, html: options.thirdButtonText })
 
                     .css(thirdButtonCss)
-                    .click((ev) => {
+                    .click(async (ev) => {
                         action = "third";
                         Swal.clickConfirm();
                     })

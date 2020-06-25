@@ -1,10 +1,9 @@
+import { TMap } from "./src/util";
+
 console.group(`renderer.js`);
-import { TMap } from "./src/util.js";
 
-import * as util from "./src/util.js"
-// const util = require('./src/util.js');
+import * as util from "./src/util"
 
-// import { TMap } from "./src/util"
 
 interface String {
     endsWithAny(...args: string[]): boolean
@@ -429,27 +428,27 @@ const store = new Store();
 
 
 // *** fsx
-const fsx = (() => {
+/*const fsx = (() => {
     const fs = require("fs");
-    /**@param {PathLike|string} pathLike
+    /!**@param {PathLike|string} pathLike
      * @param {{mode?:number, recursive?:boolean}} options
-     * @return {Promise<boolean>}*/
+     * @return {Promise<boolean>}*!/
     const mkdir = (pathLike, options) => new Promise(resolve =>
         fs.mkdir(pathLike, options, err => resolve(!util.bool(err))));
 
 
-    /**@param {PathLike|string} pathLike
-     * @return {Promise<boolean>}*/
+    /!**@param {PathLike|string} pathLike
+     * @return {Promise<boolean>}*!/
     function path_exists(pathLike) {
         return new Promise(resolve =>
             fs.access(pathLike, fs.constants.F_OK, err => resolve(!util.bool(err))));
     }
 
-    /**
+    /!**
      {@link remove_ext Uses remove_ext}
      @param {PathLike|string} pathLike
      @param {string} ext - Target extension without dot
-     @return {string}*/
+     @return {string}*!/
     const replace_ext = (pathLike, ext) => {
         if (ext.includes('.')) {
             alert(`ext included dot ".", ext: ${ext}`);
@@ -457,29 +456,29 @@ const fsx = (() => {
         return `${remove_ext(pathLike)}.${ext}`;
     };
 
-    /**
+    /!**
      * @param {PathLike|string} pathLike
      * @return {string}
      * @example
      * remove_ext("experiments/truths/fur_elise_B.txt")
      * >>> experiments/truths/fur_elise_B
      * remove_ext("fur_elise_B.txt")
-     * >>> fur_elise_B */
+     * >>> fur_elise_B *!/
     const remove_ext = pathLike => path.join(path.dirname(pathLike), path.basename(pathLike, path.extname(pathLike)));
 
-    /**
+    /!**
      * {@link remove_ext Uses remove_ext}
      * @param {PathLike|string} pathLike
      * @param {string|number} push
      * @return {string}
-     * */
+     * *!/
     const push_before_ext = (pathLike, push) => {
         let ext = path.extname(pathLike);
         return `${remove_ext(pathLike)}${push}${ext}`;
     };
 
-    /**@param {string|PathLike} pathLike
-     * @param {?string} ext*/
+    /!**@param {string|PathLike} pathLike
+     * @param {?string} ext*!/
     function basename(pathLike, ext = null) {
         if (!ext) {
             return path.basename(pathLike);
@@ -487,31 +486,31 @@ const fsx = (() => {
         return path.basename(pathLike, ext);
     }
 
-    /**@param {...string} paths
+    /!**@param {...string} paths
      * @return {string[]}
-     * */
+     * *!/
     function basenames(...paths) {
         return [...paths.map(p => path.basename(p))];
     }
 
-    /**@param {string} pathLike
-     * @return {string}*/
+    /!**@param {string} pathLike
+     * @return {string}*!/
     function dirname(pathLike) {
         return path.dirname(pathLike);
     }
 
-    /**@param {string} pathLike
-     * @return {string}*/
+    /!**@param {string} pathLike
+     * @return {string}*!/
     function extname(pathLike) {
         return path.extname(pathLike);
     }
 
-    /**@param {string} pathLike*/
+    /!**@param {string} pathLike*!/
     function remove(pathLike) {
         fs.unlinkSync(pathLike);
     }
 
-    /** @type {{
+    /!** @type {{
      * basename:(function(string|PathLike,?string):string),
      * basenames:(function(...string|PathLike):string[]),
      * dirname:(function(...string|PathLike):string),
@@ -521,12 +520,12 @@ const fsx = (() => {
      * push_before_ext: (function((PathLike|string), (string|number)): string),
      * remove_ext: (function((PathLike|string)): string),
      * replace_ext: (function((PathLike|string), string): string)}}
-     * */
+     * *!/
     return { basenames, basename, dirname, extname, mkdir, path_exists, replace_ext, remove_ext, remove, push_before_ext };
 })();
 const asx = (() => {
-    /**@param {number} ms
-     * @return {Promise}*/
+    /!**@param {number} ms
+     * @return {Promise}*!/
     async function wait(ms) {
 
         if (store.get('skipFade', false)) {
@@ -535,19 +534,19 @@ const asx = (() => {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    /**@param {jQuery} jQuery
+    /!**@param {jQuery} jQuery
      @param {number} ms
-     @return {Promise<jQuery>}*/
+     @return {Promise<jQuery>}*!/
     const $fadeOut = (jQuery, ms) => new Promise(resolve => jQuery.fade(ms, 0, resolve));
 
-    /**@param {jQuery} jQuery
+    /!**@param {jQuery} jQuery
      @param {number} ms
-     @reutrn {Promise<jQuery>}*/
+     @reutrn {Promise<jQuery>}*!/
     const $fadeIn = (jQuery, ms) => new Promise(resolve => jQuery.fade(ms, 1, resolve));
 
-    /**@param {number} ms
+    /!**@param {number} ms
      @param {...jQuery} jQueries
-     @return {Promise<jQuery[]>}*/
+     @return {Promise<jQuery[]>}*!/
     async function $fadeInMany(ms, ...jQueries) {
         let promises = [];
         for (let jQ of jQueries) {
@@ -557,9 +556,9 @@ const asx = (() => {
         return await Promise.all(promises);
     }
 
-    /**@param {number} ms
+    /!**@param {number} ms
      @param {...jQuery} jQueries
-     @return {Promise<jQuery[]>}*/
+     @return {Promise<jQuery[]>}*!/
     async function $fadeOutMany(ms, ...jQueries) {
         let promises = [];
         for (let jQ of jQueries) {
@@ -574,16 +573,16 @@ const asx = (() => {
         return await Promise.all(promises);
     }
 
-    /**@template T
+    /!**@template T
      * @param {...function():Promise<T>|T|void} fns
-     * @return {Promise<T[]>}*/
+     * @return {Promise<T[]>}*!/
     async function waterfall(...fns) {
         for (let fn of fns) {
             await fn();
         }
     }
 
-    /**@type {
+    /!**@type {
      *     {
      *         $fadeIn: (function(jQuery, number): Promise<jQuery>),
      *         $fadeInMany: (function(number, ...jQuery): jQuery[]),
@@ -593,7 +592,7 @@ const asx = (() => {
      *         wait: (function(number): Promise<*>),
      *     }
      * }
-     * @template T*/
+     * @template T*!/
     const newVar = {
         $fadeIn,
         $fadeOut,
@@ -604,7 +603,7 @@ const asx = (() => {
         waterfall,
     };
     return newVar;
-})();
+})();*/
 
 
 console.log('renderer.js EOF');
