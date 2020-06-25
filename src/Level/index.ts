@@ -1,4 +1,5 @@
-import { bool, enumerate } from "../util";
+import * as util from "../util";
+import { TLevel } from "../templates/js/types.js";
 
 export interface ILevelNew {
     notes: number;
@@ -36,8 +37,9 @@ export class LevelNew implements ILevelNew {
 
     /**@deprecated*/
     isFirstTrial(): boolean {
-        if (this.internalTrialIndex === undefined)
-            throw new Error("internalTrialIndex is undefined");
+        if (this.internalTrialIndex === undefined) {
+            alert("internalTrialIndex is undefined");
+        }
         return this.internalTrialIndex === 0;
     }
 
@@ -48,19 +50,19 @@ export class LevelNew implements ILevelNew {
 
     /**@deprecated*/
     hasZeroes() {
-        return !bool(this.notes) || !bool(this.trials);
+        return !util.bool(this.notes) || !util.bool(this.trials);
     }
 
     valuesOk(): boolean {
-        if (!bool(this.notes) || !bool(this.trials)) {
+        if (!util.bool(this.notes) || !util.bool(this.trials)) {
             return false
         }
         if (this.rhythm) {
-            if (!bool(this.tempo)) {
+            if (!util.bool(this.tempo)) {
                 return false;
             }
         } else {
-            if (bool(this.tempo)) {
+            if (util.bool(this.tempo)) {
                 return false;
             }
         }
@@ -97,7 +99,7 @@ export class LevelNewCollection {
 
     badLevels(): number[] {
         const badLevels = [];
-        for (let [i, level] of enumerate(this._levels)) {
+        for (let [i, level] of util.enumerate(this._levels)) {
             if (!level.valuesOk()) {
                 badLevels.push(`${i.human()} level `)
             }
@@ -113,10 +115,11 @@ export class LevelNewCollection {
     slicesByNotes(): LevelNewCollection[] {
         let byNotes = {};
         for (let level of this._levels) {
-            if (level.notes in byNotes)
+            if (level.notes in byNotes) {
                 byNotes[level.notes].addLevel(level);
-            else
+            } else {
                 byNotes[level.notes] = new LevelNewCollection([level]);
+            }
 
         }
         return Object.values(byNotes);
@@ -127,14 +130,17 @@ export class LevelNewCollection {
     }
 
     getNextTempoOfThisNotes(): number {
-        if (this.current.rhythm)
+        if (this.current.rhythm) {
             return this.current.tempo;
+        }
         for (let i = this.current.index; i < this._levels.length; i++) {
             const lvl = this._levels[i];
-            if (lvl.notes != this.current.notes)
-                return 100; // went over all level with same number of notes and didn't find anything
-            if (lvl.tempo != null)
+            if (lvl.notes != this.current.notes) {
+                return 100;
+            } // went over all level with same number of notes and didn't find anything
+            if (lvl.tempo != null) {
                 return lvl.tempo;
+            }
         }
         return 100;
     }
@@ -152,14 +158,19 @@ export class LevelNewCollection {
     }
 }
 
-/**@class*/
+
 export class Level {
-    /**@param {TLevel} level
-     @param {number} index
-     @param {number?} internalTrialIndex*/
-    constructor(level, index, internalTrialIndex) {
+    notes: any;
+    rhythm: any;
+    tempo: any;
+    trials: any;
+    index: any;
+    internalTrialIndex: any;
+
+
+    constructor(level: TLevel, index: number, internalTrialIndex?: number) {
         if (index == undefined) {
-            throw new Error("index is undefined");
+            alert("Level(level, index, internalTrialIndex) index is undefined");
         }
         const { notes, rhythm, tempo, trials } = level;
         this.notes = notes;
@@ -172,7 +183,7 @@ export class Level {
 
     isFirstTrial() {
         if (this.internalTrialIndex == undefined) {
-            throw new Error("internalTrialIndex is undefined");
+            alert("internalTrialIndex is undefined");
         }
         return this.internalTrialIndex == 0;
     }
@@ -189,15 +200,18 @@ export class Level {
 
 /**@class*/
 export class Levels {
+    current: Level;
+    private _levels: Level[];
+
     /**@param {TLevel[]} levels
      @param {number?} currentLevelIndex
      @param {number?} currentInternalTrialIndex*/
-    constructor(levels, currentLevelIndex, currentInternalTrialIndex) {
+    constructor(levels: TLevel[], currentLevelIndex?: number, currentInternalTrialIndex?: number) {
 
-        /**@member {Level[]}*/
+
         this._levels = levels.map((level, index) => new Level(level, index));
         if (currentLevelIndex != undefined) {
-            /**@member {Level}*/
+
             this.current = this._levels[currentLevelIndex];
             this.current.internalTrialIndex = currentInternalTrialIndex;
         }
@@ -260,7 +274,7 @@ export class Levels {
 
     /**@return {number}*/
     maxNotes() {
-        return max(...this._levels.map(lvl => lvl.notes));
+        return Math.max(...this._levels.map(lvl => lvl.notes));
     }
 
     [Symbol.iterator]() {

@@ -2,26 +2,6 @@ console.log('MyFs.index.ts');
 import * as fs from "fs";
 import * as path from "path";
 import { bool } from "../util";
-function is_name(pathLike) {
-    return path.basename(pathLike) === pathLike;
-}
-function replace_ext(pathLike, ext) {
-    if (ext.startsWith('.'))
-        ext = ext.slice(1);
-    return `${remove_ext(pathLike)}.${ext}`;
-}
-function remove_ext(pathLike) {
-    return path.join(path.dirname(pathLike), path.basename(pathLike, path.extname(pathLike)));
-}
-function push_before_ext(pathLike, push) {
-    let ext = path.extname(pathLike);
-    return `${remove_ext(pathLike)}${push}${ext}`;
-}
-function split_ext(pathLike) {
-    const ext = path.extname(pathLike);
-    const filename = path.basename(pathLike, ext);
-    return [filename, ext];
-}
 function createIfNotExists(path) {
     try {
         if (!fs.existsSync(path)) {
@@ -93,11 +73,6 @@ function removeEmptyDirs(abspath) {
     }
 }
 export default {
-    split_ext,
-    replace_ext,
-    remove_ext,
-    push_before_ext,
-    is_name,
     createIfNotExists,
     isEmpty,
     getEmptyDirs,

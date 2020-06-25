@@ -305,8 +305,6 @@ Object.defineProperty(Error.prototype, "toObj", {
 const path = require("path");
 const Store = require("electron-store");
 const store = new Store();
-const any = (collection) => collection.some(item => util.bool(item));
-const all = (collection) => collection.every(item => util.bool(item));
 const fsx = (() => {
     const fs = require("fs");
     const mkdir = (pathLike, options) => new Promise(resolve => fs.mkdir(pathLike, options, err => resolve(!util.bool(err))));
@@ -315,7 +313,7 @@ const fsx = (() => {
     }
     const replace_ext = (pathLike, ext) => {
         if (ext.includes('.')) {
-            throw new Error(`ext included dot ".", ext: ${ext}`);
+            alert(`ext included dot ".", ext: ${ext}`);
         }
         return `${remove_ext(pathLike)}.${ext}`;
     };

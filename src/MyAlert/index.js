@@ -4,7 +4,6 @@ console.log(`Swal:`, Swal);
 import { paragraph, elem, button } from "../bhe/index.js";
 const smallMixin = Swal.mixin({
     animation: false,
-    customClass: 'animated fadeIn',
     position: "bottom-start",
     showConfirmButton: false,
     timer: 8000,
@@ -22,7 +21,6 @@ const blockingOptions = {
     allowEscapeKey: false,
     allowOutsideClick: false,
     animation: false,
-    customClass: 'animated fadeIn',
     showCancelButton: false,
     showCloseButton: false,
     showConfirmButton: false,
@@ -57,7 +55,7 @@ const small = {
         return smallMixin.fire({
             title,
             text,
-            type: "error",
+            icon: "error",
         });
     },
     info(title, text = null, showConfirmBtns = false) {
@@ -75,7 +73,7 @@ const small = {
         return smallMixin.fire({
             title,
             text,
-            type: "success",
+            icon: "success",
             timer
         });
     },

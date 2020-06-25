@@ -1,4 +1,4 @@
-import { bool, enumerate } from "../util";
+import * as util from "../util";
 export class LevelNew {
     constructor(level, index, internalTrialIndex) {
         if (index === undefined) {
@@ -18,27 +18,28 @@ export class LevelNew {
         return { notes, rhythm, tempo, trials };
     }
     isFirstTrial() {
-        if (this.internalTrialIndex === undefined)
-            throw new Error("internalTrialIndex is undefined");
+        if (this.internalTrialIndex === undefined) {
+            alert("internalTrialIndex is undefined");
+        }
         return this.internalTrialIndex === 0;
     }
     isLastTrial() {
         return this.internalTrialIndex === this.trials - 1;
     }
     hasZeroes() {
-        return !bool(this.notes) || !bool(this.trials);
+        return !util.bool(this.notes) || !util.bool(this.trials);
     }
     valuesOk() {
-        if (!bool(this.notes) || !bool(this.trials)) {
+        if (!util.bool(this.notes) || !util.bool(this.trials)) {
             return false;
         }
         if (this.rhythm) {
-            if (!bool(this.tempo)) {
+            if (!util.bool(this.tempo)) {
                 return false;
             }
         }
         else {
-            if (bool(this.tempo)) {
+            if (util.bool(this.tempo)) {
                 return false;
             }
         }
@@ -64,7 +65,7 @@ export class LevelNewCollection {
     }
     badLevels() {
         const badLevels = [];
-        for (let [i, level] of enumerate(this._levels)) {
+        for (let [i, level] of util.enumerate(this._levels)) {
             if (!level.valuesOk()) {
                 badLevels.push(`${i.human()} level `);
             }
@@ -77,10 +78,12 @@ export class LevelNewCollection {
     slicesByNotes() {
         let byNotes = {};
         for (let level of this._levels) {
-            if (level.notes in byNotes)
+            if (level.notes in byNotes) {
                 byNotes[level.notes].addLevel(level);
-            else
+            }
+            else {
                 byNotes[level.notes] = new LevelNewCollection([level]);
+            }
         }
         return Object.values(byNotes);
     }
@@ -88,14 +91,17 @@ export class LevelNewCollection {
         this._levels.push(level);
     }
     getNextTempoOfThisNotes() {
-        if (this.current.rhythm)
+        if (this.current.rhythm) {
             return this.current.tempo;
+        }
         for (let i = this.current.index; i < this._levels.length; i++) {
             const lvl = this._levels[i];
-            if (lvl.notes != this.current.notes)
+            if (lvl.notes != this.current.notes) {
                 return 100;
-            if (lvl.tempo != null)
+            }
+            if (lvl.tempo != null) {
                 return lvl.tempo;
+            }
         }
         return 100;
     }
@@ -112,7 +118,7 @@ export class LevelNewCollection {
 export class Level {
     constructor(level, index, internalTrialIndex) {
         if (index == undefined) {
-            throw new Error("index is undefined");
+            alert("Level(level, index, internalTrialIndex) index is undefined");
         }
         const { notes, rhythm, tempo, trials } = level;
         this.notes = notes;
@@ -124,7 +130,7 @@ export class Level {
     }
     isFirstTrial() {
         if (this.internalTrialIndex == undefined) {
-            throw new Error("internalTrialIndex is undefined");
+            alert("internalTrialIndex is undefined");
         }
         return this.internalTrialIndex == 0;
     }
@@ -186,7 +192,7 @@ export class Levels {
         return this.current.index == this.length - 1;
     }
     maxNotes() {
-        return max(...this._levels.map(lvl => lvl.notes));
+        return Math.max(...this._levels.map(lvl => lvl.notes));
     }
     [Symbol.iterator]() {
         return this._levels.values();

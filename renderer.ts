@@ -427,11 +427,6 @@ const store = new Store();
     },
 });*/
 
-/**@return {boolean}*/
-const any = (collection) => collection.some(item => util.bool(item));
-/**@return {boolean}*/
-const all = (collection) => collection.every(item => util.bool(item));
-
 
 // *** fsx
 const fsx = (() => {
@@ -457,7 +452,7 @@ const fsx = (() => {
      @return {string}*/
     const replace_ext = (pathLike, ext) => {
         if (ext.includes('.')) {
-            throw new Error(`ext included dot ".", ext: ${ext}`);
+            alert(`ext included dot ".", ext: ${ext}`);
         }
         return `${remove_ext(pathLike)}.${ext}`;
     };
@@ -529,7 +524,6 @@ const fsx = (() => {
      * */
     return { basenames, basename, dirname, extname, mkdir, path_exists, replace_ext, remove_ext, remove, push_before_ext };
 })();
-// *** asx
 const asx = (() => {
     /**@param {number} ms
      * @return {Promise}*/

@@ -4,7 +4,7 @@ const path = require('path');
 const Python = require('python-shell');
 const EStore = new MyStore();
 const enginePath = path.join(EStore.get('root_abs_path'), "engine");
-const pyExecPath = path.join(enginePath, "env/Scripts/python.exe");
+const pyExecPath = path.join(enginePath, process.platform === 'win32' ? "env/Scripts/python.exe" : "env/bin/python");
 Python.defaultOptions = {
     pythonPath: pyExecPath,
     scriptPath: enginePath,

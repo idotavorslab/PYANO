@@ -1,11 +1,17 @@
-import { Truth } from "../../renderer.js";
+// import { Truth } from "../../renderer.js";
+
+import { Truth } from "../Truth/index.js";
+import * as pathx from "../pathx.js";
 
 const Store = require('electron-store');
 const path = require("path");
 const fs = require('fs');
 import Alert from "../MyAlert/index.js"
+import * as util from "../util";
+import { DemoType, ExperimentType, LastPage, TConfig, TSavedConfig } from "../templates/js/types.js";
+import { Level, Levels } from "../Level/index.js";
 
-/**@class*/
+
 export class MyStore extends Store {
 
     constructor(_doTruthFileCheck = true) {
@@ -17,32 +23,32 @@ export class MyStore extends Store {
 
     }
 
-    get truth_file_path(): string {
+    // @ts-ignore
+    get truth_file_path() {
         return this.get('truth_file_path');
     }
 
-    set truth_file_path(truth: Truth) {
-        truth.txt.allExist()
-            .then(exist => {
-                if (exist) {
-                    this.set(`truth_file_path`, `experiments/truths/${truth.txt.base.name}`);
 
-                } else {
-                    throw new Error(`Not all txt files of truth exist: ${truth.txt.base.name}`);
-                }
-            });
+    // @ts-ignore
+    set truth_file_path(truth: Truth) {
+        if (truth.txt.allExist()) {
+            this.set(`truth_file_path`, `experiments/truths/${truth.txt.base.name}`);
+        } else {
+            alert(`Not all txt files of truth exist: ${truth.txt.base.name}`);
+        }
+
     }
 
-    /**@return {TLastPage}*/
-    get last_page() {
+
+    get last_page(): LastPage {
         return this.get('last_page');
     }
 
-    /**@param {TLastPage} page*/
-    set last_page(page) {
+
+    set last_page(page: LastPage) {
         const validpages = ['new_test', 'inside_test', 'record', 'file_tools', 'settings'];
-        if (!page.in(validpages)) {
-            throw new Error(`setLastPage(page = ${page}), must be one of ${validpages.join(', ')}`);
+        if (!validpages.includes(page)) {
+            alert(`setLastPage(page = ${page}), must be one of ${validpages.join(', ')}`);
         }
 
         this.set('last_page', page);
@@ -56,7 +62,7 @@ export class MyStore extends Store {
     /**@param {TExperimentType} experimentType*/
     set experiment_type(experimentType) {
         if (experimentType != 'test' && experimentType != 'exam') {
-            throw new Error(`MyStore experiment_type setter, got experimentType: '${experimentType}'. Must be either 'test' or 'exam'`);
+            alert(`MyStore experiment_type setter, got experimentType: '${experimentType}'. Must be either 'test' or 'exam'`);
         }
         this.set('experiment_type', experimentType);
         // this._updateSavedFile('experiment_type', experimentType);
@@ -93,16 +99,13 @@ export class MyStore extends Store {
     // 	this.set('save_path', savePath);
     // }
 
-    /**
-     * @return {{
-     * skip_whole_truth: (function(): boolean),
-     * skip_level_intro: (function(): boolean),
-     * skip_failed_trial_feedback: (function(): boolean),
-     * skip_passed_trial_feedback: (function(): boolean)
-     * toObj}
-     * }
-     */
-    get dev() {
+
+    get dev(): {
+        skip_whole_truth: (() => boolean);
+        skip_level_intro: (() => boolean);
+        skip_failed_trial_feedback: (() => boolean);
+        skip_passed_trial_feedback: (() => boolean);
+    } {
         const _dev = this.get('dev');
         return {
             skip_whole_truth: () => _dev && this.get('devoptions.skip_whole_truth'),
@@ -112,55 +115,8 @@ export class MyStore extends Store {
         };
     }
 
-    /**@private*/
-    _doTruthFileCheck() {
-        console.log('💾 MyStore._doTruthFileCheck()');
 
-        const truth = this.truth();
-        truth.txt.allExist()
-            .then(async exist => {
-                if (exist) {
-                    return Alert.small.success(`All "${truth.name}" txt files exist.`);
-                } else {
-                    const txtFilesList = this.truthFilesList('txt').map(fsx.remove_ext);
-                    const filteredTxts = txtFilesList.filter(a => txtFilesList.filter(txt => txt.startsWith(a)).length >= 3);
-                    if (!bool(filteredTxts)) {
-                        return await Alert.big.warning({
-                            title: 'No valid truth files found',
-                            html: 'There needs to be at least one txt file with 2 "on" and "off" counterparts.'
-                        });
-                    }
-
-
-                    await Alert.big.blocking({
-                        title: `Truth file invalid: ${truth.name}`,
-                        html: '<b>Please choose one of the following valid truths:</b>',
-                    }, {
-                        strings: filteredTxts,
-                        clickFn: async $s => {
-                            try {
-                                const config = this.config();
-                                config.finished_trials_count = 0;
-                                config.levels = [];
-                                this.truth_file_path = new Truth(path.join(this.truthsDirPath(), $s.text()));
-                                reloadPage();
-                            } catch (err) {
-                                document.getElementById('swal2-title').innerText = err.message;
-                                document.getElementById('swal2-content').style.display = 'none';
-                                document.getElementsByClassName('swal2-icon swal2-warning')[0].style.display = 'inherit';
-                                throw err;
-                            }
-
-                        }
-                    });
-                }
-            });
-
-    }
-
-    /**@param {TSavedConfig} savedConfig
-     * @param {TExperimentType} experimentType*/
-    fromSavedConfig(savedConfig, experimentType) {
+    fromSavedConfig(savedConfig: TSavedConfig, experimentType: ExperimentType) {
         const truthsDirPath = this.truthsDirPath();
         const truthFileName = path.basename(savedConfig.truth_file_path, '.txt');
         this.truth_file_path = new Truth(path.join(truthsDirPath, truthFileName));
@@ -202,7 +158,7 @@ export class MyStore extends Store {
             this.set(K, 1);
         } else {
             if (!isNaN(Math.floor(V))) {
-                this.set(K, int(V) + 1);
+                this.set(K, Math.floor(V) + 1);
             } else {
                 throw new TypeError("MyStore tried to increase a value that is not a number or string");
             }
@@ -233,7 +189,7 @@ export class MyStore extends Store {
     truthFilesList(extFilter = null) {
         if (extFilter != null) {
             if (!extFilter.in(['txt', 'mid', 'mp4'])) {
-                throw new Error(`truthFilesList(extFilter = ${extFilter}), must be either ['txt','mid','mp4'] or not at all`);
+                alert(`truthFilesList(extFilter = ${extFilter}), must be either ['txt','mid','mp4'] or not at all`);
             }
         }
 
@@ -256,13 +212,53 @@ export class MyStore extends Store {
         return path.join(this.root_abs_path, 'templates', 'Salamander/');
     }
 
+    private async _doTruthFileCheck() {
+        console.log('💾 MyStore._doTruthFileCheck()');
+
+        const truth = this.truth();
+        if (truth.txt.allExist()) {
+            return Alert.small.success(`All "${truth.name}" txt files exist.`);
+        } else {
+            const txtFilesList = this.truthFilesList('txt').map(pathx.remove_ext);
+            const filteredTxts = txtFilesList.filter(a => txtFilesList.filter(txt => txt.startsWith(a)).length >= 3);
+            if (!util.bool(filteredTxts)) {
+                return Alert.big.warning({
+                    title: 'No valid truth files found',
+                    html: 'There needs to be at least one txt file with 2 "on" and "off" counterparts.'
+                });
+            }
+            await Alert.big.blocking({
+                title: `Truth file invalid: ${truth.name}`,
+                html: '<b>Please choose one of the following valid truths:</b>',
+            }, {
+                strings: filteredTxts,
+                clickFn: async $s => {
+                    try {
+                        const config = this.config();
+                        config.finished_trials_count = 0;
+                        config.levels = [];
+                        this.truth_file_path = new Truth(path.join(this.truthsDirPath(), $s.text()));
+                        util.reloadPage();
+                    } catch (err) {
+                        document.getElementById('swal2-title').innerText = err.message;
+                        document.getElementById('swal2-content').style.display = 'none';
+                        document.getElementsByClassName('swal2-icon swal2-warning')[0].style.display = 'inherit';
+                        throw err;
+                    }
+
+                }
+            });
+        }
+
+
+    }
+
 
 }
 
-/**@class*/
 export class Config extends MyStore {
-    /**@param {TExperimentType} type*/
-    constructor(type) {
+
+    constructor(type: ExperimentType) {
         super(false);
         this.type = type;
 
@@ -291,7 +287,7 @@ export class Config extends MyStore {
             throw new TypeError(`config set allowed_tempo_deviation, received "deviation" not of type string. deviation: ${deviation}`);
         }
         if (!deviation.endsWith("%")) {
-            throw new Error(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
+            alert(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
         }
         this._set('allowed_tempo_deviation', deviation);
     }
@@ -307,7 +303,7 @@ export class Config extends MyStore {
             throw new TypeError(`config set allowed_rhythm_deviation, received "deviation" not of type string. deviation: ${deviation}`);
         }
         if (!deviation.endsWith("%")) {
-            throw new Error(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
+            alert(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
         }
         this._set('allowed_rhythm_deviation', deviation);
     }
@@ -342,26 +338,24 @@ export class Config extends MyStore {
 
     }
 
-    /**@return {string}*/
-    get save_path() {
+    get save_path(): string {
         return this._get('save_path');
     }
 
-    /**@param {string} savePath*/
-    set save_path(savePath) {
+    set save_path(savePath: string) {
+        // @ts-ignore
         return this._set('save_path', savePath);
     }
 
-    /**@return {TDemoType}*/
-    get demo_type() {
+    get demo_type(): DemoType {
         return this._get('demo_type');
     }
 
-    /**@param {TDemoType} type*/
-    set demo_type(type) {
-        if (!type.in(['video', 'animation'])) {
-            throw new Error(`Config demo_type setter, bad type = ${type}, can be either video or animation`);
+    set demo_type(type: DemoType) {
+        if (!['video', 'animation'].includes(type)) {
+            alert(`Config demo_type setter, bad type = ${type}, can be either video or animation`);
         }
+        // @ts-ignore
         return this._set('demo_type', type);
     }
 
@@ -383,7 +377,7 @@ export class Config extends MyStore {
     /**@param {TLevel[]} levels*/
     set levels(levels) {
         if (!Array.isArray(levels)) {
-            throw new Error(`config.set levels, received "levels" not isArray. levels: ${levels}`);
+            alert(`config.set levels, received "levels" not isArray. levels: ${levels}`);
         }
         this._set('levels', levels);
     }
@@ -413,20 +407,6 @@ export class Config extends MyStore {
         this._updateSavedFile('truth_file_path', savedConfig.truth_file_path);
     }
 
-    /**@private
-     * @param {TSavedConfigKey} key
-     * @param value*/
-    _updateSavedFile(key, value) {
-        const conf = new (require('conf'))({
-            cwd: path.dirname(path.join(super.root_abs_path, this.save_path)),
-            configName: fsx.remove_ext(path.basename(this.save_path)),
-            fileExtension: this.type,
-            serialize: value => JSON.stringify(value, null, 4)
-        });
-        console.log('💾 _updateSavedFile(key,value)', { key, value, conf });
-        conf.set(key, value);
-    }
-
     /**@param {TConfigKey} key*/
     _get(key) {
         return super.get(`current_${this.type}.${key}`);
@@ -438,7 +418,7 @@ export class Config extends MyStore {
         const type = typeof key;
         if (type === 'string') {
             if (!key.in(Config._KEYS)) {
-                throw new Error(`Config(${this.type})._set: "keyOrObj" is string, not in this._KEYS. keyOrObj: ${key}`);
+                alert(`Config(${this.type})._set: "keyOrObj" is string, not in this._KEYS. keyOrObj: ${key}`);
             }
             const superkey = `current_${this.type}.${key}`;
             super.set(superkey, value);
@@ -451,61 +431,66 @@ export class Config extends MyStore {
         throw new TypeError(`Config(${this.type})._set: arg "keyOrObj" is not string. type: ${type}. keyOrObj: ${key}`);
     }
 
-    /**@return {number[]}*/
-    currentTrialCoords() {
-        // let { levels, finished_trials_count } = this.config();
-        let flatTrialsList = this.levels.map(level => level.trials);
-        for (let [levelIndex, trialsNum] of enumerate(flatTrialsList)) {
 
-            let trialSumSoFar = sum(flatTrialsList.slice(0, levelIndex + 1));
+    currentTrialCoords(): [number, number] {
+        // let { levels, finished_trials_count } = this.config();
+        let flatTrialsList: number[] = this.levels.map(level => level.trials);
+        for (let [levelIndex, trialsNum] of util.enumerate(flatTrialsList)) {
+
+            let trialSumSoFar = util.sum(flatTrialsList.slice(0, levelIndex + 1));
             const finishedTrialsCount = this.finished_trials_count;
             if (trialSumSoFar > finishedTrialsCount) {
                 return [levelIndex, trialsNum - (trialSumSoFar - finishedTrialsCount)];
             }
         }
-        throw "currentTrialCoords: out of index error";
+        alert("currentTrialCoords: out of index error");
     }
 
     isDemoVideo() {
         return this.demo_type == 'video';
     }
 
-    /**@return {boolean}*/
-    isWholeTestOver() {
-        return sum(this.levels.map(level => level.trials)) == this.finished_trials_count;
+    isWholeTestOver(): boolean {
+        return util.sum(this.levels.map(level => level.trials)) == this.finished_trials_count;
     }
 
     getSubjectDirNames() {
-        return require("fs").readdirSync(path.join(super.get('root_abs_path'), 'experiments', 'subjects'));
+        return fs.readdirSync(path.join(super.get('root_abs_path'), 'experiments', 'subjects'));
     }
 
-    /**@return {Level}*/
-    getCurrentLevel() {
+    getCurrentLevel(): Level {
 
         let [level_index, trial_index] = this.currentTrialCoords();
         return new Level(this.levels[level_index], level_index, trial_index);
     }
 
-    /**@return {Levels}*/
-    getLevels() {
+    getLevels(): Levels {
         let [level_index, trial_index] = this.currentTrialCoords();
         return new Levels(this.levels, level_index, trial_index);
     }
 
-
-    /**Gets the current trial's path (join this.testOutPath() and level_${level_index}...), and returns a Truth of it
-     @return {Truth}*/
-    trialTruth() {
+    /**Gets the current trial's path (join this.testOutPath() and level_${level_index}...), and returns a Truth of it*/
+    trialTruth(): Truth {
         let [level_index, trial_index] = this.currentTrialCoords();
         // return new Truth(path.join(this.testOutPath(), `level_${level_index}_trial_${trial_index}`));
         return new Truth(path.join(this.testOutPath(), `level_${level_index}_trial_${trial_index}`));
     }
 
-    /**"c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\gilad\fur_elise"
-     @return {string}*/
-    testOutPath() {
+    /**"c:\Sync\Code\Python\Pyano-release\src\experiments\subjects\gilad\fur_elise"*/
+    testOutPath(): string {
         const currSubjectDir = path.join(super.subjectsDirPath(), this.current_subject); // ".../subjects/gilad"
         return path.join(currSubjectDir, this.truth().name);
+    }
+
+    private _updateSavedFile(key: keyof TSavedConfig, value) {
+        const conf = new (require('conf'))({
+            cwd: path.dirname(path.join(super.root_abs_path, this.save_path)),
+            configName: pathx.remove_ext(path.basename(this.save_path)),
+            fileExtension: this.type,
+            serialize: value => JSON.stringify(value, null, 4)
+        });
+        console.log('💾 _updateSavedFile(key,value)', { key, value, conf });
+        conf.set(key, value);
     }
 
 

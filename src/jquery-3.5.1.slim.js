@@ -8749,8 +8749,6 @@
         window.jQuery = window.$ = jQuery;
     }
 
-    // window.$ = $;
-    // window.jQuery = jQuery;
     window.jQuery = window.$ = jQuery;
     console.log('jquery-3.5.1.slim.js EOF');
     return jQuery;

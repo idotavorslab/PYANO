@@ -10,7 +10,7 @@ import { wait } from "../util";
 
 const smallMixin = Swal.mixin({
     animation: false,
-    customClass: 'animated fadeIn',
+    // customClass: 'animated fadeIn',
     position: "bottom-start",
     showConfirmButton: false,
     timer: 8000,
@@ -25,12 +25,12 @@ const withConfirm = {
     timer: null,
 
 };
-const blockingOptions = {
+const blockingOptions: SweetAlertOptions = {
     allowEnterKey: false,
     allowEscapeKey: false,
     allowOutsideClick: false,
     animation: false,
-    customClass: 'animated fadeIn',
+    // customClass: 'animated fadeIn',
     showCancelButton: false, // default false
     showCloseButton: false, // default false
     showConfirmButton: false,
@@ -69,7 +69,7 @@ const small = {
         return smallMixin.fire({
             title,
             text,
-            type: "error",
+            icon: "error",
 
         });
     },
@@ -90,7 +90,7 @@ const small = {
         return smallMixin.fire({
             title,
             text,
-            type: "success",
+            icon: "success",
             timer
         })
     },

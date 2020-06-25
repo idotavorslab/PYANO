@@ -1,8 +1,11 @@
-import { Truth } from "../../renderer.js";
+import { Truth } from "../Truth/index.js";
+import * as pathx from "../pathx.js";
 const Store = require('electron-store');
 const path = require("path");
 const fs = require('fs');
 import Alert from "../MyAlert/index.js";
+import * as util from "../util";
+import { Level, Levels } from "../Level/index.js";
 export class MyStore extends Store {
     constructor(_doTruthFileCheck = true) {
         super();
@@ -14,23 +17,20 @@ export class MyStore extends Store {
         return this.get('truth_file_path');
     }
     set truth_file_path(truth) {
-        truth.txt.allExist()
-            .then(exist => {
-            if (exist) {
-                this.set(`truth_file_path`, `experiments/truths/${truth.txt.base.name}`);
-            }
-            else {
-                throw new Error(`Not all txt files of truth exist: ${truth.txt.base.name}`);
-            }
-        });
+        if (truth.txt.allExist()) {
+            this.set(`truth_file_path`, `experiments/truths/${truth.txt.base.name}`);
+        }
+        else {
+            alert(`Not all txt files of truth exist: ${truth.txt.base.name}`);
+        }
     }
     get last_page() {
         return this.get('last_page');
     }
     set last_page(page) {
         const validpages = ['new_test', 'inside_test', 'record', 'file_tools', 'settings'];
-        if (!page.in(validpages)) {
-            throw new Error(`setLastPage(page = ${page}), must be one of ${validpages.join(', ')}`);
+        if (!validpages.includes(page)) {
+            alert(`setLastPage(page = ${page}), must be one of ${validpages.join(', ')}`);
         }
         this.set('last_page', page);
     }
@@ -39,7 +39,7 @@ export class MyStore extends Store {
     }
     set experiment_type(experimentType) {
         if (experimentType != 'test' && experimentType != 'exam') {
-            throw new Error(`MyStore experiment_type setter, got experimentType: '${experimentType}'. Must be either 'test' or 'exam'`);
+            alert(`MyStore experiment_type setter, got experimentType: '${experimentType}'. Must be either 'test' or 'exam'`);
         }
         this.set('experiment_type', experimentType);
     }
@@ -66,47 +66,6 @@ export class MyStore extends Store {
             skip_passed_trial_feedback: () => _dev && this.get('devoptions.skip_passed_trial_feedback'),
             skip_failed_trial_feedback: () => _dev && this.get('devoptions.skip_failed_trial_feedback'),
         };
-    }
-    _doTruthFileCheck() {
-        console.log('💾 MyStore._doTruthFileCheck()');
-        const truth = this.truth();
-        truth.txt.allExist()
-            .then(async (exist) => {
-            if (exist) {
-                return Alert.small.success(`All "${truth.name}" txt files exist.`);
-            }
-            else {
-                const txtFilesList = this.truthFilesList('txt').map(fsx.remove_ext);
-                const filteredTxts = txtFilesList.filter(a => txtFilesList.filter(txt => txt.startsWith(a)).length >= 3);
-                if (!bool(filteredTxts)) {
-                    return await Alert.big.warning({
-                        title: 'No valid truth files found',
-                        html: 'There needs to be at least one txt file with 2 "on" and "off" counterparts.'
-                    });
-                }
-                await Alert.big.blocking({
-                    title: `Truth file invalid: ${truth.name}`,
-                    html: '<b>Please choose one of the following valid truths:</b>',
-                }, {
-                    strings: filteredTxts,
-                    clickFn: async ($s) => {
-                        try {
-                            const config = this.config();
-                            config.finished_trials_count = 0;
-                            config.levels = [];
-                            this.truth_file_path = new Truth(path.join(this.truthsDirPath(), $s.text()));
-                            reloadPage();
-                        }
-                        catch (err) {
-                            document.getElementById('swal2-title').innerText = err.message;
-                            document.getElementById('swal2-content').style.display = 'none';
-                            document.getElementsByClassName('swal2-icon swal2-warning')[0].style.display = 'inherit';
-                            throw err;
-                        }
-                    }
-                });
-            }
-        });
     }
     fromSavedConfig(savedConfig, experimentType) {
         const truthsDirPath = this.truthsDirPath();
@@ -141,7 +100,7 @@ export class MyStore extends Store {
         }
         else {
             if (!isNaN(Math.floor(V))) {
-                this.set(K, int(V) + 1);
+                this.set(K, Math.floor(V) + 1);
             }
             else {
                 throw new TypeError("MyStore tried to increase a value that is not a number or string");
@@ -162,7 +121,7 @@ export class MyStore extends Store {
     truthFilesList(extFilter = null) {
         if (extFilter != null) {
             if (!extFilter.in(['txt', 'mid', 'mp4'])) {
-                throw new Error(`truthFilesList(extFilter = ${extFilter}), must be either ['txt','mid','mp4'] or not at all`);
+                alert(`truthFilesList(extFilter = ${extFilter}), must be either ['txt','mid','mp4'] or not at all`);
             }
         }
         const truthsDirPath = this.truthsDirPath();
@@ -177,6 +136,44 @@ export class MyStore extends Store {
     }
     salamanderDirPath() {
         return path.join(this.root_abs_path, 'templates', 'Salamander/');
+    }
+    async _doTruthFileCheck() {
+        console.log('💾 MyStore._doTruthFileCheck()');
+        const truth = this.truth();
+        if (truth.txt.allExist()) {
+            return Alert.small.success(`All "${truth.name}" txt files exist.`);
+        }
+        else {
+            const txtFilesList = this.truthFilesList('txt').map(pathx.remove_ext);
+            const filteredTxts = txtFilesList.filter(a => txtFilesList.filter(txt => txt.startsWith(a)).length >= 3);
+            if (!util.bool(filteredTxts)) {
+                return Alert.big.warning({
+                    title: 'No valid truth files found',
+                    html: 'There needs to be at least one txt file with 2 "on" and "off" counterparts.'
+                });
+            }
+            await Alert.big.blocking({
+                title: `Truth file invalid: ${truth.name}`,
+                html: '<b>Please choose one of the following valid truths:</b>',
+            }, {
+                strings: filteredTxts,
+                clickFn: async ($s) => {
+                    try {
+                        const config = this.config();
+                        config.finished_trials_count = 0;
+                        config.levels = [];
+                        this.truth_file_path = new Truth(path.join(this.truthsDirPath(), $s.text()));
+                        util.reloadPage();
+                    }
+                    catch (err) {
+                        document.getElementById('swal2-title').innerText = err.message;
+                        document.getElementById('swal2-content').style.display = 'none';
+                        document.getElementsByClassName('swal2-icon swal2-warning')[0].style.display = 'inherit';
+                        throw err;
+                    }
+                }
+            });
+        }
     }
 }
 export class Config extends MyStore {
@@ -202,7 +199,7 @@ export class Config extends MyStore {
             throw new TypeError(`config set allowed_tempo_deviation, received "deviation" not of type string. deviation: ${deviation}`);
         }
         if (!deviation.endsWith("%")) {
-            throw new Error(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
+            alert(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
         }
         this._set('allowed_tempo_deviation', deviation);
     }
@@ -214,7 +211,7 @@ export class Config extends MyStore {
             throw new TypeError(`config set allowed_rhythm_deviation, received "deviation" not of type string. deviation: ${deviation}`);
         }
         if (!deviation.endsWith("%")) {
-            throw new Error(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
+            alert(`config set got bad deviation, not % at the end. deviation: ${deviation}`);
         }
         this._set('allowed_rhythm_deviation', deviation);
     }
@@ -247,8 +244,8 @@ export class Config extends MyStore {
         return this._get('demo_type');
     }
     set demo_type(type) {
-        if (!type.in(['video', 'animation'])) {
-            throw new Error(`Config demo_type setter, bad type = ${type}, can be either video or animation`);
+        if (!['video', 'animation'].includes(type)) {
+            alert(`Config demo_type setter, bad type = ${type}, can be either video or animation`);
         }
         return this._set('demo_type', type);
     }
@@ -263,7 +260,7 @@ export class Config extends MyStore {
     }
     set levels(levels) {
         if (!Array.isArray(levels)) {
-            throw new Error(`config.set levels, received "levels" not isArray. levels: ${levels}`);
+            alert(`config.set levels, received "levels" not isArray. levels: ${levels}`);
         }
         this._set('levels', levels);
     }
@@ -286,16 +283,6 @@ export class Config extends MyStore {
         this.allowed_rhythm_deviation = savedConfig.allowed_rhythm_deviation;
         this._updateSavedFile('truth_file_path', savedConfig.truth_file_path);
     }
-    _updateSavedFile(key, value) {
-        const conf = new (require('conf'))({
-            cwd: path.dirname(path.join(super.root_abs_path, this.save_path)),
-            configName: fsx.remove_ext(path.basename(this.save_path)),
-            fileExtension: this.type,
-            serialize: value => JSON.stringify(value, null, 4)
-        });
-        console.log('💾 _updateSavedFile(key,value)', { key, value, conf });
-        conf.set(key, value);
-    }
     _get(key) {
         return super.get(`current_${this.type}.${key}`);
     }
@@ -303,7 +290,7 @@ export class Config extends MyStore {
         const type = typeof key;
         if (type === 'string') {
             if (!key.in(Config._KEYS)) {
-                throw new Error(`Config(${this.type})._set: "keyOrObj" is string, not in this._KEYS. keyOrObj: ${key}`);
+                alert(`Config(${this.type})._set: "keyOrObj" is string, not in this._KEYS. keyOrObj: ${key}`);
             }
             const superkey = `current_${this.type}.${key}`;
             super.set(superkey, value);
@@ -316,23 +303,23 @@ export class Config extends MyStore {
     }
     currentTrialCoords() {
         let flatTrialsList = this.levels.map(level => level.trials);
-        for (let [levelIndex, trialsNum] of enumerate(flatTrialsList)) {
-            let trialSumSoFar = sum(flatTrialsList.slice(0, levelIndex + 1));
+        for (let [levelIndex, trialsNum] of util.enumerate(flatTrialsList)) {
+            let trialSumSoFar = util.sum(flatTrialsList.slice(0, levelIndex + 1));
             const finishedTrialsCount = this.finished_trials_count;
             if (trialSumSoFar > finishedTrialsCount) {
                 return [levelIndex, trialsNum - (trialSumSoFar - finishedTrialsCount)];
             }
         }
-        throw "currentTrialCoords: out of index error";
+        alert("currentTrialCoords: out of index error");
     }
     isDemoVideo() {
         return this.demo_type == 'video';
     }
     isWholeTestOver() {
-        return sum(this.levels.map(level => level.trials)) == this.finished_trials_count;
+        return util.sum(this.levels.map(level => level.trials)) == this.finished_trials_count;
     }
     getSubjectDirNames() {
-        return require("fs").readdirSync(path.join(super.get('root_abs_path'), 'experiments', 'subjects'));
+        return fs.readdirSync(path.join(super.get('root_abs_path'), 'experiments', 'subjects'));
     }
     getCurrentLevel() {
         let [level_index, trial_index] = this.currentTrialCoords();
@@ -349,5 +336,15 @@ export class Config extends MyStore {
     testOutPath() {
         const currSubjectDir = path.join(super.subjectsDirPath(), this.current_subject);
         return path.join(currSubjectDir, this.truth().name);
+    }
+    _updateSavedFile(key, value) {
+        const conf = new (require('conf'))({
+            cwd: path.dirname(path.join(super.root_abs_path, this.save_path)),
+            configName: pathx.remove_ext(path.basename(this.save_path)),
+            fileExtension: this.type,
+            serialize: value => JSON.stringify(value, null, 4)
+        });
+        console.log('💾 _updateSavedFile(key,value)', { key, value, conf });
+        conf.set(key, value);
     }
 }

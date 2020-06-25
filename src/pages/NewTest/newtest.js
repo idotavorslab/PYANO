@@ -1,5 +1,5 @@
 // ** pages/NewTest/newtest.js
-
+console.group(`pages/NewTest/newtest.js.js`);
 import * as EXTLIBS from "./../../ext_libs.js"
 
 const { EStore } = EXTLIBS;
@@ -90,3 +90,4 @@ const newTestPage = {
 
 };
 module.exports = newTestPage;
+console.groupEnd();

@@ -45,7 +45,8 @@ export function anyDefined(obj) {
 
 export function equalsAny(obj, ...others) {
     if (!others) {
-        throw new Error('Not even one other was passed');
+        console.warn('Not even one other was passed');
+        return false
     }
     let strict = !(isArrayLike(obj) && isObject(obj[obj.length - 1]) && obj[obj.length - 1].strict == false);
     const _isEq = (_obj, _other) => strict ? _obj === _other : _obj == _other;
@@ -93,9 +94,9 @@ export function isArrayLike(collection) {
         never*/
 export type PrimitiveVal = string | number | boolean;
 
-export function enumerate<T>(obj: Array<T>): [number, T]
-export function enumerate<T>(obj: TRecMap<T>): [keyof TRecMap<T>, T]
-export function enumerate(obj: PrimitiveVal): []
+export function enumerate<T>(obj: Array<T>): Array<[number, T]>
+export function enumerate<T>(obj: TRecMap<T>): Array<[keyof TRecMap<T>, T]>
+export function enumerate(obj: PrimitiveVal): Array<any>
 export function enumerate(obj) {
     let typeofObj = typeof obj;
     if (obj === undefined
@@ -184,14 +185,6 @@ export function sum(arr) {
     return !dirty ? null : sum;
 }
 
-/**
- @param {string|number} num
- @return {number}
- */
-export const int = (num) => Math.floor(num);
-/**@param {...number} values*/
-export const max = (...values) => Math.max(...values);
-export const min = (...values) => Math.min(...values);
 
 export function* range(start, stop) {
     for (let i = start; i <= stop; i++) {
@@ -200,22 +193,65 @@ export function* range(start, stop) {
 
 }
 
-/**@param {number} n
- * @param {number} d
- * @return {number}*/
-export function round(n, d = 0) {
+
+export function round(n: number, d: number = 0): number {
     const fr = 10 ** d;
-    return int(n * fr) / fr;
+    return Math.floor(n * fr) / fr;
 }
 
-export const small = (...args) => [`%c${args.join(' ')}`, `font-size:10px`];
+export function small(...args) {
+    return [`%c${args.join(' ')}`, `font-size:10px`];
+}
 
+
+export function any(collection): boolean {
+    return collection.some(item => bool(item));
+}
+
+export function all(collection): boolean {
+    return collection.every(item => bool(item));
+}
 
 export function* zip(arr1, arr2) {
     for (let key in arr1) {
         yield [arr1[key], arr2[key]];
     }
 }
+
+
+export function $fadeOut(jQuery, ms: number): Promise<any> {
+    return new Promise(resolve => jQuery.fade(ms, 0, resolve));
+}
+
+
+export function $fadeIn(jQuery, ms: number) {
+    return new Promise(resolve => jQuery.fade(ms, 1, resolve));
+}
+
+
+export async function $fadeInMany(ms: number, ...jQueries): Promise<any> {
+    let promises = [];
+    for (let jQ of jQueries) {
+        promises.push($fadeIn(jQ, ms));
+    }
+
+    return await Promise.all(promises);
+}
+
+export async function $fadeOutMany(ms: number, ...jQueries): Promise<any> {
+    let promises = [];
+    for (let jQ of jQueries) {
+        promises.push($fadeOut(jQ, ms));
+    }
+
+    return await Promise.all(promises);
+}
+
+
+export async function concurrent(...promises) {
+    return await Promise.all(promises);
+}
+
 
 export function getCurrentWindow() {
     const { remote } = require("electron");

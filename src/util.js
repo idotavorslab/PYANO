@@ -26,7 +26,8 @@ export function anyDefined(obj) {
 }
 export function equalsAny(obj, ...others) {
     if (!others) {
-        throw new Error('Not even one other was passed');
+        console.warn('Not even one other was passed');
+        return false;
     }
     let strict = !(isArrayLike(obj) && isObject(obj[obj.length - 1]) && obj[obj.length - 1].strict == false);
     const _isEq = (_obj, _other) => strict ? _obj === _other : _obj == _other;
@@ -147,9 +148,6 @@ export function sum(arr) {
     }
     return !dirty ? null : sum;
 }
-export const int = (num) => Math.floor(num);
-export const max = (...values) => Math.max(...values);
-export const min = (...values) => Math.min(...values);
 export function* range(start, stop) {
     for (let i = start; i <= stop; i++) {
         yield i;
@@ -157,13 +155,44 @@ export function* range(start, stop) {
 }
 export function round(n, d = 0) {
     const fr = 10 ** d;
-    return int(n * fr) / fr;
+    return Math.floor(n * fr) / fr;
 }
-export const small = (...args) => [`%c${args.join(' ')}`, `font-size:10px`];
+export function small(...args) {
+    return [`%c${args.join(' ')}`, `font-size:10px`];
+}
+export function any(collection) {
+    return collection.some(item => bool(item));
+}
+export function all(collection) {
+    return collection.every(item => bool(item));
+}
 export function* zip(arr1, arr2) {
     for (let key in arr1) {
         yield [arr1[key], arr2[key]];
     }
+}
+export function $fadeOut(jQuery, ms) {
+    return new Promise(resolve => jQuery.fade(ms, 0, resolve));
+}
+export function $fadeIn(jQuery, ms) {
+    return new Promise(resolve => jQuery.fade(ms, 1, resolve));
+}
+export async function $fadeInMany(ms, ...jQueries) {
+    let promises = [];
+    for (let jQ of jQueries) {
+        promises.push($fadeIn(jQ, ms));
+    }
+    return await Promise.all(promises);
+}
+export async function $fadeOutMany(ms, ...jQueries) {
+    let promises = [];
+    for (let jQ of jQueries) {
+        promises.push($fadeOut(jQ, ms));
+    }
+    return await Promise.all(promises);
+}
+export async function concurrent(...promises) {
+    return await Promise.all(promises);
 }
 export function getCurrentWindow() {
     const { remote } = require("electron");
