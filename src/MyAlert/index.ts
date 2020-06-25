@@ -1,7 +1,7 @@
 /**import Alert from 'MyAlert' (or any other name)*/
 
 console.group('src/myalert.ts');
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertResult, SweetAlertOptions } from 'sweetalert2';
 
 console.log(`Swal:`, Swal);
 import { paragraph, elem, BetterHTMLElement, button } from "../bhe/index.js";
