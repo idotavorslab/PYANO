@@ -1,4 +1,4 @@
-console.group('src/myalert.ts');
+console.group('src/MyAlert/index.ts');
 import Swal from 'sweetalert2';
 console.log(`Swal:`, Swal);
 import { paragraph, elem, button } from "../bhe/index.js";
@@ -190,5 +190,5 @@ const big = {
     }
 };
 export default { small, big, ...Swal };
-console.log('src/myalert.ts EOF');
+console.log('src/MyAlert/index.ts EOF');
 console.groupEnd();

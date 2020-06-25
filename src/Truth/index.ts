@@ -4,14 +4,14 @@ import { bool } from "../util";
 import myfs from '../MyFs'
 
 /**An object wrapping an abs path with extension.*/
-class File {
+class FileNew {
 
     constructor(absPathWithExt: string) {
         if (!bool(path.extname(absPathWithExt))) {
-            console.error(`File constructor: passed 'absPathWithExt' is extensionless: ${absPathWithExt}. Returning`);
+            console.error(`FileNew constructor: passed 'absPathWithExt' is extensionless: ${absPathWithExt}. Returning`);
         }
         if (!path.isAbsolute(absPathWithExt)) {
-            console.error(`File constructor: passed 'absPathWithExt' NOT absolute: ${absPathWithExt}. Returning`);
+            console.error(`FileNew constructor: passed 'absPathWithExt' NOT absolute: ${absPathWithExt}. Returning`);
         }
 
         this._absPath = absPathWithExt;
@@ -31,11 +31,11 @@ class File {
     /**Sets this._absPath and also RENAMES the actual file.*/
     set absPath(absPathWithExt: string) {
         if (!bool(path.extname(absPathWithExt))) {
-            console.error(`File set absPath: passed extensionless 'absPathWithExt': ${absPathWithExt}. Not setting`);
+            console.error(`FileNew set absPath: passed extensionless 'absPathWithExt': ${absPathWithExt}. Not setting`);
             return;
         }
         if (!path.isAbsolute(absPathWithExt)) {
-            console.error(`File set absPath: passed non-absolute 'absPathWithExt': ${absPathWithExt}. Not setting`);
+            console.error(`FileNew set absPath: passed non-absolute 'absPathWithExt': ${absPathWithExt}. Not setting`);
             return;
         }
         this._absPath = absPathWithExt;
@@ -46,7 +46,7 @@ class File {
      return this.path;
      }*/
     /**@deprecated*/
-    renameByOtherFile(other: File) {
+    renameByOtherFile(other: FileNew) {
         console.warn('called renameByOtherFile(), use set absPath instead');
         this.absPath = other.absPath;
     }
@@ -63,7 +63,7 @@ class File {
 
     async getBitrateAndHeight(): Promise<[string, string]> {
         if (!this._absPath.endsWith('mp4') && !this._absPath.endsWith('mov')) {
-            console.warn(`File: "${this._absPath}" isn't "mp4" or "mov"`);
+            console.warn(`FileNew: "${this._absPath}" isn't "mp4" or "mov"`);
             return undefined
         }
         const { execSync } = require('child_process');
@@ -90,12 +90,12 @@ class File {
 
 
 class Txt {
-    /**A File object representing the absolute ``*.txt`` path.*/
-    readonly base: File;
-    /**A File object representing the absolute ``*_on.txt``  path.*/
-    readonly on: File;
-    /**A File object representing the absolute ``*_off.txt`` path.*/
-    readonly off: File;
+    /**A FileNew object representing the absolute ``*.txt`` path.*/
+    readonly base: FileNew;
+    /**A FileNew object representing the absolute ``*_on.txt``  path.*/
+    readonly on: FileNew;
+    /**A FileNew object representing the absolute ``*_off.txt`` path.*/
+    readonly off: FileNew;
 
 
     constructor(absPathNoExt: string) {
@@ -104,22 +104,22 @@ class Txt {
             return;
         }
         if (bool(path.extname(absPathNoExt))) {
-            console.warn(`File constructor: passed 'absPathNoExt' is NOT extensionless: ${absPathNoExt}. Removing ext`);
+            console.warn(`FileNew constructor: passed 'absPathNoExt' is NOT extensionless: ${absPathNoExt}. Removing ext`);
             absPathNoExt = myfs.remove_ext(absPathNoExt);
         }
-        this.base = new File(`${absPathNoExt}.txt`);
-        this.on = new File(`${absPathNoExt}_on.txt`);
-        this.off = new File(`${absPathNoExt}_off.txt`);
+        this.base = new FileNew(`${absPathNoExt}.txt`);
+        this.on = new FileNew(`${absPathNoExt}_on.txt`);
+        this.off = new FileNew(`${absPathNoExt}_off.txt`);
 
     }
 
-    getAll(): [File, File, File] {
+    getAll(): [FileNew, FileNew, FileNew] {
         return [this.base, this.on, this.off];
     }
 
 
     // getExisting(): [ (File | false), (File | false), (File | false) ] {
-    getExisting(): { base?: File, on?: File, off?: File } {
+    getExisting(): { base?: FileNew, on?: FileNew, off?: FileNew } {
         const files = {
             base: this.base.exists() ? this.base : undefined,
             on: this.on.exists() ? this.on : undefined,
@@ -202,19 +202,19 @@ export interface ReadonlyTruth {
     onsets: { absPath: string },
 }
 
-export class Truth implements ReadonlyTruth {
+export class TruthNew implements ReadonlyTruth {
 
     /**The basename without extension.*/
     readonly name: string;
     readonly txt: Txt;
-    /**A File object of the midi file.*/
-    readonly midi: File;
-    /**A File object of the mp4 file.*/
-    readonly mp4: File;
-    /**A File object of the mov file.*/
-    readonly mov: File;
-    /**A File object of the onsets file.*/
-    readonly onsets: File;
+    /**A FileNew object of the midi file.*/
+    readonly midi: FileNew;
+    /**A FileNew object of the mp4 file.*/
+    readonly mp4: FileNew;
+    /**A FileNew object of the mov file.*/
+    readonly mov: FileNew;
+    /**A FileNew object of the onsets file.*/
+    readonly onsets: FileNew;
 
     /**
      * @param nameNoExt - Expects a file base name with no extension.
@@ -241,10 +241,10 @@ export class Truth implements ReadonlyTruth {
         }
         const absPathNoExt = path.join(dir, name);
         this.txt = new Txt(absPathNoExt);
-        this.midi = new File(`${absPathNoExt}.mid`);
-        this.mp4 = new File(`${absPathNoExt}.mp4`);
-        this.mov = new File(`${absPathNoExt}.mov`);
-        this.onsets = new File(`${absPathNoExt}_onsets.json`);
+        this.midi = new FileNew(`${absPathNoExt}.mid`);
+        this.mp4 = new FileNew(`${absPathNoExt}.mp4`);
+        this.mov = new FileNew(`${absPathNoExt}.mov`);
+        this.onsets = new FileNew(`${absPathNoExt}_onsets.json`);
 
     }
 
@@ -314,5 +314,199 @@ export class Truth implements ReadonlyTruth {
 
         }
         return notes;
+    }
+}
+
+/**An object wrapping a path with extension. Can be absolute or base.
+ * ``toString()`` returns ``this.path``.
+ * ``name`` property exists only if wrapping an absolute path.*/
+export class _File {
+    constructor(pathWithExt) {
+        if (!util.bool(path.extname(pathWithExt))) {
+            throw new Error(`File constructor: passed 'pathWithExt' is extensionless: ${pathWithExt}`);
+        }
+        /**The path including extension. Can be either absolute or a file name.
+         * @type {string} path*/
+        this.path = pathWithExt;
+        /**The path without extension. Can be either absolute or a file name.
+         * @type {string} pathNoExt*/
+        this.pathNoExt = fsx.remove_ext(this.path);
+        if (path.isAbsolute(this.path)) {
+            /**If exists, a File object of the basename.
+             * @type {_File} name*/
+            this.name = new _File(fsx.basename(this.path));
+        }
+
+    }
+
+    toString() {
+        return this.path;
+    }
+
+    /**@param {_File} other*/
+    async renameByOtherFile(other) {
+        const fs = require("fs");
+        await fs.renameSync(this.path, other.path);
+    }
+
+    async renameByCTime() {
+        const fs = require("fs");
+
+        const stats = await fs.lstatSync(this.path);
+        const datestr = stats.ctime.human();
+        const newPath = fsx.push_before_ext(this.path, `__CREATED_${datestr}`);
+        console.log('renameByCTime() to: ', newPath);
+        await fs.renameSync(this.path, newPath);
+    }
+
+    /**@throws {Error} error if file isn't "mp4" or "mov"
+     * @return {Promise<[string,string]>}
+     * */
+    async getBitrateAndHeight() {
+        if (!this.path.endsWith('mp4') && !this.path.endsWith('mov')) {
+            throw new Error(`_File: "${this.path}" isn't "mp4" or "mov"`);
+        }
+        const { execSync } = require('child_process');
+        const ffprobeCmd = `ffprobe -v quiet -print_format json -show_streams -show_format`;
+        const probe = JSON.parse(await execSync(`${ffprobeCmd} "${this.path}"`, { encoding: 'utf8' }));
+        const { bit_rate, height } = probe.streams.find(s => s["codec_type"] == "video");
+        return [bit_rate, height];
+    }
+
+
+    /**@return {Promise<boolean>}*/
+    async exists() {
+        return await fsx.path_exists(this.path);
+    }
+
+    /**@return {Promise<void>}*/
+    async remove() {
+        return require('fs').unlinkSync(this.path);
+    }
+
+    /**@return {number}*/
+    async size() {
+        let { size } = await require("fs").lstatSync(this.path);
+        return size;
+    }
+}
+
+export class Truth {
+    /**An object wrapping an absolute path without extension.
+     * @param {string} pathNoExt*/
+    constructor(pathNoExt) {
+        if (!path.isAbsolute(pathNoExt)) {
+            throw new Error(`Passed path is not absolute: ${pathNoExt}`);
+        }
+        if (util.bool(fsx.extname(pathNoExt))) {
+            throw new Error(`Passed path is not extensionless: ${pathNoExt}`);
+        }
+        if (pathNoExt.endsWith('off') || pathNoExt.endsWith('on')) {
+            throw new Error(`Passed path of "_on" or "_off" file and not base: ${pathNoExt}`);
+        }
+        /**The absolute path without extension.
+         * @type {string} pathNoExt*/
+        this.pathNoExt = pathNoExt;
+        /**The basename without extension.
+         * @type {string} name*/
+        this.name = fsx.basename(this.pathNoExt);
+        /**
+         * @prop {_File} base - A _File object representing the absolute ``*.txt`` path.
+         * @prop {_File} on - A _File object representing the absolute ``*_on.txt``  path.
+         * @prop {_File} off - A _File object representing the absolute ``*_off.txt`` path.
+         * */
+        this.txt = new class {
+            /**@param {string} pathNoExt*/
+            constructor(pathNoExt) {
+                this.base = new _File(`${pathNoExt}.txt`);
+                this.on = new _File(`${pathNoExt}_on.txt`);
+                this.off = new _File(`${pathNoExt}_off.txt`);
+            }
+
+            /**@return {[_File,_File,_File]}*/
+            getAll() {
+                return [this.base, this.on, this.off];
+            }
+
+            /**@return {_File[]}*/
+            async getMissing() {
+                let missing = [];
+                if (!(await this.base.exists())) {
+                    missing.push(this.base);
+                }
+                if (!(await this.on.exists())) {
+                    missing.push(this.on);
+                }
+                if (!(await this.off.exists())) {
+                    missing.push(this.off);
+                }
+
+                return missing;
+            }
+
+            /**@return {Promise<boolean>}*/
+            async allExist() {
+                return all(await asx.concurrent(
+                    this.base.exists(),
+                    this.on.exists(),
+                    this.off.exists()));
+            }
+
+            /**@return {Promise<boolean>}*/
+            async anyExist() {
+                return any(await asx.concurrent(
+                    this.base.exists(),
+                    this.on.exists(),
+                    this.off.exists()));
+            }
+
+            /**@return {Promise<void>}*/
+            async removeAll() {
+                if (await this.base.exists()) {
+                    await this.base.remove();
+                }
+                if (await this.on.exists()) {
+                    await this.on.remove();
+                }
+                if (await this.off.exists()) {
+                    await this.off.remove();
+                }
+
+            }
+
+            async renameByOtherTxt(other) {
+                const fs = require("fs");
+                return await asx.concurrent(
+                    fs.renameSync(this.base.path, other.base.path),
+                    fs.renameSync(this.on.path, other.on.path),
+                    fs.renameSync(this.off.path, other.off.path),
+                );
+            }
+
+
+        }(this.pathNoExt);
+
+        /**A _File object of the midi file.
+         * @type {_File} midi*/
+        this.midi = new _File(`${this.pathNoExt}.mid`);
+        /**A _File object of the mp4 file.
+         * @type {_File} mp4*/
+        this.mp4 = new _File(`${this.pathNoExt}.mp4`);
+        /**A _File object of the mov file.
+         * @type {_File} mov*/
+        this.mov = new _File(`${this.pathNoExt}.mov`);
+        /**A _File object of the onsets file.
+         * @type {_File} onsets*/
+        this.onsets = new _File(`${this.pathNoExt}_onsets.json`);
+
+    }
+
+    /**Counts the number of non-empty lines in the txt on path file.
+     @return {number}*/
+    numOfNotes() {
+        return require("fs")
+            .readFileSync(this.txt.on.path, { encoding: 'utf8' })
+            .split('\n')
+            .filter(line => util.bool(line)).length;
     }
 }

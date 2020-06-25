@@ -236,7 +236,7 @@
         eq: function (i) {
             var len = this.length,
                 j = +i + (i < 0 ? len : 0);
-            return this.pushStack(j >= 0 && j < len ? [this[j]] : []);
+            return this.pushStack(j >= 0 && j < len ? [ this[j] ] : []);
         },
 
         end: function () {
@@ -370,7 +370,7 @@
         // Evaluates a script in a provided context; falls back to the global one
         // if not specified.
         globalEval: function (code, options, doc) {
-            DOMEval(code, {nonce: options && options.nonce}, doc);
+            DOMEval(code, { nonce: options && options.nonce }, doc);
         },
 
         each: function (obj, callback) {
@@ -402,7 +402,7 @@
                 if (isArrayLike(Object(arr))) {
                     jQuery.merge(ret,
                         typeof arr === "string" ?
-                            [arr] : arr
+                            [ arr ] : arr
                     );
                 } else {
                     push.call(ret, arr);
@@ -719,7 +719,7 @@
                     function (elem) {
                         return elem.disabled === true && elem.nodeName.toLowerCase() === "fieldset";
                     },
-                    {dir: "parentNode", next: "legend"}
+                    { dir: "parentNode", next: "legend" }
                 );
 
 // Optimize for push.apply( _, NodeList )
@@ -1218,7 +1218,7 @@
                     Expr.find["ID"] = function (id, context) {
                         if (typeof context.getElementById !== "undefined" && documentIsHTML) {
                             var elem = context.getElementById(id);
-                            return elem ? [elem] : [];
+                            return elem ? [ elem ] : [];
                         }
                     };
                 } else {
@@ -1243,7 +1243,7 @@
                                 // Verify the id attribute
                                 node = elem.getAttributeNode("id");
                                 if (node && node.value === id) {
-                                    return [elem];
+                                    return [ elem ];
                                 }
 
                                 // Fall back on getElementsByName
@@ -1252,7 +1252,7 @@
                                 while ((elem = elems[i++])) {
                                     node = elem.getAttributeNode("id");
                                     if (node && node.value === id) {
-                                        return [elem];
+                                        return [ elem ];
                                     }
                                 }
                             }
@@ -1545,8 +1545,8 @@
                             i = 0,
                             aup = a.parentNode,
                             bup = b.parentNode,
-                            ap = [a],
-                            bp = [b];
+                            ap = [ a ],
+                            bp = [ b ];
 
                         // Parentless nodes are either documents or disconnected
                         if (!aup || !bup) {
@@ -1631,7 +1631,7 @@
                     }
                 }
 
-                return Sizzle(expr, document, null, [elem]).length > 0;
+                return Sizzle(expr, document, null, [ elem ]).length > 0;
             };
 
             Sizzle.contains = function (context, elem) {
@@ -1769,10 +1769,10 @@
                 find: {},
 
                 relative: {
-                    ">": {dir: "parentNode", first: true},
-                    " ": {dir: "parentNode"},
-                    "+": {dir: "previousSibling", first: true},
-                    "~": {dir: "previousSibling"}
+                    ">": { dir: "parentNode", first: true },
+                    " ": { dir: "parentNode" },
+                    "+": { dir: "previousSibling", first: true },
+                    "~": { dir: "previousSibling" }
                 },
 
                 preFilter: {
@@ -1955,7 +1955,7 @@
                                         return true;
                                     }
 
-                                    start = [forward ? parent.firstChild : parent.lastChild];
+                                    start = [ forward ? parent.firstChild : parent.lastChild ];
 
                                     // non-xml :nth-child(...) stores cache data on `parent`
                                     if (forward && useCache) {
@@ -1983,7 +1983,7 @@
 
                                             // When found, cache indexes on `parent` and break
                                             if (node.nodeType === 1 && ++diff && node === elem) {
-                                                uniqueCache[type] = [dirruns, nodeIndex, diff];
+                                                uniqueCache[type] = [ dirruns, nodeIndex, diff ];
                                                 break;
                                             }
                                         }
@@ -2030,7 +2030,7 @@
                                                         uniqueCache = outerCache[node.uniqueID] ||
                                                             (outerCache[node.uniqueID] = {});
 
-                                                        uniqueCache[type] = [dirruns, diff];
+                                                        uniqueCache[type] = [ dirruns, diff ];
                                                     }
 
                                                     if (node === elem) {
@@ -2067,7 +2067,7 @@
 
                         // But maintain support for old signatures
                         if (fn.length > 1) {
-                            args = [pseudo, pseudo, "", argument];
+                            args = [ pseudo, pseudo, "", argument ];
                             return Expr.setFilters.hasOwnProperty(pseudo.toLowerCase()) ?
                                 markFunction(function (seed, matches) {
                                     var idx,
@@ -2251,15 +2251,15 @@
 
                     // Position-in-collection
                     "first": createPositionalPseudo(function () {
-                        return [0];
+                        return [ 0 ];
                     }),
 
                     "last": createPositionalPseudo(function (_matchIndexes, length) {
-                        return [length - 1];
+                        return [ length - 1 ];
                     }),
 
                     "eq": createPositionalPseudo(function (_matchIndexes, length, argument) {
-                        return [argument < 0 ? argument + length : argument];
+                        return [ argument < 0 ? argument + length : argument ];
                     }),
 
                     "even": createPositionalPseudo(function (matchIndexes, length) {
@@ -2303,10 +2303,10 @@
             Expr.pseudos["nth"] = Expr.pseudos["eq"];
 
 // Add button/input type pseudos
-            for (i in {radio: true, checkbox: true, file: true, password: true, image: true}) {
+            for (i in { radio: true, checkbox: true, file: true, password: true, image: true }) {
                 Expr.pseudos[i] = createInputPseudo(i);
             }
-            for (i in {submit: true, reset: true}) {
+            for (i in { submit: true, reset: true }) {
                 Expr.pseudos[i] = createButtonPseudo(i);
             }
 
@@ -2419,7 +2419,7 @@
                     // Check against all ancestor/preceding elements
                     function (elem, context, xml) {
                         var oldCache, uniqueCache, outerCache,
-                            newCache = [dirruns, doneName];
+                            newCache = [ dirruns, doneName ];
 
                         // We can't set arbitrary data on XML nodes, so they don't benefit from combinator caching
                         if (xml) {
@@ -2524,7 +2524,7 @@
                         // Get initial elements from seed or context
                         elems = seed || multipleContexts(
                             selector || "*",
-                            context.nodeType ? [context] : context,
+                            context.nodeType ? [ context ] : context,
                             []
                         ),
 
@@ -2622,7 +2622,7 @@
                     matchAnyContext = addCombinator(function (elem) {
                         return indexOf(checkContext, elem) > -1;
                     }, implicitRelative, true),
-                    matchers = [function (elem, context, xml) {
+                    matchers = [ function (elem, context, xml) {
                         var ret = (!leadingRelative && (xml || context !== outermostContext)) || (
                             (checkContext = context).nodeType ?
                                 matchContext(elem, context, xml) :
@@ -2631,11 +2631,11 @@
                         // Avoid hanging onto element (issue #299)
                         checkContext = null;
                         return ret;
-                    }];
+                    } ];
 
                 for (; i < len; i++) {
                     if ((matcher = Expr.relative[tokens[i].type])) {
-                        matchers = [addCombinator(elementMatcher(matchers), matcher)];
+                        matchers = [ addCombinator(elementMatcher(matchers), matcher) ];
                     } else {
                         matcher = Expr.filter[tokens[i].type].apply(null, tokens[i].matches);
 
@@ -2655,7 +2655,7 @@
                                 // If the preceding token was a descendant combinator, insert an implicit any-element `*`
                                 tokens
                                     .slice(0, i - 1)
-                                    .concat({value: tokens[i - 2].type === " " ? "*" : ""})
+                                    .concat({ value: tokens[i - 2].type === " " ? "*" : "" })
                                 ).replace(rtrim, "$1"),
                                 matcher,
                                 i < j && matcherFromTokens(tokens.slice(i, j)),
@@ -3066,7 +3066,7 @@
         }
 
         if (elems.length === 1 && elem.nodeType === 1) {
-            return jQuery.find.matchesSelector(elem, expr) ? [elem] : [];
+            return jQuery.find.matchesSelector(elem, expr) ? [ elem ] : [];
         }
 
         return jQuery.find.matches(expr, jQuery.grep(elems, function (elem) {
@@ -3150,7 +3150,7 @@
                     selector.length >= 3) {
 
                     // Assume that strings that start and end with <> are HTML and skip the regex check
-                    match = [null, selector, null];
+                    match = [ null, selector, null ];
 
                 } else {
                     match = rquickExpr.exec(selector);
@@ -3621,7 +3621,7 @@
                 fireWith: function (context, args) {
                     if (!locked) {
                         args = args || [];
-                        args = [context, args.slice ? args.slice() : args];
+                        args = [ context, args.slice ? args.slice() : args ];
                         queue.push(args);
                         if (!firing) {
                             fire();
@@ -3673,7 +3673,7 @@
                 // Control `resolve` arguments by letting Array#slice cast boolean `noValue` to integer:
                 // * false: [ value ].slice( 0 ) => resolve( value )
                 // * true: [ value ].slice( 1 ) => resolve()
-                resolve.apply(undefined, [value].slice(noValue));
+                resolve.apply(undefined, [ value ].slice(noValue));
             }
 
             // For Promises/A+, convert exceptions into rejections
@@ -3683,7 +3683,7 @@
 
             // Support: Android 4.0 only
             // Strict mode functions invoked without .call/.apply get global-object context
-            reject.apply(undefined, [value]);
+            reject.apply(undefined, [ value ]);
         }
     }
 
@@ -3694,12 +3694,12 @@
 
                     // action, add listener, callbacks,
                     // ... .then handlers, argument index, [final state]
-                    ["notify", "progress", jQuery.Callbacks("memory"),
-                        jQuery.Callbacks("memory"), 2],
-                    ["resolve", "done", jQuery.Callbacks("once memory"),
-                        jQuery.Callbacks("once memory"), 0, "resolved"],
-                    ["reject", "fail", jQuery.Callbacks("once memory"),
-                        jQuery.Callbacks("once memory"), 1, "rejected"]
+                    [ "notify", "progress", jQuery.Callbacks("memory"),
+                        jQuery.Callbacks("memory"), 2 ],
+                    [ "resolve", "done", jQuery.Callbacks("once memory"),
+                        jQuery.Callbacks("once memory"), 0, "resolved" ],
+                    [ "reject", "fail", jQuery.Callbacks("once memory"),
+                        jQuery.Callbacks("once memory"), 1, "rejected" ]
                 ],
                 state = "pending",
                 promise = {
@@ -3737,7 +3737,7 @@
                                     } else {
                                         newDefer[tuple[0] + "With"](
                                             this,
-                                            fn ? [returned] : arguments
+                                            fn ? [ returned ] : arguments
                                         );
                                     }
                                 });
@@ -3816,7 +3816,7 @@
                                             // and multiple values (non-spec behavior)
                                             if (handler !== Identity) {
                                                 that = undefined;
-                                                args = [returned];
+                                                args = [ returned ];
                                             }
 
                                             // Process the value(s)
@@ -3847,7 +3847,7 @@
                                                     // and multiple values (non-spec behavior)
                                                     if (handler !== Thrower) {
                                                         that = undefined;
-                                                        args = [e];
+                                                        args = [ e ];
                                                     }
 
                                                     deferred.rejectWith(that, args);
@@ -4102,7 +4102,7 @@
             }
 
             // If there are functions bound, to execute
-            readyList.resolveWith(document, [jQuery]);
+            readyList.resolveWith(document, [ jQuery ]);
         }
     });
 
@@ -4345,7 +4345,7 @@
                     // If a key with the spaces exists, use it.
                     // Otherwise, create an array by matching non-whitespace
                     key = key in cache ?
-                        [key] :
+                        [ key ] :
                         (key.match(rnothtmlwhite) || []);
                 }
 
@@ -4610,7 +4610,7 @@
             var key = type + "queueHooks";
             return dataPriv.get(elem, key) || dataPriv.access(elem, key, {
                 empty: jQuery.Callbacks("once memory").add(function () {
-                    dataPriv.remove(elem, [type + "queue", key]);
+                    dataPriv.remove(elem, [ type + "queue", key ]);
                 })
             });
         }
@@ -4662,7 +4662,7 @@
                 i = this.length,
                 resolve = function () {
                     if (!(--count)) {
-                        defer.resolveWith(elements, [elements]);
+                        defer.resolveWith(elements, [ elements ]);
                     }
                 };
 
@@ -4688,7 +4688,7 @@
     var rcssNum = new RegExp("^(?:([+-])=|)(" + pnum + ")([a-z%]*)$", "i");
 
 
-    var cssExpand = ["Top", "Right", "Bottom", "Left"];
+    var cssExpand = [ "Top", "Right", "Bottom", "Left" ];
 
     var documentElement = document.documentElement;
 
@@ -4696,7 +4696,7 @@
     var isAttached = function (elem) {
             return jQuery.contains(elem.ownerDocument, elem);
         },
-        composed = {composed: true};
+        composed = { composed: true };
 
     // Support: IE 9 - 11+, Edge 12 - 18+, iOS 10.0 - 10.2 only
     // Check attachment across shadow DOM boundaries when possible (gh-3504)
@@ -4934,12 +4934,12 @@
         // XHTML parsers do not magically insert elements in the
         // same way that tag soup parsers do. So we cannot shorten
         // this by omitting <tbody> or other required elements.
-        thead: [1, "<table>", "</table>"],
-        col: [2, "<table><colgroup>", "</colgroup></table>"],
-        tr: [2, "<table><tbody>", "</tbody></table>"],
-        td: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
+        thead: [ 1, "<table>", "</table>" ],
+        col: [ 2, "<table><colgroup>", "</colgroup></table>" ],
+        tr: [ 2, "<table><tbody>", "</tbody></table>" ],
+        td: [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
 
-        _default: [0, "", ""]
+        _default: [ 0, "", "" ]
     };
 
     wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
@@ -4947,7 +4947,7 @@
 
 // Support: IE <=9 only
     if (!support.option) {
-        wrapMap.optgroup = wrapMap.option = [1, "<select multiple='multiple'>", "</select>"];
+        wrapMap.optgroup = wrapMap.option = [ 1, "<select multiple='multiple'>", "</select>" ];
     }
 
 
@@ -4968,7 +4968,7 @@
         }
 
         if (tag === undefined || tag && nodeName(context, tag)) {
-            return jQuery.merge([context], ret);
+            return jQuery.merge([ context ], ret);
         }
 
         return ret;
@@ -5009,7 +5009,7 @@
 
                     // Support: Android <=4.0 only, PhantomJS 1 only
                     // push.apply(_, arraylike) throws on ancient WebKit
-                    jQuery.merge(nodes, elem.nodeType ? [elem] : elem);
+                    jQuery.merge(nodes, elem.nodeType ? [ elem ] : elem);
 
                     // Convert non-html into a text node
                 } else if (!rhtml.test(elem)) {
@@ -5020,7 +5020,7 @@
                     tmp = tmp || fragment.appendChild(context.createElement("div"));
 
                     // Deserialize a standard representation
-                    tag = (rtagName.exec(elem) || ["", ""])[1].toLowerCase();
+                    tag = (rtagName.exec(elem) || [ "", "" ])[1].toLowerCase();
                     wrap = wrapMap[tag] || wrapMap._default;
                     tmp.innerHTML = wrap[1] + jQuery.htmlPrefilter(elem) + wrap[2];
 
@@ -5229,7 +5229,7 @@
             }
 
             // Handle multiple events separated by a space
-            types = (types || "").match(rnothtmlwhite) || [""];
+            types = (types || "").match(rnothtmlwhite) || [ "" ];
             t = types.length;
             while (t--) {
                 tmp = rtypenamespace.exec(types[t]) || [];
@@ -5311,7 +5311,7 @@
             }
 
             // Once for each type.namespace in types; type may be omitted
-            types = (types || "").match(rnothtmlwhite) || [""];
+            types = (types || "").match(rnothtmlwhite) || [ "" ];
             t = types.length;
             while (t--) {
                 tmp = rtypenamespace.exec(types[t]) || [];
@@ -5476,14 +5476,14 @@
                             if (matchedSelectors[sel] === undefined) {
                                 matchedSelectors[sel] = handleObj.needsContext ?
                                     jQuery(sel, this).index(cur) > -1 :
-                                    jQuery.find(sel, this, null, [cur]).length;
+                                    jQuery.find(sel, this, null, [ cur ]).length;
                             }
                             if (matchedSelectors[sel]) {
                                 matchedHandlers.push(handleObj);
                             }
                         }
                         if (matchedHandlers.length) {
-                            handlerQueue.push({elem: cur, handlers: matchedHandlers});
+                            handlerQueue.push({ elem: cur, handlers: matchedHandlers });
                         }
                     }
                 }
@@ -5492,7 +5492,7 @@
             // Add the remaining (directly-bound) handlers
             cur = this;
             if (delegateCount < handlers.length) {
-                handlerQueue.push({elem: cur, handlers: handlers.slice(delegateCount)});
+                handlerQueue.push({ elem: cur, handlers: handlers.slice(delegateCount) });
             }
 
             return handlerQueue;
@@ -5844,7 +5844,7 @@
         }
     }, jQuery.event.addProp);
 
-    jQuery.each({focus: "focusin", blur: "focusout"}, function (type, delegateType) {
+    jQuery.each({ focus: "focusin", blur: "focusout" }, function (type, delegateType) {
         jQuery.event.special[type] = {
 
             // Utilize native event if possible so blur/focus sequence is correct
@@ -6327,7 +6327,7 @@
 
                 // See if we can take a shortcut and just use innerHTML
                 if (typeof value === "string" && !rnoInnerhtml.test(value) &&
-                    !wrapMap[(rtagName.exec(value) || ["", ""])[1].toLowerCase()]) {
+                    !wrapMap[(rtagName.exec(value) || [ "", "" ])[1].toLowerCase()]) {
 
                     value = jQuery.htmlPrefilter(value);
 
@@ -6635,7 +6635,7 @@
     }
 
 
-    var cssPrefixes = ["Webkit", "Moz", "ms"],
+    var cssPrefixes = [ "Webkit", "Moz", "ms" ],
         emptyStyle = document.createElement("div").style,
         vendorProps = {};
 
@@ -6675,7 +6675,7 @@
         // See here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
         rdisplayswap = /^(none|table(?!-c[ea]).+)/,
         rcustomProp = /^--/,
-        cssShow = {position: "absolute", visibility: "hidden", display: "block"},
+        cssShow = { position: "absolute", visibility: "hidden", display: "block" },
         cssNormalTransform = {
             letterSpacing: "0",
             fontWeight: "400"
@@ -7000,7 +7000,7 @@
         }
     });
 
-    jQuery.each(["height", "width"], function (_i, dimension) {
+    jQuery.each([ "height", "width" ], function (_i, dimension) {
         jQuery.cssHooks[dimension] = {
             get: function (elem, computed, extra) {
                 if (computed) {
@@ -7075,7 +7075,7 @@
             if (computed) {
                 return (parseFloat(curCSS(elem, "marginLeft")) ||
                     elem.getBoundingClientRect().left -
-                    swap(elem, {marginLeft: 0}, function () {
+                    swap(elem, { marginLeft: 0 }, function () {
                         return elem.getBoundingClientRect().left;
                     })
                 ) + "px";
@@ -7095,7 +7095,7 @@
                     expanded = {},
 
                     // Assumes a single number if not a string
-                    parts = typeof value === "string" ? value.split(" ") : [value];
+                    parts = typeof value === "string" ? value.split(" ") : [ value ];
 
                 for (; i < 4; i++) {
                     expanded[prefix + cssExpand[i] + suffix] =
@@ -7786,7 +7786,7 @@
     });
 
 // Radios and checkboxes getter/setter
-    jQuery.each(["radio", "checkbox"], function () {
+    jQuery.each([ "radio", "checkbox" ], function () {
         jQuery.valHooks[this] = {
             set: function (elem, value) {
                 if (Array.isArray(value)) {
@@ -7818,7 +7818,7 @@
         trigger: function (event, data, elem, onlyHandlers) {
 
             var i, cur, tmp, bubbleType, ontype, handle, special, lastElement,
-                eventPath = [elem || document],
+                eventPath = [ elem || document ],
                 type = hasOwn.call(event, "type") ? event.type : event,
                 namespaces = hasOwn.call(event, "namespace") ? event.namespace.split(".") : [];
 
@@ -7863,8 +7863,8 @@
 
             // Clone any incoming data and prepend the event, creating the handler arg list
             data = data == null ?
-                [event] :
-                jQuery.makeArray(data, [event]);
+                [ event ] :
+                jQuery.makeArray(data, [ event ]);
 
             // Allow special events to draw outside the lines
             special = jQuery.event.special[type] || {};
@@ -8004,7 +8004,7 @@
 // which is spec violation - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
 // Related ticket - https://bugs.chromium.org/p/chromium/issues/detail?id=449857
     if (!support.focusin) {
-        jQuery.each({focus: "focusin", blur: "focusout"}, function (orig, fix) {
+        jQuery.each({ focus: "focusin", blur: "focusout" }, function (orig, fix) {
 
             // Attach a single capturing handler on the document while someone wants focusin/focusout
             var handler = function (event) {
@@ -8176,11 +8176,11 @@
 
                     if (Array.isArray(val)) {
                         return jQuery.map(val, function (val) {
-                            return {name: elem.name, value: val.replace(rCRLF, "\r\n")};
+                            return { name: elem.name, value: val.replace(rCRLF, "\r\n") };
                         });
                     }
 
-                    return {name: elem.name, value: val.replace(rCRLF, "\r\n")};
+                    return { name: elem.name, value: val.replace(rCRLF, "\r\n") };
                 }).get();
         }
     });
@@ -8311,10 +8311,10 @@
 
         // Single tag
         if (parsed) {
-            return [context.createElement(parsed[1])];
+            return [ context.createElement(parsed[1]) ];
         }
 
-        parsed = buildFragment([data], context, scripts);
+        parsed = buildFragment([ data ], context, scripts);
 
         if (scripts && scripts.length) {
             jQuery(scripts).remove();
@@ -8408,7 +8408,7 @@
             // Running getBoundingClientRect on a
             // disconnected node in IE throws an error
             if (!elem.getClientRects().length) {
-                return {top: 0, left: 0};
+                return { top: 0, left: 0 };
             }
 
             // Get document-relative position by adding viewport scroll to viewport-relative gBCR
@@ -8429,7 +8429,7 @@
 
             var offsetParent, offset, doc,
                 elem = this[0],
-                parentOffset = {top: 0, left: 0};
+                parentOffset = { top: 0, left: 0 };
 
             // position:fixed elements are offset from the viewport, which itself always has zero offset
             if (jQuery.css(elem, "position") === "fixed") {
@@ -8490,7 +8490,7 @@
     });
 
 // Create scrollLeft and scrollTop methods
-    jQuery.each({scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function (method, prop) {
+    jQuery.each({ scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function (method, prop) {
         var top = "pageYOffset" === prop;
 
         jQuery.fn[method] = function (val) {
@@ -8527,7 +8527,7 @@
 // Blink bug: https://bugs.chromium.org/p/chromium/issues/detail?id=589347
 // getComputedStyle returns percent when specified for top/left/bottom/right;
 // rather than make the css module depend on the offset module, just check for it here
-    jQuery.each(["top", "left"], function (_i, prop) {
+    jQuery.each([ "top", "left" ], function (_i, prop) {
         jQuery.cssHooks[prop] = addGetHookIf(support.pixelPosition,
             function (elem, computed) {
                 if (computed) {
@@ -8544,8 +8544,8 @@
 
 
 // Create innerHeight, innerWidth, height, width, outerHeight and outerWidth methods
-    jQuery.each({Height: "height", Width: "width"}, function (name, type) {
-        jQuery.each({padding: "inner" + name, content: type, "": "outer" + name},
+    jQuery.each({ Height: "height", Width: "width" }, function (name, type) {
+        jQuery.each({ padding: "inner" + name, content: type, "": "outer" + name },
             function (defaultExtra, funcName) {
 
                 // Margin is only for outerHeight, outerWidth
@@ -8749,7 +8749,9 @@
         window.jQuery = window.$ = jQuery;
     }
 
-
+    // window.$ = $;
+    // window.jQuery = jQuery;
+    window.jQuery = window.$ = jQuery;
     console.log('jquery-3.5.1.slim.js EOF');
     return jQuery;
 });

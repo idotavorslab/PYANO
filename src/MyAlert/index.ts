@@ -1,6 +1,6 @@
 /**import Alert from 'MyAlert' (or any other name)*/
 
-console.group('src/myalert.ts');
+console.group('src/MyAlert/index.ts');
 import Swal, { SweetAlertResult, SweetAlertOptions } from 'sweetalert2';
 
 console.log(`Swal:`, Swal);
@@ -285,6 +285,6 @@ const big = {
 };
 
 export default { small, big, ...Swal };
-console.log('src/myalert.ts EOF');
+console.log('src/MyAlert/index.ts EOF');
 console.groupEnd();
 

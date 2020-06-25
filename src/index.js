@@ -1,12 +1,17 @@
 console.group(`index.js`);
-// import {BetterHTMLElement} from "./bhe/index.js";
 
+/*import * as $ from "./jquery-3.5.1.slim.js";
+
+console.log(`$.$:`, $.$);
+console.log(`$.jQuery:`, $.jQuery);*/
+// console.log(`$:`, $);
 const path = require('path');
 
 const fs = require('fs');
-const $ = require('jquery');
+// const $ = require('jquery');
+
 import { Sidebar } from "./sidebar.js";
-import * as pages from "./pages/pages.js"
+// import * as pages from "./pages/pages.js"
 
 const { remote } = require('electron');
 const Store = require("electron-store");
@@ -102,11 +107,11 @@ $Sidebar.fadeTo = (speed, to, easing, callback) => {
 
 Sidebar.select(store.get('last_page'));
 
-function safeSwitchCss(href) {
+/*function safeSwitchCss(href) {
     if ($PageCss.attr('href') != href) {
         $PageCss.attr('href', href);
     }
-}
+}*/
 
 // sidebar.build();
 
