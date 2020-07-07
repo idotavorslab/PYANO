@@ -8,7 +8,7 @@
     "@tonejs/midi": "1.2.0",
     "animate.css": "3.7.0",
     "conf": "4.1.0",
-    "electron": "4.0.0",
+    "electron": "7.2.4",
     "electron-compile": "6.4.4",
     "electron-debug": "2.1.0",
     "electron-squirrel-startup": "1.0.0",
