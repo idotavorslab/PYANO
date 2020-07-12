@@ -1,6 +1,15 @@
-/// <reference types="./node_modules/sweetalert2" />
-/// <reference types="jquery" />
-export declare const $PageCss: JQuery<HTMLElement>;
-export declare const $Title: JQuery<HTMLElement>;
-export declare const $MainContent: JQuery<HTMLElement>;
+/// <reference types="./node_modules/electron" />
+declare const path: any;
+declare const fs: any;
+declare const remote: Electron.Remote;
+declare const Store: any;
+declare const store: any;
+declare const pyShell: any;
+declare let rootPath: any;
+declare const enginePath: any;
+declare const pyExecPath: any;
+declare const configfilepath: any;
+declare let pythonDone: boolean;
+declare const Sidebar: any;
+declare const pages: any;
 //# sourceMappingURL=index.d.ts.map

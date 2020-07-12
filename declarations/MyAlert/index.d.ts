@@ -46,7 +46,7 @@ declare const _default: {
     getQueueStep(): string;
     insertQueueStep(step: SweetAlertOptions<any, any>, index?: number): number;
     deleteQueueStep(index: number): void;
-    isValidParameter(paramName: string): paramName is "text" | "footer" | "html" | "input" | "title" | "padding" | "width" | "animation" | "background" | "position" | "allowEscapeKey" | "allowOutsideClick" | "buttonsStyling" | "cancelButtonAriaLabel" | "cancelButtonColor" | "cancelButtonText" | "confirmButtonAriaLabel" | "confirmButtonColor" | "confirmButtonText" | "currentProgressStep" | "customClass" | "hideClass" | "icon" | "imageAlt" | "imageHeight" | "imageUrl" | "imageWidth" | "onAfterClose" | "onClose" | "onDestroy" | "progressSteps" | "reverseButtons" | "showCancelButton" | "showConfirmButton" | "titleText" | "iconHtml" | "backdrop" | "toast" | "target" | "grow" | "showClass" | "timer" | "timerProgressBar" | "heightAuto" | "allowEnterKey" | "stopKeydownPropagation" | "keydownListenerCapture" | "focusConfirm" | "focusCancel" | "showCloseButton" | "closeButtonHtml" | "closeButtonAriaLabel" | "showLoaderOnConfirm" | "preConfirm" | "inputPlaceholder" | "inputValue" | "inputOptions" | "inputAutoTrim" | "inputAttributes" | "inputValidator" | "validationMessage" | "progressStepsDistance" | "onBeforeOpen" | "onOpen" | "onRender" | "scrollbarPadding";
+    isValidParameter(paramName: string): paramName is "title" | "footer" | "html" | "input" | "padding" | "width" | "animation" | "background" | "position" | "text" | "validationMessage" | "target" | "allowEscapeKey" | "allowOutsideClick" | "buttonsStyling" | "cancelButtonAriaLabel" | "cancelButtonColor" | "cancelButtonText" | "confirmButtonAriaLabel" | "confirmButtonColor" | "confirmButtonText" | "currentProgressStep" | "customClass" | "hideClass" | "icon" | "imageAlt" | "imageHeight" | "imageUrl" | "imageWidth" | "onAfterClose" | "onClose" | "onDestroy" | "progressSteps" | "reverseButtons" | "showCancelButton" | "showConfirmButton" | "titleText" | "iconHtml" | "backdrop" | "toast" | "grow" | "showClass" | "timer" | "timerProgressBar" | "heightAuto" | "allowEnterKey" | "stopKeydownPropagation" | "keydownListenerCapture" | "focusConfirm" | "focusCancel" | "showCloseButton" | "closeButtonHtml" | "closeButtonAriaLabel" | "showLoaderOnConfirm" | "preConfirm" | "inputPlaceholder" | "inputValue" | "inputOptions" | "inputAutoTrim" | "inputAttributes" | "inputValidator" | "progressStepsDistance" | "onBeforeOpen" | "onOpen" | "onRender" | "scrollbarPadding";
     isUpdatableParameter(paramName: string): paramName is import("sweetalert2").SweetAlertUpdatableParameters;
     argsToParams<T_3>(params: import("sweetalert2").SweetAlertArrayOptions | readonly [SweetAlertOptions<T_3, any>]): SweetAlertOptions<T_3, any>;
     DismissReason: typeof Swal.DismissReason;
@@ -67,7 +67,7 @@ declare const _default: {
         warning(options: any): Promise<import("sweetalert2").SweetAlertResult<unknown>>;
         blocking(options: any, moreOptions: any): Promise<unknown>;
         oneButton(title: any, options: any): Promise<import("sweetalert2").SweetAlertResult<unknown>>;
-        twoButtons(options: any): Promise<"confirm" | "second">;
+        twoButtons(options: any): Promise<"second" | "confirm">;
         threeButtons(options: any): Promise<any>;
     };
 };

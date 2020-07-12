@@ -2,7 +2,7 @@
 
 
 console.group(`sidebar/index.js`);
-import { BetterHTMLElement, Div } from "./bhe/index.js";
+import { BetterHTMLElement, Div } from "./bhe";
 // import * as Pages from "./pages/pages.js"
 
 

@@ -1,9 +1,8 @@
 /**import Alert from 'MyAlert' (or any other name)*/
-
+console.group('src/MyAlert/index.ts');
 import { BetterHTMLElement, button, elem, paragraph } from "../bhe";
 import Swal, { SweetAlertOptions } from 'sweetalert2';
 
-console.group('src/MyAlert/index.ts');
 
 console.log(`Swal:`, Swal);
 

@@ -3,6 +3,7 @@ import { TMap } from "./src/util";
 console.group(`renderer.js`);
 
 import * as util from "./src/util"
+import { div } from "./bhe";
 
 
 interface String {
@@ -605,7 +606,12 @@ const asx = (() => {
     return newVar;
 })();*/
 
-
+export const $PageCss = $('#page_css');
+export const PageCss = div({ byid: 'page_css' });
+export const $Title = $('#title');
+export const Title = div({ byid: 'title' });
+export const $MainContent = $('#main');
+export const MainContent = div({ byid: 'main' });
 console.log('renderer.js EOF');
 console.groupEnd();
 

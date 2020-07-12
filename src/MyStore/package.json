@@ -1,7 +1,4 @@
 {
-	"name": "my-store",
-	"version": "1.0.0",
-	"dependencies": {
-
-	}
+    "name": "mystore",
+    "version": "1.0.0"
 }

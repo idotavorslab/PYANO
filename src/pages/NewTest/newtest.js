@@ -1,93 +1,41 @@
-// ** pages/NewTest/newtest.js
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const ext_libs_js_1 = require("../../ext_libs.js");
+const util = require("../../util.js");
+const sidebar_js_1 = require("../../sidebar.js");
+const renderer_js_1 = require("../../renderer.js");
 console.group(`pages/NewTest/newtest.js.js`);
-import * as EXTLIBS from "./../../ext_libs.js"
-
-const { EStore } = EXTLIBS;
-const { safeSwitchCss, $MainContent, $Sidebar } = require("pyano_local_modules/document");
 const Gui = require("./Gui");
-const { SubjectPart, LevelsPart, SettingsPart } = require("./Parts/parts");
-
-
 const newTestPage = {
-
-    /**@param {boolean} reload*/
-    switch: async reload => {
-        EStore.config().finished_trials_count = 0;
-        EStore.last_page = 'new_test';
+    switch: async (reload) => {
+        console.log(`newTestPage.switch()`);
+        return;
+        ext_libs_js_1.EStore.config().finished_trials_count = 0;
+        ext_libs_js_1.EStore.last_page = 'new_test';
         if (reload) {
-            return reloadPage();
+            return util.reloadPage();
         }
-
-        await asx.$fadeOut($MainContent, 100);
-        $MainContent.empty();
-        $MainContent.on({
+        await util.$fadeOut(renderer_js_1.MainContent, 100);
+        renderer_js_1.MainContent.empty();
+        renderer_js_1.MainContent.on({
             'dragover dragenter': e => {
                 e.preventDefault();
                 e.stopPropagation();
             },
-            'drop': async e => await require("./DragDrop").onDrop(e)
+            'drop': async (e) => await require("./DragDrop").onDrop(e)
         });
         require("pyano_local_modules/sidebar").to_new_test();
-        safeSwitchCss("templates/css/new_test.css");
-        const config = EStore.config();
-        const truth = EStore.truth();
-
+        const config = ext_libs_js_1.EStore.config();
+        const truth = ext_libs_js_1.EStore.truth();
         Gui.setTruthSubtitle(truth);
-
         let subjectsList = config.getSubjectDirNames();
-        $MainContent.append(
-            Gui.$subtitle,
-            SubjectPart.$Div,
-            SettingsPart.$Div,
-            LevelsPart.$Div,
-            Gui.$readySaveLoadSaveas(),
-        );
-        EStore.subjects = subjectsList;
-
-
-        await asx.$fadeInMany(150, $Sidebar, $MainContent);
+        ext_libs_js_1.EStore.subjects = subjectsList;
+        await util.$fadeInMany(150, sidebar_js_1.Sidebar, renderer_js_1.MainContent);
         const levels = config.getLevels();
-
-        for (let lvl of levels) {
-            const $lvl = LevelsPart.addLevel();
-            $lvl.$notesSelect.val(lvl.notes);
-            if (lvl.rhythm != $lvl.$rhythmSwitch.val())
-                $lvl.$rhythmSwitch.click();
-
-            if (lvl.rhythm)
-                $lvl.$tempoSelect.val(lvl.tempo);
-
-            $lvl.$trialsSelect.val(lvl.trials);
-        }
         Gui.toggleButtons(!levels.someHaveZeroes());
         let triviaShown = false;
-        setInterval(() =>
-            require('electron').remote.powerMonitor.querySystemIdleTime(time => {
-                if (!triviaShown && time == 20) {
-                    triviaShown = true;
-
-                    const trivias = [
-                        'Pressing Alt+C while experiment is running shows the (usually hidden) mouse cursor.',
-                        'Pressing Ctrl+R reloads current page. (Reloading mid-test starts it all over again. Data isn’t lost, though)',
-                        'Pressing Ctrl+Q takes you back to New Experiment page. Useful when controls are hidden, or when something’s not right.',
-                        'Pressing Ctrl+Y opens DevTools. Useful when you want precise details about what the app did, since current page started.',
-                        'Pressing Ctrl+U shows or hides the window top menu. Useful should you want to resize it or move it around.',
-                        'There is currently no way to stop "Did you know?" tips from appearing.',
-                        'If missing, Pyano will automatically create a midi file upon starting an experiment.',
-                        'Right now, you can drag drop a .txt / .exam / .test file and Pyano will load it.',
-                    ];
-                    Alert.small._question({
-                        title: 'Did you know?',
-                        text: trivias[round(Math.random() / (1 / trivias.length))],
-                        timer: null,
-                        showConfirmButton: true,
-                        confirmButtonText: 'Cool, thanks'
-                    });
-                }
-            }), 1000);
-
     }
-
 };
-module.exports = newTestPage;
+exports.default = newTestPage;
 console.groupEnd();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibmV3dGVzdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIm5ld3Rlc3QudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFDQSxtREFBMkM7QUFDM0Msc0NBQXFDO0FBRXJDLGlEQUEyQztBQUMzQyxtREFBZ0Q7QUFFaEQsT0FBTyxDQUFDLEtBQUssQ0FBQyw2QkFBNkIsQ0FBQyxDQUFDO0FBSzdDLE1BQU0sR0FBRyxHQUFHLE9BQU8sQ0FBQyxPQUFPLENBQUMsQ0FBQztBQUk3QixNQUFNLFdBQVcsR0FBRztJQUdoQixNQUFNLEVBQUUsS0FBSyxFQUFDLE1BQU0sRUFBQyxFQUFFO1FBQ25CLE9BQU8sQ0FBQyxHQUFHLENBQUMsc0JBQXNCLENBQUMsQ0FBQztRQUNwQyxPQUFPO1FBQ1Asb0JBQU0sQ0FBQyxNQUFNLEVBQUUsQ0FBQyxxQkFBcUIsR0FBRyxDQUFDLENBQUM7UUFDMUMsb0JBQU0sQ0FBQyxTQUFTLEdBQUcsVUFBVSxDQUFDO1FBQzlCLElBQUksTUFBTSxFQUFFO1lBQ1IsT0FBTyxJQUFJLENBQUMsVUFBVSxFQUFFLENBQUM7U0FDNUI7UUFFRCxNQUFNLElBQUksQ0FBQyxRQUFRLENBQUMseUJBQVcsRUFBRSxHQUFHLENBQUMsQ0FBQztRQUN0Qyx5QkFBVyxDQUFDLEtBQUssRUFBRSxDQUFDO1FBQ3BCLHlCQUFXLENBQUMsRUFBRSxDQUFDO1lBQ1gsb0JBQW9CLEVBQUUsQ0FBQyxDQUFDLEVBQUU7Z0JBQ3RCLENBQUMsQ0FBQyxjQUFjLEVBQUUsQ0FBQztnQkFDbkIsQ0FBQyxDQUFDLGVBQWUsRUFBRSxDQUFDO1lBQ3hCLENBQUM7WUFDRCxNQUFNLEVBQUUsS0FBSyxFQUFDLENBQUMsRUFBQyxFQUFFLENBQUMsTUFBTSxPQUFPLENBQUMsWUFBWSxDQUFDLENBQUMsTUFBTSxDQUFDLENBQUMsQ0FBQztTQUMzRCxDQUFDLENBQUM7UUFDSCxPQUFPLENBQUMsNkJBQTZCLENBQUMsQ0FBQyxXQUFXLEVBQUUsQ0FBQztRQUVyRCxNQUFNLE1BQU0sR0FBRyxvQkFBTSxDQUFDLE1BQU0sRUFBRSxDQUFDO1FBQy9CLE1BQU0sS0FBSyxHQUFHLG9CQUFNLENBQUMsS0FBSyxFQUFFLENBQUM7UUFFN0IsR0FBRyxDQUFDLGdCQUFnQixDQUFDLEtBQUssQ0FBQyxDQUFDO1FBRTVCLElBQUksWUFBWSxHQUFHLE1BQU0sQ0FBQyxrQkFBa0IsRUFBRSxDQUFDO1FBUS9DLG9CQUFNLENBQUMsUUFBUSxHQUFHLFlBQVksQ0FBQztRQUcvQixNQUFNLElBQUksQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFLG9CQUFPLEVBQUUseUJBQVcsQ0FBQyxDQUFDO1FBQ2xELE1BQU0sTUFBTSxHQUFHLE1BQU0sQ0FBQyxTQUFTLEVBQUUsQ0FBQztRQWFsQyxHQUFHLENBQUMsYUFBYSxDQUFDLENBQUMsTUFBTSxDQUFDLGNBQWMsRUFBRSxDQUFDLENBQUM7UUFDNUMsSUFBSSxXQUFXLEdBQUcsS0FBSyxDQUFDO0lBMEI1QixDQUFDO0NBRUosQ0FBQztBQUNGLGtCQUFlLFdBQVcsQ0FBQztBQUMzQixPQUFPLENBQUMsUUFBUSxFQUFFLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvLyAqKiBwYWdlcy9OZXdUZXN0L25ld3Rlc3QuanNcbmltcG9ydCB7IEVTdG9yZSB9IGZyb20gXCIuLi8uLi9leHRfbGlicy5qc1wiO1xuaW1wb3J0ICogYXMgdXRpbCBmcm9tIFwiLi4vLi4vdXRpbC5qc1wiXG5cbmltcG9ydCB7IFNpZGViYXIgfSBmcm9tIFwiLi4vLi4vc2lkZWJhci5qc1wiO1xuaW1wb3J0IHsgTWFpbkNvbnRlbnQgfSBmcm9tIFwiLi4vLi4vcmVuZGVyZXIuanNcIjtcblxuY29uc29sZS5ncm91cChgcGFnZXMvTmV3VGVzdC9uZXd0ZXN0LmpzLmpzYCk7XG4vLyBpbXBvcnQgKiBhcyBFWFRMSUJTIGZyb20gXCIuLy4uLy4uL2V4dF9saWJzLmpzXCJcblxuLy8gY29uc3QgeyBFU3RvcmUgfSA9IEVYVExJQlM7XG4vLyBjb25zdCB7IHNhZmVTd2l0Y2hDc3MsICRNYWluQ29udGVudCwgJFNpZGViYXIgfSA9IHJlcXVpcmUoXCJweWFub19sb2NhbF9tb2R1bGVzL2RvY3VtZW50XCIpO1xuY29uc3QgR3VpID0gcmVxdWlyZShcIi4vR3VpXCIpO1xuLy8gY29uc3QgeyBTdWJqZWN0UGFydCwgTGV2ZWxzUGFydCwgU2V0dGluZ3NQYXJ0IH0gPSByZXF1aXJlKFwiLi9QYXJ0cy9wYXJ0c1wiKTtcblxuXG5jb25zdCBuZXdUZXN0UGFnZSA9IHtcblxuICAgIC8qKkBwYXJhbSB7Ym9vbGVhbn0gcmVsb2FkKi9cbiAgICBzd2l0Y2g6IGFzeW5jIHJlbG9hZCA9PiB7XG4gICAgICAgIGNvbnNvbGUubG9nKGBuZXdUZXN0UGFnZS5zd2l0Y2goKWApO1xuICAgICAgICByZXR1cm47XG4gICAgICAgIEVTdG9yZS5jb25maWcoKS5maW5pc2hlZF90cmlhbHNfY291bnQgPSAwO1xuICAgICAgICBFU3RvcmUubGFzdF9wYWdlID0gJ25ld190ZXN0JztcbiAgICAgICAgaWYgKHJlbG9hZCkge1xuICAgICAgICAgICAgcmV0dXJuIHV0aWwucmVsb2FkUGFnZSgpO1xuICAgICAgICB9XG5cbiAgICAgICAgYXdhaXQgdXRpbC4kZmFkZU91dChNYWluQ29udGVudCwgMTAwKTtcbiAgICAgICAgTWFpbkNvbnRlbnQuZW1wdHkoKTtcbiAgICAgICAgTWFpbkNvbnRlbnQub24oe1xuICAgICAgICAgICAgJ2RyYWdvdmVyIGRyYWdlbnRlcic6IGUgPT4ge1xuICAgICAgICAgICAgICAgIGUucHJldmVudERlZmF1bHQoKTtcbiAgICAgICAgICAgICAgICBlLnN0b3BQcm9wYWdhdGlvbigpO1xuICAgICAgICAgICAgfSxcbiAgICAgICAgICAgICdkcm9wJzogYXN5bmMgZSA9PiBhd2FpdCByZXF1aXJlKFwiLi9EcmFnRHJvcFwiKS5vbkRyb3AoZSlcbiAgICAgICAgfSk7XG4gICAgICAgIHJlcXVpcmUoXCJweWFub19sb2NhbF9tb2R1bGVzL3NpZGViYXJcIikudG9fbmV3X3Rlc3QoKTtcbiAgICAgICAgLy8gc2FmZVN3aXRjaENzcyhcInRlbXBsYXRlcy9jc3MvbmV3X3Rlc3QuY3NzXCIpO1xuICAgICAgICBjb25zdCBjb25maWcgPSBFU3RvcmUuY29uZmlnKCk7XG4gICAgICAgIGNvbnN0IHRydXRoID0gRVN0b3JlLnRydXRoKCk7XG5cbiAgICAgICAgR3VpLnNldFRydXRoU3VidGl0bGUodHJ1dGgpO1xuXG4gICAgICAgIGxldCBzdWJqZWN0c0xpc3QgPSBjb25maWcuZ2V0U3ViamVjdERpck5hbWVzKCk7XG4gICAgICAgIC8qTWFpbkNvbnRlbnQuYXBwZW5kKFxuICAgICAgICAgICAgR3VpLiRzdWJ0aXRsZSxcbiAgICAgICAgICAgIFN1YmplY3RQYXJ0LiREaXYsXG4gICAgICAgICAgICBTZXR0aW5nc1BhcnQuJERpdixcbiAgICAgICAgICAgIExldmVsc1BhcnQuJERpdixcbiAgICAgICAgICAgIEd1aS4kcmVhZHlTYXZlTG9hZFNhdmVhcygpLFxuICAgICAgICApOyovXG4gICAgICAgIEVTdG9yZS5zdWJqZWN0cyA9IHN1YmplY3RzTGlzdDtcblxuXG4gICAgICAgIGF3YWl0IHV0aWwuJGZhZGVJbk1hbnkoMTUwLCBTaWRlYmFyLCBNYWluQ29udGVudCk7XG4gICAgICAgIGNvbnN0IGxldmVscyA9IGNvbmZpZy5nZXRMZXZlbHMoKTtcblxuICAgICAgICAvKmZvciAobGV0IGx2bCBvZiBsZXZlbHMpIHtcbiAgICAgICAgICAgIGNvbnN0ICRsdmwgPSBMZXZlbHNQYXJ0LmFkZExldmVsKCk7XG4gICAgICAgICAgICAkbHZsLiRub3Rlc1NlbGVjdC52YWwobHZsLm5vdGVzKTtcbiAgICAgICAgICAgIGlmIChsdmwucmh5dGhtICE9ICRsdmwuJHJoeXRobVN3aXRjaC52YWwoKSlcbiAgICAgICAgICAgICAgICAkbHZsLiRyaHl0aG1Td2l0Y2guY2xpY2soKTtcblxuICAgICAgICAgICAgaWYgKGx2bC5yaHl0aG0pXG4gICAgICAgICAgICAgICAgJGx2bC4kdGVtcG9TZWxlY3QudmFsKGx2bC50ZW1wbyk7XG5cbiAgICAgICAgICAgICRsdmwuJHRyaWFsc1NlbGVjdC52YWwobHZsLnRyaWFscyk7XG4gICAgICAgIH0qL1xuICAgICAgICBHdWkudG9nZ2xlQnV0dG9ucyghbGV2ZWxzLnNvbWVIYXZlWmVyb2VzKCkpO1xuICAgICAgICBsZXQgdHJpdmlhU2hvd24gPSBmYWxzZTtcbiAgICAgICAgLypzZXRJbnRlcnZhbCgoKSA9PlxuICAgICAgICAgICAgcmVxdWlyZSgnZWxlY3Ryb24nKS5yZW1vdGUucG93ZXJNb25pdG9yLmdldFN5c3RlbUlkbGVUaW1lKHRpbWUgPT4ge1xuICAgICAgICAgICAgICAgIGlmICghdHJpdmlhU2hvd24gJiYgdGltZSA9PSAyMCkge1xuICAgICAgICAgICAgICAgICAgICB0cml2aWFTaG93biA9IHRydWU7XG5cbiAgICAgICAgICAgICAgICAgICAgY29uc3QgdHJpdmlhcyA9IFtcbiAgICAgICAgICAgICAgICAgICAgICAgICdQcmVzc2luZyBBbHQrQyB3aGlsZSBleHBlcmltZW50IGlzIHJ1bm5pbmcgc2hvd3MgdGhlICh1c3VhbGx5IGhpZGRlbikgbW91c2UgY3Vyc29yLicsXG4gICAgICAgICAgICAgICAgICAgICAgICAnUHJlc3NpbmcgQ3RybCtSIHJlbG9hZHMgY3VycmVudCBwYWdlLiAoUmVsb2FkaW5nIG1pZC10ZXN0IHN0YXJ0cyBpdCBhbGwgb3ZlciBhZ2Fpbi4gRGF0YSBpc27igJl0IGxvc3QsIHRob3VnaCknLFxuICAgICAgICAgICAgICAgICAgICAgICAgJ1ByZXNzaW5nIEN0cmwrUSB0YWtlcyB5b3UgYmFjayB0byBOZXcgRXhwZXJpbWVudCBwYWdlLiBVc2VmdWwgd2hlbiBjb250cm9scyBhcmUgaGlkZGVuLCBvciB3aGVuIHNvbWV0aGluZ+KAmXMgbm90IHJpZ2h0LicsXG4gICAgICAgICAgICAgICAgICAgICAgICAnUHJlc3NpbmcgQ3RybCtZIG9wZW5zIERldlRvb2xzLiBVc2VmdWwgd2hlbiB5b3Ugd2FudCBwcmVjaXNlIGRldGFpbHMgYWJvdXQgd2hhdCB0aGUgYXBwIGRpZCwgc2luY2UgY3VycmVudCBwYWdlIHN0YXJ0ZWQuJyxcbiAgICAgICAgICAgICAgICAgICAgICAgICdQcmVzc2luZyBDdHJsK1Ugc2hvd3Mgb3IgaGlkZXMgdGhlIHdpbmRvdyB0b3AgbWVudS4gVXNlZnVsIHNob3VsZCB5b3Ugd2FudCB0byByZXNpemUgaXQgb3IgbW92ZSBpdCBhcm91bmQuJyxcbiAgICAgICAgICAgICAgICAgICAgICAgICdUaGVyZSBpcyBjdXJyZW50bHkgbm8gd2F5IHRvIHN0b3AgXCJEaWQgeW91IGtub3c/XCIgdGlwcyBmcm9tIGFwcGVhcmluZy4nLFxuICAgICAgICAgICAgICAgICAgICAgICAgJ0lmIG1pc3NpbmcsIFB5YW5vIHdpbGwgYXV0b21hdGljYWxseSBjcmVhdGUgYSBtaWRpIGZpbGUgdXBvbiBzdGFydGluZyBhbiBleHBlcmltZW50LicsXG4gICAgICAgICAgICAgICAgICAgICAgICAnUmlnaHQgbm93LCB5b3UgY2FuIGRyYWcgZHJvcCBhIC50eHQgLyAuZXhhbSAvIC50ZXN0IGZpbGUgYW5kIFB5YW5vIHdpbGwgbG9hZCBpdC4nLFxuICAgICAgICAgICAgICAgICAgICBdO1xuICAgICAgICAgICAgICAgICAgICBBbGVydC5zbWFsbC5fcXVlc3Rpb24oe1xuICAgICAgICAgICAgICAgICAgICAgICAgdGl0bGU6ICdEaWQgeW91IGtub3c/JyxcbiAgICAgICAgICAgICAgICAgICAgICAgIHRleHQ6IHRyaXZpYXNbdXRpbC5yb3VuZChNYXRoLnJhbmRvbSgpIC8gKDEgLyB0cml2aWFzLmxlbmd0aCkpXSxcbiAgICAgICAgICAgICAgICAgICAgICAgIHRpbWVyOiBudWxsLFxuICAgICAgICAgICAgICAgICAgICAgICAgc2hvd0NvbmZpcm1CdXR0b246IHRydWUsXG4gICAgICAgICAgICAgICAgICAgICAgICBjb25maXJtQnV0dG9uVGV4dDogJ0Nvb2wsIHRoYW5rcydcbiAgICAgICAgICAgICAgICAgICAgfSk7XG4gICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgfSksIDEwMDApOyovXG5cbiAgICB9XG5cbn07XG5leHBvcnQgZGVmYXVsdCBuZXdUZXN0UGFnZTtcbmNvbnNvbGUuZ3JvdXBFbmQoKTsiXX0=

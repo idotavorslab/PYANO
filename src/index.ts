@@ -5,8 +5,9 @@ const path = require('path');
 
 const fs = require('fs');
 
-import { Sidebar } from "./src/sidebar";
-// import * as pages from "./pages/pages.js"
+
+// import { div } from "./src/bhe";
+
 
 const { remote } = require('electron');
 const Store = require("electron-store");
@@ -88,10 +89,6 @@ for (let d of ['configs', 'subjects', 'truths']) {
 
 }
 
-export const $PageCss = $('#page_css');
-// export const $Sidebar = $('#sidebar');
-export const $Title = $('#title');
-export const $MainContent = $('#main');
 
 /*$Sidebar._fadeTo = $Sidebar.fadeTo;
 $Sidebar.fadeTo = (speed, to, easing, callback) => {
@@ -99,7 +96,8 @@ $Sidebar.fadeTo = (speed, to, easing, callback) => {
     $Sidebar[0].classList.toggle('unclickable', to == 0);
     return $Sidebar._fadeTo(speed, to, easing, callback);
 };*/
-
+const { Sidebar } = require("./src/sidebar.js");
+console.log(`Sidebar:`, Sidebar);
 Sidebar.select(store.get('last_page'));
 
 /*function safeSwitchCss(href) {
@@ -109,6 +107,9 @@ Sidebar.select(store.get('last_page'));
 }*/
 
 // sidebar.build();
+const pages = require("./src/pages/pages.js");
+
+pages.toPage(store.get('last_page'));
 
 console.log('index.js EOF');
 console.groupEnd();
