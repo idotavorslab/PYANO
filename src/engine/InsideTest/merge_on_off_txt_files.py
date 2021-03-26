@@ -6,14 +6,9 @@ import itertools as it
 from copy import deepcopy
 
 logger = Logger('merge_on_off_txt_files')
-if len(sys.argv) > 1:
-    base_path = sys.argv[1]
-    on_path = sys.argv[2]
-    off_path = sys.argv[3]
-else:
-    base_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\magnet_prelude_7500ms.txt'
-    on_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\magnet_prelude_7500ms_on.txt'
-    off_path = r'c:\Sync\Code\Python\Pyano-release\src\experiments\truths\magnet_prelude_7500ms_off.txt'
+base_path = sys.argv[1]
+on_path = sys.argv[2]
+off_path = sys.argv[3]
 
 
 def get_on_off_pairs(on_msgs, off_msgs):

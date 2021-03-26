@@ -11,6 +11,7 @@ const Store = require("electron-store");
 const store = new Store();
 console.log('store.path: ', store.path);
 console.log(`app.getPath('userData'):`, app.getPath('userData'));
+
 if (fs.existsSync(store.path)) {
     console.log('trying to get last page from store');
     let last_page = store.get('last_page');
@@ -26,6 +27,7 @@ if (fs.existsSync(store.path)) {
 
 const pyShell = require("python-shell").PythonShell;
 const rootPath = __dirname.endsWith('src') ? __dirname : path.join(__dirname, '..');
+store.set('root_abs_path', rootPath)
 const enginePath = path.join(rootPath, "engine");
 
 
