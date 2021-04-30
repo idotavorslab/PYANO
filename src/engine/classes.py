@@ -1,6 +1,6 @@
 from util import round5, Logger
 import re
-from typing import Dict, List
+from typing import Dict, List, ForwardRef, Tuple
 from collections import OrderedDict
 
 logger = Logger('classes')
@@ -60,12 +60,12 @@ class Message:
         #     raise ValueError(f"File empty! file_path: {file_path}")
 
     @staticmethod
-    def init(*, time, note, velocity, kind, preceding_message_time=None) -> 'Message':
+    def init(*, time, note, velocity, kind, preceding_message_time=None) -> ForwardRef('Message'):
         line = f'{float(time)}\tnote={note}\tvelocity={velocity}\t{kind}'
         return Message(line, preceding_message_time)
 
     @staticmethod
-    def init_many(*msgs: dict) -> List['Message']:
+    def init_many(*msgs: dict) -> List[ForwardRef('Message')]:
         constructed = []
         for i, m in enumerate(msgs):
             if 'preceding_message_time' not in m:
@@ -85,7 +85,7 @@ class Message:
                     )
 
     @staticmethod
-    def construct_many(lines: List[str]) -> List['Message']:
+    def construct_many(lines: List[str]) -> List[ForwardRef('Message')]:
         container = [Message(lines[0])]
         for i, line in enumerate(lines[1:]):
             preceding_message_time = container[i].time
@@ -93,7 +93,7 @@ class Message:
         return container
 
     @staticmethod
-    def construct_many_from_file(file_path: str) -> List['Message']:
+    def construct_many_from_file(file_path: str) -> List[ForwardRef('Message')]:
         Message._raise_if_bad_file(file_path)
         with open(file_path, mode="r") as f:
             messages = Message.construct_many(f.readlines())
@@ -124,7 +124,7 @@ class Message:
         return chords
 
     @staticmethod
-    def normalize_chords_in_file(file_path: str) -> List['Message']:
+    def normalize_chords_in_file(file_path: str) -> List[ForwardRef('Message')]:
         from copy import deepcopy
         msgs = Message.construct_many_from_file(file_path)
         chords = Message.get_chords(msgs)
@@ -141,7 +141,7 @@ class Message:
         return normalized_messages
 
     @staticmethod
-    def normalize_chords(msgs: List['Message'], chords: Dict[int, List[int]]):
+    def normalize_chords(msgs: List[ForwardRef('Message')], chords: Dict[int, List[int]]) -> Tuple[List[ForwardRef('Message')], bool]:
         from copy import deepcopy
         is_normalized = True
         msgs_len = len(msgs)
@@ -166,7 +166,7 @@ class Message:
 
     # TODO: unused
     """@staticmethod
-    def is_file_chord_normalized(file_path: str) -> (List['Message'], bool):
+    def is_file_chord_normalized(file_path: str) -> (List[ForwardRef('Message], bool):
         from copy import deepcopy
         msgs = Message.construct_many_from_file(file_path)
         chords = Message.get_chords(msgs)
@@ -190,7 +190,7 @@ class Message:
         return msgs_C, is_normalized'''"""
 
     @staticmethod
-    def transform_to_tempo(on_msgs, actual_tempo: float) -> List['Message']:
+    def transform_to_tempo(on_msgs, actual_tempo: float) -> List[ForwardRef('Message')]:
         from copy import deepcopy
         dectempo = actual_tempo / 100
         on_msgs_C = deepcopy(on_msgs)

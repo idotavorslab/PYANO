@@ -1,9 +1,12 @@
 import json
 import sys
+from typing import List, Tuple
+
 from classes import Message
 from util import prjs, Logger
 import itertools as it
 from copy import deepcopy
+import logging
 
 logger = Logger('merge_on_off_txt_files')
 base_path = sys.argv[1]
@@ -11,25 +14,28 @@ on_path = sys.argv[2]
 off_path = sys.argv[3]
 
 
-def get_on_off_pairs(on_msgs, off_msgs):
-    pairs = []
-    for on_msg in on_msgs:
-        matching_off_msg = next((off_msg for off_msg in off_msgs
-                                 if (off_msg.note == on_msg.note
-                                     and off_msg.time > on_msg.time)),
+def get_on_off_pairs(_on_msgs : List[Message], _off_msgs : List[Message]) -> List[Tuple[Message, Message]]:
+    _pairs = []
+    for _on_msg in _on_msgs:
+        _matching_off_msg = next((_off_msg for _off_msg in _off_msgs
+                                 if (_off_msg.note == _on_msg.note
+                                     and _off_msg.time > _on_msg.time)),
                                 None)
-        if matching_off_msg is not None:
-            off_msgs.remove(matching_off_msg)
-            pairs.append((on_msg, matching_off_msg))
-    return pairs
+        if _matching_off_msg is not None:
+            _off_msgs.remove(_matching_off_msg)
+            _pairs.append((_on_msg, _matching_off_msg))
+    return _pairs
 
 
-on_msgs = Message.normalize_chords_in_file(on_path)
-off_msgs = Message.construct_many_from_file(off_path)
+on_msgs : List[Message] = Message.normalize_chords_in_file(on_path)
+off_msgs : List[Message] = Message.construct_many_from_file(off_path)
 on_off_pairs = get_on_off_pairs(on_msgs, off_msgs[:])
 for i, (on, off) in enumerate(on_off_pairs):
     for j, (next_on, _) in enumerate(on_off_pairs[i + 1:], i + 1):
         if next_on.note == on.note and next_on.time < off.time:
+            warning = (f"ON note time and matching OFF note time don't make sense:"
+                      f"")
+            logging.warning(warning)
             raise ValueError(f'''on note (on file index: {i + 1}) 
             ends (off file index: {off_msgs.index(off) + 1}) 
             after next (on file index: {j + 1})''')
