@@ -27,7 +27,7 @@ if (fs.existsSync(store.path)) {
 
 const pyShell = require("python-shell").PythonShell;
 const rootPath = __dirname.endsWith('src') ? __dirname : path.join(__dirname, '..');
-store.set('root_abs_path', rootPath)
+store.set('root_abs_path', rootPath);
 const enginePath = path.join(rootPath, "engine");
 
 
@@ -46,7 +46,7 @@ pyShell.defaultOptions = {
 
 
 const configfilepath = path.join(app.getPath('userData'), 'config.json');
-/*let pythonDone = false;
+let pythonDone = false;
 try {
     console.log(`running check_create_config_file.py, configfilepath: ${configfilepath}`);
     pyShell.run("check_create_config_file.py", {
@@ -63,8 +63,8 @@ try {
     });
 } catch (e) {
     console.error('Error running check_create_config_file:', e);
-}*/
-let pythonDone = true;
+}
+// let pythonDone = true;
 for (let d of ['configs', 'subjects', 'truths']) {
     let subdir = path.join(rootPath, 'experiments', d);
     if (!fs.existsSync(subdir)) {
