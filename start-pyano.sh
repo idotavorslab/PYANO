@@ -1,4 +1,14 @@
 #!/env/bin/bash
+
+# This script does the following:
+# - Makes sure the virtualenv is activated, and if not, activates it;
+# - Makes sure we're up-to-date git-wise;
+# - Makes sure the correct NodeJS version is activated, and if not, activates it;
+# - Launches Pyano
+
+######
+
+
 if [[ -z "$VIRTUAL_ENV" ]]; then
 	cd /c/PYANO/src/engine || return 1
 	if [[ ! -d "$PWD"/env ]]; then
