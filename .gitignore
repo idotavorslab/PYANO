@@ -120,7 +120,7 @@ dmypy.json
 /node_modules/**
 !/node_modules/pyano_local_modules/
 *.crdownload
-*.mp4
+# *.mp4
 *.MOV
 node_modules/pyano_local_modules/pages/InsideTest/Gui - New.js
 node_modules/pyano_local_modules/util/__Log__
