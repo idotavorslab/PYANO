@@ -9,82 +9,16 @@
     "truth_file_path": "fur_elise_B",
     "levels": [
         {
-            "notes": 46,
-            "trials": 3,
+            "notes": 4,
+            "trials": 1,
             "rhythm": false,
             "tempo": null
         },
         {
-            "notes": 46,
-            "trials": 2,
+            "notes": 4,
+            "trials": 1,
             "rhythm": true,
-            "tempo": 60
-        },
-        {
-            "notes": 46,
-            "trials": 2,
-            "rhythm": true,
-            "tempo": 80
-        },
-        {
-            "notes": 51,
-            "trials": 3,
-            "rhythm": false,
-            "tempo": null
-        },
-        {
-            "notes": 51,
-            "trials": 2,
-            "rhythm": true,
-            "tempo": 60
-        },
-        {
-            "notes": 51,
-            "trials": 2,
-            "rhythm": true,
-            "tempo": 80
-        },
-        {
-            "notes": 56,
-            "trials": 3,
-            "rhythm": false,
-            "tempo": null
-        },
-        {
-            "notes": 56,
-            "trials": 2,
-            "rhythm": true,
-            "tempo": 60
-        },
-        {
-            "notes": 56,
-            "trials": 2,
-            "rhythm": true,
-            "tempo": 80
-        },
-        {
-            "notes": 61,
-            "trials": 3,
-            "rhythm": false,
-            "tempo": null
-        },
-        {
-            "notes": 61,
-            "trials": 2,
-            "rhythm": true,
-            "tempo": 60
-        },
-        {
-            "notes": 61,
-            "trials": 2,
-            "rhythm": true,
-            "tempo": 80
-        },
-        {
-            "notes": 61,
-            "trials": 3,
-            "rhythm": true,
-            "tempo": 100
+            "tempo": 50
         }
     ]
 }
